@@ -4,10 +4,11 @@ Command: npx gltfjsx@6.1.4 ./character.glb -t --transform -s -k
 */
 
 import * as THREE from "three";
-import React, { useEffect, useRef } from "react";
+import React, { forwardRef, useEffect, useRef } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
-import { AnimationClip } from "three";
+import { AnimationClip, Group } from "three";
+import { mergeRefs } from "react-merge-refs";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -24,14 +25,13 @@ type GLTFResult = GLTF & {
   animations: GLTFActions[];
 };
 
-export type ActionName = "Idle" | "Run" | "Walk";
+export type ActionName = "Wave" | "Idle" | "Run" | "Walk";
 type GLTFActions = AnimationClip & Record<ActionName, THREE.AnimationAction>;
 
-export function Model({
-  action,
-  fade,
-  ...props
-}: JSX.IntrinsicElements["group"] & { action: ActionName; fade: number }) {
+export const Model = forwardRef<
+  Group,
+  JSX.IntrinsicElements["group"] & { action: ActionName; fade: number }
+>(({ fade, action, ...props }, ref) => {
   const group = useRef<THREE.Group>(null);
   const { nodes, materials, animations } = useGLTF(
     "/character-transformed.glb"
@@ -51,7 +51,7 @@ export function Model({
   }, [action, actions, fade]);
 
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group ref={mergeRefs([ref, group])} {...props} dispose={null}>
       <group name="Scene">
         <group name="Root">
           <primitive object={nodes.LeftFootCtrl} />
@@ -62,11 +62,13 @@ export function Model({
             geometry={nodes.characterMedium.geometry}
             material={materials.skin}
             skeleton={nodes.characterMedium.skeleton}
+            castShadow
+            receiveShadow
           />
         </group>
       </group>
     </group>
   );
-}
+});
 
 useGLTF.preload("/character-transformed.glb");

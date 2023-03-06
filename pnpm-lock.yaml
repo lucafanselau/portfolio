@@ -18,14 +18,17 @@ importers:
       eslint: 8.35.0
       eslint-config-next: 13.2.1
       leva: ^0.9.34
+      maath: ^0.5.2
       next: 13.2.1
       postcss: ^8.4.21
       react: 18.2.0
       react-dom: 18.2.0
+      react-merge-refs: ^2.0.1
       tailwindcss: ^3.2.7
       three: ^0.150.1
       three-stdlib: ^2.21.8
       typescript: 4.9.5
+      zustand: ^4.3.6
     dependencies:
       '@react-three/drei': 9.56.27_inexst6w7ngy4lgswyvo7qonpy
       '@react-three/fiber': 8.11.5_73epb4osyabtjyiaeamriercbi
@@ -37,12 +40,15 @@ importers:
       eslint: 8.35.0
       eslint-config-next: 13.2.1_ycpbpc6yetojsgtrx3mwntkhsu
       leva: 0.9.34_biqbaboplfbrettd7655fr4n2y
+      maath: 0.5.2_oyaj2jlpysyfazslc2ugsblcbe
       next: 13.2.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      react-merge-refs: 2.0.1
       three: 0.150.1
       three-stdlib: 2.21.8_three@0.150.1
       typescript: 4.9.5
+      zustand: 4.3.6_react@18.2.0
     devDependencies:
       autoprefixer: 10.4.13_postcss@8.4.21
       postcss: 8.4.21
@@ -2762,6 +2768,10 @@ packages:
     resolution: {integrity: sha512-alTKsjEL0dKH/ru1Iyn7vliS2QRcBp9zZPGoWxUOvRGWPUYgjo+V01is7p04It6KhgrzhJGnIj9GgX8W4bZoCQ==}
     dev: false
 
+  /react-merge-refs/2.0.1:
+    resolution: {integrity: sha512-pywF6oouJWuqL26xV3OruRSIqai31R9SdJX/I3gP2q8jLxUnA1IwXcLW8werUHLZOrp4N7YOeQNZrh/BKrHI4A==}
+    dev: false
+
   /react-reconciler/0.27.0_react@18.2.0:
     resolution: {integrity: sha512-HmMDKciQjYmBRGuuhIaKA1ba/7a+UsM5FzOZsMO2JYHt9Jh8reCb7j1eDC95NOyUlKM9KRyvdx0flBuDvYSBoA==}
     engines: {node: '>=0.10.0'}
@@ -3252,6 +3262,14 @@ packages:
       punycode: 2.3.0
     dev: false
 
+  /use-sync-external-store/1.2.0_react@18.2.0:
+    resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
@@ -3354,4 +3372,20 @@ packages:
         optional: true
     dependencies:
       react: 18.2.0
+    dev: false
+
+  /zustand/4.3.6_react@18.2.0:
+    resolution: {integrity: sha512-6J5zDxjxLE+yukC2XZWf/IyWVKnXT9b9HUv09VJ/bwGCpKNcaTqp7Ws28Xr8jnbvnZcdRaidztAPsXFBIqufiw==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      immer: '>=9.0'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      immer:
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      react: 18.2.0
+      use-sync-external-store: 1.2.0_react@18.2.0
     dev: false
