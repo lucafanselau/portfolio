@@ -30,7 +30,10 @@ type GLTFActions = AnimationClip & Record<ActionName, THREE.AnimationAction>;
 
 export const Model = forwardRef<
   Group,
-  JSX.IntrinsicElements["group"] & { action: ActionName; fade: number }
+  JSX.IntrinsicElements["group"] & {
+    action: ActionName;
+    fade: number | Record<ActionName, number>;
+  }
 >(({ fade, action, ...props }, ref) => {
   const group = useRef<THREE.Group>(null);
   const { nodes, materials, animations } = useGLTF(
@@ -39,14 +42,15 @@ export const Model = forwardRef<
   const { actions } = useAnimations<GLTFActions>(animations, group);
 
   useEffect(() => {
+    const f = typeof fade === "number" ? fade : fade[action];
     actions[action]
       ?.reset()
       .setEffectiveTimeScale(1)
       .setEffectiveWeight(1)
-      .fadeIn(fade)
+      .fadeIn(f)
       .play();
     return () => {
-      actions[action]?.fadeOut(fade);
+      actions[action]?.fadeOut(f);
     };
   }, [action, actions, fade]);
 
