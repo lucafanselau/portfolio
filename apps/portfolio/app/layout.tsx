@@ -17,7 +17,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.className}>
-      <body className={"relative bg-zinc-800 text-white flex justify-center "}>
+      <body
+        className={
+          "relative bg-white dark:bg-zinc-800 dark:text-white text-zinc-900 flex justify-center "
+        }
+      >
         {/* Main Column */}
         <div
           className={

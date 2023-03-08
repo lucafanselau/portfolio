@@ -1,10 +1,19 @@
 import { useFrame, useThree } from "@react-three/fiber";
+import { Box, Html } from "@react-three/drei";
 import { useControls, folder } from "leva";
 import { FC, useRef, useState } from "react";
-import { Group, Vector3 } from "three";
+import { Box3, Group, Vector3 } from "three";
 import { Model as Guy, ActionName } from "./guy";
 import { easing } from "maath";
 import { useStore } from "@3d/store";
+import {
+  Popover,
+  PopoverAnchor,
+  PopoverContent,
+} from "@/components/ui/popover";
+import { Card } from "@/components/ui/card";
+import { cn } from "@/utils";
+import { H1, P } from "@ui/typography";
 
 const getAction = (velocity: number): ActionName => {
   if (velocity > 4) return "Run";
@@ -30,7 +39,9 @@ export const Person: FC = () => {
   const target = useStore((state) => state.target);
   const camera = useThree((s) => s.camera);
   const [action, setAction] = useState<ActionName>("Idle");
+  const [open, setOpen] = useState(false);
   const guy = useRef<Group>(null);
+  const model = useRef<Group>(null);
   const [direction] = useState(() => new Vector3());
   const angle = useRef(0);
   const lastIdle = useRef<number | undefined>();
@@ -53,12 +64,14 @@ export const Person: FC = () => {
         }
       } else {
         lastIdle.current = undefined;
+        setOpen(false);
         setAction(newAction);
       }
     }
     // maybe transition to Wave
     if (lastIdle.current && clock.getElapsedTime() - lastIdle.current > 2) {
       setAction("Wave");
+      setOpen(true);
       lastIdle.current = undefined;
     }
 
@@ -85,5 +98,39 @@ export const Person: FC = () => {
     );
   });
 
-  return <Guy ref={guy} fade={fade} action={action} />;
+  /* console.log(
+   *   model.current &&
+   *     new Box3().setFromObject(model?.current).getSize(new Vector3())
+   * ); */
+
+  return (
+    <group ref={guy}>
+      <Guy fade={fade} action={action} ref={model} />
+      <Html position={[0, 3.8, 0]} center>
+        <div className={"relative"}>
+          {/* <div className={"absolute -inset-2 bg-red-500 rounded-full"} /> */}
+          <Card
+            data-state={open ? "open" : "closed"}
+            className={cn(
+              "w-[48ch] p-8",
+              "absolute bottom-0 left-0 -translate-x-1/2 ",
+              "data-[state=open]:animate-in data-[state=open]:fade-in data-[state=open]:zoom-in data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:zoom-out data-[state=closed]:opacity-0"
+            )}
+          >
+            <H1>
+              Hello, I Am{" "}
+              <span
+                className={cn(
+                  "animate-loop bg-[length:400%_400%] text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-green-300 to-blue-500"
+                )}
+              >
+                Luca
+              </span>
+            </H1>
+            <P>A software developer from Germany 🇩🇪</P>
+          </Card>
+        </div>
+      </Html>
+    </group>
+  );
 };

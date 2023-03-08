@@ -5,8 +5,19 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: "class",
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        "loop": "loop 15s linear infinite",
+      },
+      keyframes: {
+        loop: {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
+      },
+    },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 }
