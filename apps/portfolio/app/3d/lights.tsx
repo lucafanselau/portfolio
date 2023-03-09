@@ -58,7 +58,7 @@ export const Lights = () => {
           directionalCtl.position.z,
         ]}
         castShadow={directionalCtl.castShadow}
-        shadow-bias={-0.0002}
+        shadow-bias={-0.00001}
         intensity={directionalCtl.intensity}
       />
       <pointLight

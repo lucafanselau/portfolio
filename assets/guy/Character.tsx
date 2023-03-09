@@ -22,7 +22,7 @@ type GLTFResult = GLTF & {
   }
 }
 
-type ActionName = 'Idle' | 'Run' | 'Walk' | 'Wave'
+type ActionName = 'Idle' | 'Interact_standing' | 'Run' | 'Walk' | 'Wave'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
 export function Model(props: JSX.IntrinsicElements['group']) {

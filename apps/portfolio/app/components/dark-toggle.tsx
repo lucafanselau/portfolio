@@ -1,8 +1,6 @@
 "use client";
 
 import { FC, useRef, useState } from "react";
-import moonSource from "./assets/moon.svg";
-import sunSource from "./assets/sun.svg";
 
 type ThemeType = "dark" | "light";
 const THEME_DARK: ThemeType = "dark";
@@ -100,10 +98,9 @@ export const DarkToggle: FC = () => {
   const handle = useRef<SVGSVGElement>(null);
 
   const toggleTheme = () => {
-    console.log("event");
     window.document.documentElement.classList.toggle(THEME_DARK);
-    const old = fromStorage();
-    const toggled = old === THEME_DARK ? THEME_LIGHT : THEME_DARK;
+    /* const old = fromStorage(); */
+    const toggled = mode === THEME_DARK ? THEME_LIGHT : THEME_DARK;
     setMode(toggled);
     // Update Storage
     localStorage.setItem("theme", toggled);
@@ -113,13 +110,14 @@ export const DarkToggle: FC = () => {
       const e = el[name].current;
       const s = state[name];
       if (e !== undefined && e !== null)
-        e.animate([s[old], s[toggled]], {
+        e.animate([s[mode], s[toggled]], {
           fill: "forwards",
           easing: "ease-in-out",
           ...(options[name]?.[toggled] ?? {}),
         });
     });
   };
+  console.log(mode);
   return (
     <button
       onClick={toggleTheme}
@@ -155,8 +153,8 @@ export const DarkToggle: FC = () => {
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M2.78028 26.7127L5.07529 29.0077C8.01464 31.4354 11.784 32.894 15.894 32.894C25.2829 32.894 32.894 25.2828 32.894 15.894C32.894 8.63409 28.3433 2.43712 21.9387 0L9.15527e-05 21.9387C0.665123 23.6863 1.61012 25.2959 2.78028 26.7127Z"
           className="fill-zinc-800 dark:fill-white"
         />

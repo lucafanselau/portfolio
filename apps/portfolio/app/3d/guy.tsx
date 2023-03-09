@@ -25,7 +25,7 @@ type GLTFResult = GLTF & {
   animations: GLTFActions[];
 };
 
-export type ActionName = "Wave" | "Idle" | "Run" | "Walk";
+export type ActionName = "Interact_standing" | "Wave" | "Idle" | "Run" | "Walk";
 type GLTFActions = AnimationClip & Record<ActionName, THREE.AnimationAction>;
 
 export const Model = forwardRef<
