@@ -1,10 +1,4 @@
-import {
-  autoUpdate,
-  offset,
-  shift,
-  size,
-  useFloating,
-} from "@floating-ui/react-dom";
+import { autoUpdate, shift, size, useFloating } from "@floating-ui/react-dom";
 import { AppearCard } from "@ui/card";
 import { FC, PropsWithChildren } from "react";
 
@@ -13,7 +7,7 @@ export const SpeechBubble: FC<PropsWithChildren<{ open: boolean }>> = ({
   open,
 }) => {
   // this is mf crazy, easy resizing on small deviced
-  const { x, y, strategy, refs } = useFloating({
+  const { x, y, refs } = useFloating({
     placement: "top",
     whileElementsMounted: autoUpdate,
     middleware: [
@@ -35,11 +29,10 @@ export const SpeechBubble: FC<PropsWithChildren<{ open: boolean }>> = ({
       <AppearCard
         open={open}
         ref={refs.setFloating}
-        className={"w-[56ch] flex flex-col space-y-2 h-fit"}
+        className={"pointer-events-none w-[56ch] flex flex-col space-y-2 h-fit"}
         style={{
           top: y ?? 0,
           left: x ?? 0,
-          // width: "max-content",
         }}
       >
         {children}

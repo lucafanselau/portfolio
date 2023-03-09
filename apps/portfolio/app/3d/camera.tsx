@@ -14,14 +14,14 @@ export const Camera = () => {
   useRetainedTransform("camera", retained, guy);
 
   useEffect(() => {
-    if (camera) camera.lookAt(0, constants.guy.approximateHeight, 0);
+    if (camera) camera.lookAt(0, 0.7 * constants.guy.approximateHeight, 0);
   }, [camera]);
 
   return (
     <group ref={retained}>
       <PerspectiveCamera
         makeDefault
-        // position={[distance * Math.SQRT2, approxHeight * 2, distance * Math.SQRT2]}
+        // position={[distance * Math.SQRT2, approxHeight * 1.5, distance * Math.SQRT2]}
         position={[
           0,
           constants.guy.approximateHeight * 2,

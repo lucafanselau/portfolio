@@ -5,7 +5,7 @@ import { RefObject } from "react";
 import { Object3D } from "three";
 
 const animSchema = {
-  smoothTime: 1,
+  smoothTime: 0.5,
   maxSpeed: 10,
 };
 // Use to have one object follow another, with easing
@@ -15,10 +15,7 @@ export const useRetainedTransform = (
   original: Object3D | null | undefined,
   fields: ("position" | "rotation")[] = ["position", "rotation"]
 ) => {
-  const parameters = useControls(
-    `${key}-easing for [${fields.join(", ")}]`,
-    animSchema
-  );
+  const parameters = useControls(`${key} easing`, animSchema);
 
   useFrame((_, delta) => {
     if (!retained || !retained.current || !original) return;

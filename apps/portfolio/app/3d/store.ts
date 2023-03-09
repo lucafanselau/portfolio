@@ -14,7 +14,7 @@ export type Store = {
         start: number;
       }
     | {
-        state: "walk" | "run";
+        state: "walk" | "run" | "rotate";
       }
     | {
         state: "long-idle" | "interact";

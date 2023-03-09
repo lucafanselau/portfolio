@@ -30,7 +30,10 @@ export const StartBubbleContent = () => {
         towards it
       </P>
       <div className={"flex justify-end"}>
-        <Button className={"px-8"} onClick={handleStartClick}>
+        <Button
+          className={"px-8 pointer-events-auto"}
+          onClick={handleStartClick}
+        >
           Start
         </Button>
       </div>

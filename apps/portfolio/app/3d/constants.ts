@@ -5,5 +5,9 @@ export const constants = {
   camera: {
     distance: 10,
   },
-  eps: 1e-1,
+  threshold: {
+    angle: 0.02,
+    position: 0.02,
+    longIdle: 1.2,
+  },
 };
