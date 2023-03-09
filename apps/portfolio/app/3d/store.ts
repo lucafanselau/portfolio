@@ -20,6 +20,7 @@ export type Store = {
         state: "long-idle" | "interact";
       };
 };
+export type State = Store["state"];
 export type CharacterState = Store["character"];
 
 type Actions = {

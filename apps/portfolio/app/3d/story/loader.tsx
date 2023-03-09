@@ -2,6 +2,7 @@ import { SpeechBubble } from "@3d/speech-bubble";
 import { useStore } from "@3d/store";
 import { Html } from "@react-three/drei";
 import { match } from "ts-pattern";
+import { ExploreBubbleContent } from "./explore";
 import { StartBubbleContent } from "./start";
 
 export const BubbleLoader = () => {
@@ -12,6 +13,7 @@ export const BubbleLoader = () => {
       <SpeechBubble open={open}>
         {match(state)
           .with("start", () => <StartBubbleContent />)
+          .with("explore", () => <ExploreBubbleContent />)
           .otherwise(() => null)}
       </SpeechBubble>
     </Html>

@@ -1,10 +1,11 @@
+import { useStore } from "@3d/store";
 import { Button } from "@ui/button";
 import { H1, P } from "@ui/typography";
 import Link from "next/link";
 
 export const StartBubbleContent = () => {
   const handleStartClick = () => {
-    // TODO: start the story
+    useStore.getState().setState("explore");
   };
   return (
     <>
@@ -24,10 +25,6 @@ export const StartBubbleContent = () => {
       <P>
         If you decided to stay here, let's start by exploring the space... It
         still a bit empty here, but that might change later 😉.
-      </P>
-      <P>
-        Just click anywhere on the ground and the little version of me will run
-        towards it
       </P>
       <div className={"flex justify-end"}>
         <Button

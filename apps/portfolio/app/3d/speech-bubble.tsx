@@ -1,6 +1,7 @@
 import { autoUpdate, shift, size, useFloating } from "@floating-ui/react-dom";
 import { AppearCard } from "@ui/card";
 import { FC, PropsWithChildren } from "react";
+import { constants } from "./constants";
 
 export const SpeechBubble: FC<PropsWithChildren<{ open: boolean }>> = ({
   children,
@@ -11,12 +12,15 @@ export const SpeechBubble: FC<PropsWithChildren<{ open: boolean }>> = ({
     placement: "top",
     whileElementsMounted: autoUpdate,
     middleware: [
-      shift(),
+      shift({
+        crossAxis: true,
+      }),
       size({
         padding: 8,
-        apply({ availableWidth, elements }) {
+        apply({ availableWidth, availableHeight, elements }) {
           Object.assign(elements.floating.style, {
             maxWidth: `${availableWidth}px`,
+            maxHeight: `${availableHeight - constants.layout.headerSize}px`,
           });
         },
       }),
@@ -29,7 +33,9 @@ export const SpeechBubble: FC<PropsWithChildren<{ open: boolean }>> = ({
       <AppearCard
         open={open}
         ref={refs.setFloating}
-        className={"pointer-events-none w-[56ch] flex flex-col space-y-2 h-fit"}
+        className={
+          "p-4 md:p-8 pointer-events-none w-[56ch] flex flex-col space-y-2 h-fit"
+        }
         style={{
           top: y ?? 0,
           left: x ?? 0,
