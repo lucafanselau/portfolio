@@ -9,8 +9,8 @@ export const constants = {
     distance: 10,
   },
   threshold: {
-    angle: 0.02,
-    position: 0.02,
+    angle: 0.1,
+    position: 0.06,
     longIdle: 1.2,
   },
 };

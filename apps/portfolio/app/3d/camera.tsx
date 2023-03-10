@@ -39,7 +39,7 @@ export const Camera = () => {
 
   useFrame((_, delta) => {
     easing.damp3(camera.position, target, 0.1, delta, 10);
-    if (camera)
+    if (camera && guy)
       camera.lookAt(
         guy.position.x,
         constants.guy.approximateHeight,

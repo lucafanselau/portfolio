@@ -20,29 +20,38 @@ const last = new Vector3();
 const vector = new Vector3();
 
 const characterStateMachine = (
-  { clock }: RootState,
+  { clock, camera }: RootState,
   delta: number
 ): CharacterState => {
   const {
     character,
-    slots: { guy },
+    slots: { guy, model },
     target,
   } = useStore.getState();
-  if (!guy) return { state: "long-idle" };
+  if (!guy || !model) return { state: "long-idle" };
 
   return match<CharacterState, CharacterState>(character)
-    .with({ state: "idle" }, ({ start }) => {
-      if (clock.getElapsedTime() > start + constants.threshold.longIdle)
-        return { state: "long-idle" };
-      return { state: "idle", start };
+    .with({ state: "idle" }, ({}) => {
+      // rotate to face camera
+      const direction = guy
+        .getWorldPosition(last)
+        .sub(camera.getWorldPosition(vector))
+        .multiplyScalar(-1);
+      const angle = Math.atan2(direction.x, direction.z);
+      easing.dampAngle(model.rotation, "y", angle, 0.2, delta, 40);
+
+      const deltaAngle = misc.deltaAngle(model.rotation.y, angle);
+      return Math.abs(deltaAngle) < constants.threshold.angle
+        ? { state: "long-idle" }
+        : { state: "idle" };
     })
     .with({ state: "rotate" }, () => {
       // also update the rotation
       const direction = last.copy(guy.position).sub(target).multiplyScalar(-1);
       const angle = Math.atan2(direction.x, direction.z);
-      easing.dampAngle(guy.rotation, "y", angle, 0.5, delta, 40);
+      easing.dampAngle(model.rotation, "y", angle, 0.5, delta, 40);
 
-      const deltaAngle = misc.deltaAngle(guy.rotation.y, angle);
+      const deltaAngle = misc.deltaAngle(model.rotation.y, angle);
       return Math.abs(deltaAngle) < constants.threshold.angle
         ? { state: "walk" }
         : { state: "rotate" };
@@ -93,7 +102,7 @@ export const Person: FC<PropsWithChildren<{}>> = ({ children }) => {
   return (
     <>
       <group ref={(g) => setSlot("guy", g)}>
-        <Guy fade={0.2} action={action} ref={model} />
+        <Guy fade={0.2} action={action} ref={(g) => setSlot("model", g)} />
         {children}
       </group>
     </>

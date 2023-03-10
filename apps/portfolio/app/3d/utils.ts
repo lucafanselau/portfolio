@@ -13,7 +13,7 @@ export const useRetainedTransform = (
   key: string,
   retained: RefObject<Object3D> | null | undefined,
   original: Object3D | null | undefined,
-  fields: ("position" | "rotation")[] = ["position", "rotation"]
+  fields: ("position" | "rotation")[] = ["position"]
 ) => {
   const parameters = useControls(`${key} easing`, animSchema);
 

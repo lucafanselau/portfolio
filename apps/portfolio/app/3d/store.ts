@@ -6,12 +6,13 @@ export type Store = {
   target: Vector3;
   slots: {
     guy?: Group | null;
+    model?: Group | null;
+    camera?: Group | null;
   };
   state: "start" | "explore" | "top-level";
   character:
     | {
         state: "idle";
-        start: number;
       }
     | {
         state: "walk" | "run" | "rotate";
