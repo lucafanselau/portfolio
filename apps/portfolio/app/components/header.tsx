@@ -22,10 +22,10 @@ export const Header = () => {
         <Link href={"/about"}>
           <IconUser size={24} />
         </Link>
-        <Link href={"/social"}>
+        <Link href={"/about"}>
           <IconSocial size={24} />
         </Link>
-        <Link href={"/easter"}>
+        <Link href={"/about"}>
           <IconEggCracked size={24} />
         </Link>
         <Separator orientation="vertical" />

@@ -71,27 +71,26 @@ const options = {
   },
 };
 
-const fromStorage = () => localStorage.getItem("theme") as ThemeType;
+const fromStorage = () =>
+  typeof localStorage !== "undefined"
+    ? (localStorage.getItem("theme") as ThemeType)
+    : THEME_LIGHT;
 const getInitial = () => {
-  const storage = fromStorage();
-  if (storage === undefined) {
-    // check for initial value
-    if (
-      typeof window !== "undefined" &&
-      window?.matchMedia(`(prefers-color-scheme: ${THEME_DARK})`)?.matches
-    )
-      return THEME_DARK;
-    else return THEME_LIGHT;
-  } else {
-    return storage;
-  }
+  /* const storage = fromStorage(); */
+  // check for initial value
+  if (
+    typeof window !== "undefined" &&
+    window?.matchMedia(`(prefers-color-scheme: ${THEME_DARK})`)?.matches
+  )
+    return THEME_DARK;
+  else return THEME_LIGHT;
 };
 
 const names = ["sun", "moon", "handle"] as const;
 
 export const DarkToggle: FC = () => {
   const [mode, setMode] = useState(getInitial);
-  localStorage.setItem("theme", mode);
+  /* localStorage?.setItem("theme", mode); */
 
   const sun = useRef<HTMLImageElement>(null);
   const moon = useRef<HTMLImageElement>(null);
