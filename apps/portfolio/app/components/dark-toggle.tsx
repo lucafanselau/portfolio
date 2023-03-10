@@ -1,6 +1,8 @@
 "use client";
 
-import { FC, useRef, useState } from "react";
+import { useHasMounted } from "@/hooks/has-mounted";
+import { useLocalStorage } from "@/hooks/local-storage";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 
 type ThemeType = "dark" | "light";
 const THEME_DARK: ThemeType = "dark";
@@ -71,13 +73,7 @@ const options = {
   },
 };
 
-const fromStorage = () =>
-  typeof localStorage !== "undefined"
-    ? (localStorage.getItem("theme") as ThemeType)
-    : THEME_LIGHT;
 const getInitial = () => {
-  /* const storage = fromStorage(); */
-  // check for initial value
   if (
     typeof window !== "undefined" &&
     window?.matchMedia(`(prefers-color-scheme: ${THEME_DARK})`)?.matches
@@ -89,25 +85,30 @@ const getInitial = () => {
 const names = ["sun", "moon", "handle"] as const;
 
 export const DarkToggle: FC = () => {
-  const [mode, setMode] = useState(getInitial);
-  /* localStorage?.setItem("theme", mode); */
+  const [mode, setMode] = useLocalStorage("theme", getInitial());
+
+  const isMounted = useHasMounted();
+
+  useEffect(() => {
+    const list = document.documentElement.classList;
+    if (mode === THEME_DARK) list.add("dark");
+    else list.remove("dark");
+  }, [mode]);
 
   const sun = useRef<HTMLImageElement>(null);
   const moon = useRef<HTMLImageElement>(null);
   const handle = useRef<SVGSVGElement>(null);
 
-  const toggleTheme = () => {
-    window.document.documentElement.classList.toggle(THEME_DARK);
+  const toggleTheme = useCallback(() => {
     /* const old = fromStorage(); */
     const toggled = mode === THEME_DARK ? THEME_LIGHT : THEME_DARK;
-    setMode(toggled);
-    // Update Storage
-    localStorage.setItem("theme", toggled);
     // Animation
     const el = { sun, moon, handle };
     names.forEach((name) => {
       const e = el[name].current;
       const s = state[name];
+      console.log(mode, toggled);
+      console.log(s[mode], s[toggled]);
       if (e !== undefined && e !== null)
         e.animate([s[mode], s[toggled]], {
           fill: "forwards",
@@ -115,8 +116,9 @@ export const DarkToggle: FC = () => {
           ...(options[name]?.[toggled] ?? {}),
         });
     });
-  };
-  console.log(mode);
+    setMode(toggled);
+  }, [mode, setMode]);
+
   return (
     <button
       onClick={toggleTheme}
@@ -129,13 +131,13 @@ export const DarkToggle: FC = () => {
     >
       <img
         alt={"sun icon"}
-        style={state["sun"][mode]}
+        style={isMounted ? state["sun"][mode] : {}}
         ref={sun}
         src={"/sun.svg"}
         className="absolute left-[6px] top-[6px] w-[16px] h-[16px]"
       />
       <img
-        style={state["moon"][mode]}
+        style={isMounted ? state["moon"][mode] : {}}
         ref={moon}
         src={"/moon.svg"}
         className="absolute right-[6px] top-[6px] w-[16px] h-[16px]"
@@ -144,7 +146,7 @@ export const DarkToggle: FC = () => {
       <svg
         ref={handle}
         className="absolute top-[4px] text-zinc-800 dark:text-white"
-        style={state["handle"][mode]}
+        style={isMounted ? state["handle"][mode] : {}}
         width="20"
         height="20"
         viewBox="0 0 33 33"
