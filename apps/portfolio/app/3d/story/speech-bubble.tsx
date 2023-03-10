@@ -2,7 +2,7 @@ import { useHasMounted } from "@/hooks/has-mounted";
 import { constants } from "@3d/constants";
 import { shift, size, useFloating } from "@floating-ui/react-dom";
 import { AppearCard } from "@ui/card";
-import { FC, PropsWithChildren, ReactNode, useEffect } from "react";
+import { FC, ReactNode, useEffect } from "react";
 
 export const SpeechBubble: FC<
   { open: boolean } & Record<
@@ -31,8 +31,7 @@ export const SpeechBubble: FC<
     ],
   });
   const isMounted = useHasMounted();
-
-  useEffect(update, [open, isMounted]);
+  useEffect(update, [open, isMounted, header, content, action]);
 
   return (
     <div className={"relative"}>
