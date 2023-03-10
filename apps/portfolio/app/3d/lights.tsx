@@ -1,16 +1,11 @@
 "use client";
 
-import { useControls } from "leva";
+import { useControls } from "@/hooks/use-controls";
 
 export const Lights = () => {
   const ambientCtl = useControls("Ambient Light", {
     visible: true,
-    intensity: {
-      value: 0.1,
-      min: 0,
-      max: 0.4,
-      step: 0.01,
-    },
+    intensity: 0.1,
   });
 
   const directionalCtl = useControls("Directional Light", {

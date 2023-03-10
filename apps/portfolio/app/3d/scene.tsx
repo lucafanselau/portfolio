@@ -20,7 +20,7 @@ export const Scene = () => {
       }
     >
       <Canvas dpr={[1, 2]} shadows>
-        <Stats />
+        {process.env.NEXT_PUBLIC_NODE_ENV === "development" && <Stats />}
         <Environment preset={"city"} />
         {/* <OrbitControls makeDefault /> */}
         <Lights />

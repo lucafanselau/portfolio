@@ -1,5 +1,5 @@
 import { useFrame } from "@react-three/fiber";
-import { useControls } from "leva";
+import { useControls } from "@/hooks/use-controls";
 import { easing } from "maath";
 import { RefObject } from "react";
 import { Object3D } from "three";
