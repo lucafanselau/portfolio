@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="en" className={inter.className}>
       <body
         className={
-          "relative bg-zinc-100 dark:bg-zinc-700 dark:text-white text-zinc-800 flex justify-center "
+          "relative overflow-hidden bg-zinc-100 dark:bg-zinc-700 dark:text-white text-zinc-800 flex justify-center "
         }
       >
         {/* Main Column */}
