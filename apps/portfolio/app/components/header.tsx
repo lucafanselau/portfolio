@@ -23,12 +23,12 @@ export const Header = () => {
         </div>
       </Link>
       <div className={"flex space-x-2 items-center h-6"}>
-        <Link href={"/about"}>
-          <IconUser size={24} />
-        </Link>
-        <Link href={"/about"}>
-          <IconSocial size={24} />
-        </Link>
+        {/* <Link href={"/about"}>
+            <IconUser size={24} />
+            </Link>
+            <Link href={"/about"}>
+            <IconSocial size={24} />
+            </Link> */}
         <Link href={"/about"}>
           <IconEggCracked size={24} />
         </Link>

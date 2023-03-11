@@ -39,7 +39,7 @@ export const useStore = create<Store & Actions>()(
     slots: {},
     state: "start",
     character: {
-      state: "long-idle",
+      state: "idle",
     },
     setState: (state) => set({ state }),
     setSlot: (slot, value) =>

@@ -28,10 +28,6 @@ export const SpeechBubble: FC<
           });
         },
       }),
-
-      shift({
-        crossAxis: true,
-      }),
     ],
   });
   const isMounted = useHasMounted();
