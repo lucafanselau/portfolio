@@ -9,6 +9,8 @@ import { useStore } from "./store";
 
 const Plane: FC<GroupProps> = (props) => {
   const onClick = ({ point, ...e }: ThreeEvent<MouseEvent>) => {
+    const state = useStore.getState().state;
+    if (state !== "explore") return;
     // console.log(point, e);
     e.stopPropagation();
     useStore.setState({ target: new Vector3().set(point.x, 0, point.z) });
@@ -20,15 +22,6 @@ const Plane: FC<GroupProps> = (props) => {
       onClick={onClick}
     />
   );
-  /* return (
-   *   <group {...props} onClick={onClick}>
-   *     <RoundedBox
-   *       args={[1, 1, 1]}
-   *       position={[0, -0.5, 0]}
-   *       receiveShadow
-   *     ></RoundedBox>
-   *   </group>
-   * ); */
 };
 
 const Target = () => {

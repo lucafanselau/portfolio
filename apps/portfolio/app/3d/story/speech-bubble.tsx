@@ -16,11 +16,13 @@ export const SpeechBubble: FC<
     // whileElementsMounted: autoUpdate,
     middleware: [
       size({
-        padding: 8,
+        padding: 16,
         apply({ availableWidth, availableHeight, elements }) {
           Object.assign(elements.floating.style, {
             maxWidth: `${availableWidth}px`,
-            maxHeight: `${availableHeight - constants.layout.headerSize - 8}px`,
+            maxHeight: `calc(${
+              availableHeight - constants.layout.headerSize
+            }px - 1rem)`,
           });
         },
       }),
@@ -35,12 +37,12 @@ export const SpeechBubble: FC<
 
   return (
     <div className={"relative"}>
-      <div className={"absolute inset-0 "} ref={refs.setReference} />
+      <div className={"absolute inset-0"} ref={refs.setReference} />
       <AppearCard
         open={open}
         ref={refs.setFloating}
         className={
-          "p-4 md:p-8 w-[56ch] flex flex-col space-y-2 md:space-y-4 h-fit overflow-auto"
+          "p-4 md:p-8 w-[56ch] flex flex-col space-y-2 md:space-y-4 h-fit"
         }
         style={{
           top: y ?? 0,
@@ -48,7 +50,7 @@ export const SpeechBubble: FC<
         }}
       >
         <div>{header}</div>
-        <div className={"flex-0 min-h-0 overflow-auto pr-2"}>{content}</div>
+        <div className={"flex-0 min-h-0 pr-2 overflow-auto"}>{content}</div>
         <div className={"flex flex-row space-x-2 justify-end"}>{action}</div>
       </AppearCard>
     </div>
