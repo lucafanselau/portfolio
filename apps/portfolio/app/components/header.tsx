@@ -13,7 +13,7 @@ export const Header = () => {
   return (
     <div
       className={
-        "flex justify-between py-4 items-center z-10 px-4 rounded- bg-white dark:bg-zinc-800"
+        "flex justify-between py-4 items-center z-10 px-4 rounded-lg bg-white dark:bg-zinc-800"
       }
     >
       <Link href={"/"}>

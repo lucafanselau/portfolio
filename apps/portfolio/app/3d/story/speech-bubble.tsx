@@ -1,3 +1,5 @@
+"use client";
+
 import { useHasMounted } from "@/hooks/has-mounted";
 import { constants } from "@3d/constants";
 import { shift, size, useFloating } from "@floating-ui/react-dom";
@@ -13,16 +15,16 @@ export const SpeechBubble: FC<
   // this is mf crazy, easy resizing on small deviced
   const { x, y, refs, update } = useFloating({
     placement: "top",
-    // whileElementsMounted: autoUpdate,
+    open: open,
     middleware: [
       size({
         padding: 16,
         apply({ availableWidth, availableHeight, elements }) {
           Object.assign(elements.floating.style, {
             maxWidth: `${availableWidth}px`,
-            maxHeight: `calc(${
+            maxHeight: `max(calc(${
               availableHeight - constants.layout.headerSize
-            }px - 1rem)`,
+            }px - 1rem), 240px)`,
           });
         },
       }),
