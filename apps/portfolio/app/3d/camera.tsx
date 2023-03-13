@@ -1,8 +1,8 @@
 import { State, useStore } from "@3d/store";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
-import { useThree, useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { easing } from "maath";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { Group, Vector3 } from "three";
 import { constants } from "./constants";
 import { useRetainedTransform } from "./utils";

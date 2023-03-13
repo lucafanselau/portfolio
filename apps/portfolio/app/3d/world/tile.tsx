@@ -27,12 +27,13 @@ const TileLoader: FC<{ tile: TerrainType } & GroupProps> = ({
   const props = { ...rest, onClick };
   return match(tile)
     .with(TerrainType.Flat, () => (
-      <Plane
-        rotation={[-Math.PI / 2, 0, 0]}
-        args={[8, 8, 4, 4]}
-        material-color={"#85B16A"}
-        {...props}
-      />
+      <group {...props}>
+        <Plane
+          rotation={[-Math.PI / 2, 0, 0]}
+          args={[8, 8, 4, 4]}
+          material-color={"#85B16A"}
+        />
+      </group>
     ))
     .with(TerrainType.Clipping, () => null)
     .with(TerrainType.StreetEnd, () => <StreetEnd {...props} />)

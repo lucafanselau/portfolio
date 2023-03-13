@@ -2,6 +2,7 @@ import { resolve } from "path";
 import { readdir, mkdir, rename, writeFile } from "fs/promises";
 import gltfjsx from "gltfjsx/src/gltfjsx";
 import rimraf from "rimraf";
+import prependFile from "prepend-file";
 
 async function* getFiles(
   dir: string,
@@ -43,8 +44,11 @@ async function main() {
         instanceall: true,
         timeout: 0,
         showLog: console.log,
+        header: `// Generated from ${file}`,
         delay: 1,
       });
+
+      await prependFile(output, `// @ts-nocheck\n`);
     } catch (e) {
       console.error("during gltfjsx", e);
     }

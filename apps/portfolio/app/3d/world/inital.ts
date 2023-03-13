@@ -68,7 +68,9 @@ const template = [
   [F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F],
   [F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F],
   [F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F],
-];
+] as ([TerrainType, number] | TerrainType)[][];
 export const initalTerrain = template.map((row) =>
-  row.map((type) => (Array.isArray(type) ? type : [type, 0]))
+  row.map<[TerrainType, number]>((type) =>
+    Array.isArray(type) ? type : [type, 0]
+  )
 );

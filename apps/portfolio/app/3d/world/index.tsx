@@ -12,8 +12,14 @@ const norm = (x: number) => (x - tiles / 2) * tileSize + tileSize / 2;
 const Tile: FC<{ x: number; z: number }> = ({ x, z }) => {
   const type = useStore(useCallback((s) => s.world.terrain[x][z][0], [x, z]));
   const rot = useStore(useCallback((s) => s.world.terrain[x][z][1], [x, z]));
-  const position = useMemo(() => [norm(x), 0, norm(z)], [x, z]);
-  const rotation = useMemo(() => [0, rot * (Math.PI / 2), 0], [rot]);
+  const position = useMemo(
+    () => [norm(x), 0, norm(z)] as [number, number, number],
+    [x, z]
+  );
+  const rotation = useMemo(
+    () => [0, rot * (Math.PI / 2), 0] as [number, number, number],
+    [rot]
+  );
   return (
     <group position={position} rotation={rotation}>
       <TileLoader tile={type} />;

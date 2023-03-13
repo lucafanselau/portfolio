@@ -14,6 +14,7 @@
   "devDependencies": {
     "@types/three": "^0.149.0",
     "gltfjsx": "^6.1.4",
+    "prepend-file": "^2.0.1",
     "rimraf": "^4.4.0",
     "tsx": "^3.12.5"
   }
