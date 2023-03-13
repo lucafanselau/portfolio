@@ -3,10 +3,19 @@
   "version": "1.0.0",
   "private": true,
   "description": "",
+  "type": "module",
   "scripts": {
-    "start": "pnpm run --filter portfolio dev"
+    "parse-models": "tsx ./scripts/parse-models.ts"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/three": "^0.149.0",
+    "gltfjsx": "^6.1.4",
+    "rimraf": "^4.4.0",
+    "three": "^0.150.1",
+    "three-stdlib": "^2.21.8",
+    "tsx": "^3.12.5"
+  }
 }
