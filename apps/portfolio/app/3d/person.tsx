@@ -102,7 +102,12 @@ export const Person: FC<PropsWithChildren<{}>> = ({ children }) => {
   return (
     <>
       <group ref={(g) => setSlot("guy", g)}>
-        <Guy fade={0.2} action={action} ref={(g) => setSlot("model", g)} />
+        <Guy
+          scale={0.6}
+          fade={0.2}
+          action={action}
+          ref={(g) => setSlot("model", g)}
+        />
         {children}
       </group>
     </>

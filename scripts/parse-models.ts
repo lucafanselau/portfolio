@@ -1,5 +1,5 @@
 import { resolve } from "path";
-import { readdir, mkdir, rename } from "fs/promises";
+import { readdir, mkdir, rename, writeFile } from "fs/promises";
 import gltfjsx from "gltfjsx/src/gltfjsx";
 import rimraf from "rimraf";
 
@@ -24,10 +24,14 @@ async function main() {
   console.log("deleting generated folder");
   await rimraf("./" + outputBase);
   console.log("generating models");
+
+  const imports = [];
+
   const config = {};
   for await (const [file, p] of getFiles("assets/generated")) {
     const paths = p.map((p) => p.replace(".glb", ".tsx"));
     const output = `./${outputBase}/${paths.join("/")}`;
+    imports.push(paths.join("/"));
     console.log("generating", file, "to", output);
     const dir = output.split("/").slice(0, -1).join("/");
     await mkdir(dir, { recursive: true });
@@ -56,6 +60,30 @@ async function main() {
       console.error("during rename", e);
     }
   }
+
+  const fileContent = `
+import { FC, ReactNode } from "react";
+${imports
+  .map(
+    (i, index) =>
+      `import { Instances as I${index} } from "./${i.replace(".tsx", "")}";`
+  )
+  .join("\n")}
+export const Instances: FC<{ children: ReactNode }> = ({ children }) => {
+
+  return (
+${imports.map((_, index) => `    <I${index}>`).join("\n")}
+{children}
+${imports
+  .map((_, i) => i)
+  .reverse()
+  .map((index) => `    </I${index}>`)
+  .join("\n")}
+  );
+};
+`;
+
+  await writeFile(`./${outputBase}/index.tsx`, fileContent);
 }
 
 main();

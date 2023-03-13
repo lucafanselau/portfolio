@@ -1,5 +1,5 @@
 import { State, useStore } from "@3d/store";
-import { PerspectiveCamera } from "@react-three/drei";
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { useThree, useFrame } from "@react-three/fiber";
 import { easing } from "maath";
 import { useEffect, useRef, useState } from "react";
@@ -57,7 +57,9 @@ export const Camera = () => {
           constants.camera.distance,
         ]}
         fov={45}
+        far={500}
       />
+      <OrbitControls />
     </group>
   );
 };

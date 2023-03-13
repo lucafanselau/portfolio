@@ -36,7 +36,7 @@ export function Model(props: JSX.IntrinsicElements['group']) {
   const instances = useContext(context)
   return (
     <group {...props} dispose={null}>
-      <instances.Cityprivatehouses position={[-159.77, 85.16, -3.51]} rotation={[0, Math.PI / 2, 0]} scale={2} />
+      <instances.Cityprivatehouses rotation={[0, Math.PI / 2, 0]} scale={2} />
     </group>
   )
 }

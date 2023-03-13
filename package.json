@@ -5,7 +5,8 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "parse-models": "tsx ./scripts/parse-models.ts"
+    "parse-models": "tsx ./scripts/parse-models.ts",
+    "dev": "pnpm --filter portfolio run dev"
   },
   "keywords": [],
   "author": "",
@@ -14,8 +15,6 @@
     "@types/three": "^0.149.0",
     "gltfjsx": "^6.1.4",
     "rimraf": "^4.4.0",
-    "three": "^0.150.1",
-    "three-stdlib": "^2.21.8",
     "tsx": "^3.12.5"
   }
 }

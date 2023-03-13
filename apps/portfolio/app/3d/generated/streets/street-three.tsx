@@ -36,7 +36,7 @@ export function Model(props: JSX.IntrinsicElements['group']) {
   const instances = useContext(context)
   return (
     <group {...props} dispose={null}>
-      <instances.Roadtilex position={[-170.36, 85.04, -2.72]} rotation={[0, Math.PI / 2, 0]} scale={2} />
+      <instances.Roadtilex rotation={[0, Math.PI / 2, 0]} scale={2} />
     </group>
   )
 }

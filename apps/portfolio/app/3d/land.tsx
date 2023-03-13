@@ -5,6 +5,7 @@ import { FC, useState } from "react";
 import { green, orange } from "tailwindcss/colors";
 import { DoubleSide, Vector3 } from "three";
 import { RoundedBoxGeometry } from "three-stdlib";
+import { Roads } from "./roads";
 import { useStore } from "./store";
 
 const Plane: FC<GroupProps> = (props) => {
@@ -17,8 +18,8 @@ const Plane: FC<GroupProps> = (props) => {
   };
   return (
     <Instance
+      {...props}
       color={Math.random() > 0.5 ? green[600] : green[400]}
-      position={props.position}
       onClick={onClick}
     />
   );
@@ -65,6 +66,7 @@ export const Land = () => {
         ))}
       </Instances>
       <group position={[0, 1e-3, 0]}>
+        <Roads />
         <Target />
       </group>
     </>

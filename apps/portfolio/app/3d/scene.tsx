@@ -9,6 +9,7 @@ import { Land } from "./land";
 import { Lights } from "./lights";
 import { Person } from "./person";
 import { BubbleLoader } from "./story/loader";
+import { World } from "./world";
 
 export const Scene = () => {
   return (
@@ -19,7 +20,7 @@ export const Scene = () => {
         </div>
       }
     >
-      <Canvas dpr={[1, 2]} shadows>
+      <Canvas dpr={[1, 2]} shadows gl={{ logarithmicDepthBuffer: true }}>
         {process.env.NEXT_PUBLIC_NODE_ENV === "development" && <Stats />}
         <Environment preset={"city"} />
         {/* <OrbitControls makeDefault /> */}
@@ -28,7 +29,8 @@ export const Scene = () => {
           <BubbleLoader />
         </Person>
         <Camera />
-        <Land />
+        {/* <Land /> */}
+        <World />
       </Canvas>
     </Suspense>
   );
