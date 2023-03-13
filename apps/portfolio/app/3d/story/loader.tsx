@@ -16,7 +16,7 @@ export const BubbleLoader = () => {
     .exhaustive();
 
   return (
-    <Html position={[0, 3.8, 0]} center>
+    <Html position={[0, 3.8, 0]}>
       <SpeechBubble open={open} {...content} />
     </Html>
   );
