@@ -32,12 +32,14 @@ export const Camera = () => {
 
   useRetainedTransform("camera", retained, guy);
 
+  const state = useStore((s) => s.state);
   const target = useStore(
     (s) => positions[s.state],
     (a, b) => a.equals(b)
   );
 
   useFrame((_, delta) => {
+    if (state !== "start") return;
     easing.damp3(camera.position, target, 0.1, delta, 10);
     if (camera && guy)
       camera.lookAt(
@@ -59,7 +61,11 @@ export const Camera = () => {
         fov={45}
         far={500}
       />
-      <OrbitControls />
+      <OrbitControls
+        makeDefault
+        onChange={console.log}
+        enabled={state === "explore"}
+      />
     </group>
   );
 };

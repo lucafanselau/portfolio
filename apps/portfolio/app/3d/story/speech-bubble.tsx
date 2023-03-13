@@ -1,8 +1,9 @@
 "use client";
 
 import { useHasMounted } from "@/hooks/has-mounted";
+import { cn } from "@/utils";
 import { constants } from "@3d/constants";
-import { shift, size, useFloating } from "@floating-ui/react-dom";
+import { offset, shift, size, useFloating } from "@floating-ui/react-dom";
 import { AppearCard } from "@ui/card";
 import { FC, ReactNode, useEffect, useLayoutEffect } from "react";
 
@@ -17,6 +18,7 @@ export const SpeechBubble: FC<
     placement: "top",
     open: open,
     middleware: [
+      offset(10),
       size({
         boundary: document.documentElement,
         padding: 16,
@@ -40,9 +42,10 @@ export const SpeechBubble: FC<
       <AppearCard
         open={open}
         ref={refs.setFloating}
-        className={
-          "p-4 md:p-8 w-[56ch] flex flex-col space-y-2 md:space-y-4 h-fit"
-        }
+        className={cn(
+          "p-4 md:p-8 w-[56ch] flex flex-col space-y-2 md:space-y-4 h-fit",
+          !open && "pointer-events-none"
+        )}
         style={{
           top: y ?? 0,
           left: x ?? 0,

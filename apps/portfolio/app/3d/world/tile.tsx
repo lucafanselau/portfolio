@@ -9,11 +9,22 @@ import { Model as StreetStraight } from "@3d/generated/streets/street-straight";
 import { Model as StreetTurn } from "@3d/generated/streets/street-turn";
 import { Model as StreetThree } from "@3d/generated/streets/street-three";
 import { Model as StreetFour } from "@3d/generated/streets/street-four";
+import { useStore } from "@3d/store";
+import { Vector3 } from "three";
+
+const onClick: GroupProps["onClick"] = ({ point, ...e }) => {
+  const state = useStore.getState().state;
+  if (state !== "explore") return;
+  // console.log(point, e);
+  e.stopPropagation();
+  useStore.setState({ target: new Vector3().set(point.x, 0, point.z) });
+};
 
 const TileLoader: FC<{ tile: TerrainType } & GroupProps> = ({
   tile,
-  ...props
+  ...rest
 }) => {
+  const props = { ...rest, onClick };
   return match(tile)
     .with(TerrainType.Flat, () => (
       <Plane

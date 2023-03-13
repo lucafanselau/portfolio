@@ -5,10 +5,10 @@ import { Canvas } from "@react-three/fiber";
 import { IconLoader3 } from "@tabler/icons-react";
 import { Suspense } from "react";
 import { Camera } from "./camera";
-import { Land } from "./land";
 import { Lights } from "./lights";
 import { Person } from "./person";
 import { BubbleLoader } from "./story/loader";
+import { Target } from "./target";
 import { World } from "./world";
 
 export const Scene = () => {
@@ -29,6 +29,8 @@ export const Scene = () => {
           <BubbleLoader />
         </Person>
         <Camera />
+        <Target />
+        {/* <OrbitControls makeDefault /> */}
         {/* <Land /> */}
         <World />
       </Canvas>

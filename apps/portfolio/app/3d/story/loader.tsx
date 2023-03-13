@@ -1,9 +1,12 @@
+import { constants } from "@3d/constants";
 import { useStore } from "@3d/store";
 import { Html } from "@react-three/drei";
 import { match } from "ts-pattern";
 import { ExploreBubbleContent } from "./explore";
 import { SpeechBubble } from "./speech-bubble";
 import { StartBubbleContent } from "./start";
+
+const { approximateHeight } = constants.guy;
 
 export const BubbleLoader = () => {
   const state = useStore((s) => s.state);
@@ -16,7 +19,7 @@ export const BubbleLoader = () => {
     .exhaustive();
 
   return (
-    <Html position={[0, 3.8, 0]}>
+    <Html position={[0, approximateHeight, 0]}>
       <SpeechBubble open={open} {...content} />
     </Html>
   );

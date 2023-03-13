@@ -1,10 +1,10 @@
 import { range } from "@/utils";
+import { produce } from "immer";
 import { Group, Vector3 } from "three";
 import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
+import { initalTerrain } from "./world/inital";
 import { TerrainType } from "./world/types";
-import { produce } from "immer";
-import { constants } from "@3d/constants";
 
 export type Store = {
   target: Vector3;
@@ -25,7 +25,7 @@ export type Store = {
         state: "long-idle" | "interact";
       };
   world: {
-    terrain: TerrainType[][];
+    terrain: [type: TerrainType, rotation: number][][];
   };
 };
 
@@ -39,12 +39,12 @@ type Actions = {
     value: Store["slots"][keyof Store["slots"]]
   ) => void;
   setCharacterState: (state: CharacterState) => void;
-  setTileType: (x: number, z: number, type: TerrainType) => void;
-};
-
-const randomElement = () => {
-  const array = range(0, TerrainType.StreetFour);
-  return array[Math.floor(Math.random() * array.length)];
+  setTileType: (
+    x: number,
+    z: number,
+    type: TerrainType,
+    rotation?: number
+  ) => void;
 };
 
 export const useStore = create<Store & Actions>()(
@@ -56,19 +56,17 @@ export const useStore = create<Store & Actions>()(
       state: "idle",
     },
     world: {
-      terrain: range(0, constants.world.tiles).map(() =>
-        range(0, constants.world.tiles).map(randomElement)
-      ),
+      terrain: initalTerrain,
     },
     setState: (state) => set({ state }),
     setSlot: (slot, value) =>
       set((state) => ({ slots: { ...state.slots, [slot]: value } })),
     setCharacterState: (s) => set((state) => ({ character: s })),
-    setTileType: (x, z, type) =>
+    setTileType: (x, z, type, rotation = 0) =>
       set((state) => ({
         ...state,
         world: produce(state.world, (draft) => {
-          draft.terrain[x][z] = type;
+          draft.terrain[x][z] = [type, rotation];
         }),
       })),
   }))
