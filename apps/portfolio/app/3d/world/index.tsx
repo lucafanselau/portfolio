@@ -26,7 +26,9 @@ export const World = () => {
     <Instances>
       <group>
         {range(0, tiles).map((x) =>
-          range(0, tiles).map((z) => <Tile x={x} z={z} />)
+          range(0, tiles).map((z) => (
+            <Tile x={x} z={z} key={`tile-${x}-${z}`} />
+          ))
         )}
       </group>
     </Instances>
