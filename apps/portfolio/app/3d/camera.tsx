@@ -68,7 +68,7 @@ export const Camera = () => {
   return (
     <group ref={retained}>
       <PerspectiveCamera
-        ref={(g) => setSlot("camera", g)}
+        ref={(g) => setSlot("camera", g as Group | null)}
         makeDefault
         position={[
           0,
