@@ -21,7 +21,7 @@ const Tile: FC<{ x: number; z: number }> = ({ x, z }) => {
   );
   return (
     <group position={position} rotation={rotation}>
-      <TileLoader tile={type} />;
+      <TileLoader tile={type} />
     </group>
   );
 };
