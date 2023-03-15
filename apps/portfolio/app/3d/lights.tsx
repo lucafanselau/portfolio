@@ -7,8 +7,8 @@ const shadowSize = 20;
 
 export const Lights = () => {
   const { ambient, intensity, position } = useControls("lights", {
-    ambient: { value: 0.2, min: 0, max: 1 },
-    intensity: { value: 0.2, min: 0, max: 1 },
+    ambient: 0.2,
+    intensity: 0.2,
     position: [0, 40, 20],
   });
   return (
