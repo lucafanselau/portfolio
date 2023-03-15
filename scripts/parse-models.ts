@@ -44,6 +44,7 @@ async function main() {
         instanceall: true,
         timeout: 0,
         showLog: console.log,
+        shadows: true,
         header: `// Generated from ${file}`,
         delay: 1,
       });

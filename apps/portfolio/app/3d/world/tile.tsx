@@ -1,4 +1,4 @@
-import { Plane } from "@react-three/drei";
+import { Box, Plane } from "@react-three/drei";
 import { GroupProps } from "@react-three/fiber";
 import { FC, memo } from "react";
 import { match } from "ts-pattern";
@@ -10,7 +10,7 @@ import { Model as StreetTurn } from "@3d/generated/streets/street-turn";
 import { Model as StreetThree } from "@3d/generated/streets/street-three";
 import { Model as StreetFour } from "@3d/generated/streets/street-four";
 import { useStore } from "@3d/store";
-import { Vector3 } from "three";
+import { MeshStandardMaterial, Vector3 } from "three";
 
 const onClick: GroupProps["onClick"] = ({ point, ...e }) => {
   const state = useStore.getState().state;
@@ -28,10 +28,11 @@ const TileLoader: FC<{ tile: TerrainType } & GroupProps> = ({
   return match(tile)
     .with(TerrainType.Flat, () => (
       <group {...props}>
-        <Plane
-          rotation={[-Math.PI / 2, 0, 0]}
-          args={[8, 8, 4, 4]}
-          material-color={"#85B16A"}
+        <Box
+          position={[0, -0.05, 0]}
+          receiveShadow
+          args={[8, 0.1, 8, 4, 4]}
+          material={new MeshStandardMaterial({ color: "#85B16A" })}
         />
       </group>
     ))

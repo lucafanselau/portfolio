@@ -1,12 +1,47 @@
+import { cameraTargets } from "@3d/camera";
+import { constants } from "@3d/constants";
 import { useStore } from "@3d/store";
+import { createTransition, defaultTransitionConfig } from "@3d/transition";
+import { useThree } from "@react-three/fiber";
 import { Button } from "@ui/button";
 import { H1, P } from "@ui/typography";
+import { easing } from "maath";
 import Link from "next/link";
 import { Fragment } from "react";
 
 export const StartActionButton = () => {
-  const handleStartClick = () => {
-    useStore.getState().setState("explore");
+  const handleStartClick = async () => {
+    const {
+      setState,
+      slots: { camera, guy },
+    } = useStore.getState();
+
+    const target = cameraTargets["explore"];
+    // first transition camera to new target
+    await createTransition((delta) => {
+      if (!camera || !guy) return false;
+      const { smoothTime, maxSpeed, eps } = defaultTransitionConfig;
+
+      const result = easing.damp3(
+        camera.position,
+        target,
+        smoothTime,
+        delta,
+        maxSpeed,
+        undefined,
+        eps
+      );
+
+      camera.lookAt(
+        guy.position.x,
+        constants.guy.approximateHeight,
+        guy.position.z
+      );
+
+      return result;
+    });
+
+    setState("explore");
   };
   return (
     <Button className={"px-8 pointer-events-auto"} onClick={handleStartClick}>

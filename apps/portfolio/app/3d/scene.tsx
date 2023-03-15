@@ -1,15 +1,22 @@
 "use client";
 
-import { Environment, Stats } from "@react-three/drei";
+import { Box, Environment, Stats } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { IconLoader3 } from "@tabler/icons-react";
-import { Suspense } from "react";
+import { FC, ReactNode, Suspense } from "react";
 import { Camera } from "./camera";
+import { Instances } from "./generated";
 import { Lights } from "./lights";
 import { Person } from "./person";
 import { BubbleLoader } from "./story/loader";
 import { Target } from "./target";
 import { World } from "./world";
+import { useTransitions } from "./transition";
+
+const Loader: FC<{ children: ReactNode }> = ({ children }) => {
+  useTransitions();
+  return <Instances>{children}</Instances>;
+};
 
 export const Scene = () => {
   return (
@@ -21,18 +28,20 @@ export const Scene = () => {
       }
     >
       <Canvas dpr={[1, 2]} shadows gl={{ logarithmicDepthBuffer: true }}>
-        {process.env.NEXT_PUBLIC_NODE_ENV === "development" && <Stats />}
-        <Environment preset={"city"} />
-        {/* <OrbitControls makeDefault /> */}
-        <Lights />
-        <Person>
-          <BubbleLoader />
-        </Person>
-        <Camera />
-        <Target />
-        {/* <OrbitControls makeDefault /> */}
-        {/* <Land /> */}
-        <World />
+        <Loader>
+          {process.env.NEXT_PUBLIC_NODE_ENV === "development" && <Stats />}
+          <Environment preset={"city"} />
+          {/* <OrbitControls makeDefault /> */}
+          <Lights />
+          <Person>
+            <BubbleLoader />
+          </Person>
+          <Camera />
+          <Target />
+          {/* <OrbitControls makeDefault /> */}
+          {/* <Land /> */}
+          <World />
+        </Loader>
       </Canvas>
     </Suspense>
   );

@@ -2,6 +2,7 @@ import { TerrainType } from "./types";
 
 const F = TerrainType.Flat;
 const C = TerrainType.Clipping;
+const M = F;
 const S = TerrainType.StreetStraight;
 const T = TerrainType.StreetTurn;
 
@@ -36,8 +37,8 @@ const template = [
     F,
     F,
   ],
-  [F, F, F, F, F, F, F, S, C, C, C, C, S, F, F, F, F, F, F, F],
-  [F, F, F, F, F, F, F, S, C, C, C, C, S, F, F, F, F, F, F, F],
+  [F, F, F, F, F, F, F, S, M, M, M, M, S, F, F, F, F, F, F, F],
+  [F, F, F, F, F, F, F, S, M, M, M, M, S, F, F, F, F, F, F, F],
   [
     F,
     F,

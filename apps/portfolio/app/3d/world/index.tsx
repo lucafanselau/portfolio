@@ -1,9 +1,8 @@
-import { useStore } from "@3d/store";
 import { range } from "@/utils";
+import { constants } from "@3d/constants";
+import { useStore } from "@3d/store";
 import { FC, useCallback, useMemo } from "react";
 import TileLoader from "./tile";
-import { constants } from "@3d/constants";
-import { Instances } from "@3d/generated";
 
 const { tileSize, tiles } = constants.world;
 
@@ -29,14 +28,10 @@ const Tile: FC<{ x: number; z: number }> = ({ x, z }) => {
 
 export const World = () => {
   return (
-    <Instances>
-      <group>
-        {range(0, tiles).map((x) =>
-          range(0, tiles).map((z) => (
-            <Tile x={x} z={z} key={`tile-${x}-${z}`} />
-          ))
-        )}
-      </group>
-    </Instances>
+    <group>
+      {range(0, tiles).map((x) =>
+        range(0, tiles).map((z) => <Tile x={x} z={z} key={`tile-${x}-${z}`} />)
+      )}
+    </group>
   );
 };

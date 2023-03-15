@@ -8,9 +8,9 @@ import { constants } from "./constants";
 import { ActionName, Model as Guy } from "./guy";
 
 const actionLookup: Record<CharacterState["state"], ActionName> = {
+  greet: "Wave",
   idle: "Idle",
-  "long-idle": "Wave",
-  interact: "Interact_standing",
+  /* interact: "Interact_standing", */
   run: "Run",
   rotate: "Walk",
   walk: "Walk",
@@ -28,7 +28,7 @@ const characterStateMachine = (
     slots: { guy, model },
     target,
   } = useStore.getState();
-  if (!guy || !model) return { state: "long-idle" };
+  if (!guy || !model) return { state: "idle" };
 
   return match<CharacterState, CharacterState>(character)
     .with({ state: "idle" }, ({}) => {
@@ -40,10 +40,8 @@ const characterStateMachine = (
       const angle = Math.atan2(direction.x, direction.z);
       easing.dampAngle(model.rotation, "y", angle, 0.2, delta, 40);
 
-      const deltaAngle = misc.deltaAngle(model.rotation.y, angle);
-      return Math.abs(deltaAngle) < constants.threshold.angle
-        ? { state: "long-idle" }
-        : { state: "idle" };
+      /* const deltaAngle = misc.deltaAngle(model.rotation.y, angle); */
+      return { state: "idle" };
     })
     .with({ state: "rotate" }, () => {
       // also update the rotation
@@ -69,8 +67,7 @@ const characterStateMachine = (
       if (vel > 4) return { state: "run" };
       else return { state: "walk" };
     })
-    .with({ state: "interact" }, (state) => state)
-    .with({ state: "long-idle" }, (state) => state)
+    .with({ state: "greet" }, (state) => state)
     .exhaustive();
 };
 

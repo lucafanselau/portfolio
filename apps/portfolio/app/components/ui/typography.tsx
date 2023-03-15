@@ -67,6 +67,10 @@ const paragraph = cva("leading-7", {
     color: {
       lighter: "text-zinc-500 dark:text-zinc-400",
     },
+    align: {
+      center: "text-center",
+      right: "text-right",
+    },
   },
 });
 

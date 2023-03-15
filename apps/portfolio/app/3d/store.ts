@@ -14,16 +14,7 @@ export type Store = {
     camera?: Group | null;
   };
   state: "start" | "explore" | "top-level";
-  character:
-    | {
-        state: "idle";
-      }
-    | {
-        state: "walk" | "run" | "rotate";
-      }
-    | {
-        state: "long-idle" | "interact";
-      };
+  character: { state: "idle" | "walk" | "run" | "rotate" | "greet" };
   world: {
     terrain: [type: TerrainType, rotation: number][][];
   };
@@ -53,7 +44,7 @@ export const useStore = create<Store & Actions>()(
     slots: {},
     state: "start",
     character: {
-      state: "idle",
+      state: "greet",
     },
     world: {
       terrain: initalTerrain,
