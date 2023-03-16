@@ -2,6 +2,7 @@ import { range } from "@/utils";
 import { constants } from "@3d/constants";
 import { useStore } from "@3d/store";
 import { FC, useCallback, useMemo } from "react";
+import { Buildings } from "./building/loader";
 import TileLoader from "./tile";
 
 const { tileSize, tiles } = constants.world;
@@ -32,6 +33,7 @@ export const World = () => {
       {range(0, tiles).map((x) =>
         range(0, tiles).map((z) => <Tile x={x} z={z} key={`tile-${x}-${z}`} />)
       )}
+      <Buildings />
     </group>
   );
 };

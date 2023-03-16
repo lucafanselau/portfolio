@@ -28,9 +28,9 @@ const useTransitionStore = create<{
 );
 
 export const defaultTransitionConfig = {
-  smoothTime: 3,
-  maxSpeed: 10,
-  eps: 1e-1,
+  smoothTime: 0.5,
+  maxSpeed: 11,
+  eps: 1e-2,
 };
 
 export const createTransition = <T = unknown>(cb: Transition["cb"]) => {

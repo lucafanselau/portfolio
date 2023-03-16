@@ -1,4 +1,6 @@
-import { TerrainType } from "./types";
+import { range } from "@/utils";
+import { Vector3 } from "three";
+import { Building, BuildingType, TerrainType } from "./types";
 
 const F = TerrainType.Flat;
 const C = TerrainType.Clipping;
@@ -70,8 +72,39 @@ const template = [
   [F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F],
   [F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F],
 ] as ([TerrainType, number] | TerrainType)[][];
-export const initalTerrain = template.map((row) =>
-  row.map<[TerrainType, number]>((type) =>
-    Array.isArray(type) ? type : [type, 0]
-  )
-);
+
+const initialBuildings: Building[] = [
+  {
+    id: "school",
+    position: new Vector3(16, 0, 16),
+    type: BuildingType.School,
+    rotation: 1,
+  },
+  {
+    id: "house",
+    position: new Vector3(-8, 0, 24),
+    type: BuildingType.House,
+    rotation: 0,
+  },
+  {
+    id: "office",
+    position: new Vector3(8, 0, -24),
+    type: BuildingType.Office,
+    rotation: 2,
+  },
+  ...range(0, 4).map((i) => ({
+    id: "tree-" + i,
+    position: new Vector3(Math.floor(i / 2) * -8, 0, -16 + (i % 2) * 24),
+    type: BuildingType.Tree1 + i,
+    rotation: 0,
+  })),
+];
+
+export const initial = {
+  terrain: template.map((row) =>
+    row.map<[TerrainType, number]>((type) =>
+      Array.isArray(type) ? type : [type, 0]
+    )
+  ),
+  buildings: initialBuildings,
+};

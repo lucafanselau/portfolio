@@ -3,24 +3,24 @@
 import { useControls } from "@/hooks/use-controls";
 import { Sky } from "@react-three/drei";
 
-const shadowSize = 20;
+const shadowSize = 40;
 
 export const Lights = () => {
   const { ambient, intensity, position } = useControls("lights", {
     ambient: 0.2,
-    intensity: 0.2,
+    intensity: 0.8,
     position: [0, 40, 20],
   });
   return (
     <>
       <Sky sunPosition={[100, 20, 100]} />
-      <ambientLight intensity={ambient} />
+      {/* <ambientLight intensity={ambient} /> */}
       <directionalLight
         castShadow
         position={position}
         intensity={intensity}
         shadow-mapSize={[1024, 1024]}
-        shadow-bias={0.0001}
+        shadow-bias={-0.0001}
         rotation={[Math.PI / 2, 0, 0]}
       >
         <orthographicCamera

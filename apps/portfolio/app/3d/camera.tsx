@@ -81,8 +81,10 @@ export const Camera = () => {
       <OrbitControls
         // makeDefault
         ref={orbit}
-        // onChange={console.log}
+        onStart={() => useStore.setState({ showCard: false })}
+        onEnd={() => useStore.setState({ showCard: true })}
         maxPolarAngle={Math.PI / 2}
+        maxDistance={constants.camera.maxDistance}
         enabled={state === "explore"}
         enableDamping={true}
         enablePan={false}

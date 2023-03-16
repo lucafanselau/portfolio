@@ -30,6 +30,7 @@ async function main() {
 
   const config = {};
   for await (const [file, p] of getFiles("assets/generated")) {
+    if (!file.endsWith(".gltf") && !file.endsWith(".glb")) continue;
     const paths = p.map((p) => p.replace(".glb", ".tsx"));
     const output = `./${outputBase}/${paths.join("/")}`;
     imports.push(paths.join("/"));
@@ -77,7 +78,9 @@ ${imports
 export const Instances: FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
-${imports.map((_, index) => `    <I${index}>`).join("\n")}
+${imports
+  .map((_, index) => `    <I${index} receiveShadow castShadow>`)
+  .join("\n")}
 {children}
 ${imports
   .map((_, i) => i)

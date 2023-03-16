@@ -1,6 +1,6 @@
 // @ts-nocheck
 /*
-// Generated from /Users/luca/dev/web/portfolio/assets/generated/streets/street-end.glb
+// Generated from /Users/luca/dev/web/portfolio/assets/generated/buildings/school.glb
 */
 
 import * as THREE from 'three'
@@ -10,7 +10,7 @@ import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
   nodes: {
-    road_tile_1x1_12: THREE.Mesh
+    school: THREE.Mesh
   }
   materials: {
     city: THREE.MeshStandardMaterial
@@ -19,10 +19,10 @@ type GLTFResult = GLTF & {
 
 const context = createContext()
 export function Instances({ children, ...props }) {
-  const { nodes } = useGLTF('/street-end-transformed.glb') as GLTFResult
+  const { nodes } = useGLTF('/school-transformed.glb') as GLTFResult
   const instances = useMemo(
     () => ({
-      Roadtilex: nodes.road_tile_1x1_12,
+      School: nodes.school,
     }),
     [nodes]
   )
@@ -37,9 +37,9 @@ export function Model(props: JSX.IntrinsicElements['group']) {
   const instances = useContext(context)
   return (
     <group {...props} dispose={null}>
-      <instances.Roadtilex rotation={[0, Math.PI / 2, 0]} scale={2} />
+      <instances.School />
     </group>
   )
 }
 
-useGLTF.preload('/street-end-transformed.glb')
+useGLTF.preload('/school-transformed.glb')

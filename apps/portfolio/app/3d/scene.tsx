@@ -12,6 +12,7 @@ import { BubbleLoader } from "./story/loader";
 import { Target } from "./target";
 import { World } from "./world";
 import { useTransitions } from "./transition";
+import { constants } from "./constants";
 
 const Loader: FC<{ children: ReactNode }> = ({ children }) => {
   useTransitions();
@@ -29,9 +30,11 @@ export const Scene = () => {
     >
       <Canvas dpr={[1, 2]} shadows gl={{ logarithmicDepthBuffer: true }}>
         <Loader>
+          {process.env.NEXT_PUBLIC_NODE_ENV === "development" && (
+            <axesHelper args={[constants.world.tileSize]} />
+          )}
           {process.env.NEXT_PUBLIC_NODE_ENV === "development" && <Stats />}
           <Environment preset={"city"} />
-          {/* <OrbitControls makeDefault /> */}
           <Lights />
           <Person>
             <BubbleLoader />

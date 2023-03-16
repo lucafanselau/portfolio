@@ -7,6 +7,7 @@ export const constants = {
   },
   camera: {
     distance: 10,
+    maxDistance: 70,
   },
   world: {
     tiles: 20,

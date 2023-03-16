@@ -11,7 +11,9 @@ const { approximateHeight } = constants.guy;
 export const BubbleLoader = () => {
   const state = useStore((s) => s.state);
   const open = useStore(
-    (s) => s.character.state === "idle" || s.character.state === "greet"
+    (s) =>
+      s.showCard &&
+      (s.character.state === "idle" || s.character.state === "greet")
   );
 
   const content = match(state)

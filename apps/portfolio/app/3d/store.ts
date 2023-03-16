@@ -1,10 +1,9 @@
-import { range } from "@/utils";
 import { produce } from "immer";
 import { Group, Vector3 } from "three";
 import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
-import { initalTerrain } from "./world/inital";
-import { TerrainType } from "./world/types";
+import { initial } from "./world/inital";
+import { Building, TerrainType } from "./world/types";
 
 export type Store = {
   target: Vector3;
@@ -14,9 +13,11 @@ export type Store = {
     camera?: Group | null;
   };
   state: "start" | "explore" | "top-level";
+  showCard: boolean;
   character: { state: "idle" | "walk" | "run" | "rotate" | "greet" };
   world: {
     terrain: [type: TerrainType, rotation: number][][];
+    buildings: Building[];
   };
 };
 
@@ -42,12 +43,14 @@ export const useStore = create<Store & Actions>()(
   subscribeWithSelector((set, get) => ({
     target: new Vector3(),
     slots: {},
-    state: "start",
+    state: "explore",
+    showCard: true,
     character: {
       state: "greet",
     },
     world: {
-      terrain: initalTerrain,
+      terrain: initial.terrain,
+      buildings: initial.buildings,
     },
     setState: (state) => set({ state }),
     setSlot: (slot, value) =>
