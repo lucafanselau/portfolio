@@ -1,19 +1,14 @@
-import {
-  IconUser,
-  IconEggCracked,
-  IconSocial,
-  IconAppWindowFilled,
-} from "@tabler/icons-react";
+import { IconAppWindowFilled, IconEggCracked } from "@tabler/icons-react";
 import { Separator } from "@ui/seperator";
+import { H4 } from "@ui/typography";
 import Link from "next/link";
 import { DarkToggle } from "./dark-toggle";
-import { H4 } from "@ui/typography";
 
 export const Header = () => {
   return (
     <div
       className={
-        "flex justify-between py-4 items-center z-10 px-4 rounded-lg bg-white dark:bg-zinc-800"
+        "flex justify-between py-4 items-center z-10 px-4 rounded-lg bg-white dark:bg-zinc-800 shadow-md"
       }
     >
       <Link href={"/"}>

@@ -53,7 +53,9 @@ export const SpeechBubble: FC<
       >
         <div>{header}</div>
         <div className={"flex-0 min-h-0 pr-2 overflow-auto"}>{content}</div>
-        <div className={"flex flex-row space-x-2 justify-end"}>{action}</div>
+        {action !== null && (
+          <div className={"flex flex-row space-x-2 justify-end"}>{action}</div>
+        )}
       </AppearCard>
     </div>
   );

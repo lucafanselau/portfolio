@@ -19,13 +19,13 @@ export default function RootLayout({
     <html lang="en" className={inter.className}>
       <body
         className={
-          "relative overflow-hidden bg-zinc-100 dark:bg-zinc-700 dark:text-white text-zinc-800 flex justify-center "
+          "relative overflow-hidden bg-zinc-100 dark:bg-zinc-800 dark:text-white text-zinc-800 flex justify-center "
         }
       >
         {/* Main Column */}
         <div
           className={
-            "min-h-[100vh] flex flex-col max-w-[800px] flex-1 h-full p-4"
+            "min-h-[100vh] flex flex-col space-y-4 max-w-[800px] flex-1 h-full p-4"
           }
         >
           <Header />

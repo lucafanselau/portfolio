@@ -1,9 +1,11 @@
+import { useStore } from "@3d/store";
 import {
   IconPointer,
   Icon,
   IconMouse,
   IconArrowsMaximize,
 } from "@tabler/icons-react";
+import { Button } from "@ui/button";
 import { H1, P } from "@ui/typography";
 import { FC, ReactNode } from "react";
 
@@ -26,16 +28,37 @@ export const ExploreBubbleContent = {
     </>
   ),
   content: (
-    <>
-      <div className={"flex space-x-2"}>
-        <Instruction Icon={IconPointer} text={"Click to move character"} />
-        <Instruction Icon={IconMouse} text={"Click and drag to pan around"} />
-        <Instruction
-          Icon={IconArrowsMaximize}
-          text={"Scroll / Pan to zoom in or out"}
-        />
-      </div>
-    </>
+    <div className={"flex space-x-2"}>
+      <Instruction Icon={IconPointer} text={"Click to move character"} />
+      <Instruction Icon={IconMouse} text={"Click and drag to pan around"} />
+      <Instruction
+        Icon={IconArrowsMaximize}
+        text={"Scroll / Pan to zoom in or out"}
+      />
+    </div>
   ),
   action: null,
+};
+export const ExploreSchool = {
+  header: (
+    <>
+      <H1>
+        Welcome to the <span className={"text-animation"}>School</span>
+      </H1>
+      <P color={"lighter"}>
+        This is where I spent most of my time during my childhood.
+      </P>
+    </>
+  ),
+  content: (
+    <P>
+      You reached the school of this little town. The school is where it all
+      started.
+      <span className={"text-red-500"}>
+        <br />
+        TODO TEXT
+      </span>
+    </P>
+  ),
+  action: <Button className={"px-8 pointer-events-auto"}>Learn More</Button>,
 };
