@@ -45,7 +45,7 @@ export const Scene = () => {
             <axesHelper args={[constants.world.tileSize]} />
           )}
           {process.env.NEXT_PUBLIC_NODE_ENV === "development" && <Stats />}
-          <Environment preset={"city"} />
+          <Environment background files="./puresky.hdr" />
           <Lights />
           <Person>
             <ConditionalLoader states={["explore", "start"]}>
@@ -59,7 +59,10 @@ export const Scene = () => {
           <World />
         </Loader>
       </Canvas>
-      <BuildingTools />
+
+      <ConditionalLoader states={["top-level"]}>
+        <BuildingTools />
+      </ConditionalLoader>
     </Suspense>
   );
 };

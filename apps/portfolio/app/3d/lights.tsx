@@ -1,33 +1,41 @@
 "use client";
 
 import { useControls } from "@/hooks/use-controls";
-import { Sky } from "@react-three/drei";
+import { Sky, SoftShadows } from "@react-three/drei";
 
-const shadowSize = 40;
+const shadowSize = 100;
 
 export const Lights = () => {
-  const { ambient, intensity, position } = useControls("lights", {
-    ambient: 0.2,
-    intensity: 0.8,
-    position: [0, 40, 20],
-  });
+  const { ambient, intensity, position, showSky, softShadows } = useControls(
+    "lights",
+    {
+      ambient: 0.2,
+      intensity: 0.8,
+      position: [0, 40, 20],
+      showSky: false,
+      softShadows: true,
+    }
+  );
+
   return (
     <>
-      <Sky sunPosition={[100, 20, 100]} />
+      {showSky && <Sky sunPosition={[100, 20, 100]} />}
       {/* <ambientLight intensity={ambient} /> */}
       <directionalLight
         castShadow
         position={position}
         intensity={intensity}
-        shadow-mapSize={[1024, 1024]}
-        shadow-bias={-0.0001}
+        shadow-mapSize={[2048, 2048]}
+        shadow-bias={-0.001}
         rotation={[Math.PI / 2, 0, 0]}
       >
         <orthographicCamera
           attach="shadow-camera"
-          args={[-shadowSize, shadowSize, shadowSize, -shadowSize, 0.1, 100]}
+          args={[-shadowSize, shadowSize, shadowSize, -shadowSize, 0.1, 80]}
         />
       </directionalLight>
+
+      {softShadows && <SoftShadows />}
     </>
   );
 };
