@@ -1,18 +1,13 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@ui/dialog";
-import { P } from "@ui/typography";
+import { Portfolio } from "./portfolio";
 import { School } from "./school";
+import { Work } from "./work";
 
 export default function Home() {
   return (
     <main className={"flex-1 flex flex-col"}>
       <School />
+      <Work />
+      <Portfolio />
     </main>
   );
 }

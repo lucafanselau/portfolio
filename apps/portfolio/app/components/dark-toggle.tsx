@@ -107,8 +107,6 @@ export const DarkToggle: FC = () => {
     names.forEach((name) => {
       const e = el[name].current;
       const s = state[name];
-      console.log(mode, toggled);
-      console.log(s[mode], s[toggled]);
       if (e !== undefined && e !== null)
         e.animate([s[mode], s[toggled]], {
           fill: "forwards",

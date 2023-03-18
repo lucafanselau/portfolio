@@ -3,9 +3,9 @@
 import { useHasMounted } from "@/hooks/has-mounted";
 import { cn } from "@/utils";
 import { constants } from "@3d/constants";
-import { offset, shift, size, useFloating } from "@floating-ui/react-dom";
+import { offset, size, useFloating } from "@floating-ui/react-dom";
 import { AppearCard } from "@ui/card";
-import { FC, ReactNode, useEffect, useLayoutEffect } from "react";
+import { FC, ReactNode, useLayoutEffect } from "react";
 
 export const SpeechBubble: FC<
   { open: boolean } & Record<

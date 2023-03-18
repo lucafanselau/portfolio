@@ -9,8 +9,12 @@ export const constants = {
     headerSize: 60,
   },
   camera: {
-    distance: 10,
-    maxDistance: 70,
+    distance: 5,
+    maxDistance: {
+      explore: 70,
+      start: 70,
+      "top-level": 150,
+    },
   },
   world: {
     tiles: 20,

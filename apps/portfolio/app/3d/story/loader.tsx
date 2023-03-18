@@ -1,5 +1,6 @@
 import { constants } from "@3d/constants";
 import { useStore } from "@3d/store";
+import { useHasTransition } from "@3d/transition";
 import { Html } from "@react-three/drei";
 import { useMemo } from "react";
 import { match } from "ts-pattern";
@@ -18,6 +19,7 @@ export const BubbleLoader = () => {
       (s.character.state === "idle" || s.character.state === "greet")
   );
 
+  const hasTransition = useHasTransition();
   const content = useMemo(
     () =>
       match(state)
@@ -35,7 +37,7 @@ export const BubbleLoader = () => {
 
   return (
     <Html position={[0, approximateHeight, 0]}>
-      <SpeechBubble open={open} {...content} />
+      <SpeechBubble open={open && !hasTransition} {...content} />
     </Html>
   );
 };

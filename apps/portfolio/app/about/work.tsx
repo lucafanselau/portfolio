@@ -22,10 +22,10 @@ const elements: TimelineElements = [
   },
 ];
 
-export const School: FC = () => {
+export const Work: FC = () => {
   return (
     <>
-      <H2>School</H2>
+      <H2>Professional Life</H2>
       <Timeline elements={elements} />
     </>
   );

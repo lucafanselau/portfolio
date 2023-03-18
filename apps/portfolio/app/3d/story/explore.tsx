@@ -1,13 +1,14 @@
+import { transitionToCamera } from "@3d/camera";
 import { useStore } from "@3d/store";
 import {
-  IconPointer,
   Icon,
-  IconMouse,
   IconArrowsMaximize,
+  IconMouse,
+  IconPointer,
 } from "@tabler/icons-react";
 import { Button } from "@ui/button";
 import { H1, P } from "@ui/typography";
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 
 const Instruction: FC<{ Icon: Icon; text: string }> = ({ Icon, text }) => (
   <div className="flex flex-col items-center flex-1 space-y-2">
@@ -15,6 +16,33 @@ const Instruction: FC<{ Icon: Icon; text: string }> = ({ Icon, text }) => (
     <P align={"center"}>{text}</P>
   </div>
 );
+
+const prevent = (e: React.MouseEvent) => {
+  e.stopPropagation();
+  e.preventDefault();
+};
+
+export const preventProps = {
+  onPointerDown: prevent,
+};
+
+const TopLevelButton = () => {
+  const onClick = async () => {
+    const { setState } = useStore.getState();
+    await transitionToCamera("top-level", "origin");
+    setState("top-level");
+  };
+
+  return (
+    <Button
+      {...preventProps}
+      onClick={onClick}
+      className={"px-8 pointer-events-auto"}
+    >
+      To top level
+    </Button>
+  );
+};
 
 export const ExploreBubbleContent = {
   header: (
@@ -37,7 +65,7 @@ export const ExploreBubbleContent = {
       />
     </div>
   ),
-  action: null,
+  action: <TopLevelButton />,
 };
 export const ExploreSchool = {
   header: (
@@ -60,5 +88,9 @@ export const ExploreSchool = {
       </span>
     </P>
   ),
-  action: <Button className={"px-8 pointer-events-auto"}>Learn More</Button>,
+  action: (
+    <Button {...preventProps} className={"px-8 pointer-events-auto"}>
+      Learn More
+    </Button>
+  ),
 };

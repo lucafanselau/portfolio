@@ -46,7 +46,7 @@ export const useStore = create<Store & Actions>()(
   subscribeWithSelector((set, get) => ({
     target: new Vector3(),
     slots: {},
-    state: "explore",
+    state: "start",
     showCard: true,
     character: {
       state: "greet",

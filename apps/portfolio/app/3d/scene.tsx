@@ -1,22 +1,33 @@
 "use client";
 
-import { Box, Environment, Stats } from "@react-three/drei";
+import { Environment, Stats } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { IconLoader3 } from "@tabler/icons-react";
-import { FC, ReactNode, Suspense } from "react";
+import { FC, PropsWithChildren, ReactNode, Suspense } from "react";
 import { Camera } from "./camera";
+import { constants } from "./constants";
 import { Instances } from "./generated";
 import { Lights } from "./lights";
 import { Person } from "./person";
+import { State, useStore } from "./store";
 import { BubbleLoader } from "./story/loader";
 import { Target } from "./target";
-import { World } from "./world";
 import { useTransitions } from "./transition";
-import { constants } from "./constants";
+import { World } from "./world";
+import { BuildingTools } from "./world/tools";
 
 const Loader: FC<{ children: ReactNode }> = ({ children }) => {
   useTransitions();
   return <Instances>{children}</Instances>;
+};
+
+const ConditionalLoader: FC<PropsWithChildren<{ states: State[] }>> = ({
+  states,
+  children,
+}) => {
+  const isMatching = useStore((s) => states.includes(s.state));
+  if (isMatching) return <>{children}</>;
+  else return null;
 };
 
 export const Scene = () => {
@@ -37,15 +48,18 @@ export const Scene = () => {
           <Environment preset={"city"} />
           <Lights />
           <Person>
-            <BubbleLoader />
+            <ConditionalLoader states={["explore", "start"]}>
+              <BubbleLoader />
+            </ConditionalLoader>
           </Person>
           <Camera />
-          <Target />
-          {/* <OrbitControls makeDefault /> */}
-          {/* <Land /> */}
+          <ConditionalLoader states={["explore", "start"]}>
+            <Target />
+          </ConditionalLoader>
           <World />
         </Loader>
       </Canvas>
+      <BuildingTools />
     </Suspense>
   );
 };

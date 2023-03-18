@@ -39,9 +39,9 @@ const Interaction = ({ zone, title }: Interaction) => {
 
 export const Interactions = () => {
   const state = useStore((s) => s.state);
-  if (state !== "explore") return null;
 
   useFrame(() => {
+    if (state !== "explore") return;
     const {
       slots: { guy },
       setInteraction,
@@ -53,6 +53,8 @@ export const Interactions = () => {
     )?.title;
     setInteraction(title);
   });
+
+  if (state !== "explore") return null;
 
   return (
     <group position={[0, constants.eps, 0]}>

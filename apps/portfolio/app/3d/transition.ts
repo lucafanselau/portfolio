@@ -46,9 +46,12 @@ export const useTransitions = () => {
     const { transitions, remove } = useTransitionStore.getState();
     transitions.forEach(({ cb, resolve, id }) => {
       if (!cb(delta)) {
-        resolve(true);
         remove(id);
+        resolve(true);
       }
     });
   });
 };
+
+export const useHasTransition = () =>
+  useTransitionStore((state) => state.transitions.length > 0);
