@@ -30,7 +30,7 @@ const ConditionalLoader: FC<PropsWithChildren<{ states: State[] }>> = ({
   else return null;
 };
 
-export const Scene = () => {
+const Scene = () => {
   return (
     <Suspense
       fallback={
@@ -59,10 +59,11 @@ export const Scene = () => {
           <World />
         </Loader>
       </Canvas>
-
       <ConditionalLoader states={["top-level"]}>
         <BuildingTools />
       </ConditionalLoader>
     </Suspense>
   );
 };
+
+export default Scene;
