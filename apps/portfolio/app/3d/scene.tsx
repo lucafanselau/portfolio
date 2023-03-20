@@ -15,6 +15,7 @@ import { Target } from "./target";
 import { useTransitions } from "./transition";
 import { World } from "./world";
 import { BuildingTools } from "./world/tools";
+import { ToolsOverlay } from "./world/tools/overlay";
 
 const Loader: FC<{ children: ReactNode }> = ({ children }) => {
   useTransitions();
@@ -57,6 +58,9 @@ const Scene = () => {
             <Target />
           </ConditionalLoader>
           <World />
+          <ConditionalLoader states={["top-level"]}>
+            <ToolsOverlay />
+          </ConditionalLoader>
         </Loader>
       </Canvas>
       <ConditionalLoader states={["top-level"]}>

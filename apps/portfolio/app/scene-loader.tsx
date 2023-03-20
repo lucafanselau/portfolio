@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import { FC, Suspense } from "react";
 
 const SceneComponent = dynamic(() => import("@3d/scene"), {
-  ssr: true,
+  ssr: false,
   loading: () => <div>Loading...</div>,
 });
 

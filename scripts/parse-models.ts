@@ -3,6 +3,7 @@ import { readdir, mkdir, rename, writeFile } from "fs/promises";
 import gltfjsx from "gltfjsx/src/gltfjsx";
 import rimraf from "rimraf";
 import prependFile from "prepend-file";
+import {} from "@shopify/screenshot-glb/dist";
 
 async function* getFiles(
   dir: string,

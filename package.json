@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@shopify/screenshot-glb": "^1.9.1",
     "@types/three": "^0.149.0",
     "gltfjsx": "^6.1.4",
     "prepend-file": "^2.0.1",

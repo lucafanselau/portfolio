@@ -24,6 +24,7 @@
       "@3d/*": ["./app/3d/*"],
       "@ui/*": ["./app/components/ui/*"],
       "@components/*": ["./app/components/*"],
+      "@public/*": ["./public/*"],
       "@/*": ["./app/*"]
     }
   },

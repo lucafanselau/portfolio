@@ -1,6 +1,6 @@
 import { Box, Plane } from "@react-three/drei";
 import { GroupProps } from "@react-three/fiber";
-import { FC, memo } from "react";
+import { FC, forwardRef, memo } from "react";
 import { match } from "ts-pattern";
 import { TerrainType } from "./types";
 
@@ -10,7 +10,7 @@ import { Model as StreetTurn } from "@3d/generated/streets/street-turn";
 import { Model as StreetThree } from "@3d/generated/streets/street-three";
 import { Model as StreetFour } from "@3d/generated/streets/street-four";
 import { useStore } from "@3d/store";
-import { MeshStandardMaterial, Vector3 } from "three";
+import { Group, MeshStandardMaterial, Vector3 } from "three";
 import { constants } from "@3d/constants";
 
 const onClick: GroupProps["onClick"] = ({ point, ...e }) => {
@@ -24,29 +24,28 @@ const onClick: GroupProps["onClick"] = ({ point, ...e }) => {
   });
 };
 
-const TileLoader: FC<{ tile: TerrainType } & GroupProps> = ({
-  tile,
-  ...rest
-}) => {
-  const props = { ...rest, onClick };
-  return match(tile)
-    .with(TerrainType.Flat, () => (
-      <group {...props}>
-        <Box
-          position={[0, -0.05, 0]}
-          receiveShadow
-          args={[8, 0.1, 8, 4, 4]}
-          material={new MeshStandardMaterial({ color: "#85B16A" })}
-        />
-      </group>
-    ))
-    .with(TerrainType.Clipping, () => null)
-    .with(TerrainType.StreetEnd, () => <StreetEnd {...props} />)
-    .with(TerrainType.StreetStraight, () => <StreetStraight {...props} />)
-    .with(TerrainType.StreetTurn, () => <StreetTurn {...props} />)
-    .with(TerrainType.StreetThree, () => <StreetThree {...props} />)
-    .with(TerrainType.StreetFour, () => <StreetFour {...props} />)
-    .otherwise(() => null);
-};
+const TileLoader = forwardRef<Group, { tile: TerrainType } & GroupProps>(
+  ({ tile, ...rest }, ref) => {
+    const props = { ...rest, onClick };
+    return match(tile)
+      .with(TerrainType.Flat, () => (
+        <group ref={ref} {...props}>
+          <Box
+            position={[0, -0.05, 0]}
+            receiveShadow
+            args={[8, 0.1, 8, 4, 4]}
+            material={new MeshStandardMaterial({ color: "#85B16A" })}
+          />
+        </group>
+      ))
+      .with(TerrainType.Clipping, () => null)
+      .with(TerrainType.StreetEnd, () => <StreetEnd {...props} />)
+      .with(TerrainType.StreetStraight, () => <StreetStraight {...props} />)
+      .with(TerrainType.StreetTurn, () => <StreetTurn {...props} />)
+      .with(TerrainType.StreetThree, () => <StreetThree {...props} />)
+      .with(TerrainType.StreetFour, () => <StreetFour {...props} />)
+      .otherwise(() => null);
+  }
+);
 
-export default memo(TileLoader);
+export default TileLoader;
