@@ -15,9 +15,10 @@ const BuildingCard: FC<{
     useToolsStore.getState().startBuild(mode);
   };
   return (
-    <div
+    <button
+      onClick={onClick}
       className={
-        "flex flex-col relative justify-between border-zinc-600 border rounded-xl overflow-hidden"
+        "flex flex-col relative justify-between border-zinc-600 border rounded-xl overflow-hidden group active:scale-95"
       }
     >
       <Image
@@ -34,16 +35,15 @@ const BuildingCard: FC<{
       >
         {title}
       </P>
-      <button
-        onClick={onClick}
+      <div
         className={
-          "h-[40px] border-t border-zinc-600 hover:bg-zinc-100 dark:hover:bg-zinc-700"
+          "h-[40px] border-t border-zinc-600 group-hover:bg-zinc-100 dark:group-hover:bg-zinc-700 flex justify-center items-center w-full"
         }
       >
         <IconHammer className={"inline mr-2"} />
         Build
-      </button>
-    </div>
+      </div>
+    </button>
   );
 };
 

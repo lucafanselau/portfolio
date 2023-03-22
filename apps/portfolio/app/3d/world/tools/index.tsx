@@ -5,6 +5,7 @@ import { AppearCard } from "@ui/card";
 import { useState } from "react";
 import { P } from "@ui/typography";
 import { Build } from "./build";
+import { Destroy } from "./destroy";
 
 const content = cn("absolute bottom-[56px] left-0 w-full");
 
@@ -31,13 +32,8 @@ export const BuildingTools = () => {
       </ButtonGroup.List>
       <AppearCard open={mode !== null} className={content}>
         {mode === "build" && <Build />}
-        {mode === "destroy" && <P>Lets destroy</P>}
+        {mode === "destroy" && <Destroy />}
       </AppearCard>
-      {/* <TabsContent className={content} value="build" variant={"card"}>
-      </TabsContent>
-      <TabsContent value="destroy" className={content} variant={"card"}>
-        <P>Lets destroy these motherfuckers!</P>
-      </TabsContent> */}
     </div>
   );
 };
