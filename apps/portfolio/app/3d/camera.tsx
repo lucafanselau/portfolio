@@ -16,6 +16,7 @@ import {
   useHasTransition,
 } from "./transition";
 import { useRetainedTransform } from "./utils";
+import { useToolsStore } from "./world/tools/store";
 
 export const cameraTargets: Record<State, Vector3> = {
   start: new Vector3(
@@ -76,10 +77,10 @@ export const Camera = () => {
   const state = useStore((s) => s.state);
   const camera = useStore((s) => s.slots.camera);
   const hasInteraction = useHasTransition();
+  const hasTools = useToolsStore((s) => s.state !== undefined);
 
   useEffect(() => {
     const guy = useStore.getState().slots.guy;
-    console.log("update lookAt");
     camera?.lookAt(
       guy?.position.x ?? 0,
       constants.guy.approximateHeight * 1.2,
@@ -122,7 +123,7 @@ export const Camera = () => {
         onEnd={() => useStore.setState({ showCard: true })}
         maxPolarAngle={Math.PI / 2 - constants.eps}
         maxDistance={constants.camera.maxDistance[state]}
-        enabled={state !== "start" && !hasInteraction}
+        enabled={state !== "start" && !hasInteraction && !hasTools}
         enableDamping={true}
         enablePan={state === "top-level"}
         enableRotate={true}

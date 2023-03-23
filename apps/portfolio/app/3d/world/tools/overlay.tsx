@@ -1,7 +1,7 @@
 import { constants } from "@3d/constants";
 import { Plane } from "@react-three/drei";
-import { forwardRef, useMemo, useRef, useState } from "react";
-import { Mesh, MeshStandardMaterial } from "three";
+import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
+import { Mesh, MeshStandardMaterial, Vector3 } from "three";
 import { useToolsStore } from "./store";
 import TileLoader from "@3d/world/tile";
 import { TerrainType } from "../types";
@@ -44,6 +44,24 @@ const Overlay = forwardRef<Mesh, MeshProps>(({ ...props }, ref) => {
   );
 });
 
+type Point = [number, number];
+const toTileCoord = (vec: Vector3): Point => {
+  return [toTile(vec.x), toTile(vec.z)];
+};
+
+const pointEq = (a: Point, b: Point) => {
+  return a[0] === b[0] && a[1] === b[1];
+};
+
+const build = () => {
+  const { point, state } = useToolsStore.getState();
+  if (!state?.type) return;
+  const { type } = state;
+  if (!point) return;
+  const [x, z] = point;
+  if (type === "build") buildStreet(x, z);
+  else if (type === "destroy") destroyStreet(x, z);
+};
 export const ToolsOverlay = () => {
   const type = useToolsStore((s) => s.state?.type);
 
@@ -53,28 +71,44 @@ export const ToolsOverlay = () => {
 
   const interaction = useRef<Mesh>();
   const overlay = useRef<Mesh>(null);
+  const active = useRef<boolean>(false);
 
   useFrame(() => {
     if (!type || !interaction.current || !overlay.current) return;
 
     const { point } = useToolsStore.getState();
     if (!point) return;
-    const [x, z] = point.map((x) => normalizeTile(toTile(x)));
+    const [x, z] = point.map((x) => normalizeTile(x));
     overlay.current.position.set(x, 0, z);
   });
 
+  useEffect(() => {
+    // handle drag build
+    return useToolsStore.subscribe(
+      (s) => s.point ?? ([0, 0] as Point),
+      (point) => {
+        if (active.current) build();
+      },
+      {
+        equalityFn: pointEq,
+      }
+    );
+  }, [active]);
+
   const onPointer = (e: ThreeEvent<PointerEvent>) => {
-    const { x, z } = e.point;
-    useToolsStore.setState({ point: [x, z] });
+    if (!e.point) return;
+    useToolsStore.setState({ point: toTileCoord(e.point) });
   };
 
-  const onClick = (e: ThreeEvent<PointerEvent>) => {
-    e.stopPropagation();
-    const { point } = useToolsStore.getState();
-    if (!point) return;
-    const [x, z] = [toTile(point[0]), toTile(point[1])];
-    if (type === "build") buildStreet(x, z);
-    else if (type === "destroy") destroyStreet(x, z);
+  const onPointerDown = (e: ThreeEvent<PointerEvent>) => {
+    active.current = true;
+    onPointer(e);
+    build();
+  };
+
+  const onPointerUp = (e: ThreeEvent<PointerEvent>) => {
+    active.current = false;
+    onPointer(e);
   };
 
   if (type === undefined) return null;
@@ -84,9 +118,8 @@ export const ToolsOverlay = () => {
       <Plane
         ref={interaction}
         onPointerMove={onPointer}
-        onPointerEnter={onPointer}
-        onPointerLeave={onPointer}
-        onPointerDown={onClick}
+        onPointerUp={onPointerUp}
+        onPointerDown={onPointerDown}
         args={[planeSize, planeSize, 2, 2]}
         rotation={[-Math.PI / 2, 0, 0]}
         material={material}
