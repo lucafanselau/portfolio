@@ -71,6 +71,14 @@ const paragraph = cva("leading-7", {
       center: "text-center",
       right: "text-right",
     },
+    size: {
+      xs: "text-xs",
+      
+                     sm: "text-sm",
+      lg: "text-lg",
+      xl: "text-xl",
+      "2xl": "text-2xl",
+    }
   },
 });
 

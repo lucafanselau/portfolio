@@ -25,7 +25,7 @@ export default function RootLayout({
         {/* Main Column */}
         <div
           className={
-            "min-h-[100vh] flex flex-col space-y-4 max-w-[800px] flex-1 h-full p-4"
+            "min-h-[100vh] max-w-full flex flex-col space-y-4 max-w-[800px] flex-1 h-full p-4"
           }
         >
           <Header />

@@ -56,16 +56,21 @@ export const ExploreBubbleContent = {
     </>
   ),
   content: (
-    <div className={"flex space-x-2"}>
-      <Instruction Icon={IconPointer} text={"Click to move character"} />
-      <Instruction Icon={IconMouse} text={"Click and drag to pan around"} />
-      <Instruction
-        Icon={IconArrowsMaximize}
-        text={"Scroll / Pan to zoom in or out"}
-      />
-    </div>
+    <>
+      <div className={"mb-4 flex space-x-2"}>
+        <Instruction Icon={IconPointer} text={"Click to move character"} />
+        <Instruction Icon={IconMouse} text={"Click and drag to pan around"} />
+        <Instruction
+          Icon={IconArrowsMaximize}
+          text={"Scroll / Pan to zoom in or out"}
+        />
+      </div>
+      <P color={"lighter"} size={"xs"}>
+        Pssst, once you explored all the locations, the journey is not over...
+      </P>
+    </>
   ),
-  action: <TopLevelButton />,
+  action: null, // <TopLevelButton />,
 };
 export const ExploreSchool = {
   header: (

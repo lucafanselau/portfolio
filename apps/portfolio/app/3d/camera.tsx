@@ -59,7 +59,7 @@ export const transitionToCamera = async (
     if (lookAt === "guy") {
       camera.lookAt(
         guy.position.x,
-        constants.guy.approximateHeight,
+        constants.guy.approximateHeight * 3,
         guy.position.z
       );
     } else {
@@ -83,7 +83,7 @@ export const Camera = () => {
     const guy = useStore.getState().slots.guy;
     camera?.lookAt(
       guy?.position.x ?? 0,
-      constants.guy.approximateHeight * 1.2,
+      constants.guy.approximateHeight * 1.3,
       guy?.position.z ?? 0
     );
   }, [camera]);
@@ -97,7 +97,7 @@ export const Camera = () => {
       if (state === "explore")
         orbit.current.target.set(
           guy?.position.x ?? 0,
-          constants.guy.approximateHeight,
+          constants.guy.approximateHeight * 3,
           guy?.position.z ?? 0
         );
     }

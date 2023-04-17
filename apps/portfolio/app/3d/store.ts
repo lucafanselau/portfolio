@@ -6,6 +6,8 @@ import { Interaction } from "./constants";
 import { initial } from "./world/inital";
 import { Building, TerrainType } from "./world/types";
 
+const startInBuild = false;
+
 export type Store = {
   target: Vector3;
   slots: {
@@ -46,7 +48,7 @@ export const useStore = create<Store & Actions>()(
   subscribeWithSelector((set, get) => ({
     target: new Vector3(),
     slots: {},
-    state: "top-level",
+    state: startInBuild ? "top-level" : "start",
     showCard: true,
     character: {
       state: "greet",
