@@ -1,0 +1,15 @@
+{
+  "name": "rust-404",
+  "collaborators": [
+    "Luca <luca.fanselau@outlook.com>"
+  ],
+  "version": "0.1.0",
+  "files": [
+    "rust_404_bg.wasm",
+    "rust_404.js",
+    "rust_404.d.ts"
+  ],
+  "module": "rust_404.js",
+  "types": "rust_404.d.ts",
+  "sideEffects": false
+}

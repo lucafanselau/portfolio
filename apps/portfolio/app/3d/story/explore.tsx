@@ -66,7 +66,9 @@ export const ExploreBubbleContent = {
         />
       </div>
       <P color={"lighter"} size={"xs"}>
-        Pssst, once you explored all the locations, the journey is not over...
+        You can visit the locations in the town, by walking up to their
+        entrance. Pssst, once you explored all the locations, the journey is not
+        over...
       </P>
     </>
   ),
@@ -86,11 +88,10 @@ export const ExploreSchool = {
   content: (
     <P>
       You reached the school of this little town. The school is where it all
-      started.
-      <span className={"text-red-500"}>
-        <br />
-        TODO TEXT
-      </span>
+      started. Here is a brief overview of my acadamical career: - German
+      Abitur: Liebfrauenschule Köln - Bachelor of Science: Businessinformatics
+      at University of Cologne - Master of Science: Businessinformatics at
+      University of Cologne
     </P>
   ),
   action: (
