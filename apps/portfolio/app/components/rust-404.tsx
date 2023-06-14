@@ -17,15 +17,13 @@ const loadRust404 = async () => {
 export const Rust404: FC  = ({ }) => {
     const canvas = useRef<HTMLCanvasElement | null>(null);
     const p = useRef<HTMLParagraphElement | null>(null);
-    const state = useRef<{ game: object | undefined; startup: number | undefined; running: boolean }>({ game: undefined, startup: undefined, running: false });
+    const state = useRef<{ game: Game | undefined; startup: number | undefined; running: boolean }>({ game: undefined, startup: undefined, running: false });
 
     const renderLoop = useCallback((last: number) => {
         const now = window.performance.now();
         const g = state.current.game;
         if (isNone(g)) return;
-        // @ts-expect-error
         g.update((now - last) / 1000.0, now / 1000.0);
-        // @ts-expect-error
         g.render();
         if (state.current.running) requestAnimationFrame(() => renderLoop(now));
     }, []);
