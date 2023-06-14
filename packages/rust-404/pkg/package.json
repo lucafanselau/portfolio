@@ -12,8 +12,5 @@
   ],
   "module": "rust_404.js",
   "types": "rust_404.d.ts",
-  "sideEffects": [
-    "./rust_404.js",
-    "./snippets/*"
-  ]
+  "sideEffects": false
 }
