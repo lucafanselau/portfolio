@@ -1,4 +1,4 @@
 packages:
   # everything in apps and packages
-  - "packages/*"
+  - "packages/**"
   - "apps/*"
