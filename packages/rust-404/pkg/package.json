@@ -7,9 +7,13 @@
   "files": [
     "rust_404_bg.wasm",
     "rust_404.js",
+    "rust_404_bg.js",
     "rust_404.d.ts"
   ],
   "module": "rust_404.js",
   "types": "rust_404.d.ts",
-  "sideEffects": false
+  "sideEffects": [
+    "./rust_404.js",
+    "./snippets/*"
+  ]
 }
