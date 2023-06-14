@@ -1,13 +1,20 @@
 "use client";
 
 import { isNone, isSome } from "@/utils";
+import dynamic from "next/dynamic";
 import React, { Attributes, FC, useCallback, useRef } from "react";
 import { useEffect } from "react";
+import type { Game } from "rust-404";
 
 
-const gameMod = import("rust-404");
-
-export const Rust404: FC  = () => {
+let mod: typeof import("rust-404");
+const loadRust404 = async () => {
+    if (isSome(mod)) return mod;
+    mod = await import("rust-404");
+    return mod;
+}
+ 
+export const Rust404: FC  = ({ }) => {
     const canvas = useRef<HTMLCanvasElement | null>(null);
     const p = useRef<HTMLParagraphElement | null>(null);
     const state = useRef<{ game: object | undefined; startup: number | undefined; running: boolean }>({ game: undefined, startup: undefined, running: false });
@@ -32,12 +39,13 @@ export const Rust404: FC  = () => {
                 if (isSome(p.current)) p.current.textContent = "Loading...";
                 
                 console.log("start waiting for the game mod")
-                const mod = await gameMod;
+                // const mod = await gameMod;
                 console.log("got the mod")
-                const game = await mod.Game.new();
+                const mod = await loadRust404();
+                const newGame = await mod.Game.new();
                 console.log("created a new game");
                 // initialize the
-                state.current = { game, startup: now, running: false};
+                state.current = { game: newGame, startup: now, running: false};
                 if (isSome(p.current)) p.current.textContent = "Click to start adventure";
             } catch (err) {
                 console.error("failed to create game instance");
