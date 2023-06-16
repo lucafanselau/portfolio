@@ -154,7 +154,7 @@ impl Game {
 
                 
                 
-                       UiRect::from_coords((width / 2) as _, (height /2) as _, 20, 20),
+                       UiRect::from_center((width / 2) as _, (height /2) as _, 20, 20),
             UiMaterial::Sprite(self.crosshair),
         );
             }
