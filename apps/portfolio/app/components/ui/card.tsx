@@ -18,3 +18,9 @@ export const AppearCard = forwardRef<
     />
   );
 });
+
+export const Card = forwardRef<HTMLDivElement, JSX.IntrinsicElements["div"]>(
+  ({ className, ...props }, ref) => {
+    return <div ref={ref} className={cn("card", className)} {...props} />;
+  }
+);
