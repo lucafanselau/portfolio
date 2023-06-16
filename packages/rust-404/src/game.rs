@@ -145,14 +145,24 @@ impl Game {
         }
 
         // Draw some ui at the end
-        frame.rect(
-            UiRect::from_coords(290, 190, 20, 20),
+        {
+            let (width, height) = renderer.get_size();
+            
+            frame.rect(
+
+
+
+                
+                
+                       UiRect::from_coords((width / 2) as _, (height /2) as _, 20, 20),
             UiMaterial::Sprite(self.crosshair),
         );
+            }
 
         ui::inventory(
             &mut frame,
-            &self.world.types,
+            renderer.get_size(),
+                 &self.world.types,
             &self.world.active_type,
             &renderer.get_atlas(),
         );

@@ -563,4 +563,9 @@ impl Renderer {
             self.ui_renderer.render(&self.context, frame);
         }
     }
+
+
+    pub fn get_size(&self) -> (i32,i32) {
+        self.size
+    }
 }

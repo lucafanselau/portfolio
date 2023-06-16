@@ -11,6 +11,7 @@ use super::mesh::Face;
 
 pub fn inventory(
     frame: &mut UiFrame,
+    size: (i32, i32),
     types: &Vec<BlockType>,
     active_type: &usize,
     atlas: &Texture,
@@ -51,18 +52,20 @@ pub fn inventory(
         frame.rect_with_tex(inset, tex_coord, UiMaterial::Sprite(*atlas))
     };
 
+    let width = size.0 as u32;
+    let height = size.1 as u32;
     draw(
-        UiRect::from_coords(208, 340, 60, 60),
+        UiRect::from_center(width / 2 - 62, height - 30, 60, 60),
         curr_types[0],
         UiMaterial::DARK,
     );
     draw(
-        UiRect::from_coords(260, 320, 80, 80),
+        UiRect::from_center(width / 2, height - 40, 80, 80),
         curr_types[1],
         UiMaterial::DARK,
     );
     draw(
-        UiRect::from_coords(332, 340, 60, 60),
+        UiRect::from_center(width / 2 + 62, height - 30, 60, 60),
         curr_types[2],
         UiMaterial::DARK,
     );

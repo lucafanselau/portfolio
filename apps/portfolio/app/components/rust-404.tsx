@@ -36,25 +36,24 @@ export const Rust404: FC = ({}) => {
 
     if (canvas.current.width !== width || canvas.current.height !== height) {
       const { devicePixelRatio: ratio = 1 } = window;
-      canvas.current.width = Math.floor(width * ratio);
-      canvas.current.height = Math.floor(height * ratio);
-      return true;
-    }
+      const scaled = {
+        width: Math.floor(width * ratio),
+        height: Math.floor(height * ratio),
+      };
+      console.log("scaled to", scaled);
+      canvas.current.width = scaled.width;
+      canvas.current.height = scaled.height;
 
-    return false;
+      // also notify game
+      if (isSome(state.current.game)) {
+        state.current.game.resize(scaled.width, scaled.height);
+      }
+    }
   }, []);
 
   const renderLoop = useCallback((last: number) => {
     // first of check if we should resize
-    if (maybeResizeCanvas()) {
-      // TODO: notify game about that
-      const g = state.current.game;
-      if (isNone(g)) return;
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      // TODO: add a feedback to the user, that the main fb resized
-      // g.resize(w, h);
-    }
+    maybeResizeCanvas();
 
     const now = window.performance.now();
     const g = state.current.game;

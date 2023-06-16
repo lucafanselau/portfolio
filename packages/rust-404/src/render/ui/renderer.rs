@@ -60,6 +60,13 @@ impl UiRect {
             extend: glam::uvec2(width, height).as_vec2(),
         }
     }
+    pub fn from_center(center_x: u32, center_y: u32, width: u32, height: u32) -> Self {
+        Self {
+            tl: glam::uvec2(center_x, center_y).as_vec2()
+                - glam::uvec2(width, height).as_vec2() / 2.0,
+            extend: glam::uvec2(width, height).as_vec2(),
+        }
+    }
     /// Construct a new UiRect by insetting by value
     pub fn inset(self: &Self, v: u32) -> Self {
         let values = glam::vec2(v as f32, v as f32);
