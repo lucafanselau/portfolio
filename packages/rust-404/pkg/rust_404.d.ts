@@ -15,6 +15,11 @@ export class Game {
 */
   update(dt: number, total: number): boolean;
 /**
+* @param {number} width
+* @param {number} height
+*/
+  resize(width: number, height: number): void;
+/**
 */
   render(): void;
 }

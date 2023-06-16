@@ -6,6 +6,7 @@ use crate::render::camera::Camera;
 use crate::render::camera::UP;
 use crate::render::mesh::build_selection_ring;
 use crate::render::ui;
+use std::cell::RefCell;
 use std::rc::Rc;
 
 use crate::render::Material;
@@ -24,8 +25,9 @@ pub struct Game {
     camera: Camera,
     input: InputManager,
     input_state: InputState,
-    renderer: Rc<Renderer>,
+    renderer: Rc<RefCell<Renderer>>,
 
+    
     world: World,
 
     // Rendering Stuff
@@ -47,6 +49,9 @@ impl Game {
         let canvas: web_sys::HtmlCanvasElement =
             canvas.dyn_into::<web_sys::HtmlCanvasElement>().unwrap();
 
+
+        let size = (canvas.width() as i32, canvas.height() as i32);
+        
         let context = canvas
             .get_context("webgl2")?
             .ok_or("missing context")?
@@ -57,19 +62,19 @@ impl Game {
 
         let input = InputManager::new(&*window.document().ok_or("missing document")?)
             .map_err(|e| e.to_string())?; // ..expect("failed to create input manager");
-        let camera = Camera::new();
+        let camera = Camera::new(size);
 
         let renderer = Rc::new(
-            Renderer::new(context).await.map_err(|e| e.to_string())?, // .expect("failed to create renderer"),
+            RefCell::new(Renderer::new(context, size).await.map_err(|e| e.to_string())?) // .expect("failed to create renderer"),)
         );
 
         // let vertices = cube(glam::Vec3::splat(1.0));
 
-        let selection_ring = renderer
+        let selection_ring = renderer.borrow()
             .create_mesh(&build_selection_ring())
             .expect("failed to create selection ring mesh");
 
-        let crosshair = renderer
+        let crosshair = renderer.borrow()
             .load_texture("crosshair.png")
             .await
             .expect("failed to create crosshair texture");
@@ -112,12 +117,20 @@ impl Game {
         return false;
     }
 
+
+    pub fn resize(&mut self, width: i32, height: i32) {
+        let size = (width, height);
+        self.renderer.borrow_mut().resize(size);
+        self.camera.resize(size);
+       }
+
     pub fn render(&mut self) {
-        let (mut task, mut frame) = self.renderer.start_frame();
+        let renderer = self.renderer.borrow();
+        let (mut task, mut frame) = renderer.start_frame();
         self.world.render(&mut task);
 
         // Pick with the chunks
-        let picked = self.renderer.pick(&task, &self.camera);
+        let picked = renderer.pick(&task, &self.camera);
         if let Some((focused, face)) = &picked {
             // -> if we currently pick a block, add a selection ring
             let normal = face.normal();
@@ -141,10 +154,10 @@ impl Game {
             &mut frame,
             &self.world.types,
             &self.world.active_type,
-            &self.renderer.get_atlas(),
+            &renderer.get_atlas(),
         );
 
-        self.renderer
+        renderer
             .render(task, frame, &self.camera, &self.light_dir);
 
         // Update the world with the last picked
@@ -156,7 +169,7 @@ impl Drop for Game {
     fn drop(&mut self) {
         unsafe {
             // This is safe, since it is called inside of the drop function
-            self.renderer.destroy_mesh_ref(&self.selection_ring);
+            self.renderer.borrow().destroy_mesh_ref(&self.selection_ring);
         }
     }
 }

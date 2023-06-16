@@ -1,4 +1,7 @@
-use std::ops::{Add, Sub};
+use std::{
+    cell::RefCell,
+    ops::{Add, Sub},
+};
 
 use anyhow::anyhow;
 use bytemuck::{Pod, Zeroable};
@@ -145,15 +148,19 @@ pub struct UiRenderer {
 const UI_VERTEX_CODE: &'static str = include_str!("../shaders/ui.vert");
 const UI_FRAGMENT_CODE: &'static str = include_str!("../shaders/ui.frag");
 
+fn build_view(size: (i32, i32)) -> glam::Mat4 {
+    glam::Mat4::orthographic_rh_gl(0.0, size.0 as f32, size.1 as f32, 0.0, -1.0, 1.0)
+}
+
 impl UiRenderer {
-    pub unsafe fn new(context: &glow::Context) -> anyhow::Result<Self> {
+    pub unsafe fn new(context: &glow::Context, size: (i32, i32)) -> anyhow::Result<Self> {
         let program = {
             let vert = Renderer::compile_shader(&context, glow::VERTEX_SHADER, UI_VERTEX_CODE)?;
             let frag = Renderer::compile_shader(&context, glow::FRAGMENT_SHADER, UI_FRAGMENT_CODE)?;
             Renderer::link_program(&context, vert, frag)?
         };
 
-        let view_projection = glam::Mat4::orthographic_rh_gl(0.0, 600.0, 400.0, 0.0, -1.0, 1.0);
+        let view_projection = build_view(size);
 
         let vertex_buffer = context
             .create_buffer()
@@ -200,6 +207,10 @@ impl UiRenderer {
             vertex_buffer,
             index_buffer,
         })
+    }
+
+    pub fn resize(&mut self, size: (i32, i32)) {
+        self.view_projection = build_view(size);
     }
 
     pub unsafe fn render(&self, context: &glow::Context, frame: UiFrame) {
