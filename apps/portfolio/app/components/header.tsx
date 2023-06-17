@@ -1,4 +1,8 @@
-import { IconAppWindowFilled, IconEggCracked } from "@tabler/icons-react";
+import {
+  IconAppWindowFilled,
+  IconEggCracked,
+  IconUser,
+} from "@tabler/icons-react";
 import { Separator } from "@ui/seperator";
 import { H4 } from "@ui/typography";
 import Link from "next/link";
@@ -25,6 +29,9 @@ export const Header = () => {
             <IconSocial size={24} />
             </Link> */}
         <Link href={"/about"}>
+          <IconUser size={24} />
+        </Link>
+        <Link href={"/no-home"}>
           <IconEggCracked size={24} />
         </Link>
         <Separator orientation="vertical" />
