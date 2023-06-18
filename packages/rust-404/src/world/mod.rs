@@ -23,14 +23,19 @@ impl World {
     pub fn new(renderer: Rc<RefCell<Renderer>>) -> Self {
         let mut chunks: HashMap<_, _> = Default::default();
 
-        let chunk = Chunk::new();
+        {
+            let mut add_chunk = |pos: glam::IVec2| {
+                let mut chunk = Chunk::new();
+                let mesh = renderer
+                    .borrow()
+                    .create_mesh(&chunk.chunk_vertices())
+                    .expect("failed to create mesh");
 
-        let mesh = renderer
-            .borrow()
-            .create_mesh(&chunk.chunk_vertices())
-            .expect("failed to create mesh");
+                chunks.insert(pos, (chunk, mesh));
+            };
 
-        chunks.insert(glam::ivec2(0, 0), (chunk, mesh));
+            (0..8).for_each(|x| (0..8).for_each(|z| add_chunk(glam::ivec2(x, z))));
+        }
 
         let types = BlockType::into_enum_iter()
             .filter(|t| t.textures().is_some())
