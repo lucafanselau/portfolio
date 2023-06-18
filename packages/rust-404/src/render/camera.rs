@@ -6,6 +6,7 @@ pub const UP: glam::Vec3 = glam::const_vec3!([0.0, 1.0, 0.0]);
 pub struct Camera {
     pub(crate) pos: glam::Vec3,
     pub(crate) dir: glam::Vec3,
+    size: (i32, i32),
     yaw: f32,
     pitch: f32,
 
@@ -30,10 +31,11 @@ impl Camera {
         }
     }
 
-    pub fn new() -> Self {
+    pub fn new(size: (i32, i32)) -> Self {
         let mut c = Camera {
             pos: glam::vec3(8.0, 16.0, 8.0),
             dir: glam::vec3(0.0, 0.0, -1.0),
+            size,
             yaw: 0.0,
             pitch: 0.0,
 
@@ -47,9 +49,19 @@ impl Camera {
     }
 
     fn calc_matrix(&mut self) {
-        let projection = glam::Mat4::perspective_rh_gl(45.0f32.to_radians(), 6.0 / 4.0, 0.1, 100.0);
+        let projection = glam::Mat4::perspective_rh_gl(
+            45.0f32.to_radians(),
+            self.size.0 as f32 / self.size.1 as f32,
+            0.1,
+            100.0,
+        );
         let view = glam::Mat4::look_at_rh(self.pos, self.pos + self.dir, UP);
         self.projection_view = projection * view
+    }
+
+    pub fn resize(&mut self, size: (i32, i32)) {
+        self.size = size;
+        self.calc_matrix();
     }
 
     pub fn update(&mut self, dt: f32, input: &InputState) {

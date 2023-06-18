@@ -3,7 +3,7 @@ use crate::{
     render::{Face, Mesh, RenderTask, Renderer},
 };
 use enum_iterator::IntoEnumIterator;
-use std::{collections::HashMap, rc::Rc};
+use std::{cell::RefCell, collections::HashMap, rc::Rc};
 
 pub mod block;
 pub mod chunk;
@@ -12,7 +12,7 @@ pub use block::*;
 pub use chunk::*;
 
 pub struct World {
-    renderer: Rc<Renderer>,
+    renderer: Rc<RefCell<Renderer>>,
     chunks: HashMap<glam::IVec2, (Chunk, Mesh)>,
     pub(crate) types: Vec<BlockType>,
     pub(crate) active_type: usize,
@@ -20,12 +20,13 @@ pub struct World {
 }
 
 impl World {
-    pub fn new(renderer: Rc<Renderer>) -> Self {
+    pub fn new(renderer: Rc<RefCell<Renderer>>) -> Self {
         let mut chunks: HashMap<_, _> = Default::default();
 
         let chunk = Chunk::new();
 
         let mesh = renderer
+            .borrow()
             .create_mesh(&chunk.chunk_vertices())
             .expect("failed to create mesh");
 
@@ -83,6 +84,7 @@ impl EventListener for World {
                     if recompute {
                         *mesh = self
                             .renderer
+                            .borrow()
                             .create_mesh(&chunk.chunk_vertices())
                             .expect("failed to create mesh");
                     }
@@ -107,7 +109,7 @@ impl EventListener for World {
 impl Drop for World {
     fn drop(&mut self) {
         for (_, (_, mesh)) in self.chunks.drain() {
-            self.renderer.destroy_mesh(mesh);
+            self.renderer.borrow().destroy_mesh(mesh);
         }
     }
 }

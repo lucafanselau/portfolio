@@ -1,4 +1,4 @@
-use __core::cmp::Ordering;
+use __core::{cmp::Ordering, cell::RefCell};
 use anyhow::{anyhow, bail};
 use bytemuck::*;
 
@@ -66,15 +66,17 @@ pub struct Renderer {
     picking_program: Program,
     picking_fb: Framebuffer,
     atlas: Texture,
+    size: (i32, i32)
 }
 
 impl Renderer {
-    pub async fn new(context: Context) -> anyhow::Result<Self> {
+    pub async fn new(context: Context, size: (i32, i32)) -> anyhow::Result<Self> {
         let program = unsafe {
             let vert_shader = Self::compile_shader(&context, glow::VERTEX_SHADER, VERTEX_CODE)?;
             let frag_shader = Self::compile_shader(&context, glow::FRAGMENT_SHADER, FRAGMENT_CODE)?;
             Self::link_program(&context, vert_shader, frag_shader)?
         };
+
 
         let picking_program = unsafe {
             let picking_vert =
@@ -84,58 +86,8 @@ impl Renderer {
             Self::link_program(&context, picking_vert, picking_frag)?
         };
 
-        // create picking framebuffer
-        let picking_fb = unsafe {
-            let texture = context
-                .create_texture()
-                .map_err(|e| anyhow!("failed to create picking color attachment: {}", e))?;
 
-            context.bind_texture(glow::TEXTURE_2D, Some(texture));
-
-            context.tex_image_2d(
-                glow::TEXTURE_2D,
-                0,
-                glow::RGBA as i32,
-                600,
-                400,
-                0,
-                glow::RGBA,
-                glow::UNSIGNED_BYTE,
-                None,
-            );
-
-            let renderbuffer = context
-                .create_renderbuffer()
-                .map_err(|e| anyhow!("failed to create picking depth renderbuffer: {}", e))?;
-
-            context.bind_renderbuffer(glow::RENDERBUFFER, Some(renderbuffer));
-
-            context.renderbuffer_storage(glow::RENDERBUFFER, glow::DEPTH_COMPONENT16, 600, 400);
-
-            let fb = context
-                .create_framebuffer()
-                .map_err(|e| anyhow!("failed to create picking framebuffer: {}", e))?;
-
-            context.bind_framebuffer(glow::FRAMEBUFFER, Some(fb));
-
-            context.framebuffer_texture_2d(
-                glow::FRAMEBUFFER,
-                glow::COLOR_ATTACHMENT0,
-                glow::TEXTURE_2D,
-                Some(texture),
-                0,
-            );
-
-            // make a depth buffer and the same size as the targetTexture
-            context.framebuffer_renderbuffer(
-                glow::FRAMEBUFFER,
-                glow::DEPTH_ATTACHMENT,
-                glow::RENDERBUFFER,
-                Some(renderbuffer),
-            );
-
-            fb
-        };
+        let picking_fb = Self::create_picking_fb(&context, size)?;
 
         // create the texture atlas
         let atlas = unsafe {
@@ -167,7 +119,7 @@ impl Renderer {
             .await?;
         }
 
-        let ui_renderer = unsafe { UiRenderer::new(&context)? };
+        let ui_renderer = unsafe { UiRenderer::new(&context, size)? };
 
         unsafe {
             context.enable(glow::DEPTH_TEST);
@@ -182,9 +134,79 @@ impl Renderer {
             picking_program,
             picking_fb,
             atlas,
+            size
         })
     }
 
+
+    pub fn resize(&mut self, size: (i32, i32)) -> anyhow::Result<()> {
+        self.size = size;
+        self.picking_fb = Self::create_picking_fb(&self.context, size)?;
+        self.ui_renderer.resize(size);
+
+        Ok(())
+        }
+
+    // NOTE: Maybe there is a function to resize the already allocated texture?
+    fn create_picking_fb(context: &Context, size: (i32, i32)) -> anyhow::Result<Framebuffer> {
+        // create picking framebuffer
+        
+        unsafe {
+            let (width, height) = size;
+            let texture = context
+                .create_texture()
+                .map_err(|e| anyhow!("failed to create picking color attachment: {}", e))?;
+
+            context.bind_texture(glow::TEXTURE_2D, Some(texture));
+
+            context.tex_image_2d(
+                glow::TEXTURE_2D,
+                0,
+                glow::RGBA as i32,
+                width,
+                height,
+                0,
+                glow::RGBA,
+                glow::UNSIGNED_BYTE,
+                None,
+            );
+
+            let renderbuffer = context
+                .create_renderbuffer()
+                .map_err(|e| anyhow!("failed to create picking depth renderbuffer: {}", e))?;
+
+            context.bind_renderbuffer(glow::RENDERBUFFER, Some(renderbuffer));
+
+            context.renderbuffer_storage(glow::RENDERBUFFER, glow::DEPTH_COMPONENT16, width, height);
+
+            let fb = context
+                .create_framebuffer()
+                .map_err(|e| anyhow!("failed to create picking framebuffer: {}", e))?;
+
+            context.bind_framebuffer(glow::FRAMEBUFFER, Some(fb));
+
+            context.framebuffer_texture_2d(
+                glow::FRAMEBUFFER,
+                glow::COLOR_ATTACHMENT0,
+                glow::TEXTURE_2D,
+                Some(texture),
+                0,
+            );
+
+            // make a depth buffer and the same size as the targetTexture
+            context.framebuffer_renderbuffer(
+                glow::FRAMEBUFFER,
+                glow::DEPTH_ATTACHMENT,
+                glow::RENDERBUFFER,
+                Some(renderbuffer),
+            );
+
+            Ok(fb)
+            
+        }
+
+    }
+        
     pub fn create_mesh(&self, vertices: &[Vertex]) -> anyhow::Result<Mesh> {
         let data: &[u8] = cast_slice(vertices);
 
@@ -394,9 +416,10 @@ impl Renderer {
             // read back pixel (probably a bad time for that)
             // NOTE: Maybe do 2x2 area and like avg over that
             let mut data = [0u8; 4];
+            let (width, height) = self.size;
             self.context.read_pixels(
-                300,
-                200,
+                width / 2,
+                height / 2,
                 1,
                 1,
                 glow::RGBA,
@@ -468,6 +491,9 @@ impl Renderer {
     ) {
         // Main Pass
         unsafe {
+
+            self.context.viewport(0, 0, self.size.0, self.size.1);
+            
             self.context.bind_framebuffer(glow::FRAMEBUFFER, None);
 
             self.context
@@ -536,5 +562,10 @@ impl Renderer {
         unsafe {
             self.ui_renderer.render(&self.context, frame);
         }
+    }
+
+
+    pub fn get_size(&self) -> (i32,i32) {
+        self.size
     }
 }
