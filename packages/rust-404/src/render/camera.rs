@@ -66,6 +66,7 @@ impl Camera {
 
     pub fn update(&mut self, dt: f32, input: &InputState) {
         let mut recompute_matrix = false;
+
         for pressed in input.pressed_keys() {
             recompute_matrix = true;
             self.pos += dt * Self::SPEED * self.move_dir(pressed);

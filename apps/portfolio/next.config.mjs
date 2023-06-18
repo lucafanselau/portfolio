@@ -1,6 +1,5 @@
 import WasmPackPlugin from "@wasm-tool/wasm-pack-plugin";
 import path from "path";
-import { fileURLToPath } from "url";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -18,8 +17,6 @@ const nextConfig = {
 			layers: true,
 			topLevelAwait: true,
 		};
-		const __filename = fileURLToPath(import.meta.url);
-		const __dirname = path.dirname(__filename);
 
 		config.plugins.push(
 			new WasmPackPlugin({
@@ -48,4 +45,4 @@ const nextConfig = {
 	},
 };
 
-export default nextConfig;
+module.exports = nextConfig;
