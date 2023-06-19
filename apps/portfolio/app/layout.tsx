@@ -1,9 +1,14 @@
 import "./globals.css";
-import { Inter } from "next/font/google";
+import { Inter, Roboto_Mono } from "next/font/google";
 import type { Metadata } from "next/types";
 import { Header } from "@components/header";
+import { cn } from "./utils";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const roboto = Roboto_Mono({
+	subsets: ["latin"],
+	variable: "--font-roboto-mono",
+});
 
 export const metadata: Metadata = {
 	title: "guythat.codes",
@@ -16,10 +21,10 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="en" className={inter.className}>
+		<html lang="en" className={cn(inter.variable, roboto.variable)}>
 			<body
 				className={
-					"bg-background text-foreground flex justify-center pb-[env(safe-area-inset-bottom)]"
+					"bg-background text-foreground font-sans flex justify-center pb-[env(safe-area-inset-bottom)]"
 				}
 			>
 				{/* Main Column */}

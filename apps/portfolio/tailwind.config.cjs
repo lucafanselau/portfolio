@@ -1,3 +1,5 @@
+const { fontFamily } = require("tailwindcss/defaultTheme")
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -54,6 +56,10 @@ module.exports = {
         lg: `var(--radius)`,
         md: `calc(var(--radius) - 2px)`,
         sm: "calc(var(--radius) - 4px)",
+      },
+			fontFamily: {
+        sans: ["var(--font-inter)", ...fontFamily.sans],
+				mono: ["var(--font-roboto-mono)", ...fontFamily.mono],
       },
       animation: {
         loop: "loop 15s linear infinite",

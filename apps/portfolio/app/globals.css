@@ -4,69 +4,69 @@
 
 @layer base {
 	:root {
-		--background: 0 0% 100%;
-		--foreground: 222.2 47.4% 11.2%;
+		--background: 0 0% 98%; /* zinc-50 */
+		--foreground: 240, 6%, 10%; /* zinc-900 */
 
-		--muted: 210 40% 96.1%;
-		--muted-foreground: 215.4 16.3% 46.9%;
+		--muted: 240, 6%, 90%; /* zinc-200 */
+		--muted-foreground: 240, 5%, 34%; /* zinc-600 */
 
-		--popover: 0 0% 100%;
-		--popover-foreground: 222.2 47.4% 11.2%;
+		--popover: 0 0% 100%; /* not done */
+		--popover-foreground: 222.2 47.4% 11.2%; /* not done */
 
-		--card: 0 0% 100%;
-		--card-foreground: 222.2 47.4% 11.2%;
+		--card: 0 0% 100%; /* not done */
+		--card-foreground: 222.2 47.4% 11.2%; /* not done */
 
-		--border: 214.3 31.8% 91.4%;
-		--input: 214.3 31.8% 91.4%;
+		--border: 240, 6%, 90%; /* zinc-200 */
+		--input: 214.3 31.8% 91.4%; /* not done */
 
-		--primary: 222.2 47.4% 11.2%;
-		--primary-foreground: 210 40% 98%;
+		--primary: 217, 91%, 60%; /* blue-500 */
+		--primary-foreground: 0, 0%, 100%; /* white */
 
-		--secondary: 210 40% 96.1%;
-		--secondary-foreground: 222.2 47.4% 11.2%;
+		--secondary: 142, 71%, 45%; /* green-500 */
+		--secondary-foreground: 0, 0%, 100%; /* white */
 
-		--accent: 210 40% 96.1%;
-		--accent-foreground: 222.2 47.4% 11.2%;
+		--accent: 210 40% 96.1%; /* not done */
+		--accent-foreground: 240, 10%, 4%; /* zinc-950 */
 
-		--destructive: 0 100% 50%;
-		--destructive-foreground: 210 40% 98%;
+		--destructive: 0 100% 50%; /* not done */
+		--destructive-foreground: 210 40% 98%; /* not done */
 
-		--ring: 215 20.2% 65.1%;
+		--ring: 215 20.2% 65.1%; /* not done */
 
-		--radius: 0.5rem;
+		--radius: 0.5rem; /* not done */
 	}
 
 	.dark {
-		--background: 240, 4%, 16%;
-		--foreground: 0, 0%, 100%;
+		--background: 240, 4%, 16%; /* zinc-800 */
+		--foreground: 0, 0%, 98%; /* zinc-50 */
 
-		--muted: 240, 5%, 34%;
-		--muted-foreground: 240, 6%, 90%;
+		--muted: 240, 5%, 34%; /* zinc-600 */
+		--muted-foreground: 240, 6%, 90%; /* zinc-200 */
 
-		--popover: 224 71% 4%;
-		--popover-foreground: 215 20.2% 65.1%;
+		--popover: 224 71% 4%; /* not done */
+		--popover-foreground: 215 20.2% 65.1%; /* not done */
 
-		--card: 224 71% 4%;
-		--card-foreground: 213 31% 91%;
+		--card: 224 71% 4%; /* not done */
+		--card-foreground: 213 31% 91%; /* not done */
 
-		--border: 216 34% 17%;
-		--input: 216 34% 17%;
+		--border: 240, 5%, 26%; /* zinc-700 */
+		--input: 216 34% 17%; /* not done */
 
-		--primary: 210 40% 98%;
-		--primary-foreground: 222.2 47.4% 1.2%;
+		--primary: 217, 91%, 60%; /* blue-500 */
+		--primary-foreground: 0, 0%, 100%; /* white */
 
-		--secondary: 222.2 47.4% 11.2%;
-		--secondary-foreground: 210 40% 98%;
+		--secondary: 142, 71%, 45%; /* green-500 */
+		--secondary-foreground: 0, 0%, 100%; /* white */
 
-		--accent: 216 34% 17%;
-		--accent-foreground: 210 40% 98%;
+		--accent: 240, 34%, 17%; /* not done */
+		--accent-foreground: 0, 0%, 100%; /* white */
 
-		--destructive: 0 63% 31%;
-		--destructive-foreground: 210 40% 98%;
+		--destructive: 0, 63%, 31%; /* not done */
+		--destructive-foreground: 210, 40%, 98%; /* not done */
 
-		--ring: 216 34% 17%;
+		--ring: 216 34% 17%; /* not done */
 
-		--radius: 0.5rem;
+		--radius: 0.5rem; /* not done */
 	}
 }
 
@@ -82,12 +82,15 @@
 
 @layer components {
 	.text-animation {
-		@apply animate-loop bg-[length:400%_400%] text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-green-300 to-blue-500;
+		@apply animate-loop bg-[length:400%_400%] text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary;
 	}
 	.link {
-		@apply font-medium text-zinc-900 underline underline-offset-4 dark:text-zinc-50;
+		@apply font-medium text-accent-foreground underline underline-offset-2;
 	}
 	.card {
-		@apply rounded-lg border  bg-white p-4 shadow-md outline-none dark:border-zinc-900 dark:bg-zinc-800;
+		@apply rounded-lg border-2 p-4 shadow-md outline-none bg-background;
+	}
+	.highlight {
+		@apply font-medium text-accent-foreground;
 	}
 }
