@@ -27,7 +27,8 @@ pub struct Game {
     input_state: InputState,
     renderer: Rc<RefCell<Renderer>>,
 
-    
+
+    disabled: bool,
     world: World,
 
     // Rendering Stuff
@@ -87,6 +88,7 @@ impl Game {
             camera,
             renderer,
 
+            disabled: false,
             world,
 
             light_dir: glam::Vec3::ZERO,
@@ -107,7 +109,7 @@ impl Game {
         }
 
         // log!("Got dt: {}", dt);
-        self.camera.update(dt, &self.input_state);
+        if (!self.disabled) { self.camera.update(dt, &self.input_state);}
 
         // Update sun position
         let axis = UP;
@@ -122,7 +124,11 @@ impl Game {
         let size = (width, height);
         self.renderer.borrow_mut().resize(size);
         self.camera.resize(size);
-       }
+    }
+
+    pub fn set_disabled(&mut self, disabled: bool) {
+        self.disabled = disabled;
+    }
 
     pub fn render(&mut self) {
         let renderer = self.renderer.borrow();

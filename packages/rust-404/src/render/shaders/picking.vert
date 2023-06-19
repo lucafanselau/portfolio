@@ -6,10 +6,20 @@ in vec3 position;
 layout(location = 3) in vec3 base_loc;
 
 uniform mat4 view_projection;
+uniform vec3 object_position;
 
-out vec3 pass_color;
+flat out uvec4 pass_color;
 
 void main() {
-    pass_color = (1.0f / (CHUNK_SIZE - 1.0)) * base_loc;
-    gl_Position = view_projection * vec4(position.xyz, 1.0f);
+
+     uint local_x = uint(base_loc.x);
+     uint local_y = uint(base_loc.y);
+     uint local_z = uint(base_loc.z);
+
+     
+     uint chunk_x = uint(object_position.x);
+     uint chunk_y = uint(object_position.z); 
+
+     pass_color = uvec4((local_x << 16) | (local_y << 0), (local_z << 16), chunk_x, chunk_y);
+    gl_Position = view_projection * vec4(object_position + position.xyz, 1.0f);
 }

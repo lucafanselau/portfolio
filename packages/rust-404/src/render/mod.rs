@@ -1,4 +1,4 @@
-use __core::{cmp::Ordering, cell::RefCell};
+use __core::{cmp::Ordering, cell::RefCell, convert::TryInto};
 use anyhow::{anyhow, bail};
 use bytemuck::*;
 
@@ -42,13 +42,17 @@ pub enum Material {
 }
 
 pub struct RenderTask<'a> {
-    meshes: Vec<(&'a Mesh, Option<glam::Mat4>, Material)>,
+    meshes: Vec<(&'a Mesh, Option<glam::Mat4>, Option<glam::Vec3>, Material)>,
 }
 
 impl<'a> RenderTask<'a> {
     pub fn push(&mut self, mesh: &'a Mesh) {
-        self.meshes.push((mesh, None, Material::Atlas));
+        self.meshes.push((mesh, None, None, Material::Atlas));
     }
+
+    pub fn push_with_pos(&mut self, mesh: &'a Mesh, pos: glam::Vec3) {
+        self.meshes.push((mesh, None, Some(pos), Material::Atlas));
+        }
 
 
     
@@ -58,7 +62,7 @@ impl<'a> RenderTask<'a> {
                                                 transform: glam::Mat4,
                                                 material: Material,
                                                 ) {
-        self.meshes.push((mesh, Some(transform), material))
+        self.meshes.push((mesh, Some(transform), None, material))
     }
 }
 
@@ -143,6 +147,7 @@ impl Renderer {
             atlas,
             size
         })
+        
     }
 
 
@@ -154,6 +159,11 @@ impl Renderer {
         Ok(())
         }
 
+    /// Create the picking framebuffer
+    /// Pixels in the framebuffer have the following format:
+    /// R: (0..4) - Base X | (4..8) - Base Y
+    /// G: (0..4) - Base Z | (4..8) - Face (not available currently)
+    /// B: (0..4) - Chunk X | (4..8) - Chunk Z
     // NOTE: Maybe there is a function to resize the already allocated texture?
     fn create_picking_fb(context: &Context, size: (i32, i32)) -> anyhow::Result<Framebuffer> {
         // create picking framebuffer
@@ -169,12 +179,12 @@ impl Renderer {
             context.tex_image_2d(
                 glow::TEXTURE_2D,
                 0,
-                glow::RGBA as i32,
+                glow::RGBA32UI as i32,
                 width,
                 height,
                 0,
-                glow::RGBA,
-                glow::UNSIGNED_BYTE,
+                glow::RGBA_INTEGER,
+                glow::UNSIGNED_INT,
                 None,
             );
 
@@ -398,8 +408,14 @@ impl Renderer {
         let data = unsafe {
             self.context
                 .bind_framebuffer(glow::FRAMEBUFFER, Some(self.picking_fb));
-            self.context
-                .clear(glow::COLOR_BUFFER_BIT | glow::DEPTH_BUFFER_BIT);
+
+            // manual clear, because the integer format messes with the normal clear flow
+            self.context.clear_buffer_u32_slice(glow::COLOR, 0, &[0;4]);
+            self.context.clear_buffer_f32_slice(glow::DEPTH, 0, &[1.0]);
+            
+            // self.context
+            //     .clear(glow::COLOR_BUFFER_BIT | glow::DEPTH_BUFFER_BIT);
+           
 
             self.context.use_program(Some(self.picking_program));
 
@@ -412,9 +428,18 @@ impl Renderer {
                 camera.projection_view.as_ref(),
             );
 
-            for (mesh, _transform, _) in task.meshes.iter() {
-                // TODO: Model matrix
+            let pos_loc = self
+                .context
+                .get_uniform_location(self.picking_program, "object_position");
+            for (mesh, _, pos, _) in task.meshes.iter() {
+                
                 self.context.bind_vertex_array(Some(mesh.vao));
+                if let Some(pos) = pos {
+            self.context.uniform_3_f32_slice(
+                pos_loc.as_ref(),
+                pos.as_ref(),
+            );
+                    }
 
                 self.context
                     .draw_arrays(glow::TRIANGLES, 0, mesh.vertices_count)
@@ -422,25 +447,56 @@ impl Renderer {
 
             // read back pixel (probably a bad time for that)
             // NOTE: Maybe do 2x2 area and like avg over that
-            let mut data = [0u8; 4];
+            let mut data = [0u8; 16];
             let (width, height) = self.size;
             self.context.read_pixels(
                 width / 2,
                 height / 2,
                 1,
                 1,
-                glow::RGBA,
-                glow::UNSIGNED_BYTE,
+                glow::RGBA_INTEGER,
+
+                
+                glow::UNSIGNED_INT,
                 PixelPackData::Slice(&mut data),
             );
+            // print in hex format
+            // log!("picked: {:x?}", data);
             data
         };
 
+        /*
+        picked: [e, 0, 8, 0, 0, 0, 7, 0, 50, 0, 0, 0, 50, 0, 0, 0]
+index_bg.js:998 picked: local: (3584, 2048, 0), face: 1792, chunk: (1342177280, 1342177280)
+*/
+
         // -> by now data should be the 4 pixel value
         // Do some simple calculation to figure out the coordinate
-        if data[3] /*eg. alpha*/ != 0 {
-            let loc = glam::UVec3::new(data[0] as _, data[1] as _, data[2] as _).as_vec3();
-            let loc = loc * ((CHUNK_SIZE as f32 - 1.0) / 255.0f32);
+        if data.iter().any(|&x| x != 0) {
+
+            let local_xy = u32::from_ne_bytes(data[0..4].try_into().unwrap());
+            let local_z_face = u32::from_ne_bytes(data[4..8].try_into().unwrap());
+
+
+            // and chunk position
+            let chunk_x = u32::from_ne_bytes([data[8], data[9], data[10], data[11]]);
+            let chunk_z = u32::from_ne_bytes([data[12], data[13], data[14], data[15]]);
+
+            let x = (local_xy & (0xffff << 16)) >> 16;
+            let y = (local_xy & (0xffff << 0)) >> 0;
+            let z = (local_z_face & (0xffff << 16)) >> 16;
+
+            let loc = glam::UVec3::new(x, y, z).as_vec3();
+            let chunk_base = glam::UVec3::new(chunk_x, 0, chunk_z).as_vec3();
+
+            
+            // log everything we got so far
+            // log!("loc: {:?}, chunk_base {:?}", loc, chunk_base);
+            
+            
+            // let loc = glam::UVec3::new(data[0] as _, data[1] as _, data[2] as _).as_vec3();
+            // let loc = loc * ((CHUNK_SIZE as f32 - 1.0) / 255.0f32);
+            let loc = loc + chunk_base;
 
             // And also figure out the face
             Face::FACES
@@ -543,12 +599,13 @@ impl Renderer {
                 .context
                 .get_uniform_location(self.program, "solid_color");
 
-            for (mesh, transform, material) in task.meshes.into_iter() {
+            for (mesh, transform, pos, material) in task.meshes.into_iter() {
                 self.context.bind_vertex_array(Some(mesh.vao));
 
                 let model = match transform {
                     Some(transform) => transform,
-                    None => glam::Mat4::IDENTITY,
+                    None => match pos { Some(pos) => { glam::Mat4::from_translation(pos) },
+                        None => glam::Mat4::IDENTITY },
                 };
                 self.context
                     .uniform_matrix_4_f32_slice(loc.as_ref(), false, model.as_ref());

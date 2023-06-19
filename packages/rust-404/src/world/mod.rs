@@ -4,9 +4,15 @@ use crate::{
 };
 use enum_iterator::IntoEnumIterator;
 
+use glam::Vec3Swizzles;
 use noise::{NoiseFn, Perlin, Seedable, SuperSimplex};
 use rand::Rng;
-use std::{cell::RefCell, collections::HashMap, rc::Rc};
+use std::{
+    cell::RefCell,
+    collections::HashMap,
+    ops::{Div, Mul},
+    rc::Rc,
+};
 
 pub mod block;
 pub mod chunk;
@@ -71,11 +77,7 @@ impl World {
 
     pub fn render<'a>(&'a self, task: &mut RenderTask<'a>) {
         for (_, (chunk, mesh)) in self.chunks.iter() {
-            task.push_with_transform_and_material(
-                mesh,
-                chunk.model,
-                crate::render::Material::Atlas,
-            );
+            task.push_with_pos(mesh, chunk.pos());
         }
     }
 }
@@ -86,21 +88,28 @@ impl EventListener for World {
             InputEvent::MouseClicked(button) => {
                 // And maybe place a block
                 if let Some((pos, face)) = self.last_picked.as_ref() {
-                    // TODO: find chunk based on pos
-                    let (_, (chunk, mesh)) = self.chunks.iter_mut().next().unwrap();
+                    let pos = pos.as_ivec3();
+                    // construct the chunk vector
+                    // NOTE: div for *i32* should "floor" (eg. truncate the number)
+                    let mut chunk_pos = pos.div(CHUNK_SIZE as i32).mul(CHUNK_SIZE as i32);
+                    chunk_pos.y = 0;
+
+                    let (chunk, mesh) =
+                        self.chunks.get_mut(&chunk_pos.xz()).expect("invalid chunk");
+                    let local_pos = pos - chunk_pos;
 
                     let recompute = match button {
                         Button::Primary => {
                             // Set the currently selected block to be air
 
                             chunk
-                                .set(pos.as_ivec3(), BlockType::Air)
+                                .set(local_pos, BlockType::Air)
                                 .expect("failed to set air");
                             true
                         }
                         Button::Secondary => {
                             // Add a block in the direction of the face
-                            let pos = pos.as_ivec3() + face.neighbor_dir();
+                            let pos = local_pos + face.neighbor_dir();
                             let block_type = *self
                                 .types
                                 .get(self.active_type)

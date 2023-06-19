@@ -13,6 +13,7 @@ pub const CHUNK_SIZE: usize = 16;
 pub struct Chunk {
     blocks: [[[BlockType; CHUNK_SIZE]; CHUNK_SIZE]; CHUNK_SIZE],
     pub model: glam::Mat4,
+    pos: glam::IVec2,
 }
 
 fn gen_3d_range(from: i32, to: i32) -> impl Iterator<Item = glam::IVec3> {
@@ -47,7 +48,12 @@ impl Chunk {
         Chunk {
             blocks,
             model: translation,
+            pos: base,
         }
+    }
+
+    pub fn pos(&self) -> glam::Vec3 {
+        glam::vec3(self.pos.x as f32, 0.0, self.pos.y as f32)
     }
 
     pub fn set(&mut self, pos: glam::IVec3, block_type: BlockType) -> anyhow::Result<()> {
