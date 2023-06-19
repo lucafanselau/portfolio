@@ -89,41 +89,48 @@ impl EventListener for World {
                 // And maybe place a block
                 if let Some((pos, face)) = self.last_picked.as_ref() {
                     let pos = pos.as_ivec3();
-                    // construct the chunk vector
-                    // NOTE: div for *i32* should "floor" (eg. truncate the number)
-                    let mut chunk_pos = pos.div(CHUNK_SIZE as i32).mul(CHUNK_SIZE as i32);
-                    chunk_pos.y = 0;
-
-                    let (chunk, mesh) =
-                        self.chunks.get_mut(&chunk_pos.xz()).expect("invalid chunk");
-                    let local_pos = pos - chunk_pos;
 
                     let recompute = match button {
                         Button::Primary => {
                             // Set the currently selected block to be air
 
-                            chunk
-                                .set(local_pos, BlockType::Air)
-                                .expect("failed to set air");
-                            true
+                            // construct the chunk vector
+                            // NOTE: div for *i32* should "floor" (eg. truncate the number)
+                            let mut chunk_pos = pos.div(CHUNK_SIZE as i32).mul(CHUNK_SIZE as i32);
+                            chunk_pos.y = 0;
+
+                            let (chunk, mesh) =
+                                self.chunks.get_mut(&chunk_pos.xz()).expect("invalid chunk");
+                            let local_pos = pos - chunk_pos;
+                            Some((chunk.set(local_pos, BlockType::Air).is_ok(), chunk, mesh))
                         }
                         Button::Secondary => {
+                            // construct the chunk vector
+                            // NOTE: div for *i32* should "floor" (eg. truncate the number)
+                            let pos = pos + face.neighbor_dir();
+                            let mut chunk_pos = pos.div(CHUNK_SIZE as i32).mul(CHUNK_SIZE as i32);
+                            chunk_pos.y = 0;
+                            let (chunk, mesh) =
+                                self.chunks.get_mut(&chunk_pos.xz()).expect("invalid chunk");
+                            let local_pos = pos - chunk_pos;
+                            // log!("{}, {}, {}", pos, chunk_pos, local_pos);
                             // Add a block in the direction of the face
-                            let pos = local_pos + face.neighbor_dir();
                             let block_type = *self
                                 .types
                                 .get(self.active_type)
                                 .unwrap_or(&BlockType::Stone);
-                            chunk.set(pos, block_type).is_ok()
+                            Some((chunk.set(local_pos, block_type).is_ok(), chunk, mesh))
                         }
-                        _ => false,
+                        _ => None,
                     };
-                    if recompute {
-                        *mesh = self
-                            .renderer
-                            .borrow()
-                            .create_mesh(&chunk.chunk_vertices())
-                            .expect("failed to create mesh");
+                    if let Some((recompute, chunk, mesh)) = recompute {
+                        if recompute {
+                            *mesh = self
+                                .renderer
+                                .borrow()
+                                .create_mesh(&chunk.chunk_vertices())
+                                .expect("failed to create mesh");
+                        }
                     }
                 }
             }
