@@ -49,12 +49,15 @@ impl<'a> RenderTask<'a> {
     pub fn push(&mut self, mesh: &'a Mesh) {
         self.meshes.push((mesh, None, Material::Atlas));
     }
-    pub fn push_with_transform_and_material(
-        &mut self,
-        mesh: &'a Mesh,
-        transform: glam::Mat4,
-        material: Material,
-    ) {
+
+
+    
+        pub fn push_with_transform_and_material(
+                                                &mut self,
+                                                mesh: &'a Mesh,
+                                                transform: glam::Mat4,
+                                                material: Material,
+                                                ) {
         self.meshes.push((mesh, Some(transform), material))
     }
 }
@@ -70,7 +73,9 @@ pub struct Renderer {
 }
 
 impl Renderer {
+    
     pub async fn new(context: Context, size: (i32, i32)) -> anyhow::Result<Self> {
+        
         let program = unsafe {
             let vert_shader = Self::compile_shader(&context, glow::VERTEX_SHADER, VERTEX_CODE)?;
             let frag_shader = Self::compile_shader(&context, glow::FRAGMENT_SHADER, FRAGMENT_CODE)?;
@@ -108,12 +113,14 @@ impl Renderer {
                     glow::UNSIGNED_BYTE,
                     &img,
                 );
+                // gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+                // NOTE: Since this is a texture atlas we dont use mipmaps
                 context.tex_parameter_i32(
                     glow::TEXTURE_2D,
                     glow::TEXTURE_MIN_FILTER,
-                    glow::LINEAR_MIPMAP_LINEAR as _,
+                    glow::NEAREST as _,
                 );
-                context.generate_mipmap(glow::TEXTURE_2D);
+                // context.generate_mipmap(glow::TEXTURE_2D);
                 Ok(())
             })
             .await?;

@@ -6,14 +6,13 @@ use crate::{
     world::block::BlockType,
 };
 use anyhow::anyhow;
-use noise::{NoiseFn, Seedable};
-use rand::Rng;
 
 // NOTE: That has to be kept in sync with picking.vert
 pub const CHUNK_SIZE: usize = 16;
 
 pub struct Chunk {
     blocks: [[[BlockType; CHUNK_SIZE]; CHUNK_SIZE]; CHUNK_SIZE],
+    pub model: glam::Mat4,
 }
 
 fn gen_3d_range(from: i32, to: i32) -> impl Iterator<Item = glam::IVec3> {
@@ -23,18 +22,12 @@ fn gen_3d_range(from: i32, to: i32) -> impl Iterator<Item = glam::IVec3> {
 }
 
 impl Chunk {
-    pub fn new() -> Self {
+    pub fn new(noise_fn: &impl Fn(i32, i32) -> i32, base: glam::IVec2) -> Self {
         let mut blocks = [[[BlockType::Air; CHUNK_SIZE]; CHUNK_SIZE]; CHUNK_SIZE];
 
-        let perlin = noise::Perlin::new();
-        let perlin = perlin.set_seed(rand::thread_rng().gen_range(0..123456));
-        let size = CHUNK_SIZE as f64 + 2.0;
         for x in 0..CHUNK_SIZE {
             for z in 0..CHUNK_SIZE {
-                let height = perlin.get([(x as f64 + 1.0) / size, (z as f64 + 1.0) / size])
-                    * (CHUNK_SIZE as f64 / 2.0)
-                    + (CHUNK_SIZE as f64 / 2.0);
-                let height = height.floor() as i32;
+                let height = noise_fn(base.x + x as i32, base.y + z as i32);
                 for y in 0..CHUNK_SIZE {
                     let block_type = match (y as i32) - height {
                         0 => BlockType::Grass,
@@ -48,8 +41,13 @@ impl Chunk {
         }
 
         // blocks.iter_mut().for_each(|b| *b = rand::random());
+        let translation =
+            glam::Mat4::from_translation(glam::vec3(base.x as f32, 0.0, base.y as f32));
 
-        Chunk { blocks }
+        Chunk {
+            blocks,
+            model: translation,
+        }
     }
 
     pub fn set(&mut self, pos: glam::IVec3, block_type: BlockType) -> anyhow::Result<()> {

@@ -3,6 +3,9 @@ use crate::{
     render::{Face, Mesh, RenderTask, Renderer},
 };
 use enum_iterator::IntoEnumIterator;
+
+use noise::{NoiseFn, Perlin, Seedable, SuperSimplex};
+use rand::Rng;
 use std::{cell::RefCell, collections::HashMap, rc::Rc};
 
 pub mod block;
@@ -23,9 +26,25 @@ impl World {
     pub fn new(renderer: Rc<RefCell<Renderer>>) -> Self {
         let mut chunks: HashMap<_, _> = Default::default();
 
+        let noise = SuperSimplex::new();
+        let noise = noise.set_seed(rand::thread_rng().gen_range(0..123456));
+
+        // a closure that generates a height value, for world coordinates
+        let noise_fn = move |x: i32, z: i32| {
+            // scale input variables
+            let x = x as f64 / 100.0;
+            let z = z as f64 / 100.0;
+
+            let noise_value = noise.get([x, z]) as f32;
+            // scale the value from -1..1 to 0..CHUNK_SIZE range
+            let noise_value = (noise_value + 1.0) * (CHUNK_SIZE as f32 / 2.0);
+            noise_value.floor() as i32
+        };
+
         {
             let mut add_chunk = |pos: glam::IVec2| {
-                let mut chunk = Chunk::new();
+                let pos = pos * CHUNK_SIZE as i32;
+                let mut chunk = Chunk::new(&noise_fn, pos);
                 let mesh = renderer
                     .borrow()
                     .create_mesh(&chunk.chunk_vertices())
@@ -51,8 +70,12 @@ impl World {
     }
 
     pub fn render<'a>(&'a self, task: &mut RenderTask<'a>) {
-        for (_, (_, mesh)) in self.chunks.iter() {
-            task.push(mesh);
+        for (_, (chunk, mesh)) in self.chunks.iter() {
+            task.push_with_transform_and_material(
+                mesh,
+                chunk.model,
+                crate::render::Material::Atlas,
+            );
         }
     }
 }

@@ -89,16 +89,20 @@ pub enum BlockTexture {
     WoodRed,
 }
 
+const MUE: f32 = 0.01; // 1e-2;
+
 impl BlockTexture {
     pub const SRC: &'static str = "atlas-extruded.png";
     const EXTEND: glam::Vec2 = glam::const_vec2!([1296.0, 1440.0]);
     const TILE_EXTEND: glam::Vec2 = glam::const_vec2!([128.0, 128.0]);
     const EXTRUSION: glam::Vec2 = glam::const_vec2!([8.0, 8.0]);
+    const HALF_PIXEL: glam::Vec2 = glam::const_vec2!([0.5, 0.5]);
 
     pub fn base(&self) -> glam::Vec2 {
         let pos = self.pos();
-        (pos.as_vec2() * (Self::TILE_EXTEND + 2.0 * Self::EXTRUSION) + Self::EXTRUSION)
-            / Self::EXTEND
+        let pixel_pos =
+            pos.as_vec2() * (Self::TILE_EXTEND + 2.0 * Self::EXTRUSION) + Self::EXTRUSION;
+        (pixel_pos + Self::HALF_PIXEL) / Self::EXTEND
     }
 
     pub fn extend(&self) -> glam::Vec2 {
@@ -106,7 +110,7 @@ impl BlockTexture {
     }
 
     pub fn tex_coord(&self, local_coord: glam::Vec2) -> glam::Vec2 {
-        self.base() + local_coord * self.extend()
+        (self.base() + MUE) + local_coord * (self.extend() - MUE)
     }
 
     pub const fn pos(&self) -> glam::UVec2 {
