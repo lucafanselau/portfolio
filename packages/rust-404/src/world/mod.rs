@@ -28,6 +28,9 @@ pub struct World {
     pub(crate) last_picked: Option<(glam::Vec3, Face)>,
 }
 
+pub const CHUNK_COUNT: usize = 8;
+pub const WOLD_SIZE: usize = CHUNK_COUNT * CHUNK_SIZE;
+
 impl World {
     pub fn new(renderer: Rc<RefCell<Renderer>>) -> Self {
         let mut chunks: HashMap<_, _> = Default::default();
@@ -59,7 +62,9 @@ impl World {
                 chunks.insert(pos, (chunk, mesh));
             };
 
-            (0..8).for_each(|x| (0..8).for_each(|z| add_chunk(glam::ivec2(x, z))));
+            (0..CHUNK_COUNT).for_each(|x| {
+                (0..CHUNK_COUNT).for_each(|z| add_chunk(glam::ivec2(x as i32, z as i32)))
+            });
         }
 
         let types = BlockType::into_enum_iter()

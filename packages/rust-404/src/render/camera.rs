@@ -1,6 +1,9 @@
 use glam;
 
-use crate::input::{EventListener, InputEvent, InputState, Key};
+use crate::{
+    input::{EventListener, InputEvent, InputState, Key},
+    world::WOLD_SIZE,
+};
 
 pub const UP: glam::Vec3 = glam::const_vec3!([0.0, 1.0, 0.0]);
 pub struct Camera {
@@ -32,8 +35,9 @@ impl Camera {
     }
 
     pub fn new(size: (i32, i32)) -> Self {
+        let base = WOLD_SIZE as f32 / 2.0;
         let mut c = Camera {
-            pos: glam::vec3(8.0, 16.0, 8.0),
+            pos: glam::vec3(base, 16.0, base),
             dir: glam::vec3(0.0, 0.0, -1.0),
             size,
             yaw: 0.0,

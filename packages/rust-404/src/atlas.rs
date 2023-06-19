@@ -89,7 +89,7 @@ pub enum BlockTexture {
     WoodRed,
 }
 
-const MUE: f32 = 0.01; // 1e-2;
+const MUE: f32 = 1e-5; // 1e-2;
 
 impl BlockTexture {
     pub const SRC: &'static str = "atlas-extruded.png";
