@@ -62,7 +62,7 @@ export const H4 = forwardRef<HTMLParagraphElement, JSX.IntrinsicElements["h4"]>(
   }
 );
 
-const paragraph = cva("leading-7", {
+const paragraph = cva("leading-snug", {
   variants: {
     color: {
       lighter: "text-zinc-500 dark:text-zinc-400",
@@ -73,12 +73,12 @@ const paragraph = cva("leading-7", {
     },
     size: {
       xs: "text-xs",
-      
-                     sm: "text-sm",
+
+      sm: "text-sm",
       lg: "text-lg",
       xl: "text-xl",
       "2xl": "text-2xl",
-    }
+    },
   },
 });
 

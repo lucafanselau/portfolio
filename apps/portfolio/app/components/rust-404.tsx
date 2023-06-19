@@ -132,7 +132,7 @@ export const Rust404: FC = ({}) => {
   }, []);
 
   return (
-    <Card className={"max-w-[900px] w-full  relative p-0 overflow-hidden"}>
+    <Card className={" w-full  relative p-0 overflow-hidden"}>
       <canvas
         ref={canvas}
         id={"canvas"}
