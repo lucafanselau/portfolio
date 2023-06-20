@@ -5,15 +5,15 @@
   ],
   "version": "0.1.0",
   "files": [
-    "index_bg.wasm",
-    "index.js",
-    "index_bg.js",
-    "index.d.ts"
+    "rust_404_bg.wasm",
+    "rust_404.js",
+    "rust_404_bg.js",
+    "rust_404.d.ts"
   ],
-  "module": "index.js",
-  "types": "index.d.ts",
+  "module": "rust_404.js",
+  "types": "rust_404.d.ts",
   "sideEffects": [
-    "./index.js",
+    "./rust_404.js",
     "./snippets/*"
   ]
 }

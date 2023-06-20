@@ -20,6 +20,10 @@ export class Game {
 */
   resize(width: number, height: number): void;
 /**
+* @param {boolean} disabled
+*/
+  set_disabled(disabled: boolean): void;
+/**
 */
   render(): void;
 }
