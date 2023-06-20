@@ -41,7 +41,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-merge-refs": "^2.0.1",
-    "rust-404": "workspace:^",
+    "rust-404": "workspace:*",
     "tailwind-merge": "^1.10.0",
     "tailwindcss-animate": "^1.0.5",
     "three": "0.150.1",
