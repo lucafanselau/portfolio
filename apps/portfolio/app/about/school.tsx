@@ -6,7 +6,7 @@ const elements: TimelineElements = [
   {
     title: "Liebfrauen Schule Köln",
     content: "Ich habe mein Abitur an der Liebfrauen Schule Köln gemacht.",
-    date: "2015 - 2018",
+    date: { start: new Date(2015, 8), end: new Date(2018, 6) },
   },
 
   {

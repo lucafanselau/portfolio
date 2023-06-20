@@ -5,11 +5,24 @@ import { FC, ReactNode } from "react";
 export type TimelineElements = {
   title: ReactNode;
   content: ReactNode;
-  date: ReactNode;
+  date:
+    | {
+        start: Date;
+        end?: Date;
+      }
+    | Date;
 }[];
 
 type TimelineProps = {
   elements: TimelineElements;
+};
+
+const formatter = new Intl.DateTimeFormat("en", {
+  month: "long",
+  year: "numeric",
+});
+const dateFormat = (date: Date) => {
+  return formatter.format(date);
 };
 
 export const Timeline: FC<TimelineProps> = ({ elements }) => {
@@ -18,13 +31,15 @@ export const Timeline: FC<TimelineProps> = ({ elements }) => {
       {elements.map(({ title, content, date }, index) => (
         <div className={"flex space-x-2"} key={`timeline-element` + index}>
           <div className={"w-8 h-8 flex items-center justify-center"}>
-            <IconCircleDotted className={"bg-zinc-100 dark:bg-zinc-800"} />
+            <IconCircleDotted className={"bg-background"} />
           </div>
 
           <div className={"flex flex-col"}>
-            <P className={"text-2xl"}>{title}</P>
-            <P color={"lighter"}>{date}</P>
-            <P>{content}</P>
+            <P className={"text-xl"}>{title}</P>
+            <P color={"lighter"} size="xs">
+              {date instanceof Date ? dateFormat(date) : dateFormat(date.start)}
+            </P>
+            <P size="sm">{content}</P>
           </div>
         </div>
       ))}

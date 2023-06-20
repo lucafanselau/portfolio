@@ -121,7 +121,7 @@ export const DarkToggle: FC = () => {
     <button
       onClick={toggleTheme}
       className={
-        "rounded-full box-content border-2 border-zinc-800 dark:border-white relative " +
+        "rounded-full box-content border-2 border-accent-foreground relative " +
         widthClass +
         " h-[28px]"
       }
@@ -143,7 +143,7 @@ export const DarkToggle: FC = () => {
       />
       <svg
         ref={handle}
-        className="absolute top-[4px] text-zinc-800 dark:text-white"
+        className="absolute top-[4px] text-accent-foreground"
         style={isMounted ? state["handle"][mode] : {}}
         width="20"
         height="20"
@@ -155,7 +155,7 @@ export const DarkToggle: FC = () => {
           fillRule="evenodd"
           clipRule="evenodd"
           d="M2.78028 26.7127L5.07529 29.0077C8.01464 31.4354 11.784 32.894 15.894 32.894C25.2829 32.894 32.894 25.2828 32.894 15.894C32.894 8.63409 28.3433 2.43712 21.9387 0L9.15527e-05 21.9387C0.665123 23.6863 1.61012 25.2959 2.78028 26.7127Z"
-          className="fill-zinc-800 dark:fill-white"
+          className="fill-foreground"
         />
       </svg>
     </button>
