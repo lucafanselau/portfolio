@@ -2,6 +2,8 @@ import WasmPackPlugin from "@wasm-tool/wasm-pack-plugin";
 import path from "path";
 import { fileURLToPath } from "url";
 
+const enableWasm = process.env.ENABLE_WASM !== undefined;
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
@@ -21,7 +23,7 @@ const nextConfig = {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
 
-    if (!isServer)
+    if (!isServer && enableWasm)
       config.plugins.push(
         new WasmPackPlugin({
           crateDirectory: path.resolve(__dirname, "../../packages/rust-404"),
