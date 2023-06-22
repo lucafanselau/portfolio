@@ -41,7 +41,7 @@
     --foreground: 0, 0%, 98%; /* zinc-50 */
 
     --muted: 240, 5%, 34%; /* zinc-600 */
-    --muted-foreground: 240, 6%, 90%; /* zinc-200 */
+    --muted-foreground: 240, 5%, 84%; /* zinc-300 */
 
     --popover: 224 71% 4%; /* not done */
     --popover-foreground: 215 20.2% 65.1%; /* not done */

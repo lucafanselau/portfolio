@@ -1,45 +1,51 @@
-import { IconCircleDot, IconCircleDotted } from "@tabler/icons-react";
+import {
+  IconCircleCheck,
+  IconCircleDashed,
+  IconCircleDot,
+  IconCircleDotted,
+} from "@tabler/icons-react";
 import { P } from "@ui/typography";
-import { FC, ReactNode } from "react";
+import { FC, ReactElement, ReactNode } from "react";
 
-export type TimelineElements = {
-  title: ReactNode;
-  content: ReactNode;
-  date:
-    | {
-        start: Date;
-        end?: Date;
-      }
-    | Date;
-}[];
+type PrefabIcon = "finished" | "current" | "future";
 
-type TimelineProps = {
-  elements: TimelineElements;
+const PrefabIconLoader: FC<{ icon: PrefabIcon }> = ({ icon }) => {
+  switch (icon) {
+    case "finished":
+      return <IconCircleCheck className={"bg-background"} />;
+    case "current":
+      return <IconCircleDashed className={"bg-background"} />;
+    case "future":
+      return <IconCircleDotted className={"bg-background"} />;
+  }
 };
 
-const formatter = new Intl.DateTimeFormat("en", {
-  month: "long",
-  year: "numeric",
-});
-const dateFormat = (date: Date) => {
-  return formatter.format(date);
+export type TimelineElement = {
+  title: ReactNode;
+  subtitle: ReactNode;
+  content: ReactNode;
+  icon: PrefabIcon | ReactElement;
+};
+
+type TimelineProps = {
+  elements: TimelineElement[];
 };
 
 export const Timeline: FC<TimelineProps> = ({ elements }) => {
   return (
     <div className="w-full relative p-4 space-y-4">
-      {elements.map(({ title, content, date }, index) => (
+      {elements.map(({ title, content, subtitle, icon }, index) => (
         <div className={"flex space-x-2"} key={`timeline-element` + index}>
           <div className={"w-8 h-8 flex items-center justify-center"}>
-            <IconCircleDotted className={"bg-background"} />
+            {typeof icon === "string" ? <PrefabIconLoader icon={icon} /> : icon}
           </div>
 
-          <div className={"flex flex-col"}>
-            <P className={"text-xl"}>{title}</P>
+          <div className={"flex flex-col space-y-2"}>
+            <P className={"text-xl leading-8 align-middle"}>{title}</P>
             <P color={"lighter"} size="xs">
-              {date instanceof Date ? dateFormat(date) : dateFormat(date.start)}
+              {subtitle}
             </P>
-            <P size="sm">{content}</P>
+            {content}
           </div>
         </div>
       ))}
