@@ -36,7 +36,7 @@ export const Timeline: FC<TimelineProps> = ({ elements }) => {
     <div className="w-full relative p-4 space-y-4">
       {elements.map(({ title, content, subtitle, icon }, index) => (
         <div className={"flex space-x-2"} key={`timeline-element` + index}>
-          <div className={"w-8 h-8 flex items-center justify-center"}>
+          <div className={"w-8 h-8 flex items-center justify-center -z-20"}>
             {typeof icon === "string" ? <PrefabIconLoader icon={icon} /> : icon}
           </div>
 
@@ -51,7 +51,7 @@ export const Timeline: FC<TimelineProps> = ({ elements }) => {
       ))}
       <div
         className={
-          "absolute left-[31px] top-[15px] bottom-[15px] w-[2px]  bg-current -z-10"
+          "absolute left-[31px] top-[15px] bottom-[15px] w-[2px]  bg-current -z-30"
         }
       />
     </div>

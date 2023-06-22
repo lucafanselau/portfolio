@@ -9,7 +9,7 @@ export const H1 = forwardRef<HTMLParagraphElement, JSX.IntrinsicElements["h1"]>(
         ref={ref}
         {...props}
         className={cn(
-          "scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl",
+          "scroll-m-20 text-4xl font-extrabold tracking-tight",
           className
         )}
       />
@@ -96,6 +96,7 @@ export const InlineCode = forwardRef<
   return (
     <code
       {...props}
+      ref={ref}
       className={cn(
         "relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-medium",
         className
@@ -110,7 +111,11 @@ export const List = forwardRef<
 >(({ className, elements, ...props }, ref) => {
   const id = useId();
   return (
-    <ul {...props} className={cn("my-6 ml-6 list-disc [&>li]:mt-2", className)}>
+    <ul
+      {...props}
+      ref={ref}
+      className={cn("my-6 ml-6 list-disc [&>li]:mt-2", className)}
+    >
       {elements.map((node, index) => (
         <li key={`ul-item-${id}-${index}`}>{node}</li>
       ))}
