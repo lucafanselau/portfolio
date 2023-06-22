@@ -1,18 +1,18 @@
 "use client";
 
+import { LoadingAnimation } from "@ui/loader";
 import dynamic from "next/dynamic";
 import { FC, Suspense } from "react";
 
 const SceneComponent = dynamic(() => import("@3d/scene"), {
-  ssr: false,
-  loading: () => <div>Loading...</div>,
+	ssr: false,
+	loading: () => <LoadingAnimation />,
 });
 
 export const SceneLoader: FC = () => {
-  // TODO: fancy loading
-  return (
-    <Suspense fallback={<p>Loading</p>}>
-      <SceneComponent />
-    </Suspense>
-  );
+	return (
+		<Suspense fallback={<LoadingAnimation />}>
+			<SceneComponent />
+		</Suspense>
+	);
 };

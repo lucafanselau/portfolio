@@ -3,6 +3,7 @@
 import { Environment, Stats } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { IconLoader3 } from "@tabler/icons-react";
+import { LoadingAnimation } from "@ui/loader";
 import { FC, PropsWithChildren, ReactNode, Suspense } from "react";
 import { Camera } from "./camera";
 import { constants } from "./constants";
@@ -18,56 +19,50 @@ import { BuildingTools } from "./world/tools";
 import { ToolsOverlay } from "./world/tools/overlay";
 
 const Loader: FC<{ children: ReactNode }> = ({ children }) => {
-  useTransitions();
-  return <Instances>{children}</Instances>;
+	useTransitions();
+	return <Instances>{children}</Instances>;
 };
 
 const ConditionalLoader: FC<PropsWithChildren<{ states: State[] }>> = ({
-  states,
-  children,
+	states,
+	children,
 }) => {
-  const isMatching = useStore((s) => states.includes(s.state));
-  if (isMatching) return <>{children}</>;
-  else return null;
+	const isMatching = useStore((s) => states.includes(s.state));
+	if (isMatching) return <>{children}</>;
+	else return null;
 };
 
 const Scene = () => {
-  return (
-    <Suspense
-      fallback={
-        <div className={"w-full h-full flex justify-center items-center"}>
-          <IconLoader3 className={"animate-spin"} size={48} />
-        </div>
-      }
-    >
-      <Canvas dpr={[1, 2]} shadows gl={{ logarithmicDepthBuffer: true }}>
-        <Loader>
-          {process.env.NEXT_PUBLIC_NODE_ENV === "development" && (
-            <axesHelper args={[constants.world.tileSize]} />
-          )}
-          {process.env.NEXT_PUBLIC_NODE_ENV === "development" && <Stats />}
-          <Environment background files="./puresky.hdr" />
-          <Lights />
-          <Person>
-            <ConditionalLoader states={["explore", "start"]}>
-              <BubbleLoader />
-            </ConditionalLoader>
-          </Person>
-          <Camera />
-          <ConditionalLoader states={["explore", "start"]}>
-            <Target />
-          </ConditionalLoader>
-          <World />
-          <ConditionalLoader states={["top-level"]}>
-            <ToolsOverlay />
-          </ConditionalLoader>
-        </Loader>
-      </Canvas>
-      <ConditionalLoader states={["top-level"]}>
-        <BuildingTools />
-      </ConditionalLoader>
-    </Suspense>
-  );
+	return (
+		<Suspense fallback={<LoadingAnimation />}>
+			<Canvas dpr={[1, 2]} shadows gl={{ logarithmicDepthBuffer: true }}>
+				<Loader>
+					{process.env.NEXT_PUBLIC_NODE_ENV === "development" && (
+						<axesHelper args={[constants.world.tileSize]} />
+					)}
+					{process.env.NEXT_PUBLIC_NODE_ENV === "development" && <Stats />}
+					<Environment background files="./puresky.hdr" />
+					<Lights />
+					<Person>
+						<ConditionalLoader states={["explore", "start"]}>
+							<BubbleLoader />
+						</ConditionalLoader>
+					</Person>
+					<Camera />
+					<ConditionalLoader states={["explore", "start"]}>
+						<Target />
+					</ConditionalLoader>
+					<World />
+					<ConditionalLoader states={["top-level"]}>
+						<ToolsOverlay />
+					</ConditionalLoader>
+				</Loader>
+			</Canvas>
+			<ConditionalLoader states={["top-level"]}>
+				<BuildingTools />
+			</ConditionalLoader>
+		</Suspense>
+	);
 };
 
 export default Scene;
