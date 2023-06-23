@@ -14,38 +14,39 @@ import { Group, MeshStandardMaterial, Vector3 } from "three";
 import { constants } from "@3d/constants";
 
 const onClick: GroupProps["onClick"] = ({ point, ...e }) => {
-  const state = useStore.getState().state;
-  if (state !== "explore") return;
-  const { min, max } = constants.world.moveScope;
-  // console.log(point, e);
-  e.stopPropagation();
-  useStore.setState({
-    target: new Vector3().set(point.x, 0, point.z).clamp(min, max),
-  });
+	const state = useStore.getState().state;
+	console.log("onClick", e);
+	if (state !== "explore") return;
+	const { min, max } = constants.world.moveScope;
+	// console.log(point, e);
+	e.stopPropagation();
+	useStore.setState({
+		target: new Vector3().set(point.x, 0, point.z).clamp(min, max),
+	});
 };
 
 const TileLoader = forwardRef<Group, { tile: TerrainType } & GroupProps>(
-  ({ tile, ...rest }, ref) => {
-    const props = { ...rest, onClick };
-    return match(tile)
-      .with(TerrainType.Flat, () => (
-        <group ref={ref} {...props}>
-          <Box
-            position={[0, -0.05, 0]}
-            receiveShadow
-            args={[8, 0.1, 8, 4, 4]}
-            material={new MeshStandardMaterial({ color: "#85B16A" })}
-          />
-        </group>
-      ))
-      .with(TerrainType.Clipping, () => null)
-      .with(TerrainType.StreetEnd, () => <StreetEnd {...props} />)
-      .with(TerrainType.StreetStraight, () => <StreetStraight {...props} />)
-      .with(TerrainType.StreetTurn, () => <StreetTurn {...props} />)
-      .with(TerrainType.StreetThree, () => <StreetThree {...props} />)
-      .with(TerrainType.StreetFour, () => <StreetFour {...props} />)
-      .otherwise(() => null);
-  }
+	({ tile, ...rest }, ref) => {
+		const props = { ...rest, onClick };
+		return match(tile)
+			.with(TerrainType.Flat, () => (
+				<group ref={ref} {...props}>
+					<Box
+						position={[0, -0.05, 0]}
+						receiveShadow
+						args={[8, 0.1, 8, 4, 4]}
+						material={new MeshStandardMaterial({ color: "#85B16A" })}
+					/>
+				</group>
+			))
+			.with(TerrainType.Clipping, () => null)
+			.with(TerrainType.StreetEnd, () => <StreetEnd {...props} />)
+			.with(TerrainType.StreetStraight, () => <StreetStraight {...props} />)
+			.with(TerrainType.StreetTurn, () => <StreetTurn {...props} />)
+			.with(TerrainType.StreetThree, () => <StreetThree {...props} />)
+			.with(TerrainType.StreetFour, () => <StreetFour {...props} />)
+			.otherwise(() => null);
+	}
 );
 
 export default TileLoader;

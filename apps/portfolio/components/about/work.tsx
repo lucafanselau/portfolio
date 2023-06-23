@@ -5,25 +5,20 @@ import { FC } from "react";
 import { Timeline, TimelineElement } from "./timeline";
 
 const elements = content.work.map((el): TimelineElement => {
-  const isFinished = el.date[1].getTime() < Date.now();
+	const isFinished = el.date[1].getTime() < Date.now();
 
-  return {
-    title: (
-      <>
-        <b>{el.company}</b> - {el.motto}
-      </>
-    ),
-    subtitle: formatters.date(el.date[0]) + " - " + formatters.date(el.date[1]),
-    content: <List className={"text-muted-foreground"} elements={el.bullets} />,
-    icon: isFinished ? "finished" : "current",
-  };
+	return {
+		title: (
+			<>
+				<b>{el.company}</b> - {el.motto}
+			</>
+		),
+		subtitle: formatters.date(el.date[0]) + " - " + formatters.date(el.date[1]),
+		content: <List className={"text-muted-foreground"} elements={el.bullets} />,
+		icon: isFinished ? "finished" : "current",
+	};
 });
 
 export const Work: FC = () => {
-  return (
-    <>
-      <H2>Career</H2>
-      <Timeline elements={elements} />
-    </>
-  );
+	return <Timeline elements={elements} />;
 };

@@ -37,9 +37,10 @@ const Scene = () => {
 		<Suspense fallback={<LoadingAnimation />}>
 			<Canvas dpr={[1, 2]} shadows gl={{ logarithmicDepthBuffer: true }}>
 				<Loader>
-					{process.env.NEXT_PUBLIC_NODE_ENV === "development" && (
-						<axesHelper args={[constants.world.tileSize]} />
-					)}
+					{process.env.ENABLE_DEBUG &&
+						process.env.NEXT_PUBLIC_NODE_ENV === "development" && (
+							<axesHelper args={[constants.world.tileSize]} />
+						)}
 					{process.env.NEXT_PUBLIC_NODE_ENV === "development" && <Stats />}
 					<Environment background files="./puresky.hdr" />
 					<Lights />
