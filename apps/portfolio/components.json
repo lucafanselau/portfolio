@@ -8,7 +8,7 @@
 		"cssVariables": true
 	},
 	"aliases": {
-		"components": "@ui",
+		"components": "@/ui",
 		"utils": "@ui/utils"
 	}
 }

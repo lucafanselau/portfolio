@@ -45,7 +45,7 @@ const Scene = () => {
 					<Environment background files="./puresky.hdr" />
 					<Lights />
 					<Person>
-						<ConditionalLoader states={["explore", "start"]}>
+						<ConditionalLoader states={["start"]}>
 							<BubbleLoader />
 						</ConditionalLoader>
 					</Person>

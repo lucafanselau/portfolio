@@ -4,6 +4,7 @@ import { useHasTransition } from "@3d/transition";
 import { Html } from "@react-three/drei";
 import { useMemo } from "react";
 import { match } from "ts-pattern";
+import { AppearCardRoot } from "./appear-card";
 import {
 	ExploreBubbleContent,
 	ExploreHome,
@@ -43,7 +44,11 @@ export const BubbleLoader = () => {
 	);
 
 	return (
-		<Html position={[0, approximateHeight, 0]}>
+		<Html position={[0, approximateHeight * 1.05, 0]}>
+			{/*<AppearCardRoot header={content.header}>
+				{content.content}
+				{content.action}
+				</AppearCardRoot>*/}
 			<SpeechBubble open={open && !hasTransition} {...content} />
 		</Html>
 	);
