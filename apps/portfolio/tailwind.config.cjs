@@ -17,6 +17,9 @@ module.exports = {
       },
     },
     extend: {
+    	    fontSize: {
+	    "2xs": "0.6rem"
+	    },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -57,6 +60,7 @@ module.exports = {
         md: `calc(var(--radius) - 2px)`,
         sm: "calc(var(--radius) - 4px)",
       },
+      
 			fontFamily: {
         sans: ["var(--font-inter)", ...fontFamily.sans],
 				mono: ["var(--font-roboto-mono)", ...fontFamily.mono],

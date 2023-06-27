@@ -72,8 +72,8 @@ const paragraph = cva("leading-snug", {
       right: "text-right",
     },
     size: {
+      "2xs": "text-2xs",
       xs: "text-xs",
-
       sm: "text-sm",
       lg: "text-lg",
       xl: "text-xl",
