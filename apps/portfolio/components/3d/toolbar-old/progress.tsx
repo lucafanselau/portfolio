@@ -8,8 +8,8 @@ import { FC } from "react";
 const TopLevelButton = () => {
   const onClick = async () => {
     const { setState } = useStore.getState();
-    await transitionToCamera("top-level", "origin");
-    setState("top-level");
+    await transitionToCamera("build", "origin");
+    setState("build");
   };
 
   const history = useStore((s) => s.world.interactionHistory);

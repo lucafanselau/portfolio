@@ -1,4 +1,4 @@
-const { fontFamily } = require("tailwindcss/defaultTheme")
+const { fontFamily } = require("tailwindcss/defaultTheme");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -9,17 +9,14 @@ module.exports = {
   ],
   darkMode: "class",
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
     extend: {
-    	    fontSize: {
-	    "2xs": "0.6rem"
-	    },
+      container: {
+        center: true,
+        padding: "2rem",
+      },
+      fontSize: {
+        "2xs": "0.6rem",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -60,10 +57,10 @@ module.exports = {
         md: `calc(var(--radius) - 2px)`,
         sm: "calc(var(--radius) - 4px)",
       },
-      
-			fontFamily: {
+
+      fontFamily: {
         sans: ["var(--font-inter)", ...fontFamily.sans],
-				mono: ["var(--font-roboto-mono)", ...fontFamily.mono],
+        mono: ["var(--font-roboto-mono)", ...fontFamily.mono],
       },
       animation: {
         loop: "loop 15s linear infinite",

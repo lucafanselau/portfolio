@@ -9,15 +9,15 @@ import { Camera } from "./camera";
 import { constants } from "./constants";
 import { Instances } from "./generated";
 import { Lights } from "./lights";
-import { Person } from "./person";
+import { AnimatedCharacter } from "./character";
 import { State, useStore } from "./store";
 import { BubbleLoader } from "./story/loader";
 import { Target } from "./target";
-import { Toolbar } from "./toolbar";
 import { useTransitions } from "./transition";
 import { World } from "./world";
-import { BuildingTools } from "./world/tools";
+// import { BuildingTools } from "./world/tools";
 import { ToolsOverlay } from "./world/tools/overlay";
+import { Tools } from "./tools";
 
 const Loader: FC<{ children: ReactNode }> = ({ children }) => {
   useTransitions();
@@ -45,28 +45,23 @@ const Scene = () => {
           {process.env.NEXT_PUBLIC_NODE_ENV === "development" && <Stats />}
           <Environment background files="./puresky.hdr" />
           <Lights />
-          <Person>
-            <ConditionalLoader states={["start"]}>
+          <AnimatedCharacter>
+            {/*<ConditionalLoader states={["start"]}>
               <BubbleLoader />
-            </ConditionalLoader>
-          </Person>
+							</ConditionalLoader>*/}
+          </AnimatedCharacter>
           <Camera />
-          <ConditionalLoader states={["explore", "start"]}>
+          <ConditionalLoader states={["explore"]}>
             <Target />
           </ConditionalLoader>
           <World />
-          <ConditionalLoader states={["top-level"]}>
+          <ConditionalLoader states={["build"]}>
             <ToolsOverlay />
           </ConditionalLoader>
         </Loader>
       </Canvas>
-      <ConditionalLoader states={["explore"]}>
-        <Toolbar />
-      </ConditionalLoader>
-
-      <ConditionalLoader states={["top-level"]}>
-        <BuildingTools />
-      </ConditionalLoader>
+      {/* NOTE: this is all of the ui */}
+      <Tools />
     </Suspense>
   );
 };

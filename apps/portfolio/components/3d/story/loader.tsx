@@ -39,7 +39,7 @@ export const BubbleLoader = () => {
             .with(undefined, () => ExploreBubbleContent)
             .exhaustive()
         )
-        .with("top-level", () => StartBubbleContent)
+        .with("build", () => StartBubbleContent)
         .exhaustive(),
     [state, interaction]
   );
