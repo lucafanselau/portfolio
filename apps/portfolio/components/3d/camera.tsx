@@ -27,8 +27,8 @@ export const cameraTargets: Record<State, Vector3> = {
     0
   ),
   explore: new Vector3(
-    -constants.camera.distance * 2,
-    constants.guy.approximateHeight * 4,
+    -constants.camera.distance * 5,
+    constants.guy.approximateHeight * 6,
     0
   ),
   build: new Vector3(0, constants.guy.approximateHeight * 20, 0),
