@@ -4,6 +4,7 @@ import { ToolsContent } from "./content";
 import { ToolsFocusPanel } from "./focus";
 import { ToolsLayout } from "./layout";
 import { ToolsOverlay } from "./overlay";
+import { ToolsProgress } from "./progress";
 import { ToolsSlidePanel } from "./slide";
 
 const ToolsComposition: FC<{ children?: ReactNode }> = ({ children }) => {

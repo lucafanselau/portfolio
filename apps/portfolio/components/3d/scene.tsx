@@ -51,7 +51,7 @@ const Scene = () => {
 							</ConditionalLoader>*/}
           </AnimatedCharacter>
           <Camera />
-          <ConditionalLoader states={["explore"]}>
+          <ConditionalLoader states={["explore", "start"]}>
             <Target />
           </ConditionalLoader>
           <World />
