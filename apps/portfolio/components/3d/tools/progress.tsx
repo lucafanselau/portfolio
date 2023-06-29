@@ -1,67 +1,43 @@
-import { transitionToCamera } from "@3d/camera";
 import { useStore } from "@3d/store";
+import { selectors } from "@3d/store/selector";
+import { State } from "@3d/store/store";
+import { formatters } from "@components/formatters";
+import { isNone, isSome } from "@components/utils";
 import { AsyncButton } from "@ui/async-button";
 import { Button } from "@ui/button";
 import { P } from "@ui/typography";
-import { ComponentType, Fragment } from "react";
+import { ComponentType, Fragment, ReactNode, useCallback } from "react";
 import { match } from "ts-pattern";
-
-export type ProgressComponent = ComponentType<{
-  onProgress: (value: "explore" | "build") => Promise<void>;
-}>;
-
-const Start: ProgressComponent = ({ onProgress }) => {
-  return (
-    <AsyncButton size="sm" onAsyncClick={() => onProgress("explore")}>
-      Let's Start
-    </AsyncButton>
-  );
-};
-
-const Explore: ProgressComponent = ({ onProgress }) => {
-  const history = useStore((s) => s.world.interactionHistory);
-  const total = Object.keys(history).length;
-  const numOfChecked = Object.values(history)
-    .map(Number)
-    .reduce((a, b) => a + b, 0);
-
-  return (
-    <Fragment>
-      <P color="lighter" size="2xs" className="text-right max-w-[36ch]">
-        {numOfChecked === total ? (
-          <>
-            Great you have finished the quest. Now let's expand the city a bit!
-          </>
-        ) : (
-          <>
-            You are still <b>missing {total - numOfChecked} locations</b>. Look
-            for the <b>School, Office and House</b>
-          </>
-        )}
-      </P>
-      <AsyncButton
-        size="sm"
-        onAsyncClick={() => onProgress("build")}
-        className={"px-8 pointer-events-auto"}
-        disabled={total !== numOfChecked}
-      >
-        Next
-      </AsyncButton>
-    </Fragment>
-  );
+export type ProgressItem = {
+  target: State;
+  button: string;
+  disabled?: boolean;
+  extraText?: string;
 };
 
 export const ToolsProgress = () => {
-  const state = useStore((s) => s.state);
+  const item = useStore(...selectors.progress);
+  const onClick = useCallback(async () => {
+    if (isSome(item)) await useStore.getState().updateState(item.target);
+  }, [item?.target]);
 
-  const onProgress = async (value: "explore" | "build") => {
-    const { setState } = useStore.getState();
-    await transitionToCamera(value, "guy");
-    setState(value);
-  };
+  if (isNone(item)) return null;
 
-  return match(state)
-    .with("start", () => <Start onProgress={onProgress} />)
-    .with("explore", () => <Explore onProgress={onProgress} />)
-    .otherwise(() => null);
+  return (
+    <div className="flex items-center space-x-2">
+      {isSome(item.extraText) && (
+        <P color="lighter" size="2xs" className="text-right max-w-[36ch]">
+          {formatters.bold(item.extraText)}
+        </P>
+      )}
+      <AsyncButton
+        size="sm"
+        onAsyncClick={onClick}
+        className={"px-8 pointer-events-auto"}
+        disabled={item.disabled}
+      >
+        Next
+      </AsyncButton>
+    </div>
+  );
 };

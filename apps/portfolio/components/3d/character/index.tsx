@@ -72,39 +72,27 @@ const characterStateMachine = (
 };
 
 export const AnimatedCharacter: FC<PropsWithChildren<{}>> = ({ children }) => {
-  const setSlot = useStore((state) => state.setSlot);
+  // const setSlot = useStore((state) => state.setSlot);
   // const model = useRef<Group>(null);
 
   // frame - to - frame logic
   useFrame((args, delta) =>
-    useStore.getState().setCharacterState(characterStateMachine(args, delta))
-  );
-
-  // discrete events
-  // handle new targets (kick of state machine)
-  useEffect(
-    () =>
-      useStore.subscribe(
-        (s) => s.target,
-        () => useStore.getState().setCharacterState({ state: "rotate" }),
-        {
-          equalityFn: (a, b) => a.equals(b),
-        }
-      ),
-    []
+    useStore.getState().updateCharacter(characterStateMachine(args, delta))
   );
 
   const action = useStore((s) => actionLookup[s.character.state]);
 
   return (
     <>
-      <group ref={(g) => setSlot("guy", g)}>
+      <group
+      //ref={(g) => setSlot("guy", g)}
+      >
         <Guy
           scale={0.6}
           fade={0.2}
           action={action}
           rotation={[0, -Math.PI / 2, 0]}
-          ref={(g) => setSlot("model", g)}
+          // ref={(g) => setSlot("model", g)}
         />
         {children}
       </group>

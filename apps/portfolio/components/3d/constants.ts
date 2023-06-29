@@ -1,6 +1,6 @@
 import { Box2, Box3, Vector3 } from "three";
 
-export const constants = {
+export const base = {
   eps: 1e-3,
   guy: {
     approximateHeight: 3.7 * 0.6,
@@ -8,14 +8,7 @@ export const constants = {
   layout: {
     headerSize: 60,
   },
-  camera: {
-    distance: 5,
-    maxDistance: {
-      explore: 70,
-      start: 70,
-      build: 150,
-    },
-  },
+
   world: {
     tiles: 20,
     tileSize: 8,
@@ -42,6 +35,38 @@ export const constants = {
     angle: 0.1,
     position: 0.06,
     longIdle: 1.2,
+  },
+  camera: {
+    distance: 5,
+    maxDistance: {
+      explore: 70,
+      start: 70,
+      build: 150,
+    },
+  },
+};
+
+export const constants = {
+  ...base,
+  transitions: {
+    position: {
+      start: new Vector3(
+        -base.camera.distance,
+        base.guy.approximateHeight * 1.3,
+        0
+      ),
+      explore: new Vector3(
+        -base.camera.distance * 5,
+        base.guy.approximateHeight * 6,
+        0
+      ),
+      build: new Vector3(0, base.guy.approximateHeight * 20, 0),
+    },
+    target: {
+      start: new Vector3(0, base.guy.approximateHeight * 1.3, 0),
+      explore: new Vector3(0, base.guy.approximateHeight * 1.3, 0),
+      build: new Vector3(0, 0, 0),
+    },
   },
 };
 

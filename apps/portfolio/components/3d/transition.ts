@@ -53,5 +53,25 @@ export const useTransitions = () => {
   });
 };
 
-export const useHasTransition = () =>
-  useTransitionStore((state) => state.transitions.length > 0);
+export const transitionVector3 = async (vector: Vector3, target: Vector3) => {
+  await createTransition((delta) => {
+    const { smoothTime, maxSpeed, eps } = defaultTransitionConfig;
+
+    const result = easing.damp3(
+      vector,
+      target,
+      smoothTime,
+      delta,
+      maxSpeed,
+      undefined,
+      eps
+    );
+
+    console.log("transitioning", vector, target, result);
+
+    return result;
+  });
+};
+
+// export const useHasTransition = () =>
+//   useTransitionStore((state) => state.transitions.length > 0);
