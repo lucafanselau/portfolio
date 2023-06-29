@@ -1,4 +1,4 @@
-import { ProgressComponent, ToolsContent } from "./types";
+import { ToolsContent } from "./types";
 import Link from "next/link";
 import { P } from "@ui/typography";
 

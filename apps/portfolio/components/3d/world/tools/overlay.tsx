@@ -69,7 +69,7 @@ export const ToolsOverlay = () => {
     () => new MeshStandardMaterial({ transparent: true, opacity: 0 })
   );
 
-  const interaction = useRef<Mesh>();
+  const interaction = useRef<Mesh>(null);
   const overlay = useRef<Mesh>(null);
   const active = useRef<boolean>(false);
 
