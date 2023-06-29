@@ -1,9 +1,8 @@
 import { constants } from "@3d/constants";
 import type { ProgressItem } from "@3d/tools/progress";
-import { tools } from "@content/tools";
+import { ToolContentKeys, tools } from "@content/tools";
 import type { ToolsContent } from "@content/tools/types";
-import { shallowEqual } from "fast-equals";
-import { Vector3 } from "three";
+import { shallowEqual, deepEqual } from "fast-equals";
 import { match } from "ts-pattern";
 import { Store } from "./store";
 
@@ -76,12 +75,32 @@ const target = pack(
   (a, b) => a.equals(b)
 );
 
+const actions = pack((s) => {
+  if (s.state === "start") return undefined;
+
+  return (Object.keys(tools[s.state]) as ToolContentKeys[])
+    .filter((key) => {
+      // info is always fine
+      if (key === "info") return true;
+      // keep all in "build" mode
+      if (s.state === "build") return true;
+      // for explore, let's check if the user visited it
+      // @ts-ignore
+      return s.world.interaction.history[key] === true;
+    })
+    .map((key) => {
+      // @ts-ignore
+      return [key, tools[s.state][key]?.icon] as const;
+    });
+}, deepEqual);
+
 export const selectors = {
   camera,
   progress,
   content,
   target,
   ui: {
+    actions,
     opaque,
     dismissable,
     open: {

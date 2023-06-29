@@ -4,8 +4,12 @@ import { P } from "@ui/typography";
 import {
   Icon,
   IconArrowsMaximize,
+  IconBuildingSkyscraper,
+  IconHome,
+  IconInfoSmall,
   IconMouse,
   IconPointer,
+  IconSchool,
 } from "@tabler/icons-react";
 import { School } from "@components/about/school";
 import { Work } from "@components/about/work";
@@ -41,6 +45,7 @@ const info = {
       </P>
     </>
   ),
+  icon: <IconInfoSmall />,
 } satisfies ToolsContent;
 
 const school = {
@@ -57,6 +62,7 @@ const school = {
       <School />
     </>
   ),
+  icon: <IconSchool />,
 } satisfies ToolsContent;
 
 const home = {
@@ -67,6 +73,7 @@ const home = {
     "Since learning programming I have worked on many hobby projects, let's look at some of them",
   ],
   body: "NOTHING HERE",
+  icon: <IconHome />,
 } satisfies ToolsContent;
 
 const office = {
@@ -83,6 +90,7 @@ const office = {
       <Work />
     </>
   ),
+  icon: <IconBuildingSkyscraper />,
 } satisfies ToolsContent;
 
 export const explore = {

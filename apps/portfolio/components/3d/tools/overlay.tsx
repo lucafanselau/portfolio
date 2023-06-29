@@ -17,7 +17,7 @@ export const ToolsOverlay: FC<{ children?: ReactNode }> = ({ children }) => {
     <div
       className={cn(
         "absolute inset-0",
-        opaque && "bg-background/20",
+        opaque && "bg-background",
         !dismissable && "pointer-events-none"
       )}
       onClick={dismissable ? onClick : undefined}

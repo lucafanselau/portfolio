@@ -23,11 +23,12 @@ export const Camera = () => {
     if (isNone(camera.current) || isNone(controls.current)) return;
     const {
       camera: { target, position, controlled },
-      state,
     } = useStore.getState();
 
+    // This is a two way system. Dependent on the flags in the controlled objects we either copy the
+    // values from the camera to the store or from the store to the camera.
+
     if (controlled.position) camera.current.position.copy(position);
-    // otherwise write the camera movement back into the store
     else position.copy(camera.current.position);
 
     if (controlled.target) controls.current.target.copy(target);

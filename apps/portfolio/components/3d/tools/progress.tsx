@@ -24,7 +24,7 @@ export const ToolsProgress = () => {
   if (isNone(item)) return null;
 
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex-1 flex justify-end items-center space-x-2">
       {isSome(item.extraText) && (
         <P color="lighter" size="2xs" className="text-right max-w-[36ch]">
           {formatters.bold(item.extraText)}

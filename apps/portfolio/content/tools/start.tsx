@@ -1,6 +1,7 @@
 import { ToolsContent } from "./types";
 import Link from "next/link";
 import { P } from "@ui/typography";
+import { IconInfoSmall } from "@tabler/icons-react";
 
 const info = {
   header: [
@@ -26,6 +27,7 @@ const info = {
       </P>
     </>
   ),
+  icon: <IconInfoSmall />,
 } satisfies ToolsContent;
 
 export const start = {

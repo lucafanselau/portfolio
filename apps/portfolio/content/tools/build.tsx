@@ -1,3 +1,4 @@
+import { IconInfoSmall } from "@tabler/icons-react";
 import { ToolsContent } from "./types";
 
 export const info = {
@@ -9,6 +10,7 @@ export const info = {
     "I love city builder games, so here is one I made.",
   ],
   body: <>NOTHING HERE YET</>,
+  icon: <IconInfoSmall />,
 } satisfies ToolsContent;
 
 export const build = {

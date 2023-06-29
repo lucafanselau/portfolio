@@ -1,4 +1,7 @@
 import { useStore } from "@3d/store";
+import { selectors } from "@3d/store/selector";
+import { isNone, preventProps } from "@components/utils";
+import { tools } from "@content/tools";
 import { IconInfoCircle } from "@tabler/icons-react";
 import { Button } from "@ui/button";
 import { FC, ReactNode } from "react";
@@ -15,16 +18,27 @@ export const ToolsToolbar: FC<{ children?: ReactNode }> = ({ children }) => {
   );
 };
 
-export const InfoButton = () => {
+export const ToolsActionButtons: FC<{}> = ({}) => {
+  const actions = useStore(...selectors.ui.actions);
+
+  if (isNone(actions)) return null;
   return (
-    <Button
-      onClick={() =>
-        useStore.getState().updateTools({ type: "slide", key: "info" })
-      }
-      variant="ghost"
-      size="icon"
-    >
-      <IconInfoCircle />
-    </Button>
+    <div className="flex items-center space-x-2">
+      {actions.map(([action, icon]) => {
+        return (
+          <Button
+            key={`tools-action-${action}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              useStore.getState().updateTools({ type: "slide", key: action });
+            }}
+            variant="outline"
+            size="icon"
+          >
+            {icon}
+          </Button>
+        );
+      })}
+    </div>
   );
 };

@@ -1,5 +1,5 @@
 import { FC, ReactNode } from "react";
-import { InfoButton, ToolsToolbar } from "./bar";
+import { ToolsActionButtons, ToolsToolbar } from "./bar";
 import { ToolsContent } from "./content";
 import { ToolsFocusPanel } from "./focus";
 import { ToolsLayout } from "./layout";
@@ -12,8 +12,8 @@ const ToolsComposition: FC<{ children?: ReactNode }> = ({ children }) => {
     <ToolsOverlay>
       <ToolsLayout>
         <ToolsToolbar>
-          <InfoButton />
-					<ToolsProgress />
+          <ToolsActionButtons />
+          <ToolsProgress />
           {/* NOTE: This is not really *inside* of the toolbar, but needs its as a parent, for positioning*/}
           <ToolsSlidePanel>{children}</ToolsSlidePanel>
         </ToolsToolbar>
