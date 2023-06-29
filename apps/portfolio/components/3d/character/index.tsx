@@ -1,4 +1,4 @@
-import { CharacterState, useStore } from "@3d/store";
+import { useStore } from "@3d/store";
 import { RootState, useFrame } from "@react-three/fiber";
 import { easing, misc } from "maath";
 import { FC, PropsWithChildren, useEffect, useRef } from "react";
@@ -7,6 +7,7 @@ import { match, P } from "ts-pattern";
 import { constants } from "@3d/constants";
 import { ActionName, Model as Guy } from "./model";
 import { isNone } from "@components/utils";
+import { CharacterState } from "@3d/store/store";
 
 const actionLookup: Record<CharacterState["state"], ActionName> = {
   greet: "Wave",

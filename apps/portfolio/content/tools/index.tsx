@@ -1,4 +1,4 @@
-import type { State } from "@3d/store";
+import type { State } from "@3d/store/store";
 import { build } from "./build";
 import { explore } from "./explore";
 import { start } from "./start";
