@@ -10,7 +10,7 @@ import { constants } from "./constants";
 import { Instances } from "./generated";
 import { Lights } from "./lights";
 import { AnimatedCharacter } from "./character";
-import { State, useStore } from "./store";
+import { useStore } from "./store";
 import { BubbleLoader } from "./story/loader";
 import { Target } from "./target";
 import { useTransitions } from "./transition";
@@ -18,6 +18,7 @@ import { World } from "./world";
 // import { BuildingTools } from "./world/tools";
 import { ToolsOverlay } from "./world/tools/overlay";
 import { Tools } from "./tools";
+import { State } from "./store/store";
 
 const Loader: FC<{ children: ReactNode }> = ({ children }) => {
   useTransitions();
@@ -45,15 +46,9 @@ const Scene = () => {
           {process.env.NEXT_PUBLIC_NODE_ENV === "development" && <Stats />}
           <Environment background files="./puresky.hdr" />
           <Lights />
-          <AnimatedCharacter>
-            {/*<ConditionalLoader states={["start"]}>
-              <BubbleLoader />
-							</ConditionalLoader>*/}
-          </AnimatedCharacter>
+          <AnimatedCharacter></AnimatedCharacter>
           <Camera />
-          <ConditionalLoader states={["explore", "start"]}>
-            <Target />
-          </ConditionalLoader>
+          <Target />
           <World />
           <ConditionalLoader states={["build"]}>
             <ToolsOverlay />

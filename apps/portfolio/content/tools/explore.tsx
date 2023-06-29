@@ -1,8 +1,5 @@
 import { FC } from "react";
-import { Button } from "@ui/button";
-import { preventProps } from "@3d/story/explore";
 import { ToolsContent } from "./types";
-import Link from "next/link";
 import { P } from "@ui/typography";
 import {
   Icon,
