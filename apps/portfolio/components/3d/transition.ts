@@ -70,6 +70,3 @@ export const transitionVector3 = async (vector: Vector3, target: Vector3) => {
     return result;
   });
 };
-
-// export const useHasTransition = () =>
-//   useTransitionStore((state) => state.transitions.length > 0);
