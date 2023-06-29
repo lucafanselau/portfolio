@@ -8,22 +8,21 @@ import { ToolsProgress } from "./progress";
 import { ToolsSlidePanel, ToolsSlidePanelHeight } from "./slide";
 
 const ToolsComposition: FC<{ children?: ReactNode }> = ({ children }) => {
-  return (
-    <ToolsOverlay>
-      <ToolsLayout>
-        <ToolsToolbar>
-          <ToolsSlidePanelHeight>{children}</ToolsSlidePanelHeight>
-          <div className="p-2 flex justify-between items-center space-x-2">
-            <ToolsActionButtons />
-            <ToolsProgress />
-          </div>
-          {/* NOTE: This is not really *inside* of the toolbar, but needs its as a parent, for positioning*/}
-          {/*<ToolsSlidePanel>{children}</ToolsSlidePanel>*/}
-        </ToolsToolbar>
-        <ToolsFocusPanel>{children}</ToolsFocusPanel>
-      </ToolsLayout>
-    </ToolsOverlay>
-  );
+	return (
+		<ToolsLayout>
+			<ToolsOverlay />
+			<ToolsToolbar>
+				<ToolsSlidePanelHeight>{children}</ToolsSlidePanelHeight>
+				<div className="p-2 flex justify-between items-center space-x-2">
+					<ToolsActionButtons />
+					<ToolsProgress />
+				</div>
+				{/* NOTE: This is not really *inside* of the toolbar, but needs its as a parent, for positioning*/}
+				{/*<ToolsSlidePanel>{children}</ToolsSlidePanel>*/}
+			</ToolsToolbar>
+			<ToolsFocusPanel>{children}</ToolsFocusPanel>
+		</ToolsLayout>
+	);
 };
 
 /**
@@ -31,9 +30,9 @@ const ToolsComposition: FC<{ children?: ReactNode }> = ({ children }) => {
  * dynamically based on the store
  */
 export const Tools = () => {
-  return (
-    <ToolsComposition>
-      <ToolsContent />
-    </ToolsComposition>
-  );
+	return (
+		<ToolsComposition>
+			<ToolsContent />
+		</ToolsComposition>
+	);
 };
