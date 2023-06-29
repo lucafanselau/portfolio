@@ -29,7 +29,9 @@ export default function RootLayout({
 			>
 				{/* Main Column */}
 				<div
-					className={"main container flex flex-col space-y-2 flex-1 h-full p-4"}
+					className={
+						"main container flex flex-col space-y-2 flex-1 h-full p-4 overflow-hidden"
+					}
 				>
 					<Header />
 					{children}

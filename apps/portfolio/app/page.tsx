@@ -2,7 +2,7 @@ import { SceneLoader } from "./scene-loader";
 
 export default function Home() {
 	return (
-		<main className={"flex-1 flex flex-col"}>
+		<main className={" flex flex-col flex-1 basis-0 min-h-0"}>
 			<SceneLoader />
 		</main>
 	);

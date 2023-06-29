@@ -10,17 +10,21 @@ import { ToolsSlidePanel, ToolsSlidePanelHeight } from "./slide";
 const ToolsComposition: FC<{ children?: ReactNode }> = ({ children }) => {
 	return (
 		<ToolsLayout>
-			<ToolsOverlay />
+			<ToolsOverlay></ToolsOverlay>
+			<ToolsFocusPanel>{children}</ToolsFocusPanel>
+
 			<ToolsToolbar>
-				<ToolsSlidePanelHeight>{children}</ToolsSlidePanelHeight>
-				<div className="p-2 flex justify-between items-center space-x-2">
-					<ToolsActionButtons />
-					<ToolsProgress />
+				<div className="flex flex-col flex-nowrap max-h-full ">
+					<ToolsSlidePanelHeight>{children}</ToolsSlidePanelHeight>
+
+					<div className="p-2 flex justify-between items-center space-x-2">
+						<ToolsActionButtons />
+						<ToolsProgress />
+					</div>
 				</div>
 				{/* NOTE: This is not really *inside* of the toolbar, but needs its as a parent, for positioning*/}
 				{/*<ToolsSlidePanel>{children}</ToolsSlidePanel>*/}
 			</ToolsToolbar>
-			<ToolsFocusPanel>{children}</ToolsFocusPanel>
 		</ToolsLayout>
 	);
 };
