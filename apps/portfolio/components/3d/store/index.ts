@@ -9,6 +9,7 @@ import { constants, Interaction } from "@3d/constants";
 import { CharacterState, defaultStore, Store } from "./store";
 import { Building, TerrainType } from "@3d/world/types";
 import { transitionVector3 } from "@3d/transition";
+import { match } from "ts-pattern";
 
 type Actions = {
   updateState: (target: Store["state"]) => Promise<void>;
@@ -17,7 +18,8 @@ type Actions = {
   ) => void;
   interact: (interaction: Interaction["title"] | undefined) => void;
   updateTarget: (target: Vector3) => void;
-  updateCharacter: (state: CharacterState) => void;
+  updateCharacter: (state: CharacterState["state"]) => void;
+  updatePosition: (vector: Vector3) => void;
   setTileType: (
     x: number,
     z: number,
@@ -36,7 +38,8 @@ export const useStore = create<Store & Actions>()(
         // notify ui of transition
         set((s) => {
           s.ui.transition = true;
-          s.camera.locked = true;
+          s.camera.controlled.position = true;
+          s.camera.controlled.target = true;
         });
 
         // do the actual transition
@@ -55,28 +58,51 @@ export const useStore = create<Store & Actions>()(
         // after that update everything in the store
         set((s) => {
           s.state = target;
-          s.camera.locked = false;
+          s.camera.controlled.position = false;
+          s.camera.controlled.target = target === "build" ? false : true;
           s.ui.transition = false;
           s.ui.key = "info";
           s.ui.mode = "focus";
         });
       },
       updateTools: (config) => {
-        // TODO: Handle ui interactions
+        match(config)
+          .with({ type: "dismiss" }, () => {
+            set((s) => void (s.ui.mode = "closed"));
+          })
+          .with({ type: "slide" }, ({ key }) => {
+            set((s) => {
+              s.ui.mode = "slide";
+              s.ui.key = key;
+            });
+          })
+          .exhaustive();
       },
       interact: (i) =>
         set((s) => {
-          s.world.interaction.history[i] = true;
+          if (isSome(i) && !s.world.interaction.history[i]) {
+            // -> eg. this is the first time we interacted with this zone
+            s.ui.mode = "focus";
+            s.ui.key = i;
+            s.world.interaction.history[i] = true;
+          }
           s.world.interaction.current = i;
         }),
-      // setSlot: (slot, value) =>
-      //   set((state) => ({ slots: { ...state.slots, [slot]: value } })),
       updateTarget: (target) =>
         set((s) => {
           s.character.state = "rotate";
           s.target = target;
         }),
-      updateCharacter: (s) => set((state) => void (s.character = s)),
+      updateCharacter: (s) => set((state) => void (state.character.state = s)),
+      updatePosition: (vector) =>
+        set((s) => {
+          s.character.position.copy(vector);
+          if (!s.ui.transition && s.state === "explore") {
+            s.camera.target
+              .copy(vector)
+              .add(constants.transitions.target["explore"]);
+          }
+        }),
       setTileType: (x, z, type, rotation = 0) =>
         set((state) => ({
           ...state,

@@ -1,8 +1,8 @@
 import { useStore } from "@3d/store";
+import { selectors } from "@3d/store/selector";
 import { animated, config, useSpring, useSpringRef } from "@react-spring/web";
 import { cn } from "@ui/utils";
 import { FC, ReactNode, useEffect } from "react";
-import { isSlideOpen } from "./selectors";
 
 const targets = {
   open: "0%",
@@ -16,24 +16,12 @@ const springConfig = {
 };
 
 export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
-  const api = useSpringRef();
-
-  useEffect(
-    () =>
-      useStore.subscribe(isSlideOpen, async (value) => {
-        api.start({
-          to: {
-            y: targets[value ? "open" : "closed"],
-          },
-          config: springConfig,
-        });
-      }),
-    [api]
-  );
+  const open = useStore(...selectors.ui.open.slide);
 
   const spring = useSpring({
-    ref: api,
     from: { y: targets["closed"] },
+    to: { y: targets[open ? "open" : "closed"] },
+    config: springConfig,
   });
 
   return (

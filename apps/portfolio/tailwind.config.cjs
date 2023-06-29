@@ -12,7 +12,7 @@ module.exports = {
     extend: {
       container: {
         center: true,
-        padding: "2rem",
+        padding: "1rem",
       },
       fontSize: {
         "2xs": "0.6rem",

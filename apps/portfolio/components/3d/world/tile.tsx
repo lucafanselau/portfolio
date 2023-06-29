@@ -15,14 +15,11 @@ import { constants } from "@3d/constants";
 
 const onClick: GroupProps["onClick"] = ({ point, ...e }) => {
   const state = useStore.getState().state;
-  // console.log("onClick", e);
   if (state !== "explore") return;
   const { min, max } = constants.world.moveScope;
-  // console.log(point, e);
   e.stopPropagation();
-  useStore.setState({
-    target: new Vector3().set(point.x, 0, point.z).clamp(min, max),
-  });
+  const target = new Vector3().set(point.x, 0, point.z).clamp(min, max);
+  useStore.getState().updateTarget(target);
 };
 
 const TileLoader = forwardRef<Group, { tile: TerrainType } & GroupProps>(

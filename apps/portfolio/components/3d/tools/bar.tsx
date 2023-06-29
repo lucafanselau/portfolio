@@ -18,7 +18,9 @@ export const ToolsToolbar: FC<{ children?: ReactNode }> = ({ children }) => {
 export const InfoButton = () => {
   return (
     <Button
-      onClick={() => useStore.getState().toggleUISlide()}
+      onClick={() =>
+        useStore.getState().updateTools({ type: "slide", key: "info" })
+      }
       variant="ghost"
       size="icon"
     >

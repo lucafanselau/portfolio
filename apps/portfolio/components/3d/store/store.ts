@@ -9,12 +9,10 @@ export type Store = {
   camera: {
     target: Vector3;
     position: Vector3;
-    locked: boolean;
-  };
-  slots: {
-    guy?: Group | null;
-    model?: Group | null;
-    camera?: Group | null;
+    controlled: {
+      position: boolean;
+      target: boolean;
+    };
   };
   state: "start" | "explore" | "build";
   ui: {
@@ -23,7 +21,10 @@ export type Store = {
     transition: boolean;
   };
   showCard: boolean;
-  character: { state: "idle" | "walk" | "run" | "rotate" | "greet" };
+  character: {
+    state: "idle" | "walk" | "run" | "rotate" | "greet";
+    position: Vector3;
+  };
   world: {
     terrain: [type: TerrainType, rotation: number][][];
     buildings: Building[];
@@ -39,9 +40,11 @@ export const defaultStore: Store = {
   camera: {
     target: constants.transitions.target["start"],
     position: constants.transitions.position["start"],
-    locked: true,
+    controlled: {
+      position: true,
+      target: true,
+    },
   },
-  slots: {},
   state: "start",
   ui: {
     mode: "focus",
@@ -51,6 +54,7 @@ export const defaultStore: Store = {
   showCard: true,
   character: {
     state: "greet",
+    position: new Vector3(),
   },
   world: {
     terrain: initial.terrain,

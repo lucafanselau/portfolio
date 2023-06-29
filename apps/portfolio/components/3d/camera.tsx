@@ -9,15 +9,10 @@ import {
 import { useFrame, useThree } from "@react-three/fiber";
 import { easing } from "maath";
 import { useEffect, useRef, useState } from "react";
-import {
-  Group,
-  Vector3,
-  PerspectiveCamera as PerspectiveCameraType,
-} from "three";
+import { PerspectiveCamera as PerspectiveCameraType } from "three";
 import { OrbitControls as OrbitControlsType } from "three-stdlib";
 import { constants } from "./constants";
 import { selectors } from "./store/selector";
-import { defaultTransitionConfig, createTransition } from "./transition";
 
 export const Camera = () => {
   const { zoom, pan, rotate, distance } = useStore(...selectors.camera);
@@ -26,15 +21,17 @@ export const Camera = () => {
 
   useFrame(() => {
     if (isNone(camera.current) || isNone(controls.current)) return;
-    const { target, position, locked } = useStore.getState().camera;
-    if (locked) {
-      camera.current.position.copy(position);
-      controls.current.target.copy(target);
-    } else {
-      // now write the camera movement back into the store
-      position.copy(camera.current.position);
-      target.copy(controls.current.target);
-    }
+    const {
+      camera: { target, position, controlled },
+      state,
+    } = useStore.getState();
+
+    if (controlled.position) camera.current.position.copy(position);
+    // otherwise write the camera movement back into the store
+    else position.copy(camera.current.position);
+
+    if (controlled.target) controls.current.target.copy(target);
+    else target.copy(controls.current.target);
   });
 
   return (

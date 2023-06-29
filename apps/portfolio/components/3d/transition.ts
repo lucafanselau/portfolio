@@ -67,8 +67,6 @@ export const transitionVector3 = async (vector: Vector3, target: Vector3) => {
       eps
     );
 
-    console.log("transitioning", vector, target, result);
-
     return result;
   });
 };

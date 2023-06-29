@@ -17,7 +17,7 @@ const Interaction = ({ zone, title }: Interaction) => {
     return useStore.subscribe(
       (s) => s.world.interaction,
       (i) => {
-        if (i === title) {
+        if (i.current === title) {
           material.color.set("#fff");
         } else {
           material.color.set("#5F8646");
@@ -43,15 +43,13 @@ export const Interactions = () => {
   useFrame(() => {
     if (state !== "explore") return;
     const {
-      slots: { guy },
-      setInteraction,
+      character: { position },
+      interact,
     } = useStore.getState();
-    if (!guy) return;
-
     const title = constants.world.interactions.find(({ zone }) =>
-      zone.containsPoint(guy.position)
+      zone.containsPoint(position)
     )?.title;
-    setInteraction(title);
+    interact(title);
   });
 
   if (state !== "explore") return null;
