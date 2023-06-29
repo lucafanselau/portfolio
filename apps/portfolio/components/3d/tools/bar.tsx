@@ -10,9 +10,7 @@ export const ToolsToolbar: FC<{ children?: ReactNode }> = ({ children }) => {
   return (
     <div className="absolute inset-x-0 z-50 bottom-4">
       <div className="relative w-full">
-        <div className="card p-2 flex justify-between items-center pointer-events-auto">
-          {children}
-        </div>
+        <div className="card p-0 pointer-events-auto">{children}</div>
       </div>
     </div>
   );

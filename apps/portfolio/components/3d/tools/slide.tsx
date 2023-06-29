@@ -3,6 +3,7 @@ import { selectors } from "@3d/store/selector";
 import { animated, config, useSpring, useSpringRef } from "@react-spring/web";
 import { cn } from "@ui/utils";
 import { FC, ReactNode, useEffect } from "react";
+import useMeasure from "react-use-measure";
 
 const targets = {
   open: "0%",
@@ -53,5 +54,27 @@ export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
         />
       </animated.div>
     </div>
+  );
+};
+
+export const ToolsSlidePanelHeight: FC<{ children?: ReactNode }> = ({
+  children,
+}) => {
+  const open = useStore(...selectors.ui.open.slide);
+
+  const [measureRef, { height }] = useMeasure();
+  const spring = useSpring({
+    from: { height: 0 },
+    to: { height: open ? height : 0 },
+    config: springConfig,
+  });
+
+  return (
+    <animated.div className="overflow-hidden" style={spring}>
+      <div className="flex flex-col" ref={measureRef}>
+        <div className="p-2 md:p-4">{children}</div>
+        <div className="h-[2px] bg-border w-full" />
+      </div>
+    </animated.div>
   );
 };
