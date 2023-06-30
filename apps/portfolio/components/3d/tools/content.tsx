@@ -13,7 +13,7 @@ export const ToolsContent = () => {
 
   return (
     <div className="flex flex-col space-y-2">
-      <div className="flex items-start space-x-2">
+      <div className="flex items-center space-x-2">
         <div
           id="content-icon"
           className="border-2 basis-16 grow-0 shrink-0 h-16 border-muted-foreground rounded-md flex items-center justify-center"
@@ -22,11 +22,11 @@ export const ToolsContent = () => {
         </div>
         <div className="flex flex-col justify-center items-start">
           <H1 className="max-w-[300px]">{panel.header[0]}</H1>
+          <P color="lighter" size="xs">
+            {panel.header[1]}
+          </P>
         </div>
       </div>
-      <P color="lighter" size="xs">
-        {panel.header[1]}
-      </P>
       {panel.body}
     </div>
   );

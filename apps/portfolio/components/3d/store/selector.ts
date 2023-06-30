@@ -24,7 +24,7 @@ const progress = pack(
   (store) =>
     match<S, ProgressItem | undefined>(store)
       .with({ state: "start" }, () => ({
-        button: "Let's start!",
+        button: "Let's go!",
         target: "explore",
       }))
       .with({ state: "explore" }, ({ world }) => {
@@ -78,27 +78,32 @@ const target = pack(
 const actions = pack((s) => {
   if (s.state === "start") return undefined;
 
-  return (Object.keys(tools[s.state]) as ToolContentKeys[])
-    .filter((key) => {
-      // info is always fine
-      if (key === "info") return true;
-      // keep all in "build" mode
-      if (s.state === "build") return true;
-      // for explore, let's check if the user visited it
-      // @ts-ignore
-      return s.world.interaction.history[key] === true;
-    })
-    .map((key) => {
-      // @ts-ignore
-      return [key, tools[s.state][key]?.icon] as const;
-    });
+  const disabled = (key: ToolContentKeys) => {
+    // info is always fine
+    if (key === "info") return false;
+    // keep all in "build" mode
+    if (s.state === "build") return false;
+    // for explore, let's check if the user visited it
+    // @ts-ignore
+    return s.world.interaction.history[key] !== true;
+  };
+
+  return (Object.keys(tools[s.state]) as ToolContentKeys[]).map((key) => {
+    // @ts-ignore
+    return [key, tools[s.state][key]?.icon, disabled(key)] as const;
+  });
 }, deepEqual);
+
+const state = {
+  start: pack((s) => s.state === "start"),
+};
 
 export const selectors = {
   camera,
   progress,
   content,
   target,
+  state,
   ui: {
     actions,
     opaque,

@@ -36,7 +36,7 @@ export const ToolsProgress = () => {
         className={"px-8 pointer-events-auto"}
         disabled={item.disabled}
       >
-        Next
+        {item.button}
       </AsyncButton>
     </div>
   );

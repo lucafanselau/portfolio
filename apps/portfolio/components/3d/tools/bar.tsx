@@ -1,6 +1,7 @@
 import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
 import { isNone, preventProps } from "@components/utils";
+import { content } from "@content/index";
 import { tools } from "@content/tools";
 import { IconInfoCircle } from "@tabler/icons-react";
 import { Button } from "@ui/button";
@@ -22,13 +23,13 @@ export const ToolsToolbar: FC<{ children?: ReactNode }> = ({ children }) => {
   );
 };
 
-export const ToolsActionButtons: FC<{}> = ({}) => {
+const ToolsActionSlideButtons = () => {
   const actions = useStore(...selectors.ui.actions);
 
   if (isNone(actions)) return null;
   return (
     <div className="flex items-center space-x-2">
-      {actions.map(([action, icon]) => {
+      {actions.map(([action, icon, disabled]) => {
         return (
           <Button
             key={`tools-action-${action}`}
@@ -36,6 +37,7 @@ export const ToolsActionButtons: FC<{}> = ({}) => {
               e.stopPropagation();
               useStore.getState().updateTools({ type: "slide", key: action });
             }}
+            disabled={disabled}
             variant="outline"
             size="icon"
           >
@@ -45,4 +47,35 @@ export const ToolsActionButtons: FC<{}> = ({}) => {
       })}
     </div>
   );
+};
+
+const ToolsActionSocialButtons = () => {
+  const socials = content.config.socials;
+
+  return (
+    <div className="flex items-center space-x-2">
+      {socials.map(({ url, icon: Icon }) => {
+        return (
+          <Button
+            key={`tools-action-social-${url}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              window.open(url, "_blank");
+            }}
+            variant="outline"
+            size="icon"
+          >
+            <Icon />
+          </Button>
+        );
+      })}
+    </div>
+  );
+};
+
+export const ToolsActionButtons: FC<{}> = ({}) => {
+  const isStart = useStore(...selectors.state.start);
+
+  if (isStart) return <ToolsActionSocialButtons />;
+  else return <ToolsActionSlideButtons />;
 };

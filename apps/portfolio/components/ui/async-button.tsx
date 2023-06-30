@@ -15,7 +15,14 @@ const AsyncButton = forwardRef<
     setDisabled(false);
   };
 
-  return <Comp ref={ref} disabled={disabled} onClick={onClick} {...props} />;
+  return (
+    <Comp
+      ref={ref}
+      onClick={onClick}
+      {...props}
+      disabled={disabled || props.disabled}
+    />
+  );
 });
 AsyncButton.displayName = "AsyncButton";
 
