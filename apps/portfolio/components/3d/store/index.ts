@@ -70,12 +70,17 @@ export const useStore = create<Store & Actions>()(
           .with({ type: "dismiss" }, () => {
             set((s) => void (s.ui.mode = "closed"));
           })
-          .with({ type: "slide" }, ({ key }) => {
+          .with({ type: "slide" }, ({ key }) =>
             set((s) => {
-              s.ui.mode = "slide";
-              s.ui.key = key;
-            });
-          })
+              if (s.ui.mode === "slide" && s.ui.key === key) {
+                s.ui.mode = "closed";
+                s.ui.key = "info";
+              } else {
+                s.ui.mode = "slide";
+                s.ui.key = key;
+              }
+            })
+          )
           .exhaustive();
       },
       interact: (i) =>

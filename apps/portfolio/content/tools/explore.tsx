@@ -38,7 +38,7 @@ const info = {
           text={"Scroll / Pan to zoom in or out"}
         />
       </div>
-      <P color={"lighter"} size={"sm"}>
+      <P color={"lighter"} size={"xs"}>
         You can visit the locations in the town, by walking up to their
         entrance. Pssst, once you explored all the locations, the journey is not
         over...

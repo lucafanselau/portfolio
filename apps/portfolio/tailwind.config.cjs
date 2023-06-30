@@ -9,11 +9,17 @@ module.exports = {
   ],
   darkMode: "class",
   theme: {
-    extend: {
-      container: {
-        center: true,
-        padding: "1rem",
+    container: {
+      center: true,
+      padding: "1rem",
+      screens: {
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
       },
+    },
+
+    extend: {
       fontSize: {
         "2xs": "0.6rem",
       },

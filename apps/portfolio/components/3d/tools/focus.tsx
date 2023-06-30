@@ -37,21 +37,21 @@ export const ToolsFocusPanel: FC<{ children?: ReactNode }> = ({ children }) => {
         open && "pointer-events-auto"
       )}
     >
-      <ScrollArea>
+      <ScrollArea className="flex flex-col">
         <div id="popover-children">{children}</div>
-        {dismissable && (
-          <div id="popover-actions" className="flex justify-end">
-            <Button
-              onClick={onClick}
-              size="sm"
-              variant="muted"
-              className="w-full"
-            >
-              Got it
-            </Button>
-          </div>
-        )}
       </ScrollArea>
+      {dismissable && (
+        <div id="popover-actions" className="flex justify-end">
+          <Button
+            onClick={onClick}
+            size="sm"
+            variant="muted"
+            className="w-full"
+          >
+            Got it
+          </Button>
+        </div>
+      )}
     </animated.div>
   );
 };
