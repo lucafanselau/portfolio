@@ -5,7 +5,7 @@ import {
 } from "@tabler/icons-react";
 import { Component, ComponentType } from "react";
 
-const social = (url: string, icon: ComponentType) => ({ name, url, icon });
+const social = (url: string, icon: ComponentType) => ({ url, icon });
 
 export const config = {
   github: "https://github.com/lucafanselau",
