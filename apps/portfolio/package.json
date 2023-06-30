@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "script:color": "node ./scripts/color.js"
+    "script:color": "node ./scripts/color.js",
+    "components:add": "pnpx shadcn-ui@latest add"
   },
   "prettier": {
     "tabWidth": 2,

@@ -45,10 +45,10 @@ export const defaultStore: Store = {
       target: true,
     },
   },
-  state: "start",
+  state: "explore",
   ui: {
-    mode: "focus",
-    key: "info",
+    mode: "slide",
+    key: "office",
     transition: false,
   },
   showCard: true,
@@ -61,7 +61,7 @@ export const defaultStore: Store = {
     buildings: initial.buildings,
     interaction: {
       current: undefined,
-      history: { home: false, office: false, school: false },
+      history: { home: false, office: true, school: false },
     },
   },
 };
