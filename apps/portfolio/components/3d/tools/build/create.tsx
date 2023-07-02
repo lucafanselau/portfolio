@@ -1,18 +1,16 @@
 import { Button } from "@ui/button";
 import { P } from "@ui/typography";
 import { FC } from "react";
-import { BuildingType } from "../types";
 import Image from "next/image";
 import StreetThumbnail from "@public/street-thumbnail.png";
 import { IconHammer } from "@tabler/icons-react";
-import { useToolsStore } from "./store";
 
-const BuildingCard: FC<{
+const CreateCard: FC<{
 	title: string;
 	mode: "street" | "building" | "props";
 }> = ({ title, mode }) => {
 	const onClick = () => {
-		useToolsStore.getState().startBuild(mode);
+		// TODO: useToolsStore.getState().startBuild(mode);
 	};
 	return (
 		<button
@@ -47,15 +45,30 @@ const BuildingCard: FC<{
 	);
 };
 
-export const Build = () => {
+const cards = [
+	{
+		title: "Street",
+		mode: "street",
+	},
+	{
+		title: "Building",
+		mode: "building",
+	},
+	{
+		title: "Props",
+		mode: "props",
+	},
+] as const;
+
+export const CreatePanel = () => {
 	return (
-		<div className={"flex items-stretch space-x-2"}>
+		<div className={"flex flex-col gap-4"}>
 			{cards.map((card) => (
 				<div
 					className="flex-1 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/6"
 					key={card.mode}
 				>
-					<BuildingCard title={card.title} mode={card.mode} />
+					<CreateCard title={card.title} mode={card.mode} />
 				</div>
 			))}
 		</div>
