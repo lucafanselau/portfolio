@@ -57,9 +57,10 @@ async function main() {
 			console.error("during gltfjsx", e);
 		}
 
+		const baseName = p.reverse()[0];
 		// try to move the transformed file
 		try {
-			const name = p.reverse()[0]?.replace(".glb", "-transformed.glb");
+			const name = baseName?.replace(".glb", "-transformed.glb");
 			if (!name) throw new Error("no name");
 			const dest = "./apps/portfolio/public/" + name;
 			console.log("moving", name, "to", dest);
@@ -70,14 +71,19 @@ async function main() {
 
 		// lastly create a preview image
 		try {
+			const out =
+				"./apps/portfolio/public/" + baseName?.replace(".glb", "-preview.png");
+
 			await spawnAsync("pnpm", [
 				"screenshot-glb",
 				"-i",
 				file,
 				"-o",
-				"./apps/portfolio/public/" +
-					p.reverse()[0]?.replace(".glb", "-preview.png"),
+				out,
+				"-m",
+				"camera-orbit=135deg 75deg 105%",
 			]);
+			console.log("create preview image ", out);
 		} catch (e) {
 			console.error("during screenshot creation", e);
 		}
