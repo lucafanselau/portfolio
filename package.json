@@ -12,6 +12,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@expo/spawn-async": "^1.7.2",
+    "@shopify/screenshot-glb": "^1.9.1",
     "gltfjsx": "^6.1.4",
     "prepend-file": "^2.0.1",
     "prettier": "^2.8.7",

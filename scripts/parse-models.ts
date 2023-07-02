@@ -3,7 +3,8 @@ import { readdir, mkdir, rename, writeFile } from "fs/promises";
 import gltfjsx from "gltfjsx/src/gltfjsx";
 import rimraf from "rimraf";
 import prependFile from "prepend-file";
-import {} from "@shopify/screenshot-glb/dist";
+import spawn from "@expo/spawn-async";
+import spawnAsync from "@expo/spawn-async";
 
 async function* getFiles(
 	dir: string,
@@ -65,6 +66,20 @@ async function main() {
 			await rename(name, dest);
 		} catch (e) {
 			console.error("during rename", e);
+		}
+
+		// lastly create a preview image
+		try {
+			await spawnAsync("pnpm", [
+				"screenshot-glb",
+				"-i",
+				file,
+				"-o",
+				"./apps/portfolio/public/" +
+					p.reverse()[0]?.replace(".glb", "-preview.png"),
+			]);
+		} catch (e) {
+			console.error("during screenshot creation", e);
 		}
 	}
 
