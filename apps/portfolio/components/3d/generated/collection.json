@@ -44,6 +44,10 @@
       id: 'hotel',
       file: 'hotel.glb',
       name: 'Hotel',
+      extend: [
+        4,
+        2,
+      ],
     },
     {
       src: 'buildings/house1.tsx',
@@ -52,6 +56,10 @@
       id: 'house1',
       file: 'house.glb',
       name: 'House 1',
+      extend: [
+        2,
+        2,
+      ],
     },
     {
       src: 'buildings/house2.tsx',
@@ -60,6 +68,10 @@
       id: 'house2',
       file: 'house2.glb',
       name: 'House 2',
+      extend: [
+        2,
+        2,
+      ],
     },
     {
       src: 'buildings/house3.tsx',
@@ -68,6 +80,10 @@
       id: 'house3',
       file: 'house3.glb',
       name: 'House 3',
+      extend: [
+        2,
+        2,
+      ],
     },
     {
       src: 'buildings/house4.tsx',
@@ -76,6 +92,10 @@
       id: 'house4',
       file: 'house4.glb',
       name: 'House 4',
+      extend: [
+        2,
+        2,
+      ],
     },
     {
       src: 'buildings/house5.tsx',
@@ -84,6 +104,10 @@
       id: 'house5',
       file: 'house5.glb',
       name: 'House 5',
+      extend: [
+        2,
+        2,
+      ],
     },
     {
       src: 'buildings/house6.tsx',
@@ -92,6 +116,10 @@
       id: 'house6',
       file: 'house6.glb',
       name: 'House 6',
+      extend: [
+        2,
+        2,
+      ],
     },
     {
       src: 'buildings/house7.tsx',
@@ -100,6 +128,10 @@
       id: 'house7',
       file: 'house7.glb',
       name: 'House 7',
+      extend: [
+        2,
+        2,
+      ],
     },
     {
       src: 'buildings/office1.tsx',
@@ -108,6 +140,10 @@
       id: 'office1',
       file: 'office.glb',
       name: 'Office 1',
+      extend: [
+        3,
+        2,
+      ],
     },
     {
       src: 'buildings/office2.tsx',
@@ -116,6 +152,10 @@
       id: 'office2',
       file: 'office2.glb',
       name: 'Office 2',
+      extend: [
+        2,
+        2,
+      ],
     },
     {
       src: 'buildings/office3.tsx',
@@ -124,6 +164,10 @@
       id: 'office3',
       file: 'office3.glb',
       name: 'Office 3',
+      extend: [
+        2,
+        2,
+      ],
     },
     {
       src: 'buildings/park1.tsx',
@@ -132,6 +176,10 @@
       id: 'park1',
       file: 'park.glb',
       name: 'Park 1',
+      extend: [
+        2,
+        2,
+      ],
     },
     {
       src: 'buildings/park2.tsx',
@@ -140,6 +188,10 @@
       id: 'park2',
       file: 'park2.glb',
       name: 'Park 2',
+      extend: [
+        2,
+        2,
+      ],
     },
     {
       src: 'buildings/park3.tsx',
@@ -148,6 +200,10 @@
       id: 'park3',
       file: 'park3.glb',
       name: 'Park 3',
+      extend: [
+        2,
+        2,
+      ],
     },
     {
       src: 'buildings/park4.tsx',
@@ -156,6 +212,10 @@
       id: 'park4',
       file: 'park4.glb',
       name: 'Park 4',
+      extend: [
+        2,
+        2,
+      ],
     },
     {
       src: 'buildings/school.tsx',
@@ -164,6 +224,10 @@
       id: 'school',
       file: 'school.glb',
       name: 'School',
+      extend: [
+        4,
+        2,
+      ],
     },
   ],
   props: [

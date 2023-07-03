@@ -19,20 +19,27 @@ const assetPrefix = "generated/";
 const collectionFile = await readFile(base + "collection.json", "utf-8");
 const rawCollection = JSON5.parse(collectionFile);
 
-const collectionSchema = z.record(
-  z.array(
-    z.object({
-      id: z.string(),
-      file: z.string(),
-      name: z.optional(z.string()),
+const baseEntry = z.object({
+  id: z.string(),
+  file: z.string(),
+});
+
+const collectionSchema = z.object({
+  streets: z.array(baseEntry),
+  buildings: z.array(
+    baseEntry.extend({
+      name: z.string(),
+      extend: z.tuple([z.number(), z.number()]),
     })
-  )
-);
+  ),
+  props: z.array(baseEntry.extend({ name: z.string() })),
+});
 
 // validate the collection file
 const collection = collectionSchema.parse(rawCollection);
 
-type Entry = Unpacked<(typeof collection)[string]>;
+type Key = keyof typeof collection;
+type Entry = Unpacked<(typeof collection)[Key]>;
 
 // function invoked to process a single entry
 const processEntry = async (key: string, entry: Entry) => {
@@ -55,7 +62,7 @@ console.log(`[${chalk.yellow("general")}] - reset target directory`);
 
 // load the entries
 const mapped = await Promise.all(
-  Object.keys(collection).map(async (key) => {
+  Object.keys(collection).map(async (key: Key) => {
     // prepare target directory
     await mkdir(target.src + key, { recursive: true });
     console.log(
@@ -240,7 +247,7 @@ function createLoaderFile() {
 
       const innerFields = entries.map((entry) => {
         const { id } = entry;
-        return `${id}: M${id.replace("-", "")},`;
+        return `"${id}": M${id.replace("-", "")},`;
       });
 
       return `${key}: {\n ${innerFields.join("\n")}\n },`;
@@ -249,7 +256,7 @@ function createLoaderFile() {
 
   return `
 ${imports}
-const models = {
+export const models = {
 	${fields}
 };
 `;

@@ -28,82 +28,98 @@
     {
       "file": "hotel.glb",
       "id": "hotel",
-      "name": "Hotel"
+      "name": "Hotel",
+      "extend": [4, 2]
     },
     {
       "file": "house.glb",
       "id": "house1",
-      "name": "House 1"
+      "name": "House 1",
+      "extend": [2, 2]
     },
     {
       "file": "house2.glb",
       "id": "house2",
-      "name": "House 2"
+      "name": "House 2",
+      "extend": [2, 2]
     },
     {
       "file": "house3.glb",
       "id": "house3",
-      "name": "House 3"
+      "name": "House 3",
+      "extend": [2, 2]
     },
     {
       "file": "house4.glb",
       "id": "house4",
-      "name": "House 4"
+      "name": "House 4",
+      "extend": [2, 2]
     },
     {
       "file": "house5.glb",
       "id": "house5",
-      "name": "House 5"
+      "name": "House 5",
+      "extend": [2, 2]
     },
     {
       "file": "house6.glb",
       "id": "house6",
-      "name": "House 6"
+      "name": "House 6",
+      "extend": [2, 2]
     },
     {
       "file": "house7.glb",
       "id": "house7",
-      "name": "House 7"
+      "name": "House 7",
+      "extend": [2, 2]
     },
     {
       "file": "office.glb",
       "id": "office1",
-      "name": "Office 1"
+      "name": "Office 1",
+      "extend": [3, 2]
     },
     {
       "file": "office2.glb",
       "id": "office2",
-      "name": "Office 2"
+      "name": "Office 2",
+      "extend": [2, 2]
     },
     {
       "file": "office3.glb",
       "id": "office3",
-      "name": "Office 3"
+      "name": "Office 3",
+      "extend": [2, 2]
     },
     {
       "file": "park.glb",
       "id": "park1",
-      "name": "Park 1"
+      "name": "Park 1",
+      "extend": [2, 2]
     },
     {
       "file": "park2.glb",
       "id": "park2",
-      "name": "Park 2"
+      "name": "Park 2",
+      "extend": [2, 2]
     },
     {
       "file": "park3.glb",
       "id": "park3",
-      "name": "Park 3"
+      "name": "Park 3",
+      "extend": [2, 2]
     },
     {
       "file": "park4.glb",
       "id": "park4",
-      "name": "Park 4"
+      "name": "Park 4",
+      "extend": [2, 2]
     },
     {
       "file": "school.glb",
       "id": "school",
-      "name": "School"
+      "name": "School",
+      "extend": [4, 2]
     }
   ],
   // currently we have props "tree" (from 1 to 4)
