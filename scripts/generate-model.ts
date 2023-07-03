@@ -145,6 +145,10 @@ async function createThumbnail(key: string, entry: Entry) {
       out,
       "-m",
       "camera-orbit=135deg 75deg 105%",
+      "-w",
+      "400",
+      "-h",
+      "300",
     ]);
     console.log(`[${chalk.green("success")}] - created preview image ${out}`);
   } catch (e) {
