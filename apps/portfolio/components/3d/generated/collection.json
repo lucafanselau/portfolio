@@ -55,7 +55,7 @@
       "img": "generated/house1-preview.png",
       "id": "house1",
       "file": "house.glb",
-      "name": "House 1",
+      "name": "Luca's House",
       "extend": [
         2,
         2
@@ -67,7 +67,7 @@
       "img": "generated/house2-preview.png",
       "id": "house2",
       "file": "house2.glb",
-      "name": "House 2",
+      "name": "Wooden House",
       "extend": [
         2,
         2
@@ -79,7 +79,7 @@
       "img": "generated/house3-preview.png",
       "id": "house3",
       "file": "house3.glb",
-      "name": "House 3",
+      "name": "Cottage House",
       "extend": [
         2,
         2
@@ -91,7 +91,7 @@
       "img": "generated/house4-preview.png",
       "id": "house4",
       "file": "house4.glb",
-      "name": "House 4",
+      "name": "Villa",
       "extend": [
         2,
         2
@@ -103,7 +103,7 @@
       "img": "generated/house5-preview.png",
       "id": "house5",
       "file": "house5.glb",
-      "name": "House 5",
+      "name": "Small house",
       "extend": [
         2,
         2
@@ -115,7 +115,7 @@
       "img": "generated/house6-preview.png",
       "id": "house6",
       "file": "house6.glb",
-      "name": "House 6",
+      "name": "Modern House",
       "extend": [
         2,
         2
@@ -127,7 +127,7 @@
       "img": "generated/house7-preview.png",
       "id": "house7",
       "file": "house7.glb",
-      "name": "House 7",
+      "name": "Tall House",
       "extend": [
         2,
         2
@@ -139,7 +139,7 @@
       "img": "generated/office1-preview.png",
       "id": "office1",
       "file": "office.glb",
-      "name": "Office 1",
+      "name": "Generic Office",
       "extend": [
         3,
         2
@@ -151,7 +151,7 @@
       "img": "generated/office2-preview.png",
       "id": "office2",
       "file": "office2.glb",
-      "name": "Office 2",
+      "name": "Donut Shop",
       "extend": [
         2,
         2
@@ -163,7 +163,7 @@
       "img": "generated/office3-preview.png",
       "id": "office3",
       "file": "office3.glb",
-      "name": "Office 3",
+      "name": "Soda Shop",
       "extend": [
         2,
         2
@@ -175,7 +175,7 @@
       "img": "generated/park1-preview.png",
       "id": "park1",
       "file": "park.glb",
-      "name": "Park 1",
+      "name": "Playground",
       "extend": [
         2,
         2
@@ -187,7 +187,7 @@
       "img": "generated/park2-preview.png",
       "id": "park2",
       "file": "park2.glb",
-      "name": "Park 2",
+      "name": "Generic Park",
       "extend": [
         2,
         2
@@ -199,7 +199,7 @@
       "img": "generated/park3-preview.png",
       "id": "park3",
       "file": "park3.glb",
-      "name": "Park 3",
+      "name": "Pond Park",
       "extend": [
         2,
         2
@@ -211,7 +211,7 @@
       "img": "generated/park4-preview.png",
       "id": "park4",
       "file": "park4.glb",
-      "name": "Park 4",
+      "name": "Pond Park 2",
       "extend": [
         2,
         2

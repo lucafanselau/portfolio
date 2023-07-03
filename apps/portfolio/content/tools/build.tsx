@@ -1,5 +1,6 @@
 import { CreatePanel } from "@3d/tools/build/create";
-import { IconCrane, IconInfoSmall } from "@tabler/icons-react";
+import { DestroyPanel } from "@3d/tools/build/destroy";
+import { IconBulldozer, IconCrane, IconInfoSmall } from "@tabler/icons-react";
 import { ToolsContent } from "./types";
 
 export const info = {
@@ -25,7 +26,19 @@ const create = {
 	icon: <IconCrane />,
 } satisfies ToolsContent;
 
+const destroy = {
+	header: [
+		<>
+			Remove <span className={"text-animation"}>Structures</span>.
+		</>,
+		"Click on a structure and it will be removed from the map.",
+	],
+	body: <DestroyPanel />,
+	icon: <IconBulldozer />,
+} satisfies ToolsContent;
+
 export const build = {
 	info,
 	create,
+	destroy,
 };
