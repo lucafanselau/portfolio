@@ -1,0 +1,132 @@
+{
+  // street variations are "end", "four", "straight", "three", "turn"
+  "streets": [
+    {
+      "file": "street-end.glb",
+      "id": "street-end"
+    },
+    {
+      "file": "street-four.glb",
+      "id": "street-four"
+    },
+    {
+      "file": "street-straight.glb",
+      "id": "street-straight"
+    },
+    {
+      "file": "street-three.glb",
+      "id": "street-three"
+    },
+    {
+      "file": "street-turn.glb",
+      "id": "street-turn"
+    }
+  ],
+  // currently we have buildings "hotel", "house" (from 1 to 7), "office" (from 1 to 3), "park" (from 1 to 4), "school"
+  // the file attribute has the format "{name}{index}.glb", but if the index is 1 it can be omitted
+  "buildings": [
+    {
+      "file": "hotel.glb",
+      "id": "hotel",
+      "name": "Hotel"
+    },
+    {
+      "file": "house.glb",
+      "id": "house1",
+      "name": "House 1"
+    },
+    {
+      "file": "house2.glb",
+      "id": "house2",
+      "name": "House 2"
+    },
+    {
+      "file": "house3.glb",
+      "id": "house3",
+      "name": "House 3"
+    },
+    {
+      "file": "house4.glb",
+      "id": "house4",
+      "name": "House 4"
+    },
+    {
+      "file": "house5.glb",
+      "id": "house5",
+      "name": "House 5"
+    },
+    {
+      "file": "house6.glb",
+      "id": "house6",
+      "name": "House 6"
+    },
+    {
+      "file": "house7.glb",
+      "id": "house7",
+      "name": "House 7"
+    },
+    {
+      "file": "office.glb",
+      "id": "office1",
+      "name": "Office 1"
+    },
+    {
+      "file": "office2.glb",
+      "id": "office2",
+      "name": "Office 2"
+    },
+    {
+      "file": "office3.glb",
+      "id": "office3",
+      "name": "Office 3"
+    },
+    {
+      "file": "park.glb",
+      "id": "park1",
+      "name": "Park 1"
+    },
+    {
+      "file": "park2.glb",
+      "id": "park2",
+      "name": "Park 2"
+    },
+    {
+      "file": "park3.glb",
+      "id": "park3",
+      "name": "Park 3"
+    },
+    {
+      "file": "park4.glb",
+      "id": "park4",
+      "name": "Park 4"
+    },
+    {
+      "file": "school.glb",
+      "id": "school",
+      "name": "School"
+    }
+  ],
+  // currently we have props "tree" (from 1 to 4)
+  "props": [
+    {
+      "file": "tree.glb",
+      "id": "tree1",
+      "name": "Tree 1"
+    },
+    {
+      "file": "tree2.glb",
+      "id": "tree2",
+      "name": "Tree 2"
+    },
+    {
+      "file": "tree3.glb",
+      "id": "tree3",
+      "name": "Tree 3"
+    },
+    {
+      "file": "tree4.glb",
+      "id": "tree4",
+      "name": "Tree 4"
+    }
+  ]
+}
