@@ -10,12 +10,16 @@ import { CharacterState, defaultStore, Store } from "./store";
 import { Building, TerrainType } from "@3d/world/types";
 import { transitionVector3 } from "@3d/transition";
 import { match } from "ts-pattern";
+import { GeneratedKeys } from "@3d/generated-loader";
 
 type Actions = {
   updateState: (target: Store["state"]) => Promise<void>;
   updateTools: (
     config: { type: "dismiss" } | { type: "slide"; key: ToolContentKeys }
   ) => void;
+  startBuild: (key: GeneratedKeys, id: string) => void;
+  startDestroy: () => void;
+  setPointer: (pointer: Store["pointer"]) => void;
   interact: (interaction: Interaction["title"] | undefined) => void;
   updateTarget: (target: Vector3) => void;
   updateCharacter: (state: CharacterState["state"]) => void;
@@ -61,34 +65,43 @@ export const useStore = create<Store & Actions>()(
           s.camera.controlled.position = false;
           s.camera.controlled.target = target === "build" ? false : true;
           s.ui.transition = false;
-          s.ui.key = "info";
-          s.ui.mode = "focus";
+          s.ui.mode = { type: "focus", key: "info" };
         });
       },
       updateTools: (config) => {
         match(config)
           .with({ type: "dismiss" }, () => {
-            set((s) => void (s.ui.mode = "closed"));
+            set((s) => void (s.ui.mode = { type: "closed" }));
           })
           .with({ type: "slide" }, ({ key }) =>
             set((s) => {
-              if (s.ui.mode === "slide" && s.ui.key === key) {
-                s.ui.mode = "closed";
-                s.ui.key = "info";
+              if (s.ui.mode.type === "slide" && s.ui.mode.key === key) {
+                s.ui.mode = { type: "closed" };
               } else {
-                s.ui.mode = "slide";
-                s.ui.key = key;
+                s.ui.mode = { type: "slide", key };
               }
             })
           )
           .exhaustive();
       },
+      startBuild: (key, id) =>
+        set((s) => {
+          s.ui.mode = {
+            type: "build",
+            // @ts-ignore
+            mode: { type: "build", key: { type: key, id } },
+          };
+        }),
+      startDestroy: () =>
+        set(
+          (s) => void (s.ui.mode = { type: "build", mode: { type: "destroy" } })
+        ),
+      setPointer: (p) => set((s) => void (s.pointer = p)),
       interact: (i) =>
         set((s) => {
           if (isSome(i) && !s.world.interaction.history[i]) {
             // -> eg. this is the first time we interacted with this zone
-            s.ui.mode = "focus";
-            s.ui.key = i;
+            s.ui.mode = { type: "focus", key: i };
             s.world.interaction.history[i] = true;
           }
           s.world.interaction.current = i;

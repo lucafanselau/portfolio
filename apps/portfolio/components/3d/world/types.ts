@@ -2,7 +2,7 @@ import { Vector3 } from "three";
 import type { models } from "@3d/generated/loader";
 
 export type BuildingType = keyof (typeof models)["buildings"];
-export type PropsType = keyof (typeof models)["props"];
+export type PropType = keyof (typeof models)["props"];
 
 export const enum TerrainType {
   Flat = 0,
@@ -23,7 +23,7 @@ export type Building = {
 
 export type Prop = {
   id: string;
-  type: PropsType;
+  type: PropType;
   rotation: number;
   position: Vector3;
 };

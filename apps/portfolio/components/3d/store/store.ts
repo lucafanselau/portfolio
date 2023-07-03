@@ -1,6 +1,13 @@
 import { constants, Interaction } from "@3d/constants";
+import { GeneratedKeys } from "@3d/generated-loader";
 import { initial } from "@3d/world/inital";
-import { Building, Prop, TerrainType } from "@3d/world/types";
+import {
+  Building,
+  BuildingType,
+  Prop,
+  PropType,
+  TerrainType,
+} from "@3d/world/types";
 import type { ToolContentKeys } from "@content/tools";
 import { Group, Vector3 } from "three";
 
@@ -16,8 +23,23 @@ export type Store = {
   };
   state: "start" | "explore" | "build";
   ui: {
-    mode: "focus" | "slide" | "closed";
-    key: ToolContentKeys;
+    mode:
+      | { type: "focus" | "slide"; key: ToolContentKeys }
+      | {
+          type: "build";
+          mode:
+            | {
+                type: "build";
+                key:
+                  | { type: "props"; id: PropType }
+                  | { type: "buildings"; id: BuildingType }
+                  | { type: "streets" };
+              }
+            | { type: "destroy" };
+        }
+      | { type: "closed" };
+
+    // indicating that a camera transition is in progress
     transition: boolean;
   };
   showCard: boolean;
@@ -25,6 +47,7 @@ export type Store = {
     state: "idle" | "walk" | "run" | "rotate" | "greet";
     position: Vector3;
   };
+  pointer?: [number, number];
   world: {
     terrain: [type: TerrainType, rotation: number][][];
     buildings: Building[];
@@ -46,10 +69,9 @@ export const defaultStore: Store = {
       target: true,
     },
   },
-  state: "start",
+  state: "build", // "start",
   ui: {
-    mode: "focus",
-    key: "info",
+    mode: { type: "focus", key: "info" },
     transition: false,
   },
   showCard: true,

@@ -9,7 +9,7 @@ import { H1, P } from "@ui/typography";
 
 export const ToolsContent = () => {
   const panel = useStore(...selectors.content);
-  if (isNone(panel)) return <LoadingAnimation />;
+  if (isNone(panel)) return null;
 
   return (
     <div className="flex flex-col space-y-2">

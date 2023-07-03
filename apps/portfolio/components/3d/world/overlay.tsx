@@ -2,12 +2,12 @@ import { constants } from "@3d/constants";
 import { Plane } from "@react-three/drei";
 import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
 import { Mesh, MeshStandardMaterial, Vector3 } from "three";
-import { useToolsStore } from "./store";
 import TileLoader from "@3d/world/tile";
-import { TerrainType } from "../types";
-import { normalizeTile } from "..";
+import { TerrainType } from "./types";
+import { normalizeTile } from ".";
 import { green } from "tailwindcss/colors";
 import { buildStreet, destroyStreet } from "./mutation";
+
 import {
   GroupProps,
   MeshProps,
@@ -62,9 +62,7 @@ const build = () => {
   if (type === "build") buildStreet(x, z);
   else if (type === "destroy") destroyStreet(x, z);
 };
-export const ToolsOverlay = () => {
-  const type = useToolsStore((s) => s.state?.type);
-
+export const BuildingInteractionOverlay = () => {
   const [material] = useState(
     () => new MeshStandardMaterial({ transparent: true, opacity: 0 })
   );
