@@ -89,6 +89,13 @@ console.log(
   `[${chalk.green("general")}] - wrote new instances file to ${target.src}`
 );
 
+// create the loader file
+const loaderFile = createLoaderFile();
+await writeFile(target.src + "loader.tsx", loaderFile);
+console.log(
+  `[${chalk.green("general")}] - wrote new loader file to ${target.src}`
+);
+
 // ------------------------------
 // UTILITY FUNCTIONS FROM HERE ON
 // ------------------------------
@@ -208,6 +215,42 @@ export const Instances: FC<{ children: ReactNode }> = ({ children }) => {
 			{children}
 			${closeBrackets}
 	);
+};
+`;
+}
+
+function createLoaderFile() {
+  const imports = Object.keys(newCollection ?? {})
+    .flatMap((key) => {
+      const entries = newCollection?.[key] ?? [];
+
+      return entries.map((entry) => {
+        const { id } = entry;
+        return `import { Model as M${id.replace(
+          "-",
+          ""
+        )} } from "./${entry.src.replace(".tsx", "")}";`;
+      });
+    })
+    .join("\n");
+
+  const fields = Object.keys(newCollection ?? {})
+    .map((key) => {
+      const entries = newCollection?.[key] ?? [];
+
+      const innerFields = entries.map((entry) => {
+        const { id } = entry;
+        return `${id}: M${id.replace("-", "")},`;
+      });
+
+      return `${key}: {\n ${innerFields.join("\n")}\n },`;
+    })
+    .join("\n");
+
+  return `
+${imports}
+const models = {
+	${fields}
 };
 `;
 }

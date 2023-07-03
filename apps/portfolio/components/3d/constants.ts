@@ -70,5 +70,5 @@ export const constants = {
   },
 };
 
-type Unwrap<T> = T extends (infer U)[] ? U : T;
+export type Unwrap<T> = T extends (infer U)[] ? U : T;
 export type Interaction = Unwrap<typeof constants.world.interactions>;
