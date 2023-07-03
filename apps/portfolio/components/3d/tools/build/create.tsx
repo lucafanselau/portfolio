@@ -1,16 +1,28 @@
+import collection from "@3d/generated/collection.json";
 import { Button } from "@ui/button";
-import { P } from "@ui/typography";
-import { FC } from "react";
+import { H2, P } from "@ui/typography";
+import { FC, useMemo } from "react";
 import Image from "next/image";
 import { IconHammer } from "@tabler/icons-react";
+import { GeneratedKeys } from "@3d/generated-loader";
+import { isNone } from "@components/utils";
 
 const CreateCard: FC<{
-  title: string;
-  mode: "street" | "building" | "props";
-}> = ({ title, mode }) => {
+  id: string;
+  type: GeneratedKeys;
+}> = ({ id, type }) => {
   const onClick = () => {
     // TODO: useToolsStore.getState().startBuild(mode);
   };
+
+  const entry = useMemo(() => collection[type].find((e) => e.id === id), [id]);
+
+  if (isNone(entry)) return null;
+
+  const name = "name" in entry ? entry.name : entry.id;
+  const extend =
+    "extend" in entry && Array.isArray(entry.extend) ? entry.extend : undefined;
+
   return (
     <button
       onClick={onClick}
@@ -19,8 +31,8 @@ const CreateCard: FC<{
       }
     >
       <Image
-        src={`/generated/street-end-preview.png`}
-        alt={"Street Thumbnail"}
+        src={"/" + entry.img}
+        alt={`${name} Preview`}
         width={156}
         height={156 - 40}
         className={"object-cover h-[116px]"}
@@ -30,7 +42,7 @@ const CreateCard: FC<{
           "absolute right-2 top-2 px-4 dark:bg-blue-500 bg-blue-300 rounded-full"
         }
       >
-        {title}
+        {extend?.[0]} x {extend?.[1]}
       </P>
       <div
         className={
@@ -38,37 +50,31 @@ const CreateCard: FC<{
         }
       >
         <IconHammer className={"inline mr-2"} />
-        Build
+        {name}
       </div>
     </button>
   );
 };
 
-const cards = [
-  {
-    title: "Street",
-    mode: "street",
-  },
-  {
-    title: "Building",
-    mode: "building",
-  },
-  {
-    title: "Props",
-    mode: "props",
-  },
-] as const;
+const keys = Object.keys(collection) as GeneratedKeys[];
 
 export const CreatePanel = () => {
   return (
-    <div className={"flex flex-col gap-4"}>
-      {cards.map((card) => (
-        <div
-          className="flex-1 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/6"
-          key={card.mode}
-        >
-          <CreateCard title={card.title} mode={card.mode} />
-        </div>
+    <div className={"flex flex-col gap-4 w-full"}>
+      {keys.map((key) => (
+        <>
+          <H2>{key}</H2>
+          <div className="flex items-stretch w-full flex-wrap">
+            {collection[key].map((card) => (
+              <div
+                className="flex-1 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/6"
+                key={card.id}
+              >
+                <CreateCard id={card.id} type={key} />
+              </div>
+            ))}
+          </div>
+        </>
       ))}
     </div>
   );

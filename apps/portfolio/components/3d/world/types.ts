@@ -20,3 +20,10 @@ export type Building = {
   rotation: number;
   position: Vector3;
 };
+
+export type Prop = {
+  id: string;
+  type: PropsType;
+  rotation: number;
+  position: Vector3;
+};

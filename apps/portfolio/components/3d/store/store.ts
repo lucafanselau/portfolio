@@ -1,6 +1,6 @@
 import { constants, Interaction } from "@3d/constants";
 import { initial } from "@3d/world/inital";
-import { Building, TerrainType } from "@3d/world/types";
+import { Building, Prop, TerrainType } from "@3d/world/types";
 import type { ToolContentKeys } from "@content/tools";
 import { Group, Vector3 } from "three";
 
@@ -28,6 +28,7 @@ export type Store = {
   world: {
     terrain: [type: TerrainType, rotation: number][][];
     buildings: Building[];
+    props: Prop[];
     interaction: {
       current?: Interaction["title"];
       history: Record<Interaction["title"], boolean>;
@@ -59,6 +60,7 @@ export const defaultStore: Store = {
   world: {
     terrain: initial.terrain,
     buildings: initial.buildings,
+    props: initial.props,
     interaction: {
       current: undefined,
       history: { home: false, office: false, school: false },

@@ -5,9 +5,9 @@ import { constants, Unwrap } from "./constants";
 import { models } from "@3d/generated/loader";
 import { useStore } from "@3d/store";
 import { isNone } from "@components/utils";
-import { Building } from "./world/types";
+import { Building, Prop } from "./world/types";
 
-type GeneratedKeys = keyof typeof collection;
+export type GeneratedKeys = keyof typeof collection;
 type GeneratedEntry<Keys extends GeneratedKeys = GeneratedKeys> = Unwrap<
   (typeof collection)[Keys]
 >;
@@ -54,6 +54,27 @@ export const Buildings = () => {
     <>
       {buildings.map((building) => (
         <BuildingLoader key={building.id} {...building} />
+      ))}
+    </>
+  );
+};
+
+export const PropLoader: FC<Prop> = ({ type, rotation, position }) => {
+  const Model = models["props"]?.[type];
+  if (isNone(Model)) return null;
+
+  return (
+    <Model position={position} rotation={[0, (rotation * Math.PI) / 2, 0]} />
+  );
+};
+
+export const Props = () => {
+  const props = useStore((state) => state.world.props);
+
+  return (
+    <>
+      {props.map((prop) => (
+        <PropLoader key={prop.id} {...prop} />
       ))}
     </>
   );

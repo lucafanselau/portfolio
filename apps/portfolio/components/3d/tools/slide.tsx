@@ -74,8 +74,8 @@ export const ToolsSlidePanelHeight: FC<{ children?: ReactNode }> = ({
 
   return (
     <>
-      <AnimatedScrollArea className="overflow-auto" style={spring}>
-        <div className="flex flex-col p-2 md:p-4" ref={measureRef}>
+      <AnimatedScrollArea className="overflow-y-auto" style={spring}>
+        <div className="flex flex-col p-2 md:p-4 w-full" ref={measureRef}>
           {children}
         </div>
       </AnimatedScrollArea>

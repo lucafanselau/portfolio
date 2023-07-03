@@ -2,7 +2,7 @@ import { range } from "@components/utils";
 import { constants } from "@3d/constants";
 import { useStore } from "@3d/store";
 import { FC, useCallback, useMemo } from "react";
-import { Buildings } from "@3d/generated-loader";
+import { Buildings, Props } from "@3d/generated-loader";
 import { Interactions } from "./interactions";
 import TileLoader from "./tile";
 
@@ -36,6 +36,7 @@ export const World = () => {
         range(0, tiles).map((z) => <Tile x={x} z={z} key={`tile-${x}-${z}`} />)
       )}
       <Buildings />
+      <Props />
       <Interactions />
     </group>
   );

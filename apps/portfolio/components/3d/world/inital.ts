@@ -1,9 +1,9 @@
 import { range } from "@components/utils";
 import { Vector3 } from "three";
-import { Building, BuildingType, TerrainType } from "./types";
+import { Building, BuildingType, Prop, TerrainType } from "./types";
 
 const F = TerrainType.Flat;
-const C = TerrainType.Clipping;
+// const C = TerrainType.Clipping;
 const M = F;
 const S = TerrainType.StreetStraight;
 const T = TerrainType.StreetTurn;
@@ -92,12 +92,18 @@ const initialBuildings: Building[] = [
     type: "office1",
     rotation: 2,
   },
-  // ...range(0, 4).map((i) => ({
-  //   id: "tree-" + i,
-  //   position: new Vector3(Math.floor(i / 2) * -8, 0, -16 + (i % 2) * 24),
-  //   type: BuildingType.Tree1 + i,
-  //   rotation: 0,
-  // })),
+];
+
+const initialProps: Prop[] = [
+  ...range(0, 4).map(
+    (i): Prop => ({
+      id: "tree-" + i,
+      position: new Vector3(Math.floor(i / 2) * -8 + 4, 0, -12 + (i % 2) * 24),
+      // @ts-expect-error
+      type: "tree" + Math.ceil(Math.random() * 4),
+      rotation: 0,
+    })
+  ),
 ];
 
 export const initial = {
@@ -107,4 +113,5 @@ export const initial = {
     )
   ),
   buildings: initialBuildings,
+  props: initialProps,
 };
