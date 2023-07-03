@@ -13,6 +13,7 @@ const target = {
   src: "./apps/portfolio/components/3d/generated/",
   assets: "./apps/portfolio/public/",
 };
+const assetPrefix = "generated/";
 
 // try to load the collection file
 const collectionFile = await readFile(base + "collection.json", "utf-8");
@@ -46,15 +47,19 @@ const processEntry = async (key: string, entry: Entry) => {
 
 // reset target directory
 await rimraf(target.src);
+await rimraf(target.assets + assetPrefix);
+// and recreate the asset directory
+await mkdir(target.assets + assetPrefix, { recursive: true });
+
 console.log(`[${chalk.yellow("general")}] - reset target directory`);
 
 // load the entries
 const mapped = await Promise.all(
   Object.keys(collection).map(async (key) => {
     // prepare target directory
-    await mkdir(target + key, { recursive: true });
+    await mkdir(target.src + key, { recursive: true });
     console.log(
-      `[${chalk.yellow("general")}] - created directory ${target + key}`
+      `[${chalk.yellow("general")}] - created directory ${target.src + key}`
     );
 
     const entries = collection[key];
@@ -109,8 +114,9 @@ async function createGltf(key: string, entry: Entry) {
     console.log(`[${chalk.red("error")}] - ${file} failed to create tsx file`);
   }
   const transformedName = entry.file.replace(".glb", "-transformed.glb");
-  const transformed = `${base}${key}/${transformedName}`;
-  const newPath = `${target.assets}/${transformedName}`;
+  const transformed = `./${transformedName}`;
+  const assetFile = `${assetPrefix}${transformedName}`;
+  const newPath = `${target.assets}${assetFile}`;
   try {
     await rename(transformed, newPath);
     console.log(
@@ -118,15 +124,17 @@ async function createGltf(key: string, entry: Entry) {
     );
   } catch (e) {
     console.log(
-      `[${chalk.red("error")}] - ${file} failed to move transformed file`
+      `[${chalk.red("error")}] - ${file} failed to move transformed file`,
+      newPath
     );
   }
-  return { src: `${key}/${entry.id}.tsx`, glb: `${transformedName}` };
+  return { src: `${key}/${entry.id}.tsx`, glb: `${assetFile}` };
 }
 
 async function createThumbnail(key: string, entry: Entry) {
   const file = `${base}${key}/${entry.file}`;
-  const out = `${target.assets}${entry.id}-preview.png`;
+  const assetFile = `${assetPrefix}${entry.id}-preview.png`;
+  const out = `${target.assets}${assetFile}`;
 
   try {
     await spawnAsync("pnpm", [
@@ -145,7 +153,7 @@ async function createThumbnail(key: string, entry: Entry) {
     );
   }
 
-  return { img: `${entry.id}-preview.png` };
+  return { img: assetFile };
 }
 
 function createInstancesFile() {
@@ -156,10 +164,10 @@ function createInstancesFile() {
 
       return entries.map((entry) => {
         const { id } = entry;
-        return `import { Instances as I${id} } from "./${entry.src.replace(
-          ".tsx",
+        return `import { Instances as I${id.replace(
+          "-",
           ""
-        )}";`;
+        )} } from "./${entry.src.replace(".tsx", "")}";`;
       });
     })
     .join("\n");
@@ -170,7 +178,7 @@ function createInstancesFile() {
 
       return entries.map((entry) => {
         const { id } = entry;
-        return `<I${id} receiveShadow castShadow>`;
+        return `<I${id.replace("-", "")} receiveShadow castShadow>`;
       });
     })
     .join("\n");
@@ -180,7 +188,7 @@ function createInstancesFile() {
 
       return entries.map((entry) => {
         const { id } = entry;
-        return `</I${id}>`;
+        return `</I${id.replace("-", "")}>`;
       });
     })
     .reverse()

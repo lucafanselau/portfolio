@@ -1,6 +1,6 @@
 // @ts-nocheck
 /*
-// Generated from /Users/luca/dev/web/portfolio/assets/generated/buildings/school.glb
+// Generated from ./assets/generated/buildings/school.glb
 */
 
 import * as THREE from 'three'

@@ -1,6 +1,6 @@
 // @ts-nocheck
 /*
-// Generated from /Users/luca/dev/web/portfolio/assets/generated/streets/street-straight.glb
+// Generated from ./assets/generated/streets/street-straight.glb
 */
 
 import * as THREE from 'three'

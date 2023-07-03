@@ -1,6 +1,6 @@
 // @ts-nocheck
 /*
-// Generated from /Users/luca/dev/web/portfolio/assets/generated/buildings/tree1.glb
+// Generated from ./assets/generated/buildings/park.glb
 */
 
 import * as THREE from 'three'
@@ -10,7 +10,7 @@ import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
   nodes: {
-    Cube407: THREE.Mesh
+    park007: THREE.Mesh
   }
   materials: {
     city: THREE.MeshStandardMaterial
@@ -19,10 +19,10 @@ type GLTFResult = GLTF & {
 
 const context = createContext()
 export function Instances({ children, ...props }) {
-  const { nodes } = useGLTF('/tree1-transformed.glb') as GLTFResult
+  const { nodes } = useGLTF('/park-transformed.glb') as GLTFResult
   const instances = useMemo(
     () => ({
-      Cube: nodes.Cube407,
+      Park: nodes.park007,
     }),
     [nodes]
   )
@@ -37,9 +37,9 @@ export function Model(props: JSX.IntrinsicElements['group']) {
   const instances = useContext(context)
   return (
     <group {...props} dispose={null}>
-      <instances.Cube rotation={[-Math.PI, 0.32, -Math.PI]} />
+      <instances.Park scale={2} />
     </group>
   )
 }
 
-useGLTF.preload('/tree1-transformed.glb')
+useGLTF.preload('/park-transformed.glb')
