@@ -77,27 +77,27 @@ const initialBuildings: Building[] = [
   {
     id: "school",
     position: new Vector3(16, 0, 16),
-    type: BuildingType.School,
+    type: "school",
     rotation: 1,
   },
   {
     id: "house",
     position: new Vector3(-8, 0, 24),
-    type: BuildingType.House,
+    type: "house1",
     rotation: 0,
   },
   {
     id: "office",
     position: new Vector3(8, 0, -24),
-    type: BuildingType.Office,
+    type: "office1",
     rotation: 2,
   },
-  ...range(0, 4).map((i) => ({
-    id: "tree-" + i,
-    position: new Vector3(Math.floor(i / 2) * -8, 0, -16 + (i % 2) * 24),
-    type: BuildingType.Tree1 + i,
-    rotation: 0,
-  })),
+  // ...range(0, 4).map((i) => ({
+  //   id: "tree-" + i,
+  //   position: new Vector3(Math.floor(i / 2) * -8, 0, -16 + (i % 2) * 24),
+  //   type: BuildingType.Tree1 + i,
+  //   rotation: 0,
+  // })),
 ];
 
 export const initial = {

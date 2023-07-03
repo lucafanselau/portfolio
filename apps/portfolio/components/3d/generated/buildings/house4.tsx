@@ -19,7 +19,7 @@ type GLTFResult = GLTF & {
 
 const context = createContext()
 export function Instances({ children, ...props }) {
-  const { nodes } = useGLTF('/house4-transformed.glb') as GLTFResult
+  const { nodes } = useGLTF('/generated/house4-transformed.glb') as GLTFResult
   const instances = useMemo(
     () => ({
       Building: nodes.building044,
@@ -42,4 +42,4 @@ export function Model(props: JSX.IntrinsicElements['group']) {
   )
 }
 
-useGLTF.preload('/house4-transformed.glb')
+useGLTF.preload('/generated/house4-transformed.glb')

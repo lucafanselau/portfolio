@@ -83,7 +83,7 @@ const newCollection = mapped.reduce((acc, cur) => ({ ...acc, ...cur }), {});
 
 await writeFile(
   target.src + "collection.json",
-  JSON5.stringify(newCollection, null, 2)
+  JSON.stringify(newCollection, null, 2)
 );
 console.log(
   `[${chalk.green("general")}] - wrote new collection file to ${target.src}`
@@ -110,6 +110,8 @@ console.log(
 async function createGltf(key: string, entry: Entry) {
   const file = `${base}${key}/${entry.file}`;
   const output = `${target.src}${key}/${entry.id}.tsx`;
+  const transformedName = entry.file.replace(".glb", "-transformed.glb");
+  const assetFile = `${assetPrefix}${transformedName}`;
   try {
     const response = await gltfjsx(file, output, {
       transform: true,
@@ -123,13 +125,16 @@ async function createGltf(key: string, entry: Entry) {
     });
 
     await prependFile(output, `// @ts-nocheck\n`);
+
+    let fileContent = await readFile(output, "utf-8");
+    fileContent = fileContent.replaceAll(transformedName, assetFile);
+    await writeFile(output, fileContent);
+
     console.log(`[${chalk.green("success")}] - created model file ${output}`);
   } catch (e) {
     console.log(`[${chalk.red("error")}] - ${file} failed to create tsx file`);
   }
-  const transformedName = entry.file.replace(".glb", "-transformed.glb");
   const transformed = `./${transformedName}`;
-  const assetFile = `${assetPrefix}${transformedName}`;
   const newPath = `${target.assets}${assetFile}`;
   try {
     await rename(transformed, newPath);

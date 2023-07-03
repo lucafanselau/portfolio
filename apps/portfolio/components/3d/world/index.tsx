@@ -2,7 +2,7 @@ import { range } from "@components/utils";
 import { constants } from "@3d/constants";
 import { useStore } from "@3d/store";
 import { FC, useCallback, useMemo } from "react";
-import { Buildings } from "./building/loader";
+import { Buildings } from "@3d/generated-loader";
 import { Interactions } from "./interactions";
 import TileLoader from "./tile";
 

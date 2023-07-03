@@ -1,267 +1,267 @@
 {
-  streets: [
+  "streets": [
     {
-      src: 'streets/street-end.tsx',
-      glb: 'generated/street-end-transformed.glb',
-      img: 'generated/street-end-preview.png',
-      id: 'street-end',
-      file: 'street-end.glb',
+      "src": "streets/street-end.tsx",
+      "glb": "generated/street-end-transformed.glb",
+      "img": "generated/street-end-preview.png",
+      "id": "street-end",
+      "file": "street-end.glb"
     },
     {
-      src: 'streets/street-four.tsx',
-      glb: 'generated/street-four-transformed.glb',
-      img: 'generated/street-four-preview.png',
-      id: 'street-four',
-      file: 'street-four.glb',
+      "src": "streets/street-four.tsx",
+      "glb": "generated/street-four-transformed.glb",
+      "img": "generated/street-four-preview.png",
+      "id": "street-four",
+      "file": "street-four.glb"
     },
     {
-      src: 'streets/street-straight.tsx',
-      glb: 'generated/street-straight-transformed.glb',
-      img: 'generated/street-straight-preview.png',
-      id: 'street-straight',
-      file: 'street-straight.glb',
+      "src": "streets/street-straight.tsx",
+      "glb": "generated/street-straight-transformed.glb",
+      "img": "generated/street-straight-preview.png",
+      "id": "street-straight",
+      "file": "street-straight.glb"
     },
     {
-      src: 'streets/street-three.tsx',
-      glb: 'generated/street-three-transformed.glb',
-      img: 'generated/street-three-preview.png',
-      id: 'street-three',
-      file: 'street-three.glb',
+      "src": "streets/street-three.tsx",
+      "glb": "generated/street-three-transformed.glb",
+      "img": "generated/street-three-preview.png",
+      "id": "street-three",
+      "file": "street-three.glb"
     },
     {
-      src: 'streets/street-turn.tsx',
-      glb: 'generated/street-turn-transformed.glb',
-      img: 'generated/street-turn-preview.png',
-      id: 'street-turn',
-      file: 'street-turn.glb',
-    },
+      "src": "streets/street-turn.tsx",
+      "glb": "generated/street-turn-transformed.glb",
+      "img": "generated/street-turn-preview.png",
+      "id": "street-turn",
+      "file": "street-turn.glb"
+    }
   ],
-  buildings: [
+  "buildings": [
     {
-      src: 'buildings/hotel.tsx',
-      glb: 'generated/hotel-transformed.glb',
-      img: 'generated/hotel-preview.png',
-      id: 'hotel',
-      file: 'hotel.glb',
-      name: 'Hotel',
-      extend: [
+      "src": "buildings/hotel.tsx",
+      "glb": "generated/hotel-transformed.glb",
+      "img": "generated/hotel-preview.png",
+      "id": "hotel",
+      "file": "hotel.glb",
+      "name": "Hotel",
+      "extend": [
         4,
-        2,
-      ],
+        2
+      ]
     },
     {
-      src: 'buildings/house1.tsx',
-      glb: 'generated/house-transformed.glb',
-      img: 'generated/house1-preview.png',
-      id: 'house1',
-      file: 'house.glb',
-      name: 'House 1',
-      extend: [
+      "src": "buildings/house1.tsx",
+      "glb": "generated/house-transformed.glb",
+      "img": "generated/house1-preview.png",
+      "id": "house1",
+      "file": "house.glb",
+      "name": "House 1",
+      "extend": [
         2,
-        2,
-      ],
+        2
+      ]
     },
     {
-      src: 'buildings/house2.tsx',
-      glb: 'generated/house2-transformed.glb',
-      img: 'generated/house2-preview.png',
-      id: 'house2',
-      file: 'house2.glb',
-      name: 'House 2',
-      extend: [
+      "src": "buildings/house2.tsx",
+      "glb": "generated/house2-transformed.glb",
+      "img": "generated/house2-preview.png",
+      "id": "house2",
+      "file": "house2.glb",
+      "name": "House 2",
+      "extend": [
         2,
-        2,
-      ],
+        2
+      ]
     },
     {
-      src: 'buildings/house3.tsx',
-      glb: 'generated/house3-transformed.glb',
-      img: 'generated/house3-preview.png',
-      id: 'house3',
-      file: 'house3.glb',
-      name: 'House 3',
-      extend: [
+      "src": "buildings/house3.tsx",
+      "glb": "generated/house3-transformed.glb",
+      "img": "generated/house3-preview.png",
+      "id": "house3",
+      "file": "house3.glb",
+      "name": "House 3",
+      "extend": [
         2,
-        2,
-      ],
+        2
+      ]
     },
     {
-      src: 'buildings/house4.tsx',
-      glb: 'generated/house4-transformed.glb',
-      img: 'generated/house4-preview.png',
-      id: 'house4',
-      file: 'house4.glb',
-      name: 'House 4',
-      extend: [
+      "src": "buildings/house4.tsx",
+      "glb": "generated/house4-transformed.glb",
+      "img": "generated/house4-preview.png",
+      "id": "house4",
+      "file": "house4.glb",
+      "name": "House 4",
+      "extend": [
         2,
-        2,
-      ],
+        2
+      ]
     },
     {
-      src: 'buildings/house5.tsx',
-      glb: 'generated/house5-transformed.glb',
-      img: 'generated/house5-preview.png',
-      id: 'house5',
-      file: 'house5.glb',
-      name: 'House 5',
-      extend: [
+      "src": "buildings/house5.tsx",
+      "glb": "generated/house5-transformed.glb",
+      "img": "generated/house5-preview.png",
+      "id": "house5",
+      "file": "house5.glb",
+      "name": "House 5",
+      "extend": [
         2,
-        2,
-      ],
+        2
+      ]
     },
     {
-      src: 'buildings/house6.tsx',
-      glb: 'generated/house6-transformed.glb',
-      img: 'generated/house6-preview.png',
-      id: 'house6',
-      file: 'house6.glb',
-      name: 'House 6',
-      extend: [
+      "src": "buildings/house6.tsx",
+      "glb": "generated/house6-transformed.glb",
+      "img": "generated/house6-preview.png",
+      "id": "house6",
+      "file": "house6.glb",
+      "name": "House 6",
+      "extend": [
         2,
-        2,
-      ],
+        2
+      ]
     },
     {
-      src: 'buildings/house7.tsx',
-      glb: 'generated/house7-transformed.glb',
-      img: 'generated/house7-preview.png',
-      id: 'house7',
-      file: 'house7.glb',
-      name: 'House 7',
-      extend: [
+      "src": "buildings/house7.tsx",
+      "glb": "generated/house7-transformed.glb",
+      "img": "generated/house7-preview.png",
+      "id": "house7",
+      "file": "house7.glb",
+      "name": "House 7",
+      "extend": [
         2,
-        2,
-      ],
+        2
+      ]
     },
     {
-      src: 'buildings/office1.tsx',
-      glb: 'generated/office-transformed.glb',
-      img: 'generated/office1-preview.png',
-      id: 'office1',
-      file: 'office.glb',
-      name: 'Office 1',
-      extend: [
+      "src": "buildings/office1.tsx",
+      "glb": "generated/office-transformed.glb",
+      "img": "generated/office1-preview.png",
+      "id": "office1",
+      "file": "office.glb",
+      "name": "Office 1",
+      "extend": [
         3,
-        2,
-      ],
+        2
+      ]
     },
     {
-      src: 'buildings/office2.tsx',
-      glb: 'generated/office2-transformed.glb',
-      img: 'generated/office2-preview.png',
-      id: 'office2',
-      file: 'office2.glb',
-      name: 'Office 2',
-      extend: [
+      "src": "buildings/office2.tsx",
+      "glb": "generated/office2-transformed.glb",
+      "img": "generated/office2-preview.png",
+      "id": "office2",
+      "file": "office2.glb",
+      "name": "Office 2",
+      "extend": [
         2,
-        2,
-      ],
+        2
+      ]
     },
     {
-      src: 'buildings/office3.tsx',
-      glb: 'generated/office3-transformed.glb',
-      img: 'generated/office3-preview.png',
-      id: 'office3',
-      file: 'office3.glb',
-      name: 'Office 3',
-      extend: [
+      "src": "buildings/office3.tsx",
+      "glb": "generated/office3-transformed.glb",
+      "img": "generated/office3-preview.png",
+      "id": "office3",
+      "file": "office3.glb",
+      "name": "Office 3",
+      "extend": [
         2,
-        2,
-      ],
+        2
+      ]
     },
     {
-      src: 'buildings/park1.tsx',
-      glb: 'generated/park-transformed.glb',
-      img: 'generated/park1-preview.png',
-      id: 'park1',
-      file: 'park.glb',
-      name: 'Park 1',
-      extend: [
+      "src": "buildings/park1.tsx",
+      "glb": "generated/park-transformed.glb",
+      "img": "generated/park1-preview.png",
+      "id": "park1",
+      "file": "park.glb",
+      "name": "Park 1",
+      "extend": [
         2,
-        2,
-      ],
+        2
+      ]
     },
     {
-      src: 'buildings/park2.tsx',
-      glb: 'generated/park2-transformed.glb',
-      img: 'generated/park2-preview.png',
-      id: 'park2',
-      file: 'park2.glb',
-      name: 'Park 2',
-      extend: [
+      "src": "buildings/park2.tsx",
+      "glb": "generated/park2-transformed.glb",
+      "img": "generated/park2-preview.png",
+      "id": "park2",
+      "file": "park2.glb",
+      "name": "Park 2",
+      "extend": [
         2,
-        2,
-      ],
+        2
+      ]
     },
     {
-      src: 'buildings/park3.tsx',
-      glb: 'generated/park3-transformed.glb',
-      img: 'generated/park3-preview.png',
-      id: 'park3',
-      file: 'park3.glb',
-      name: 'Park 3',
-      extend: [
+      "src": "buildings/park3.tsx",
+      "glb": "generated/park3-transformed.glb",
+      "img": "generated/park3-preview.png",
+      "id": "park3",
+      "file": "park3.glb",
+      "name": "Park 3",
+      "extend": [
         2,
-        2,
-      ],
+        2
+      ]
     },
     {
-      src: 'buildings/park4.tsx',
-      glb: 'generated/park4-transformed.glb',
-      img: 'generated/park4-preview.png',
-      id: 'park4',
-      file: 'park4.glb',
-      name: 'Park 4',
-      extend: [
+      "src": "buildings/park4.tsx",
+      "glb": "generated/park4-transformed.glb",
+      "img": "generated/park4-preview.png",
+      "id": "park4",
+      "file": "park4.glb",
+      "name": "Park 4",
+      "extend": [
         2,
-        2,
-      ],
+        2
+      ]
     },
     {
-      src: 'buildings/school.tsx',
-      glb: 'generated/school-transformed.glb',
-      img: 'generated/school-preview.png',
-      id: 'school',
-      file: 'school.glb',
-      name: 'School',
-      extend: [
+      "src": "buildings/school.tsx",
+      "glb": "generated/school-transformed.glb",
+      "img": "generated/school-preview.png",
+      "id": "school",
+      "file": "school.glb",
+      "name": "School",
+      "extend": [
         4,
-        2,
-      ],
-    },
+        2
+      ]
+    }
   ],
-  props: [
+  "props": [
     {
-      src: 'props/tree1.tsx',
-      glb: 'generated/tree-transformed.glb',
-      img: 'generated/tree1-preview.png',
-      id: 'tree1',
-      file: 'tree.glb',
-      name: 'Tree 1',
+      "src": "props/tree1.tsx",
+      "glb": "generated/tree-transformed.glb",
+      "img": "generated/tree1-preview.png",
+      "id": "tree1",
+      "file": "tree.glb",
+      "name": "Tree 1"
     },
     {
-      src: 'props/tree2.tsx',
-      glb: 'generated/tree2-transformed.glb',
-      img: 'generated/tree2-preview.png',
-      id: 'tree2',
-      file: 'tree2.glb',
-      name: 'Tree 2',
+      "src": "props/tree2.tsx",
+      "glb": "generated/tree2-transformed.glb",
+      "img": "generated/tree2-preview.png",
+      "id": "tree2",
+      "file": "tree2.glb",
+      "name": "Tree 2"
     },
     {
-      src: 'props/tree3.tsx',
-      glb: 'generated/tree3-transformed.glb',
-      img: 'generated/tree3-preview.png',
-      id: 'tree3',
-      file: 'tree3.glb',
-      name: 'Tree 3',
+      "src": "props/tree3.tsx",
+      "glb": "generated/tree3-transformed.glb",
+      "img": "generated/tree3-preview.png",
+      "id": "tree3",
+      "file": "tree3.glb",
+      "name": "Tree 3"
     },
     {
-      src: 'props/tree4.tsx',
-      glb: 'generated/tree4-transformed.glb',
-      img: 'generated/tree4-preview.png',
-      id: 'tree4',
-      file: 'tree4.glb',
-      name: 'Tree 4',
-    },
-  ],
+      "src": "props/tree4.tsx",
+      "glb": "generated/tree4-transformed.glb",
+      "img": "generated/tree4-preview.png",
+      "id": "tree4",
+      "file": "tree4.glb",
+      "name": "Tree 4"
+    }
+  ]
 }

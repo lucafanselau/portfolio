@@ -19,7 +19,7 @@ type GLTFResult = GLTF & {
 
 const context = createContext()
 export function Instances({ children, ...props }) {
-  const { nodes } = useGLTF('/office-transformed.glb') as GLTFResult
+  const { nodes } = useGLTF('/generated/office-transformed.glb') as GLTFResult
   const instances = useMemo(
     () => ({
       Office: nodes.office,
@@ -42,4 +42,4 @@ export function Model(props: JSX.IntrinsicElements['group']) {
   )
 }
 
-useGLTF.preload('/office-transformed.glb')
+useGLTF.preload('/generated/office-transformed.glb')
