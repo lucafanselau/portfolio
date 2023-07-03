@@ -144,7 +144,7 @@ async function createThumbnail(key: string, entry: Entry) {
       "-o",
       out,
       "-m",
-      "camera-orbit=135deg 75deg 105%",
+      "camera-orbit=135deg 75deg 85%",
       "-w",
       "400",
       "-h",
