@@ -14,6 +14,7 @@ const target = {
   assets: "./apps/portfolio/public/",
 };
 const assetPrefix = "generated/";
+const instance = false;
 
 // try to load the collection file
 const collectionFile = await readFile(base + "collection.json", "utf-8");
@@ -90,11 +91,13 @@ console.log(
 );
 
 // create the instances file
-const instancesFile = createInstancesFile();
-await writeFile(target.src + "index.tsx", instancesFile);
-console.log(
-  `[${chalk.green("general")}] - wrote new instances file to ${target.src}`
-);
+if (instance) {
+  const instancesFile = createInstancesFile();
+  await writeFile(target.src + "index.tsx", instancesFile);
+  console.log(
+    `[${chalk.green("general")}] - wrote new instances file to ${target.src}`
+  );
+}
 
 // create the loader file
 const loaderFile = createLoaderFile();
@@ -116,6 +119,7 @@ async function createGltf(key: string, entry: Entry) {
     const response = await gltfjsx(file, output, {
       transform: true,
       types: true,
+      instanceall: instance,
       instance: true,
       timeout: 0,
       showLog: console.log,
