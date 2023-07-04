@@ -4,8 +4,8 @@
 */
 
 import * as THREE from 'three'
-import React, { useRef, useMemo, useContext, createContext } from 'react'
-import { useGLTF, Merged } from '@react-three/drei'
+import React, { useRef } from 'react'
+import { useGLTF } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -17,27 +17,11 @@ type GLTFResult = GLTF & {
   }
 }
 
-const context = createContext()
-export function Instances({ children, ...props }) {
-  const { nodes } = useGLTF('/generated/street-straight-transformed.glb') as GLTFResult
-  const instances = useMemo(
-    () => ({
-      Cityprivatehouses: nodes.city_private_houses001,
-    }),
-    [nodes]
-  )
-  return (
-    <Merged meshes={instances} {...props}>
-      {(instances) => <context.Provider value={instances} children={children} />}
-    </Merged>
-  )
-}
-
 export function Model(props: JSX.IntrinsicElements['group']) {
-  const instances = useContext(context)
+  const { nodes, materials } = useGLTF('/generated/street-straight-transformed.glb') as GLTFResult
   return (
     <group {...props} dispose={null}>
-      <instances.Cityprivatehouses rotation={[0, Math.PI / 2, 0]} scale={2} />
+      <mesh castShadow receiveShadow geometry={nodes.city_private_houses001.geometry} material={materials.city} rotation={[0, Math.PI / 2, 0]} scale={2} />
     </group>
   )
 }
