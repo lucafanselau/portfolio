@@ -41,11 +41,11 @@ export const ToolbarBuildContent: FC<{}> = ({}) => {
       </div>
       <Button
         onClick={onClick}
-        variant="destructive"
+        variant="outline"
         size="sm"
         className="px-8 pointer-events-auto"
       >
-        Cancel
+        Finish
       </Button>
     </div>
   );

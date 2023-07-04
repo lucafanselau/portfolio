@@ -8,7 +8,7 @@ import {
   TerrainType,
 } from "@3d/world/types";
 import type { ToolContentKeys } from "@content/tools";
-import { Vector3 } from "three";
+import { Object3D, Vector3 } from "three";
 
 export type Store = {
   target: Vector3;
@@ -49,6 +49,7 @@ export type Store = {
   // pointer for building
   pointer?: [number, number];
   world: {
+    hovered: Object3D[];
     terrain: [type: TerrainType, rotation: number][][];
     buildings: Building[];
     props: Prop[];
@@ -80,6 +81,7 @@ export const defaultStore: Store = {
     position: new Vector3(),
   },
   world: {
+    hovered: [],
     terrain: initial.terrain,
     buildings: initial.buildings,
     props: initial.props,

@@ -65,6 +65,8 @@ const content = pack((s): ToolsContent | undefined => {
   return tools[s.state]?.[s.ui.mode.key];
 });
 
+const hovered = pack((s) => s.world.hovered, shallowEqual);
+
 const opaque = pack(
   (s) => s.state !== "start" && s.ui.mode.type === "focus" && !s.ui.transition
 );
@@ -117,6 +119,7 @@ export const selectors = {
   camera,
   pointer,
   progress,
+  hovered,
   content,
   target,
   state,

@@ -3,7 +3,9 @@ import collection from "@3d/generated/collection.json";
 import { models } from "@3d/generated/loader";
 import { useStore } from "@3d/store";
 import { isNone } from "@components/utils";
-import { FC, ReactNode, useMemo } from "react";
+import { GroupProps } from "@react-three/fiber";
+import { FC, ReactNode, useMemo, useRef } from "react";
+import { Group } from "three";
 import { constants, Unwrap } from "./constants";
 import { Building, Prop } from "./world/types";
 
@@ -23,6 +25,7 @@ export const BuildingLoader: FC<Building> = ({
   rotation: rot,
   position,
 }) => {
+  const ref = useRef<Group>(null);
   const entry = useMemo(
     () => collection["buildings"].find((e) => e.id === type),
     [type]
@@ -30,12 +33,22 @@ export const BuildingLoader: FC<Building> = ({
 
   const Model = models["buildings"]?.[type];
 
-  const { rotation, ...props } = useMemo(() => {
+  const { rotation, ...props } = useMemo((): GroupProps => {
     const [width, depth] = entry?.extend ?? [1, 1];
     const { tileSize } = constants.world;
+
     return {
       position: [(width / 2) * tileSize, 0, (depth / 2) * tileSize] as const,
       rotation: [0, (rot * Math.PI) / 2, 0] as [number, number, number],
+      onPointerOver: (e) =>
+        useStore.setState((s) => void s.world.hovered.push(e.object)),
+      onPointerOut: (e) =>
+        useStore.setState(
+          (s) =>
+            void (s.world.hovered = s.world.hovered.filter(
+              (h) => h !== e.object
+            ))
+        ),
     };
   }, [type, rot]);
 
@@ -43,7 +56,7 @@ export const BuildingLoader: FC<Building> = ({
   return (
     <group position={position}>
       <group rotation={rotation}>
-        <Model {...props} />
+        <Model ref={ref} {...props} />
       </group>
     </group>
   );

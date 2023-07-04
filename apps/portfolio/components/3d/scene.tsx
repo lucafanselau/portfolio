@@ -9,6 +9,7 @@ import { AnimatedCharacter } from "./character";
 import { constants } from "./constants";
 import { GeneratedLoader } from "./generated-loader";
 import { Lights } from "./lights";
+import { OutlineEffect } from "./outline";
 import { useStore } from "./store";
 import { State } from "./store/store";
 import { Tools } from "./tools";
@@ -48,6 +49,7 @@ const Scene = () => {
             <Target />
             <World />
           </Loader>
+          <OutlineEffect />
         </Canvas>
       </div>
       {/* NOTE: this is all of the ui */}
