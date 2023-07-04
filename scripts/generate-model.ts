@@ -116,7 +116,7 @@ async function createGltf(key: string, entry: Entry) {
     const response = await gltfjsx(file, output, {
       transform: true,
       types: true,
-      instanceall: true,
+      instance: true,
       timeout: 0,
       showLog: console.log,
       shadows: true,
