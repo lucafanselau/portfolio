@@ -11,10 +11,11 @@ const pack = <T>(sel: (s: S) => T, eq: (a: T, b: T) => boolean = Object.is) =>
   [sel, eq] as const;
 
 const camera = pack(
-  ({ state }) => ({
+  ({ state, camera: { controlled } }) => ({
     pan: state === "build",
     zoom: state !== "start",
     rotate: state !== "start",
+    controlsEnabled: !controlled.position,
     distance: constants.camera.maxDistance[state],
   }),
   shallowEqual

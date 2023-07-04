@@ -29,8 +29,8 @@ const useTransitionStore = create<{
 
 export const defaultTransitionConfig = {
   smoothTime: 0.5,
-  maxSpeed: 11,
-  eps: 1e-2,
+  maxSpeed: 25,
+  eps: 1e-5,
 };
 
 export const createTransition = <T = unknown>(cb: Transition["cb"]) => {
@@ -50,7 +50,7 @@ export const useTransitions = () => {
         resolve(true);
       }
     });
-  });
+  }, 0);
 };
 
 export const transitionVector3 = async (vector: Vector3, target: Vector3) => {
@@ -60,10 +60,10 @@ export const transitionVector3 = async (vector: Vector3, target: Vector3) => {
     const result = easing.damp3(
       vector,
       target,
-      smoothTime,
+      0.25,
       delta,
       maxSpeed,
-      undefined,
+      undefined, // easing.exp,
       eps
     );
 
