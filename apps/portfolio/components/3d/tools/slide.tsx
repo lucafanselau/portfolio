@@ -1,9 +1,9 @@
 import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
-import { animated, config, useSpring, useSpringRef } from "@react-spring/web";
+import { animated, config, useSpring } from "@react-spring/web";
 import { ScrollArea } from "@ui/scroll-area";
 import { cn } from "@ui/utils";
-import { FC, ReactNode, useEffect } from "react";
+import { FC, ReactNode } from "react";
 import useMeasure from "react-use-measure";
 
 const targets = {

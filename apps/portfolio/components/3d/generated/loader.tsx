@@ -1,9 +1,3 @@
-
-import { Model as Mstreetend } from "./streets/street-end";
-import { Model as Mstreetfour } from "./streets/street-four";
-import { Model as Mstreetstraight } from "./streets/street-straight";
-import { Model as Mstreetthree } from "./streets/street-three";
-import { Model as Mstreetturn } from "./streets/street-turn";
 import { Model as Mhotel } from "./buildings/hotel";
 import { Model as Mhouse1 } from "./buildings/house1";
 import { Model as Mhouse2 } from "./buildings/house2";
@@ -24,36 +18,41 @@ import { Model as Mtree1 } from "./props/tree1";
 import { Model as Mtree2 } from "./props/tree2";
 import { Model as Mtree3 } from "./props/tree3";
 import { Model as Mtree4 } from "./props/tree4";
+import { Model as Mstreetend } from "./streets/street-end";
+import { Model as Mstreetfour } from "./streets/street-four";
+import { Model as Mstreetstraight } from "./streets/street-straight";
+import { Model as Mstreetthree } from "./streets/street-three";
+import { Model as Mstreetturn } from "./streets/street-turn";
 export const models = {
-	streets: {
- "street-end": Mstreetend,
-"street-four": Mstreetfour,
-"street-straight": Mstreetstraight,
-"street-three": Mstreetthree,
-"street-turn": Mstreetturn,
- },
-buildings: {
- "hotel": Mhotel,
-"house1": Mhouse1,
-"house2": Mhouse2,
-"house3": Mhouse3,
-"house4": Mhouse4,
-"house5": Mhouse5,
-"house6": Mhouse6,
-"house7": Mhouse7,
-"office1": Moffice1,
-"office2": Moffice2,
-"office3": Moffice3,
-"park1": Mpark1,
-"park2": Mpark2,
-"park3": Mpark3,
-"park4": Mpark4,
-"school": Mschool,
- },
-props: {
- "tree1": Mtree1,
-"tree2": Mtree2,
-"tree3": Mtree3,
-"tree4": Mtree4,
- },
+  streets: {
+    "street-end": Mstreetend,
+    "street-four": Mstreetfour,
+    "street-straight": Mstreetstraight,
+    "street-three": Mstreetthree,
+    "street-turn": Mstreetturn,
+  },
+  buildings: {
+    hotel: Mhotel,
+    house1: Mhouse1,
+    house2: Mhouse2,
+    house3: Mhouse3,
+    house4: Mhouse4,
+    house5: Mhouse5,
+    house6: Mhouse6,
+    house7: Mhouse7,
+    office1: Moffice1,
+    office2: Moffice2,
+    office3: Moffice3,
+    park1: Mpark1,
+    park2: Mpark2,
+    park3: Mpark3,
+    park4: Mpark4,
+    school: Mschool,
+  },
+  props: {
+    tree1: Mtree1,
+    tree2: Mtree2,
+    tree3: Mtree3,
+    tree4: Mtree4,
+  },
 };

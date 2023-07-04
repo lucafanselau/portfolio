@@ -4,10 +4,8 @@ import { State } from "@3d/store/store";
 import { formatters } from "@components/formatters";
 import { isNone, isSome } from "@components/utils";
 import { AsyncButton } from "@ui/async-button";
-import { Button } from "@ui/button";
 import { P } from "@ui/typography";
-import { ComponentType, Fragment, ReactNode, useCallback } from "react";
-import { match } from "ts-pattern";
+import { useCallback } from "react";
 export type ProgressItem = {
   target: State;
   button: string;

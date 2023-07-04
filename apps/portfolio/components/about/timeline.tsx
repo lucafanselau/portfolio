@@ -2,7 +2,6 @@ import { Slot } from "@radix-ui/react-slot";
 import {
   IconCircleCheck,
   IconCircleDashed,
-  IconCircleDot,
   IconCircleDotted,
 } from "@tabler/icons-react";
 import { P } from "@ui/typography";

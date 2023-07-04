@@ -3,7 +3,7 @@ import {
   IconBrandLinkedin,
   IconBrandTwitter,
 } from "@tabler/icons-react";
-import { Component, ComponentType } from "react";
+import { ComponentType } from "react";
 
 const social = (url: string, icon: ComponentType) => ({ url, icon });
 

@@ -1,17 +1,17 @@
+import { constants, Interaction } from "@3d/constants";
+import { GeneratedKeys } from "@3d/generated-loader";
+import { transitionVector3 } from "@3d/transition";
+import { mutation } from "@3d/world/mutation";
+import { TerrainType } from "@3d/world/types";
 import { isSome } from "@components/utils";
 import type { ToolContentKeys } from "@content/tools";
 import { produce } from "immer";
-import { Group, Vector3 } from "three";
+import { Vector3 } from "three";
+import { match } from "ts-pattern";
 import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
-import { constants, Interaction } from "@3d/constants";
 import { CharacterState, defaultStore, Store } from "./store";
-import { Building, TerrainType } from "@3d/world/types";
-import { transitionVector3 } from "@3d/transition";
-import { match } from "ts-pattern";
-import { GeneratedKeys } from "@3d/generated-loader";
-import { mutation } from "@3d/world/mutation";
 
 type Actions = {
   updateState: (target: Store["state"]) => Promise<void>;

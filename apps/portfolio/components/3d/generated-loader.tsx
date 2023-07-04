@@ -1,10 +1,10 @@
 import collection from "@3d/generated/collection.json";
 // import { Instances } from "@3d/generated/index";
-import { FC, ReactNode, useMemo } from "react";
-import { constants, Unwrap } from "./constants";
 import { models } from "@3d/generated/loader";
 import { useStore } from "@3d/store";
 import { isNone } from "@components/utils";
+import { FC, ReactNode, useMemo } from "react";
+import { constants, Unwrap } from "./constants";
 import { Building, Prop } from "./world/types";
 
 export type GeneratedKeys = keyof typeof collection;

@@ -3,27 +3,34 @@
 // Generated from ./assets/generated/buildings/office.glb
 */
 
-import * as THREE from 'three'
-import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
-import { GLTF } from 'three-stdlib'
+import { useGLTF } from "@react-three/drei";
+import * as THREE from "three";
+import { GLTF } from "three-stdlib";
 
 type GLTFResult = GLTF & {
   nodes: {
-    office: THREE.Mesh
-  }
+    office: THREE.Mesh;
+  };
   materials: {
-    city: THREE.MeshStandardMaterial
-  }
-}
+    city: THREE.MeshStandardMaterial;
+  };
+};
 
-export function Model(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/generated/office-transformed.glb') as GLTFResult
+export function Model(props: JSX.IntrinsicElements["group"]) {
+  const { nodes, materials } = useGLTF(
+    "/generated/office-transformed.glb"
+  ) as GLTFResult;
   return (
     <group {...props} dispose={null}>
-      <mesh castShadow receiveShadow geometry={nodes.office.geometry} material={materials.city} scale={0.81} />
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.office.geometry}
+        material={materials.city}
+        scale={0.81}
+      />
     </group>
-  )
+  );
 }
 
-useGLTF.preload('/generated/office-transformed.glb')
+useGLTF.preload("/generated/office-transformed.glb");

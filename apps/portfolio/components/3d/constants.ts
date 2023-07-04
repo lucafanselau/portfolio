@@ -1,4 +1,4 @@
-import { Box2, Box3, Vector3 } from "three";
+import { Box3, Vector3 } from "three";
 
 export const base = {
   eps: 1e-3,

@@ -6,12 +6,12 @@ Command: npx gltfjsx@6.1.4 ./character.glb -t --transform -s -k
 NOTE: Do not overwrite, this contains custom code
 */
 
-import * as THREE from "three";
-import React, { forwardRef, useEffect, useRef } from "react";
-import { useGLTF, useAnimations } from "@react-three/drei";
-import { GLTF } from "three-stdlib";
-import { AnimationClip, Group } from "three";
+import { useAnimations, useGLTF } from "@react-three/drei";
+import { forwardRef, useEffect, useRef } from "react";
 import { mergeRefs } from "react-merge-refs";
+import * as THREE from "three";
+import { AnimationClip, Group } from "three";
+import { GLTF } from "three-stdlib";
 
 type GLTFResult = GLTF & {
   nodes: {

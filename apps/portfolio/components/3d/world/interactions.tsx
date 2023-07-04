@@ -1,9 +1,9 @@
 import { constants, Interaction } from "@3d/constants";
 import { useStore } from "@3d/store";
-import { MeshStandardMaterial, Vector3 } from "three";
 import { Plane } from "@react-three/drei";
-import { useEffect, useMemo, useState } from "react";
 import { useFrame } from "@react-three/fiber";
+import { useEffect, useMemo, useState } from "react";
+import { MeshStandardMaterial, Vector3 } from "three";
 
 const Interaction = ({ zone, title }: Interaction) => {
   const size = useMemo(() => zone.getSize(new Vector3()), [zone]);

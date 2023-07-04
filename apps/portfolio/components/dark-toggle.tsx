@@ -2,7 +2,7 @@
 
 import { useHasMounted } from "@components/hooks/has-mounted";
 import { useLocalStorage } from "@components/hooks/local-storage";
-import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { FC, useCallback, useEffect, useRef } from "react";
 
 type ThemeType = "dark" | "light";
 const THEME_DARK: ThemeType = "dark";

@@ -1,8 +1,8 @@
 import { useFrame } from "@react-three/fiber";
-import { Object3D, Vector3 } from "three";
+import { easing } from "maath";
+import { Vector3 } from "three";
 import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
-import { easing } from "maath";
 
 type Transition<T = unknown> = {
   resolve: (value: T) => void;

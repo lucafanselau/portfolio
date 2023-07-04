@@ -1,9 +1,7 @@
 import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
-import { isNone, preventProps } from "@components/utils";
+import { isNone } from "@components/utils";
 import { content } from "@content/index";
-import { tools } from "@content/tools";
-import { IconInfoCircle } from "@tabler/icons-react";
 import { Button } from "@ui/button";
 import { cn } from "@ui/utils";
 import { FC, ReactNode } from "react";

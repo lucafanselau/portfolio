@@ -8,7 +8,7 @@ import { ToolsFocusPanel } from "./focus";
 import { ToolsLayout } from "./layout";
 import { ToolsOverlay } from "./overlay";
 import { ToolsProgress } from "./progress";
-import { ToolsSlidePanel, ToolsSlidePanelHeight } from "./slide";
+import { ToolsSlidePanelHeight } from "./slide";
 
 const ToolbarContent: FC = () => {
   const buildMode = useStore(...selectors.ui.open.build);

@@ -1,6 +1,5 @@
-import { FC } from "react";
-import { ToolsContent } from "./types";
-import { P } from "@ui/typography";
+import { School } from "@components/about/school";
+import { Work } from "@components/about/work";
 import {
   Icon,
   IconArrowsMaximize,
@@ -11,8 +10,9 @@ import {
   IconPointer,
   IconSchool,
 } from "@tabler/icons-react";
-import { School } from "@components/about/school";
-import { Work } from "@components/about/work";
+import { P } from "@ui/typography";
+import { FC } from "react";
+import { ToolsContent } from "./types";
 
 const Instruction: FC<{ Icon: Icon; text: string }> = ({ Icon, text }) => (
   <div className="flex flex-col items-center flex-1 space-y-2">

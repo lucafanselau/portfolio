@@ -1,8 +1,8 @@
-import "./globals.css";
-import { Inter, Roboto_Mono } from "next/font/google";
-import type { Metadata } from "next/types";
 import { Header } from "@components/header";
 import { cn } from "@ui/utils";
+import { Inter, Roboto_Mono } from "next/font/google";
+import type { Metadata } from "next/types";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const roboto = Roboto_Mono({

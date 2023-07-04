@@ -1,13 +1,13 @@
+import collection from "@3d/generated/collection.json";
 import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
+import { formatters } from "@components/formatters";
 import { isNone } from "@components/utils";
 import { IconBulldozer, IconHammer } from "@tabler/icons-react";
 import { Button } from "@ui/button";
 import { P } from "@ui/typography";
 import { FC } from "react";
-import collection from "@3d/generated/collection.json";
 import { match, P as __ } from "ts-pattern";
-import { formatters } from "@components/formatters";
 
 export const ToolbarBuildContent: FC<{}> = ({}) => {
   const build = useStore(...selectors.ui.build);

@@ -1,5 +1,4 @@
 import { constants, Interaction } from "@3d/constants";
-import { GeneratedKeys } from "@3d/generated-loader";
 import { initial } from "@3d/world/inital";
 import {
   Building,
@@ -9,7 +8,7 @@ import {
   TerrainType,
 } from "@3d/world/types";
 import type { ToolContentKeys } from "@content/tools";
-import { Group, Vector3 } from "three";
+import { Vector3 } from "three";
 
 export type Store = {
   target: Vector3;

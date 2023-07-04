@@ -1,10 +1,7 @@
 import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
 import { isNone } from "@components/utils";
-import { tools } from "@content/tools";
-import type { ToolsContent as ToolsContentType } from "@content/tools/types";
 import { Slot } from "@radix-ui/react-slot";
-import { LoadingAnimation } from "@ui/loader";
 import { H1, P } from "@ui/typography";
 
 export const ToolsContent = () => {

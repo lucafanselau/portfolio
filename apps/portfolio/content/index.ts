@@ -1,7 +1,7 @@
 import { academic } from "./academic";
-import { work } from "./work";
-import { projects } from "./projects";
 import { config } from "./config";
+import { projects } from "./projects";
+import { work } from "./work";
 
 export const content = {
   academic,

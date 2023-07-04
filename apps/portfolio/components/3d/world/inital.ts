@@ -1,6 +1,6 @@
 import { range } from "@components/utils";
 import { Vector3 } from "three";
-import { Building, BuildingType, Prop, TerrainType } from "./types";
+import { Building, Prop, TerrainType } from "./types";
 
 const F = TerrainType.Flat;
 // const C = TerrainType.Clipping;

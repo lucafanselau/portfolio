@@ -1,7 +1,7 @@
-import { ToolsContent } from "./types";
-import Link from "next/link";
+import { IconBulb } from "@tabler/icons-react";
 import { P } from "@ui/typography";
-import { IconBulb, IconInfoSmall } from "@tabler/icons-react";
+import Link from "next/link";
+import { ToolsContent } from "./types";
 
 const info = {
   header: [

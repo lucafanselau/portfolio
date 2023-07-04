@@ -1,4 +1,4 @@
-import { ComponentType, ReactElement, ReactNode } from "react";
+import { ReactNode } from "react";
 
 export type ToolsContent = {
   header: [ReactNode, ReactNode | undefined];

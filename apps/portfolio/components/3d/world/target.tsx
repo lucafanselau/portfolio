@@ -1,7 +1,7 @@
-import { useTexture } from "@react-three/drei";
 import { constants } from "@3d/constants";
 import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
+import { useTexture } from "@react-three/drei";
 
 export const Target = () => {
   const texture = useTexture("/crosshair.png");

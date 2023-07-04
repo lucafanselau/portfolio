@@ -1,21 +1,14 @@
 import { constants } from "@3d/constants";
 import { Plane } from "@react-three/drei";
-import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
-import { Mesh, MeshStandardMaterial, Vector3 } from "three";
-import TileLoader from "@3d/world/tile";
-import { TerrainType } from "./types";
-import { normalizeTile } from ".";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import { green } from "tailwindcss/colors";
+import { Mesh, MeshStandardMaterial, Vector3 } from "three";
+import { normalizeTile } from ".";
 
-import {
-  GroupProps,
-  MeshProps,
-  ThreeEvent,
-  useFrame,
-} from "@react-three/fiber";
 import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
 import { isNone } from "@components/utils";
+import { MeshProps, ThreeEvent, useFrame } from "@react-three/fiber";
 
 const { tileSize, tiles } = constants.world;
 const planeSize = tileSize * tiles;

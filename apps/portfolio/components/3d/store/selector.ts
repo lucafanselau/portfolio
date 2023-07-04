@@ -2,7 +2,7 @@ import { constants } from "@3d/constants";
 import type { ProgressItem } from "@3d/tools/progress";
 import { ToolContentKeys, tools } from "@content/tools";
 import type { ToolsContent } from "@content/tools/types";
-import { shallowEqual, deepEqual } from "fast-equals";
+import { deepEqual, shallowEqual } from "fast-equals";
 import { match } from "ts-pattern";
 import { Store } from "./store";
 
@@ -11,11 +11,11 @@ const pack = <T>(sel: (s: S) => T, eq: (a: T, b: T) => boolean = Object.is) =>
   [sel, eq] as const;
 
 const camera = pack(
-  ({ state, camera: { controlled } }) => ({
+  ({ state, camera: { controlled }, ui: { mode } }) => ({
     pan: state === "build",
     zoom: state !== "start",
     rotate: state !== "start",
-    controlsEnabled: !controlled.position,
+    controlsEnabled: !controlled.position && mode.type !== "build",
     distance: constants.camera.maxDistance[state],
   }),
   shallowEqual

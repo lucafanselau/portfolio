@@ -1,17 +1,17 @@
-import { Box, Plane } from "@react-three/drei";
+import { Box } from "@react-three/drei";
 import { GroupProps } from "@react-three/fiber";
-import { FC, forwardRef, memo } from "react";
+import { forwardRef } from "react";
 import { match } from "ts-pattern";
 import { TerrainType } from "./types";
 
+import { constants } from "@3d/constants";
 import { Model as StreetEnd } from "@3d/generated/streets/street-end";
-import { Model as StreetStraight } from "@3d/generated/streets/street-straight";
-import { Model as StreetTurn } from "@3d/generated/streets/street-turn";
-import { Model as StreetThree } from "@3d/generated/streets/street-three";
 import { Model as StreetFour } from "@3d/generated/streets/street-four";
+import { Model as StreetStraight } from "@3d/generated/streets/street-straight";
+import { Model as StreetThree } from "@3d/generated/streets/street-three";
+import { Model as StreetTurn } from "@3d/generated/streets/street-turn";
 import { useStore } from "@3d/store";
 import { Group, MeshStandardMaterial, Vector3 } from "three";
-import { constants } from "@3d/constants";
 
 const onClick: GroupProps["onClick"] = ({ point, ...e }) => {
   const state = useStore.getState().state;

@@ -1,18 +1,10 @@
 "use client";
 
+import { useIsomorphicLayoutEffect } from "@components/hooks/utils";
 import { isNone, isSome } from "@components/utils";
 import { Card } from "@ui/card";
-import dynamic from "next/dynamic";
-import React, {
-  Attributes,
-  FC,
-  useCallback,
-  useLayoutEffect,
-  useRef,
-} from "react";
-import { useEffect } from "react";
+import { FC, useCallback, useEffect, useLayoutEffect, useRef } from "react";
 import type { Game } from "rust-404";
-import { useIsomorphicLayoutEffect } from "@components/hooks/utils";
 
 let mod: typeof import("rust-404");
 const loadRust404 = async () => {
