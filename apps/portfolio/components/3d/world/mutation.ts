@@ -59,7 +59,7 @@ const updateNeighbor = (x: number, z: number) => {
   }
 };
 
-export const destroyStreet = (x: number, z: number) => {
+const destroyStreet = (x: number, z: number) => {
   const { setTileType } = useStore.getState();
   setTileType(x, z, TerrainType.Flat);
   // also update the neighbors
@@ -69,7 +69,7 @@ export const destroyStreet = (x: number, z: number) => {
   updateNeighbor(x, z + 1);
 };
 
-export const buildStreet = (x: number, z: number) => {
+const buildStreet = (x: number, z: number) => {
   const { setTileType } = useStore.getState();
 
   const [type, rotation] = getTileType(x, z);
@@ -79,4 +79,13 @@ export const buildStreet = (x: number, z: number) => {
   updateNeighbor(x + 1, z);
   updateNeighbor(x, z - 1);
   updateNeighbor(x, z + 1);
+};
+
+export const mutation = {
+  build: {
+    street: buildStreet,
+  },
+  destroy: {
+    street: destroyStreet,
+  },
 };

@@ -60,7 +60,7 @@ export const constants = {
         base.guy.approximateHeight * 6,
         0
       ),
-      build: new Vector3(0, base.guy.approximateHeight * 20, 0),
+      build: new Vector3(-1e-2, base.guy.approximateHeight * 20, 0),
     },
     target: {
       start: new Vector3(0, base.guy.approximateHeight * 1.3, 0),

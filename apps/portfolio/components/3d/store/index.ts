@@ -11,6 +11,7 @@ import { Building, TerrainType } from "@3d/world/types";
 import { transitionVector3 } from "@3d/transition";
 import { match } from "ts-pattern";
 import { GeneratedKeys } from "@3d/generated-loader";
+import { mutation } from "@3d/world/mutation";
 
 type Actions = {
   updateState: (target: Store["state"]) => Promise<void>;
@@ -19,6 +20,7 @@ type Actions = {
   ) => void;
   startBuild: (key: GeneratedKeys, id: string) => void;
   startDestroy: () => void;
+  build: () => void;
   setPointer: (pointer: Store["pointer"]) => void;
   interact: (interaction: Interaction["title"] | undefined) => void;
   updateTarget: (target: Vector3) => void;
@@ -96,6 +98,19 @@ export const useStore = create<Store & Actions>()(
         set(
           (s) => void (s.ui.mode = { type: "build", mode: { type: "destroy" } })
         ),
+
+      build: () => {
+        const {
+          ui: { mode },
+          pointer,
+        } = get();
+        if (mode.type !== "build") return;
+        const { type } = mode.mode;
+        if (!pointer) return;
+        const [x, z] = pointer;
+        if (type === "build") mutation.build.street(x, z);
+        else if (type === "destroy") mutation.destroy.street(x, z);
+      },
       setPointer: (p) => set((s) => void (s.pointer = p)),
       interact: (i) =>
         set((s) => {
