@@ -13,7 +13,6 @@ export const OutlineEffect = () => {
     return useStore.subscribe(
       selector,
       (hovered) => {
-        console.log("hovered", hovered, ref.current?.selection);
         ref.current?.selection.set(hovered);
       },
       { equalityFn: eq }

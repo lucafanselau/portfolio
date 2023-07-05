@@ -1,14 +1,14 @@
 import { constants } from "@3d/constants";
 import { Plane } from "@react-three/drei";
-import { forwardRef, useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
 import { green } from "tailwindcss/colors";
 import { Mesh, MeshStandardMaterial, Vector3 } from "three";
 import { normalizeTile } from ".";
-
 import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
 import { isNone } from "@components/utils";
 import { MeshProps, ThreeEvent, useFrame } from "@react-three/fiber";
+import collection from "@3d/generated/collection.json";
 
 const { tileSize, tiles } = constants.world;
 const planeSize = tileSize * tiles;
@@ -27,11 +27,19 @@ const Overlay = forwardRef<Mesh, MeshProps>(({ ...props }, ref) => {
         opacity: 0.5,
       })
   );
+
+  const entry = useStore(...selectors.entry);
+  if (isNone(entry)) return null;
+  const extend =
+    "extend" in entry
+      ? (entry.extend as [number, number])
+      : ([1, 1] as [number, number]);
+
   return (
     <Plane
       {...props}
       ref={ref}
-      args={[tileSize, tileSize, 2, 2]}
+      args={[tileSize * extend[0], tileSize * extend[1], 2, 2]}
       rotation={[-Math.PI / 2, 0, 0]}
       receiveShadow
       material={material}

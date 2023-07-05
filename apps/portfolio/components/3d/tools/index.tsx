@@ -17,7 +17,7 @@ const ToolbarContent: FC = () => {
     return <ToolbarBuildContent />;
   } else {
     return (
-      <div className="p-2 flex justify-between items-center space-x-2">
+      <div className="p-2 flex justify-between items-center space-x-2 flex-wrap">
         <ToolsActionButtons />
         <ToolsProgress />
       </div>

@@ -5,6 +5,7 @@ import type { ToolsContent } from "@content/tools/types";
 import { deepEqual, shallowEqual } from "fast-equals";
 import { match } from "ts-pattern";
 import { Store } from "./store";
+import collection from "@3d/generated/collection.json";
 
 type S = Store;
 const pack = <T>(sel: (s: S) => T, eq: (a: T, b: T) => boolean = Object.is) =>
@@ -76,6 +77,17 @@ const dismissable = pack(
     s.ui.mode.type !== "closed" &&
     s.ui.mode.type !== "build"
 );
+
+const entry = pack((s) => {
+  if (s.ui.mode.type !== "build") return undefined;
+  const { mode } = s.ui.mode;
+  if (mode.type !== "build") return undefined;
+  const { key } = mode;
+  // streets are all the same
+  // prbly we should have a variant mode though
+  if (key.type === "streets") return collection.streets[0];
+  return collection[key.type].find((e) => e.id === key.id);
+}, Object.is);
 const pointer = pack((s) => s.pointer, deepEqual);
 
 const focus = pack((s) => s.ui.mode.type === "focus" && !s.ui.transition);
@@ -121,6 +133,7 @@ export const selectors = {
   progress,
   hovered,
   content,
+  entry,
   target,
   state,
   ui: {
