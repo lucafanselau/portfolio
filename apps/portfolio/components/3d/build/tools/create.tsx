@@ -1,4 +1,8 @@
-import { AssetCategory } from "@3d/generated-loader";
+import {
+  AssetCategory,
+  AssetEntry,
+  defaultStreetsEntry,
+} from "@3d/generated-loader";
 import collection from "@3d/generated/collection.json";
 import { useStore } from "@3d/store";
 import { H2 } from "@ui/typography";
@@ -8,7 +12,7 @@ import { ToolsItemCard } from "./item-card";
 const CreateCard: FC<{
   id: string;
   type: AssetCategory;
-  entry: (typeof collection)[AssetCategory][number];
+  entry: AssetEntry;
 }> = ({ id, type, entry }) => {
   const onClick = () => {
     useStore.getState().startBuild(type, id);
@@ -33,8 +37,8 @@ export const CreatePanel = () => {
           <H2>{keyLabels[key]}</H2>
           <div className="grid w-full gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {(key === "streets"
-              ? [{ ...collection[key][3], name: "Standard Street" }]
-              : collection[key]
+              ? [defaultStreetsEntry]
+              : Object.values(collection[key])
             ).map((entry) => (
               <CreateCard
                 key={entry.id}

@@ -1,6 +1,6 @@
-import collection from "@3d/generated/collection.json";
 import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
+import { ToolsAction } from "@3d/tools/bar";
 import { formatters } from "@components/formatters";
 import { isNone } from "@components/utils";
 import { tools } from "@content/tools";
@@ -8,35 +8,13 @@ import { IconBulldozer, IconHammer } from "@tabler/icons-react";
 import { Button } from "@ui/button";
 import { P } from "@ui/typography";
 import { FC } from "react";
-import { match, P as __ } from "ts-pattern";
+import { buildEntry } from "../types";
 
 export const BuildActiveBar: FC<{}> = ({}) => {
-  const build = useStore(...selectors.ui.build);
+  const entry = useStore(...buildEntry);
+  if (isNone(entry)) return null;
 
-  if (isNone(build)) return null;
-
-  const text = match(build)
-    .with(
-      { type: "build", payload: { type: "streets" } },
-      () => "Building *Standard Street*"
-    )
-    .with(
-      { type: "build", payload: { type: "buildings" } },
-      ({ payload: { building, type } }) =>
-        `Building *${
-          collection.buildings.find((el) => el.id === building)?.name ??
-          "Unknown"
-        }*`
-    )
-    .with(
-      { type: "build", payload: { type: "props" } },
-      ({ payload: { prop, type } }) =>
-        `Building *${
-          collection.props.find((el) => el.id === props)?.name ?? "Unknown"
-        }*`
-    )
-    .with({ type: "destroy" }, () => "Bulldozing")
-    .exhaustive();
+  const text = `Building *${entry.name ?? "Unknown"}*`;
 
   const onClick = () => {
     useStore.getState().updateTools({ type: "dismiss" });
@@ -45,7 +23,7 @@ export const BuildActiveBar: FC<{}> = ({}) => {
   return (
     <div className="p-2 flex justify-between items-center space-x-2">
       <div className="flex items-center space-x-2">
-        {build.type === "build" ? <IconHammer /> : <IconBulldozer />}
+        {true ? <IconHammer /> : <IconBulldozer />}
         <P>{formatters.bold(text)}</P>
       </div>
       <Button

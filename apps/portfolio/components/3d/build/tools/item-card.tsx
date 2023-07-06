@@ -1,5 +1,4 @@
-import { AssetCategory } from "@3d/generated-loader";
-import collection from "@3d/generated/collection.json";
+import { AssetCategory, AssetEntry } from "@3d/generated-loader";
 import { isNone } from "@components/utils";
 import { P } from "@ui/typography";
 import { cn } from "@ui/utils";
@@ -9,14 +8,13 @@ import { forwardRef } from "react";
 export const ToolsItemCard = forwardRef<
   HTMLButtonElement,
   JSX.IntrinsicElements["button"] & {
-    entry: (typeof collection)[AssetCategory][number];
+    entry: AssetEntry;
   }
 >(({ entry, ...props }, ref) => {
   if (isNone(entry)) return null;
 
-  const name = "name" in entry ? (entry.name as string) : entry.id;
-  const extend =
-    "extend" in entry && Array.isArray(entry.extend) ? entry.extend : undefined;
+  const name = "name" in entry ? entry.name : entry.id;
+  const extend = "extend" in entry ? entry.extend : undefined;
 
   return (
     <button

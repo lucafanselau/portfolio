@@ -9,10 +9,29 @@ import { Group } from "three";
 import { constants, Unwrap } from "./constants";
 import { Building, Prop } from "./world/types";
 
-export type AssetCategory = keyof typeof collection;
-type GeneratedEntry<Keys extends AssetCategory = AssetCategory> = Unwrap<
-  (typeof collection)[Keys]
->;
+// ***************************************************
+// Collection and Assets types and helpers
+
+export type AssetCollection = typeof collection;
+export type AssetCategory = keyof AssetCollection;
+export type AssetEntry<Keys extends AssetCategory = AssetCategory> =
+  UnwrapUnion<AssetCollection[Keys]>;
+
+type KeysOfUnion<T> = T extends T ? keyof T : never;
+type UnwrapUnion<T> = T extends T ? T[keyof T] : never;
+export const findAssetEntry = <C extends AssetCategory>(
+  category: C,
+  item: KeysOfUnion<AssetCollection[C]>
+) => {
+  return collection[category][item] as AssetEntry<C>;
+};
+export const defaultStreetsEntry = {
+  ...findAssetEntry("streets", "street-four"),
+  name: "Standard Street",
+};
+
+// ***************************************************
+// Model Loaders
 
 export const GeneratedLoader: FC<{ children?: ReactNode }> = ({ children }) => {
   // NOTE: currently instances are turned off
@@ -26,10 +45,7 @@ export const BuildingLoader: FC<Building> = ({
   position,
 }) => {
   const ref = useRef<Group>(null);
-  const entry = useMemo(
-    () => collection["buildings"].find((e) => e.id === type),
-    [type]
-  );
+  const entry = useMemo(() => findAssetEntry("buildings", type), [type]);
 
   const Model = models["buildings"]?.[type];
 

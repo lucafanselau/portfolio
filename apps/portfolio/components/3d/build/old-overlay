@@ -3,7 +3,6 @@ import { Plane } from "@react-three/drei";
 import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
 import { green } from "tailwindcss/colors";
 import { Mesh, MeshStandardMaterial, Vector3 } from "three";
-import { normalizeTile } from ".";
 import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
 import { isNone } from "@components/utils";
