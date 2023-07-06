@@ -37,7 +37,7 @@ export const ToolsFocusPanel: FC<{ children?: ReactNode }> = ({ children }) => {
         open && "pointer-events-auto"
       )}
     >
-      <ScrollArea className="flex flex-col">
+      <ScrollArea className="">
         <div id="popover-children">{children}</div>
       </ScrollArea>
       {dismissable && (

@@ -67,19 +67,21 @@ export const ToolsSlidePanelHeight: FC<{ children?: ReactNode }> = ({
 
   const [measureRef, { height }] = useMeasure();
   const spring = useSpring({
-    from: { height: 0 },
-    to: { height: open ? height : 0 },
+    from: { flexBasis: 0 },
+    to: { flexBasis: open ? height : 0 },
     config: springConfig,
   });
 
   return (
     <>
-      <AnimatedScrollArea className="overflow-y-auto" style={spring}>
+      <AnimatedScrollArea
+        className="grow-0 shrink overflow-y-auto"
+        style={spring}
+      >
         <div className="flex flex-col p-2 md:p-4 w-full" ref={measureRef}>
           {children}
         </div>
       </AnimatedScrollArea>
-
       {open && <div className="h-[2px] bg-border w-full" />}
     </>
   );
