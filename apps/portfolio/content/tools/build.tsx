@@ -1,5 +1,3 @@
-import { CreatePanel } from "@3d/tools/build/create";
-import { DestroyPanel } from "@3d/tools/build/destroy";
 import { IconBulldozer, IconCrane, IconInfoSmall } from "@tabler/icons-react";
 import { ToolsContent } from "./types";
 
@@ -22,7 +20,7 @@ const create = {
     </>,
     "Just click on a card and the build mode will open. Then the camera will be locked and you can freely place the structure on the map.",
   ],
-  body: <CreatePanel />,
+  body: null,
   icon: <IconCrane />,
 } satisfies ToolsContent;
 
@@ -33,7 +31,7 @@ const destroy = {
     </>,
     "Click on a structure and it will be removed from the map.",
   ],
-  body: <DestroyPanel />,
+  body: null,
   icon: <IconBulldozer />,
 } satisfies ToolsContent;
 

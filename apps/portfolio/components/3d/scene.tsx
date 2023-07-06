@@ -4,13 +4,13 @@ import { Environment, Stats } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { LoadingAnimation } from "@ui/loader";
 import { FC, PropsWithChildren, ReactNode, Suspense } from "react";
+import { BuildModule } from "./build";
 import { Camera } from "./camera";
 import { AnimatedCharacter } from "./character";
 import { constants } from "./constants";
 import { ExploreModule } from "./explore";
 import { GeneratedLoader } from "./generated-loader";
 import { Lights } from "./lights";
-import { OutlineEffect } from "./outline";
 import { useStore } from "./store";
 import { State } from "./store/store";
 import { ToolsLoader } from "./tools/loader";
@@ -46,10 +46,10 @@ const Scene = () => {
             <Lights />
             <AnimatedCharacter />
             <Camera />
-            <ExploreModule />
             <World />
+            <ExploreModule />
+            <BuildModule />
           </Loader>
-          <OutlineEffect />
         </Canvas>
       </div>
       {/* NOTE: this is all of the ui */}

@@ -1,6 +1,5 @@
 import { useStore } from "@3d/store";
-import { useThree } from "@react-three/fiber";
-import { Bloom, EffectComposer, Outline } from "@react-three/postprocessing";
+import { EffectComposer, Outline } from "@react-three/postprocessing";
 import { OutlineEffect as EffectImpl } from "postprocessing";
 import { useEffect, useRef } from "react";
 import { selectors } from "./store/selector";

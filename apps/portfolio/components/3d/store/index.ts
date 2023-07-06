@@ -1,7 +1,6 @@
 import { constants, Interaction } from "@3d/constants";
 import { AssetCategory } from "@3d/generated-loader";
 import { transitionVector3 } from "@3d/transition";
-import { mutation } from "@3d/world/mutation";
 import { TerrainType } from "@3d/world/types";
 import { isSome } from "@components/utils";
 import type { ToolContentKeys } from "@content/tools";
@@ -96,7 +95,11 @@ export const useStore = create<Store & Actions>()(
         }),
       startDestroy: () =>
         set(
-          (s) => void (s.ui.mode = { type: "build", mode: { type: "destroy" } })
+          (s) =>
+            void (s.ui.mode = {
+              type: "build",
+              payload: { type: "destroy", payload: "streets" },
+            })
         ),
 
       build: () => {
@@ -105,11 +108,12 @@ export const useStore = create<Store & Actions>()(
           pointer,
         } = get();
         if (mode.type !== "build") return;
-        const { type } = mode.mode;
-        if (!pointer) return;
-        const [x, z] = pointer;
-        if (type === "build") mutation.build.street(x, z);
-        else if (type === "destroy") mutation.destroy.street(x, z);
+        // TODO: build dispatch should happen somewhere else
+        // const { type } = mode.mode;
+        // if (!pointer) return;
+        // const [x, z] = pointer;
+        // if (type === "build") mutation.build.street(x, z);
+        // else if (type === "destroy") mutation.destroy.street(x, z);
       },
       setPointer: (p) => set((s) => void (s.pointer = p)),
       interact: (i) =>

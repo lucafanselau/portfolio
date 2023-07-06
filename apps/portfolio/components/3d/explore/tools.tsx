@@ -1,7 +1,7 @@
 import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
 import { ToolsComposition } from "@3d/tools";
-import { ToolsAction, ToolsActionSlideButtons } from "@3d/tools/bar";
+import { ToolsAction } from "@3d/tools/bar";
 import { ToolsPanelContent } from "@3d/tools/content";
 import { ProgressItem, ToolsProgress } from "@3d/tools/progress";
 import { tools } from "@content/tools";

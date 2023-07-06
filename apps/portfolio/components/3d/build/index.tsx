@@ -1,3 +1,9 @@
+import { OutlineEffect } from "./outline";
+
 export const BuildModule = () => {
-  const;
+  return (
+    <>
+      <OutlineEffect />
+    </>
+  );
 };
