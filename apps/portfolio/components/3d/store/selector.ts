@@ -47,6 +47,9 @@ const focus = pack((s) => s.ui.mode.type === "focus" && !s.ui.transition);
 const slide = pack((s) => s.ui.mode.type === "slide" && !s.ui.transition);
 const targetOpen = pack((s) => s.state === "explore");
 const buildOpen = pack((s) => s.ui.mode.type === "build");
+const build = pack((s) =>
+  s.ui.mode.type === "build" ? s.ui.mode.payload : undefined
+);
 
 const target = pack(
   (s) => s.target,
@@ -88,6 +91,7 @@ export const selectors = {
     actions,
     opaque,
     dismissable,
+    build,
     open: {
       focus,
       slide,

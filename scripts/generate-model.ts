@@ -42,6 +42,12 @@ const collection = collectionSchema.parse(rawCollection);
 type Key = keyof typeof collection;
 type Entry = Unpacked<(typeof collection)[Key]>;
 
+type ExtendedEntry = Entry & {
+  src: string;
+  glb: string;
+  img: string;
+};
+
 // function invoked to process a single entry
 const processEntry = async (key: string, entry: Entry) => {
   // process all subprocesses
@@ -72,9 +78,13 @@ const mapped = await Promise.all(
 
     const entries = collection[key];
     if (entries === undefined) return;
-    const mapped = await Promise.all(
-      entries.map((entry) => processEntry(key, entry))
-    );
+    const mapped = (
+      await Promise.all(entries.map((entry) => processEntry(key, entry)))
+    ).reduce((acc, curr) => ({ ...acc, [curr.id]: curr }), {}) as Record<
+      string,
+      ExtendedEntry
+    >;
+
     return { [key]: mapped };
   })
 );
@@ -189,7 +199,7 @@ function createInstancesFile() {
     .flatMap((key) => {
       const entries = newCollection?.[key] ?? [];
 
-      return entries.map((entry) => {
+      return Object.values(entries).map((entry) => {
         const { id } = entry;
         return `import { Instances as I${id.replace(
           "-",
@@ -203,7 +213,7 @@ function createInstancesFile() {
     .flatMap((key) => {
       const entries = newCollection?.[key] ?? [];
 
-      return entries.map((entry) => {
+      return Object.values(entries).map((entry) => {
         const { id } = entry;
         return `<I${id.replace("-", "")} receiveShadow castShadow>`;
       });
@@ -213,7 +223,7 @@ function createInstancesFile() {
     .flatMap((key) => {
       const entries = newCollection?.[key] ?? [];
 
-      return entries.map((entry) => {
+      return Object.values(entries).map((entry) => {
         const { id } = entry;
         return `</I${id.replace("-", "")}>`;
       });
@@ -240,7 +250,7 @@ function createLoaderFile() {
     .flatMap((key) => {
       const entries = newCollection?.[key] ?? [];
 
-      return entries.map((entry) => {
+      return Object.values(entries).map((entry) => {
         const { id } = entry;
         return `import { Model as M${id.replace(
           "-",
@@ -254,7 +264,7 @@ function createLoaderFile() {
     .map((key) => {
       const entries = newCollection?.[key] ?? [];
 
-      const innerFields = entries.map((entry) => {
+      const innerFields = Object.values(entries).map((entry) => {
         const { id } = entry;
         return `"${id}": M${id.replace("-", "")},`;
       });

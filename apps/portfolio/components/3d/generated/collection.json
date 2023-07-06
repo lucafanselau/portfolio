@@ -1,43 +1,43 @@
 {
-  "streets": [
-    {
+  "streets": {
+    "street-end": {
       "src": "streets/street-end.tsx",
       "glb": "generated/street-end-transformed.glb",
       "img": "generated/street-end-preview.png",
       "id": "street-end",
       "file": "street-end.glb"
     },
-    {
+    "street-four": {
       "src": "streets/street-four.tsx",
       "glb": "generated/street-four-transformed.glb",
       "img": "generated/street-four-preview.png",
       "id": "street-four",
       "file": "street-four.glb"
     },
-    {
+    "street-straight": {
       "src": "streets/street-straight.tsx",
       "glb": "generated/street-straight-transformed.glb",
       "img": "generated/street-straight-preview.png",
       "id": "street-straight",
       "file": "street-straight.glb"
     },
-    {
+    "street-three": {
       "src": "streets/street-three.tsx",
       "glb": "generated/street-three-transformed.glb",
       "img": "generated/street-three-preview.png",
       "id": "street-three",
       "file": "street-three.glb"
     },
-    {
+    "street-turn": {
       "src": "streets/street-turn.tsx",
       "glb": "generated/street-turn-transformed.glb",
       "img": "generated/street-turn-preview.png",
       "id": "street-turn",
       "file": "street-turn.glb"
     }
-  ],
-  "buildings": [
-    {
+  },
+  "buildings": {
+    "hotel": {
       "src": "buildings/hotel.tsx",
       "glb": "generated/hotel-transformed.glb",
       "img": "generated/hotel-preview.png",
@@ -46,7 +46,7 @@
       "name": "Hotel",
       "extend": [4, 2]
     },
-    {
+    "house1": {
       "src": "buildings/house1.tsx",
       "glb": "generated/house-transformed.glb",
       "img": "generated/house1-preview.png",
@@ -55,7 +55,7 @@
       "name": "Luca's House",
       "extend": [2, 2]
     },
-    {
+    "house2": {
       "src": "buildings/house2.tsx",
       "glb": "generated/house2-transformed.glb",
       "img": "generated/house2-preview.png",
@@ -64,7 +64,7 @@
       "name": "Wooden House",
       "extend": [2, 2]
     },
-    {
+    "house3": {
       "src": "buildings/house3.tsx",
       "glb": "generated/house3-transformed.glb",
       "img": "generated/house3-preview.png",
@@ -73,7 +73,7 @@
       "name": "Cottage House",
       "extend": [2, 2]
     },
-    {
+    "house4": {
       "src": "buildings/house4.tsx",
       "glb": "generated/house4-transformed.glb",
       "img": "generated/house4-preview.png",
@@ -82,7 +82,7 @@
       "name": "Villa",
       "extend": [2, 2]
     },
-    {
+    "house5": {
       "src": "buildings/house5.tsx",
       "glb": "generated/house5-transformed.glb",
       "img": "generated/house5-preview.png",
@@ -91,7 +91,7 @@
       "name": "Small house",
       "extend": [2, 2]
     },
-    {
+    "house6": {
       "src": "buildings/house6.tsx",
       "glb": "generated/house6-transformed.glb",
       "img": "generated/house6-preview.png",
@@ -100,7 +100,7 @@
       "name": "Modern House",
       "extend": [2, 2]
     },
-    {
+    "house7": {
       "src": "buildings/house7.tsx",
       "glb": "generated/house7-transformed.glb",
       "img": "generated/house7-preview.png",
@@ -109,7 +109,7 @@
       "name": "Tall House",
       "extend": [2, 2]
     },
-    {
+    "office1": {
       "src": "buildings/office1.tsx",
       "glb": "generated/office-transformed.glb",
       "img": "generated/office1-preview.png",
@@ -118,7 +118,7 @@
       "name": "Generic Office",
       "extend": [3, 2]
     },
-    {
+    "office2": {
       "src": "buildings/office2.tsx",
       "glb": "generated/office2-transformed.glb",
       "img": "generated/office2-preview.png",
@@ -127,7 +127,7 @@
       "name": "Donut Shop",
       "extend": [2, 2]
     },
-    {
+    "office3": {
       "src": "buildings/office3.tsx",
       "glb": "generated/office3-transformed.glb",
       "img": "generated/office3-preview.png",
@@ -136,7 +136,7 @@
       "name": "Soda Shop",
       "extend": [2, 2]
     },
-    {
+    "park1": {
       "src": "buildings/park1.tsx",
       "glb": "generated/park-transformed.glb",
       "img": "generated/park1-preview.png",
@@ -145,7 +145,7 @@
       "name": "Playground",
       "extend": [2, 2]
     },
-    {
+    "park2": {
       "src": "buildings/park2.tsx",
       "glb": "generated/park2-transformed.glb",
       "img": "generated/park2-preview.png",
@@ -154,7 +154,7 @@
       "name": "Generic Park",
       "extend": [2, 2]
     },
-    {
+    "park3": {
       "src": "buildings/park3.tsx",
       "glb": "generated/park3-transformed.glb",
       "img": "generated/park3-preview.png",
@@ -163,7 +163,7 @@
       "name": "Pond Park",
       "extend": [2, 2]
     },
-    {
+    "park4": {
       "src": "buildings/park4.tsx",
       "glb": "generated/park4-transformed.glb",
       "img": "generated/park4-preview.png",
@@ -172,7 +172,7 @@
       "name": "Pond Park 2",
       "extend": [2, 2]
     },
-    {
+    "school": {
       "src": "buildings/school.tsx",
       "glb": "generated/school-transformed.glb",
       "img": "generated/school-preview.png",
@@ -181,9 +181,9 @@
       "name": "School",
       "extend": [4, 2]
     }
-  ],
-  "props": [
-    {
+  },
+  "props": {
+    "tree1": {
       "src": "props/tree1.tsx",
       "glb": "generated/tree-transformed.glb",
       "img": "generated/tree1-preview.png",
@@ -191,7 +191,7 @@
       "file": "tree.glb",
       "name": "Tree 1"
     },
-    {
+    "tree2": {
       "src": "props/tree2.tsx",
       "glb": "generated/tree2-transformed.glb",
       "img": "generated/tree2-preview.png",
@@ -199,7 +199,7 @@
       "file": "tree2.glb",
       "name": "Tree 2"
     },
-    {
+    "tree3": {
       "src": "props/tree3.tsx",
       "glb": "generated/tree3-transformed.glb",
       "img": "generated/tree3-preview.png",
@@ -207,7 +207,7 @@
       "file": "tree3.glb",
       "name": "Tree 3"
     },
-    {
+    "tree4": {
       "src": "props/tree4.tsx",
       "glb": "generated/tree4-transformed.glb",
       "img": "generated/tree4-preview.png",
@@ -215,5 +215,5 @@
       "file": "tree4.glb",
       "name": "Tree 4"
     }
-  ]
+  }
 }

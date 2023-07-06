@@ -3,8 +3,9 @@
 // Generated from ./assets/generated/buildings/office2.glb
 */
 
-import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
+import React, { useRef } from "react";
+import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 
 type GLTFResult = GLTF & {

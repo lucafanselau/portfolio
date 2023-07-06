@@ -1,3 +1,8 @@
+import { Model as Mstreetend } from "./streets/street-end";
+import { Model as Mstreetfour } from "./streets/street-four";
+import { Model as Mstreetstraight } from "./streets/street-straight";
+import { Model as Mstreetthree } from "./streets/street-three";
+import { Model as Mstreetturn } from "./streets/street-turn";
 import { Model as Mhotel } from "./buildings/hotel";
 import { Model as Mhouse1 } from "./buildings/house1";
 import { Model as Mhouse2 } from "./buildings/house2";
@@ -18,11 +23,6 @@ import { Model as Mtree1 } from "./props/tree1";
 import { Model as Mtree2 } from "./props/tree2";
 import { Model as Mtree3 } from "./props/tree3";
 import { Model as Mtree4 } from "./props/tree4";
-import { Model as Mstreetend } from "./streets/street-end";
-import { Model as Mstreetfour } from "./streets/street-four";
-import { Model as Mstreetstraight } from "./streets/street-straight";
-import { Model as Mstreetthree } from "./streets/street-three";
-import { Model as Mstreetturn } from "./streets/street-turn";
 export const models = {
   streets: {
     "street-end": Mstreetend,

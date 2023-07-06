@@ -1,6 +1,6 @@
 import { useStore } from "@3d/store";
 import { match } from "ts-pattern";
-import { TerrainType } from "./types";
+import { TerrainType } from "@3d/world/types";
 
 const isStreet = (terrain: TerrainType | undefined) => {
   if (terrain === undefined) return false;
@@ -81,11 +81,7 @@ const buildStreet = (x: number, z: number) => {
   updateNeighbor(x, z + 1);
 };
 
-export const mutation = {
-  build: {
-    street: buildStreet,
-  },
-  destroy: {
-    street: destroyStreet,
-  },
+export const streets = {
+  build: buildStreet,
+  destroy: destroyStreet,
 };

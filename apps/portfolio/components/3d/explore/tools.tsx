@@ -53,8 +53,8 @@ const ExploreContent: FC = () => {
 const actions = selectors.pack((store) => {
   type ToolContentKeys = keyof (typeof tools)["explore"];
   const disabled = (key: ToolContentKeys) => {
-    // @ts-ignore
-    return s.world.interaction.history[key] !== true;
+    if (key === "info") return false;
+    return store.world.interaction.history[key] !== true;
   };
 
   return (Object.keys(tools["explore"]) as ToolContentKeys[]).map((key) => {
