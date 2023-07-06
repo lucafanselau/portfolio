@@ -22,43 +22,6 @@ const camera = pack(
   shallowEqual
 );
 
-const progress = pack(
-  (store) =>
-    match<S, ProgressItem | undefined>(store)
-      .with({ state: "start" }, () => ({
-        button: "Let's go!",
-        target: "explore",
-      }))
-      .with({ state: "explore" }, ({ world }) => {
-        const { history } = world.interaction;
-        const total = Object.keys(history).length;
-        const checked = Object.values(history)
-          .map(Number)
-          .reduce((a, b) => a + b, 0);
-
-        const finished = checked >= total;
-
-        let extraText = "";
-        if (finished)
-          extraText =
-            "Great you have finished the quest. Now let's expand the city a bit!";
-        else
-          extraText = `You are still *missing ${
-            total - checked
-          } locations*. Look
-            for the *School, Office and House*`;
-        return {
-          button: "Next",
-          target: "build",
-          disabled: false, // TODO: !finished,
-          extraText,
-        };
-      })
-
-      .otherwise(() => undefined),
-  shallowEqual
-);
-
 const content = pack((s): ToolsContent | undefined => {
   if (s.ui.mode.type !== "focus" && s.ui.mode.type !== "slide")
     return undefined;
@@ -78,16 +41,6 @@ const dismissable = pack(
     s.ui.mode.type !== "build"
 );
 
-const entry = pack((s) => {
-  if (s.ui.mode.type !== "build") return undefined;
-  const { mode } = s.ui.mode;
-  if (mode.type !== "build") return undefined;
-  const { key } = mode;
-  // streets are all the same
-  // prbly we should have a variant mode though
-  if (key.type === "streets") return collection.streets[0];
-  return collection[key.type].find((e) => e.id === key.id);
-}, Object.is);
 const pointer = pack((s) => s.pointer, deepEqual);
 
 const focus = pack((s) => s.ui.mode.type === "focus" && !s.ui.transition);
@@ -98,10 +51,6 @@ const buildOpen = pack((s) => s.ui.mode.type === "build");
 const target = pack(
   (s) => s.target,
   (a, b) => a.equals(b)
-);
-const build = pack(
-  (s) => (s.ui.mode.type === "build" ? s.ui.mode.mode : undefined),
-  deepEqual
 );
 
 const actions = pack((s) => {
@@ -128,19 +77,17 @@ const state = {
 };
 
 export const selectors = {
+  pack,
   camera,
   pointer,
-  progress,
   hovered,
   content,
-  entry,
   target,
   state,
   ui: {
     actions,
     opaque,
     dismissable,
-    build,
     open: {
       focus,
       slide,

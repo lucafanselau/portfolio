@@ -1,11 +1,8 @@
 import { constants } from "@3d/constants";
 import { Buildings, Props } from "@3d/generated-loader";
-import { ConditionalLoader } from "@3d/scene";
 import { useStore } from "@3d/store";
 import { range } from "@components/utils";
 import { FC, useCallback, useMemo } from "react";
-import { Interactions } from "./interactions";
-import { BuildInteractionOverlay } from "./overlay";
 import TileLoader from "./tile";
 
 const { tileSize, tiles } = constants.world;
@@ -39,10 +36,6 @@ export const World = () => {
       )}
       <Buildings />
       <Props />
-      <Interactions />
-      <ConditionalLoader states={["build"]}>
-        <BuildInteractionOverlay />
-      </ConditionalLoader>
     </group>
   );
 };

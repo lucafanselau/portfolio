@@ -1,4 +1,4 @@
-import { GeneratedKeys } from "@3d/generated-loader";
+import { AssetCategory } from "@3d/generated-loader";
 import collection from "@3d/generated/collection.json";
 import { useStore } from "@3d/store";
 import { FC } from "react";
@@ -6,7 +6,7 @@ import { keyLabels, keys } from "./create";
 import { ToolsItemCard } from "./item-card";
 
 const DestroyCard: FC<{
-  entry: (typeof collection)[GeneratedKeys][number];
+  entry: (typeof collection)[AssetCategory][number];
 }> = ({ entry }) => {
   const onClick = () => {
     useStore.getState().startDestroy();

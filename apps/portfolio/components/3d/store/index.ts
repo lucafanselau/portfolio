@@ -1,5 +1,5 @@
 import { constants, Interaction } from "@3d/constants";
-import { GeneratedKeys } from "@3d/generated-loader";
+import { AssetCategory } from "@3d/generated-loader";
 import { transitionVector3 } from "@3d/transition";
 import { mutation } from "@3d/world/mutation";
 import { TerrainType } from "@3d/world/types";
@@ -18,7 +18,7 @@ type Actions = {
   updateTools: (
     config: { type: "dismiss" } | { type: "slide"; key: ToolContentKeys }
   ) => void;
-  startBuild: (key: GeneratedKeys, id: string) => void;
+  startBuild: (key: AssetCategory, id: string) => void;
   startDestroy: () => void;
   build: () => void;
   setPointer: (pointer: Store["pointer"]) => void;

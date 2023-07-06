@@ -1,3 +1,4 @@
+import { BuildState } from "@3d/build/types";
 import { constants, Interaction } from "@3d/constants";
 import { initial } from "@3d/world/inital";
 import {
@@ -24,24 +25,12 @@ export type Store = {
   ui: {
     mode:
       | { type: "focus" | "slide"; key: ToolContentKeys }
-      | {
-          type: "build";
-          mode:
-            | {
-                type: "build";
-                key:
-                  | { type: "props"; id: PropType }
-                  | { type: "buildings"; id: BuildingType }
-                  | { type: "streets" };
-              }
-            | { type: "destroy" };
-        }
+      | { type: "build"; payload: BuildState }
       | { type: "closed" };
 
     // indicating that a camera transition is in progress
     transition: boolean;
   };
-  showCard: boolean;
   character: {
     state: "idle" | "walk" | "run" | "rotate" | "greet";
     position: Vector3;
@@ -75,7 +64,6 @@ export const defaultStore: Store = {
     mode: { type: "focus", key: "info" },
     transition: false,
   },
-  showCard: true,
   character: {
     state: "greet",
     position: new Vector3(),

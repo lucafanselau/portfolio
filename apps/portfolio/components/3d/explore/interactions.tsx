@@ -37,7 +37,7 @@ const Interaction = ({ zone, title }: Interaction) => {
   );
 };
 
-export const Interactions = () => {
+export const ExploreInteractions = () => {
   const state = useStore((s) => s.state);
 
   useFrame(() => {

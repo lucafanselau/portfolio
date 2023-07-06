@@ -1,4 +1,4 @@
-import { GeneratedKeys } from "@3d/generated-loader";
+import { AssetCategory } from "@3d/generated-loader";
 import collection from "@3d/generated/collection.json";
 import { isNone } from "@components/utils";
 import { P } from "@ui/typography";
@@ -9,7 +9,7 @@ import { forwardRef } from "react";
 export const ToolsItemCard = forwardRef<
   HTMLButtonElement,
   JSX.IntrinsicElements["button"] & {
-    entry: (typeof collection)[GeneratedKeys][number];
+    entry: (typeof collection)[AssetCategory][number];
   }
 >(({ entry, ...props }, ref) => {
   if (isNone(entry)) return null;

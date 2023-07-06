@@ -1,4 +1,4 @@
-import { GeneratedKeys } from "@3d/generated-loader";
+import { AssetCategory } from "@3d/generated-loader";
 import collection from "@3d/generated/collection.json";
 import { useStore } from "@3d/store";
 import { H2 } from "@ui/typography";
@@ -7,8 +7,8 @@ import { ToolsItemCard } from "./item-card";
 
 const CreateCard: FC<{
   id: string;
-  type: GeneratedKeys;
-  entry: (typeof collection)[GeneratedKeys][number];
+  type: AssetCategory;
+  entry: (typeof collection)[AssetCategory][number];
 }> = ({ id, type, entry }) => {
   const onClick = () => {
     useStore.getState().startBuild(type, id);
@@ -17,13 +17,13 @@ const CreateCard: FC<{
   return <ToolsItemCard onClick={onClick} entry={entry} />;
 };
 
-export const keys = Object.keys(collection) as GeneratedKeys[];
+export const keys = Object.keys(collection) as AssetCategory[];
 
 export const keyLabels = {
   buildings: "Buildings",
   props: "Props",
   streets: "Streets",
-} satisfies Record<GeneratedKeys, string>;
+} satisfies Record<AssetCategory, string>;
 
 export const CreatePanel = () => {
   return (

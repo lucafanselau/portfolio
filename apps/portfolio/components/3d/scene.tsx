@@ -7,15 +7,15 @@ import { FC, PropsWithChildren, ReactNode, Suspense } from "react";
 import { Camera } from "./camera";
 import { AnimatedCharacter } from "./character";
 import { constants } from "./constants";
+import { ExploreModule } from "./explore";
 import { GeneratedLoader } from "./generated-loader";
 import { Lights } from "./lights";
 import { OutlineEffect } from "./outline";
 import { useStore } from "./store";
 import { State } from "./store/store";
-import { Tools } from "./tools";
+import { ToolsLoader } from "./tools/loader";
 import { useTransitions } from "./transition";
 import { World } from "./world";
-import { Target } from "./world/target";
 
 const Loader: FC<{ children: ReactNode }> = ({ children }) => {
   useTransitions();
@@ -44,16 +44,16 @@ const Scene = () => {
             {process.env.NEXT_PUBLIC_NODE_ENV === "development" && <Stats />}
             <Environment files="./puresky.hdr" />
             <Lights />
-            <AnimatedCharacter></AnimatedCharacter>
+            <AnimatedCharacter />
             <Camera />
-            <Target />
+            <ExploreModule />
             <World />
           </Loader>
           <OutlineEffect />
         </Canvas>
       </div>
       {/* NOTE: this is all of the ui */}
-      <Tools />
+      <ToolsLoader />
     </Suspense>
   );
 };

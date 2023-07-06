@@ -3,7 +3,7 @@ import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
 import { useTexture } from "@react-three/drei";
 
-export const Target = () => {
+export const ExploreTarget = () => {
   const texture = useTexture("/crosshair.png");
 
   const target = useStore(...selectors.target);

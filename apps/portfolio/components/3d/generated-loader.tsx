@@ -9,8 +9,8 @@ import { Group } from "three";
 import { constants, Unwrap } from "./constants";
 import { Building, Prop } from "./world/types";
 
-export type GeneratedKeys = keyof typeof collection;
-type GeneratedEntry<Keys extends GeneratedKeys = GeneratedKeys> = Unwrap<
+export type AssetCategory = keyof typeof collection;
+type GeneratedEntry<Keys extends AssetCategory = AssetCategory> = Unwrap<
   (typeof collection)[Keys]
 >;
 
