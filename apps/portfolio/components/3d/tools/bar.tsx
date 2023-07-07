@@ -4,20 +4,19 @@ import { Button } from "@ui/button";
 import { cn } from "@ui/utils";
 import { FC, ReactNode } from "react";
 
-export const ToolsToolbar: FC<{ children?: ReactNode; className?: string }> = ({
-  children,
-  className,
-}) => {
-  const open = useStore(...selectors.ui.open.slide);
+export const ToolsToolbar: FC<{
+  children?: ReactNode;
+  className?: string;
+  minHeight?: number;
+}> = ({ children, className, minHeight = 0 }) => {
+  //  const open = useStore(...selectors.ui.open.focus);
 
   return (
     <div
-      className={cn(
-        "relative w-full min-h-0 basis-auto flex flex-col justify-end"
-        // open && "flex-1 min-h-0"
-      )}
+      className={cn("relative w-full basis-auto flex flex-col justify-end")}
+      style={{ minHeight }}
     >
-      <div className={cn("card p-0 pointer-events-auto max-h-full", className)}>
+      <div className={cn("card p-0 pointer-events-auto", className)}>
         {children}
       </div>
     </div>

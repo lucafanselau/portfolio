@@ -27,7 +27,7 @@ export const ToolsFocusPanel: FC<{ children?: ReactNode }> = ({ children }) => {
     useStore.getState().updateTools({ type: "dismiss" });
   }, []);
 
-  if (!mounted) return null;
+  //   if (!mounted) return null;
 
   return (
     <animated.div
