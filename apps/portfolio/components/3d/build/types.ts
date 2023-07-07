@@ -13,7 +13,7 @@ type StreetsPayload = { type: "streets" };
 type BuildingsPayload = { type: "buildings"; id: BuildingType };
 type PropsPayload = { type: "props"; id: PropType };
 
-type BuildStateBuild = {
+export type BuildStateBuild = {
   type: "build";
   payload: PropsPayload | BuildingsPayload | StreetsPayload;
 };

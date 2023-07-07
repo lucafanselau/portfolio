@@ -50,6 +50,9 @@ const focus = pack((s) => s.ui.mode.type === "focus" && !s.ui.transition);
 const slide = pack((s) => s.ui.mode.type === "slide" && !s.ui.transition);
 const targetOpen = pack((s) => s.state === "explore");
 const buildOpen = pack((s) => s.ui.mode.type === "build");
+const outline = pack(
+  (s) => s.ui.mode.type === "build" && s.ui.mode.payload.type === "destroy"
+);
 const build = pack((s) =>
   s.ui.mode.type === "build" ? s.ui.mode.payload : undefined
 );
@@ -98,6 +101,7 @@ export const selectors = {
     open: {
       focus,
       slide,
+			outline,
       target: targetOpen,
       build: buildOpen,
     },

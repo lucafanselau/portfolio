@@ -7,11 +7,12 @@ import { useRef, useState } from "react";
 import { Mesh, MeshStandardMaterial, Vector3 } from "three";
 import { MeshProps, ThreeEvent, useFrame } from "@react-three/fiber";
 import { point } from "./utils";
+import { BuildPreview } from "./preview";
 
 const { tileSize, tiles } = constants.world;
 const planeSize = tileSize * tiles;
 
-const InteractionPlane = () => {
+export const InteractionPlane = () => {
   const interaction = useRef<Mesh>(null);
   const [material] = useState(
     () => new MeshStandardMaterial({ transparent: true, opacity: 0 })
@@ -40,46 +41,5 @@ const InteractionPlane = () => {
       rotation={[-Math.PI / 2, 0, 0]}
       material={material}
     />
-  );
-};
-
-const BuildOverlayMesh = forwardRef<Mesh, MeshProps>(({ ...props }, ref) => {
-  const [material] = useState(
-    () =>
-      new MeshStandardMaterial({
-        color: "#3b82f6", // green[800],
-        depthTest: false,
-        transparent: true,
-        opacity: 0.5,
-      })
-  );
-
-  const entry = useStore(...selectors.entry);
-  if (isNone(entry)) return null;
-  const extend =
-    "extend" in entry
-      ? (entry.extend as [number, number])
-      : ([1, 1] as [number, number]);
-
-  return (
-    <Plane
-      {...props}
-      ref={ref}
-      args={[tileSize * extend[0], tileSize * extend[1], 2, 2]}
-      rotation={[-Math.PI / 2, 0, 0]}
-      receiveShadow
-      material={material}
-    />
-  );
-});
-
-export const BuildOverlay: FC = () => {
-  const building = useStore(...selectors.ui.open.build);
-  if (!building) return null;
-  return (
-    <group renderOrder={9999} position={[0, -1 * constants.eps, 0]}>
-      <InteractionPlane />
-      <BuildOverlayMesh />
-    </group>
   );
 };

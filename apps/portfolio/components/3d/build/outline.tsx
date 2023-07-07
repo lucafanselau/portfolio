@@ -7,16 +7,20 @@ import { selectors } from "@3d/store/selector";
 const [selector, eq] = selectors.hovered;
 export const OutlineEffect = () => {
   const ref = useRef<EffectImpl>(null);
+  const open = useStore(...selectors.ui.open.outline);
 
   useEffect(() => {
+    if (!open) ref.current?.selection.clear();
+    else ref.current?.selection.set(selector(useStore.getState()));
+
     return useStore.subscribe(
       selector,
       (hovered) => {
-        ref.current?.selection.set(hovered);
+        if (open) ref.current?.selection.set(hovered);
       },
       { equalityFn: eq }
     );
-  }, []);
+  }, [open]);
 
   //       <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={300} />
   return (
