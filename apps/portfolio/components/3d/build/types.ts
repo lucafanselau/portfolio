@@ -10,8 +10,8 @@ import { match, P } from "ts-pattern";
 import type { BuildingType, PropType } from "../world/types";
 
 type StreetsPayload = { type: "streets" };
-type BuildingsPayload = { type: "buildings"; building: BuildingType };
-type PropsPayload = { type: "props"; prop: PropType };
+type BuildingsPayload = { type: "buildings"; id: BuildingType };
+type PropsPayload = { type: "props"; id: PropType };
 
 type BuildStateBuild = {
   type: "build";
@@ -28,12 +28,8 @@ export const buildEntry = selectors.pack(
     const payload = state.payload;
 
     return match(payload)
-      .with(
-        P.union(
-          { type: P.select("type", "props"), prop: P.select("item") },
-          { type: P.select("type", "buildings"), building: P.select("item") }
-        ),
-        ({ type, item }) => findAssetEntry(type ?? "buildings", item ?? "hotel")
+      .with({ type: P.union("props", "buildings") }, ({ type, id }) =>
+        findAssetEntry(type, id)
       )
       .with({ type: "streets" }, () => defaultStreetsEntry)
       .exhaustive();

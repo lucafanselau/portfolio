@@ -37,6 +37,7 @@ export type Store = {
   };
   // pointer for building
   pointer?: [number, number];
+  pointerDown: boolean;
   world: {
     hovered: Object3D[];
     terrain: [type: TerrainType, rotation: number][][];
@@ -68,6 +69,8 @@ export const defaultStore: Store = {
     state: "greet",
     position: new Vector3(),
   },
+  pointer: undefined,
+  pointerDown: false,
   world: {
     hovered: [],
     terrain: initial.terrain,

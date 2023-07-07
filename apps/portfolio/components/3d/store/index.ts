@@ -90,7 +90,7 @@ export const useStore = create<Store & Actions>()(
           s.ui.mode = {
             type: "build",
             // @ts-ignore
-            mode: { type: "build", key: { type: key, id } },
+            payload: { type: "build", payload: { type: key, id } },
           };
         }),
       startDestroy: () =>

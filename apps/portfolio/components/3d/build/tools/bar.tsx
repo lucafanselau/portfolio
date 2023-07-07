@@ -21,7 +21,7 @@ export const BuildActiveBar: FC<{}> = ({}) => {
   };
 
   return (
-    <div className="p-2 flex justify-between items-center space-x-2">
+    <>
       <div className="flex items-center space-x-2">
         {true ? <IconHammer /> : <IconBulldozer />}
         <P>{formatters.bold(text)}</P>
@@ -34,7 +34,7 @@ export const BuildActiveBar: FC<{}> = ({}) => {
       >
         Finish
       </Button>
-    </div>
+    </>
   );
 };
 

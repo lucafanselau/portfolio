@@ -21,7 +21,7 @@ const MeasuredBar = ({
     >
       <ToolsSlidePanelHeight>{children}</ToolsSlidePanelHeight>
       <div
-        className="p-2 flex-none flex justify-between items-center space-x-2 flex-wrap"
+        className="p-2 w-full flex-none flex justify-between items-center space-x-2 flex-wrap"
         ref={measureRef}
       >
         {bar}

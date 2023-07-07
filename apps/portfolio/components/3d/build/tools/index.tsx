@@ -9,17 +9,23 @@ import { Button } from "@ui/button";
 import { shallowEqual } from "fast-equals";
 import { FC } from "react";
 import { BuildBar } from "./bar";
+import { CreatePanel } from "./create";
 
 const content = selectors.pack((store) => {
   const mode = store.ui.mode;
   const key =
     mode.type === "focus" || mode.type === "slide" ? mode.key : undefined;
-  // @ts-expect-error
-  return key ? tools.explore[key] : undefined;
+  return key
+    ? key === "create"
+      ? { ...tools.build[key], body: <CreatePanel /> }
+      : // @ts-expect-error
+        tools.build[key]
+    : undefined;
 }, Object.is);
 
 const BuildContent: FC = () => {
-  return <div>TODO</div>;
+  const item = useStore(...content);
+  return <ToolsPanelContent panel={item} />;
 };
 
 export const BuildTools = () => {
