@@ -1,5 +1,5 @@
 import { Box } from "@react-three/drei";
-import { GroupProps } from "@react-three/fiber";
+import type { GroupProps } from "@react-three/fiber";
 import { forwardRef } from "react";
 import { match } from "ts-pattern";
 import { TerrainType } from "./types";
@@ -11,7 +11,8 @@ import { Model as StreetStraight } from "@3d/generated/streets/street-straight";
 import { Model as StreetThree } from "@3d/generated/streets/street-three";
 import { Model as StreetTurn } from "@3d/generated/streets/street-turn";
 import { useStore } from "@3d/store";
-import { Group, MeshStandardMaterial, Vector3 } from "three";
+import type { Group } from "three";
+import { MeshStandardMaterial, Vector3 } from "three";
 
 const onClick: GroupProps["onClick"] = ({ point, ...e }) => {
   const state = useStore.getState().state;

@@ -3,7 +3,8 @@
 import { useIsomorphicLayoutEffect } from "@components/hooks/utils";
 import { isNone, isSome } from "@components/utils";
 import { Card } from "@ui/card";
-import { FC, useCallback, useEffect, useLayoutEffect, useRef } from "react";
+import type { FC } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
 import type { Game } from "rust-404";
 
 let mod: typeof import("rust-404");
@@ -124,7 +125,7 @@ export const Rust404: FC = ({}) => {
   }, []);
 
   return (
-    <Card className={" w-full  relative p-0 overflow-hidden"}>
+    <Card className={" relative  w-full overflow-hidden p-0"}>
       <canvas
         ref={canvas}
         id={"canvas"}
@@ -134,7 +135,7 @@ export const Rust404: FC = ({}) => {
       />
       <p
         ref={p}
-        className="card absolute pointer-events-none top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4  rounded-xl"
+        className="card pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform rounded-xl  p-4"
       >
         Click to start the game
       </p>

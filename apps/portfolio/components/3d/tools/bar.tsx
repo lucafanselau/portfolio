@@ -1,8 +1,6 @@
-import { useStore } from "@3d/store";
-import { selectors } from "@3d/store/selector";
 import { Button } from "@ui/button";
 import { cn } from "@ui/utils";
-import { FC, ReactNode } from "react";
+import type { FC, ReactNode } from "react";
 
 export const ToolsToolbar: FC<{
   children?: ReactNode;
@@ -13,10 +11,10 @@ export const ToolsToolbar: FC<{
 
   return (
     <div
-      className={cn("relative w-full basis-auto flex flex-col justify-end ")}
+      className={cn("relative flex w-full basis-auto flex-col justify-end ")}
       style={{ minHeight }}
     >
-      <div className={cn("card p-0 pointer-events-auto", className)}>
+      <div className={cn("card pointer-events-auto p-0", className)}>
         {children}
       </div>
     </div>
@@ -32,10 +30,10 @@ export const ToolsAction: FC<{
 }> = ({ actions }) => {
   return (
     <div className="flex items-center space-x-2">
-      {actions.map(({ icon, onClick, disabled }) => {
+      {actions.map(({ icon, onClick, disabled }, index) => {
         return (
           <Button
-            key={`tools-action-${icon}`}
+            key={`tools-action-${index}`}
             onClick={(e) => {
               e.stopPropagation();
               onClick();

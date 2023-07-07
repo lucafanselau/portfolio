@@ -1,6 +1,6 @@
 import { useFrame } from "@react-three/fiber";
 import { easing } from "maath";
-import { Vector3 } from "three";
+import type { Vector3 } from "three";
 import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
 
@@ -34,10 +34,14 @@ export const defaultTransitionConfig = {
 };
 
 export const createTransition = <T = unknown>(cb: Transition["cb"]) => {
-  let resolve: (value: T) => void = () => {};
-  const promise = new Promise<T>((r) => (resolve = r));
-  const transition: Transition<T> = { resolve, cb, id: crypto.randomUUID() };
-  useTransitionStore.getState().add(transition);
+  const promise = new Promise<T>((r) => {
+    const transition: Transition<T> = {
+      resolve: r,
+      cb,
+      id: crypto.randomUUID(),
+    };
+    useTransitionStore.getState().add(transition);
+  });
   return promise;
 };
 

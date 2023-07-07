@@ -3,11 +3,12 @@ import collection from "@3d/generated/collection.json";
 import { models } from "@3d/generated/loader";
 import { useStore } from "@3d/store";
 import { isNone } from "@components/utils";
-import { GroupProps } from "@react-three/fiber";
-import { FC, ReactNode, useMemo, useRef } from "react";
-import { Group } from "three";
-import { constants, Unwrap } from "./constants";
-import { Building, Prop } from "./world/types";
+import type { GroupProps } from "@react-three/fiber";
+import type { FC, ReactNode } from "react";
+import { useMemo, useRef } from "react";
+import type { Group } from "three";
+import { constants } from "./constants";
+import type { Building, Prop } from "./world/types";
 
 // ***************************************************
 // Collection and Assets types and helpers
@@ -47,10 +48,10 @@ export const BuildingLoader: FC<Building> = ({
   const ref = useRef<Group>(null);
   const entry = useMemo(() => findAssetEntry("buildings", type), [type]);
 
-  const Model = models["buildings"]?.[type];
+  const Model = models.buildings[type];
 
   const { rotation, ...props } = useMemo((): GroupProps => {
-    const [width, depth] = entry?.extend ?? [1, 1];
+    const [width, depth] = entry.extend ?? [1, 1];
     const { tileSize } = constants.world;
 
     return {
@@ -91,7 +92,7 @@ export const Buildings = () => {
 };
 
 export const PropLoader: FC<Prop> = ({ type, rotation, position }) => {
-  const Model = models["props"]?.[type];
+  const Model = models.props[type];
   if (isNone(Model)) return null;
 
   return (

@@ -2,19 +2,13 @@ import { constants } from "@3d/constants";
 import { findAssetEntry } from "@3d/generated-loader";
 import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
-import { isNone } from "@components/utils";
 import { Plane } from "@react-three/drei";
-import { MeshProps } from "@react-three/fiber";
-import {
-  ComponentProps,
-  ComponentPropsWithoutRef,
-  FC,
-  forwardRef,
-  useState,
-} from "react";
-import { Mesh, MeshStandardMaterial } from "three";
+import type { ComponentPropsWithoutRef, FC } from "react";
+import { forwardRef, useState } from "react";
+import type { Mesh } from "three";
+import { MeshStandardMaterial } from "three";
 import { match, P } from "ts-pattern";
-import { BuildStateBuild } from "./types";
+import type { BuildStateBuild } from "./types";
 
 /*
   const entry = useStore(...selectors.entry);

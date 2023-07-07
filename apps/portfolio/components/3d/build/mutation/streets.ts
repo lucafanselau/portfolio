@@ -1,6 +1,6 @@
 import { useStore } from "@3d/store";
-import { match } from "ts-pattern";
 import { TerrainType } from "@3d/world/types";
+import { match } from "ts-pattern";
 
 const isStreet = (terrain: TerrainType | undefined) => {
   if (terrain === undefined) return false;

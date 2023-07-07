@@ -64,7 +64,7 @@ export const Rust404Instructions = () => {
           <div className="grid grid-cols-2 gap-2 py-2">
             {Object.entries(instructions).map(([key, value]) => (
               <div key={key} className={"flex "}>
-                <div className="basis-20 block leading-[0]">
+                <div className="block basis-20 leading-[0]">
                   <Kbd>{key}</Kbd>
                 </div>
                 <div className="text-sm">{value}</div>
@@ -74,7 +74,7 @@ export const Rust404Instructions = () => {
           <P className={"text-sm"}>
             In case you are really bored and actually start building something
             in the world, please take a screenshot and send it to me{" "}
-            <a href={"mailto:" + MAIL} className="link">
+            <a href={"mailto:" + (MAIL ?? "")} className="link">
               here
             </a>
             !

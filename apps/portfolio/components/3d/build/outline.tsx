@@ -1,8 +1,8 @@
 import { useStore } from "@3d/store";
-import { EffectComposer, Outline } from "@react-three/postprocessing";
-import { OutlineEffect as EffectImpl } from "postprocessing";
-import { useEffect, useRef } from "react";
 import { selectors } from "@3d/store/selector";
+import { EffectComposer, Outline } from "@react-three/postprocessing";
+import type { OutlineEffect as EffectImpl } from "postprocessing";
+import { useEffect, useRef } from "react";
 
 const [selector, eq] = selectors.hovered;
 export const OutlineEffect = () => {

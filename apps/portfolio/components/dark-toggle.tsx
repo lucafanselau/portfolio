@@ -2,7 +2,8 @@
 
 import { useHasMounted } from "@components/hooks/has-mounted";
 import { useLocalStorage } from "@components/hooks/local-storage";
-import { FC, useCallback, useEffect, useRef } from "react";
+import type { FC } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 type ThemeType = "dark" | "light";
 const THEME_DARK: ThemeType = "dark";
@@ -76,7 +77,7 @@ const options = {
 const getInitial = () => {
   if (
     typeof window !== "undefined" &&
-    window?.matchMedia(`(prefers-color-scheme: ${THEME_DARK})`)?.matches
+    window.matchMedia(`(prefers-color-scheme: ${THEME_DARK})`).matches
   )
     return THEME_DARK;
   else return THEME_LIGHT;
@@ -111,7 +112,7 @@ export const DarkToggle: FC = () => {
         e.animate([s[mode], s[toggled]], {
           fill: "forwards",
           easing: "ease-in-out",
-          ...(options[name]?.[toggled] ?? {}),
+          ...(options[name][toggled] ?? {}),
         });
     });
     setMode(toggled);
@@ -121,7 +122,7 @@ export const DarkToggle: FC = () => {
     <button
       onClick={toggleTheme}
       className={
-        "rounded-full box-content border-2 border-accent-foreground relative " +
+        "relative box-content rounded-full border-2 border-accent-foreground " +
         widthClass +
         " h-[28px]"
       }
@@ -129,22 +130,22 @@ export const DarkToggle: FC = () => {
     >
       <img
         alt={"sun icon"}
-        style={isMounted ? state["sun"][mode] : {}}
+        style={isMounted ? state.sun[mode] : {}}
         ref={sun}
         src={"/sun.svg"}
-        className="absolute left-[6px] top-[6px] w-[16px] h-[16px]"
+        className="absolute left-[6px] top-[6px] h-[16px] w-[16px]"
       />
       <img
-        style={isMounted ? state["moon"][mode] : {}}
+        style={isMounted ? state.moon[mode] : {}}
         ref={moon}
         src={"/moon.svg"}
-        className="absolute right-[6px] top-[6px] w-[16px] h-[16px]"
+        className="absolute right-[6px] top-[6px] h-[16px] w-[16px]"
         alt={"moon icon"}
       />
       <svg
         ref={handle}
         className="absolute top-[4px] text-accent-foreground"
-        style={isMounted ? state["handle"][mode] : {}}
+        style={isMounted ? state.handle[mode] : {}}
         width="20"
         height="20"
         viewBox="0 0 33 33"

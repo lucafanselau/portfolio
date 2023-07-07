@@ -7,10 +7,10 @@ import { tools } from "@content/tools";
 import { IconBulldozer, IconHammer } from "@tabler/icons-react";
 import { Button } from "@ui/button";
 import { P } from "@ui/typography";
-import { FC } from "react";
+import type { FC } from "react";
 import { buildEntry } from "../types";
 
-export const BuildActiveBar: FC<{}> = ({}) => {
+export const BuildActiveBar: FC = ({}) => {
   const entry = useStore(...buildEntry);
   if (isNone(entry)) return null;
 
@@ -30,7 +30,7 @@ export const BuildActiveBar: FC<{}> = ({}) => {
         onClick={onClick}
         variant="outline"
         size="sm"
-        className="px-8 pointer-events-auto"
+        className="pointer-events-auto px-8"
       >
         Finish
       </Button>
@@ -41,9 +41,9 @@ export const BuildActiveBar: FC<{}> = ({}) => {
 const actions = selectors.pack((store) => {
   type ToolContentKeys = keyof (typeof tools)["build"];
 
-  return (Object.keys(tools["build"]) as ToolContentKeys[]).map((key) => {
+  return (Object.keys(tools.build) as ToolContentKeys[]).map((key) => {
     return {
-      icon: tools["build"][key]?.icon,
+      icon: tools.build[key].icon,
       onClick: () => {
         // TODO: on destory just start destroy mode
         useStore.getState().updateTools({ type: "slide", key });

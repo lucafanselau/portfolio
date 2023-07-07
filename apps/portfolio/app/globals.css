@@ -5,13 +5,13 @@
 /* DEPRECATED */
 @layer components {
   .text-animation {
-    @apply animate-loop bg-[length:400%_400%] text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary;
+    @apply animate-loop bg-gradient-to-r from-primary via-secondary to-primary bg-[length:400%_400%] bg-clip-text text-transparent;
   }
   .link {
     @apply font-medium text-accent-foreground underline underline-offset-2;
   }
   .card {
-    @apply rounded-lg border-2 p-4 shadow-md outline-none bg-background;
+    @apply rounded-lg border-2 bg-background p-4 shadow-md outline-none;
   }
   .highlight {
     @apply font-medium text-accent-foreground;
@@ -36,7 +36,7 @@
   }
   /* Base shadcn colors settings */
   body {
-    @apply bg-background text-foreground leading-snug;
+    @apply bg-background leading-snug text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }

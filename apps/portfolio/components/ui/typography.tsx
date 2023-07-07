@@ -1,6 +1,8 @@
 import { cn } from "@ui/utils";
-import { cva, VariantProps } from "class-variance-authority";
-import { forwardRef, ReactNode, useId } from "react";
+import type { VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
+import type { ReactNode } from "react";
+import { forwardRef, useId } from "react";
 
 export const H1 = forwardRef<HTMLParagraphElement, JSX.IntrinsicElements["h1"]>(
   ({ className, ...props }, ref) => {
@@ -118,7 +120,7 @@ export const List = forwardRef<
     <ul
       {...props}
       ref={ref}
-      className={cn("text-sm my-6 ml-6 list-disc [&>li]:mt-2", className)}
+      className={cn("my-6 ml-6 list-disc text-sm [&>li]:mt-2", className)}
     >
       {elements.map((node, index) => (
         <li key={`ul-item-${id}-${index}`}>{node}</li>

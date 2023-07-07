@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import type { FC, ReactNode } from "react";
 import useMeasure from "react-use-measure";
 import { ToolsToolbar } from "./bar";
 import { ToolsFocusPanel } from "./focus";
@@ -16,12 +16,12 @@ const MeasuredBar = ({
 
   return (
     <ToolsToolbar
-      className="flex flex-col flex-nowrap max-h-full"
+      className="flex max-h-full flex-col flex-nowrap"
       minHeight={height + 4}
     >
       <ToolsSlidePanelHeight>{children}</ToolsSlidePanelHeight>
       <div
-        className="p-2 w-full flex-none flex justify-between items-center space-x-2 flex-wrap"
+        className="flex w-full flex-none flex-wrap items-center justify-between space-x-2 p-2"
         ref={measureRef}
       >
         {bar}
@@ -38,7 +38,7 @@ export const ToolsComposition: FC<{
 }> = ({ children, bar }) => {
   return (
     <ToolsLayout>
-      <div className="flex flex-col justify-between flex-nowrap h-full">
+      <div className="flex h-full flex-col flex-nowrap justify-between">
         <div className="!m-0" />
         <ToolsFocusPanel>{children}</ToolsFocusPanel>
         <MeasuredBar bar={bar}>{children}</MeasuredBar>

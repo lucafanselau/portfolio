@@ -5,7 +5,7 @@ import {
   IconCircleDotted,
 } from "@tabler/icons-react";
 import { P } from "@ui/typography";
-import { FC, ReactElement, ReactNode } from "react";
+import type { FC, ReactElement, ReactNode } from "react";
 
 type PrefabIcon = "finished" | "current" | "future";
 
@@ -33,17 +33,20 @@ type TimelineProps = {
 
 export const Timeline: FC<TimelineProps> = ({ elements }) => {
   return (
-    <div className="w-full relative">
+    <div className="relative w-full">
       <div
         className={
-          "absolute left-[calc(1rem-1px)] inset-y-0 w-[2px] bg-current z-10"
+          "absolute inset-y-0 left-[calc(1rem-1px)] z-10 w-[2px] bg-current"
         }
       />
       <div className={"flex flex-col space-y-2"}>
         {elements.map(({ title, content, subtitle, icon }, index) => (
-          <div className={"flex space-x-2"} key={`timeline-element` + index}>
-            <div className={"w-8 h-8 flex items-center justify-center z-20"}>
-              <Slot className={"w-full h-full"}>
+          <div
+            className={"flex space-x-2"}
+            key={`timeline-element` + index.toString()}
+          >
+            <div className={"z-20 flex h-8 w-8 items-center justify-center"}>
+              <Slot className={"h-full w-full"}>
                 {typeof icon === "string" ? (
                   <PrefabIconLoader icon={icon} />
                 ) : (

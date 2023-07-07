@@ -3,10 +3,13 @@ import { selectors } from "@3d/store/selector";
 import { ToolsComposition } from "@3d/tools";
 import { ToolsAction } from "@3d/tools/bar";
 import { ToolsPanelContent } from "@3d/tools/content";
-import { ProgressItem, ToolsProgress } from "@3d/tools/progress";
+import type { ProgressItem } from "@3d/tools/progress";
+import { ToolsProgress } from "@3d/tools/progress";
+import { isNone } from "@components/utils";
 import { tools } from "@content/tools";
+import type { ToolsContent } from "@content/tools/types";
 import { shallowEqual } from "fast-equals";
-import { FC } from "react";
+import type { FC } from "react";
 
 const progress = selectors.pack((store): ProgressItem => {
   const { world } = store;
@@ -33,16 +36,17 @@ const ExploreProgress: FC = () => {
   return <ToolsProgress item={item} />;
 };
 
-const content = selectors.pack((store) => {
+const content = selectors.pack((store): ToolsContent | undefined => {
   const mode = store.ui.mode;
   const key =
     mode.type === "focus" || mode.type === "slide" ? mode.key : undefined;
-  // @ts-expect-error
+  // @ts-expect-error (key could be everything)
   return key ? tools.explore[key] : undefined;
 }, Object.is);
 
 const ExploreContent: FC = () => {
   const item = useStore(...content);
+  if (isNone(item)) return null;
   return <ToolsPanelContent panel={item} />;
 };
 
@@ -50,12 +54,12 @@ const actions = selectors.pack((store) => {
   type ToolContentKeys = keyof (typeof tools)["explore"];
   const disabled = (key: ToolContentKeys) => {
     if (key === "info") return false;
-    return store.world.interaction.history[key] !== true;
+    return !store.world.interaction.history[key];
   };
 
-  return (Object.keys(tools["explore"]) as ToolContentKeys[]).map((key) => {
+  return (Object.keys(tools.explore) as ToolContentKeys[]).map((key) => {
     return {
-      icon: tools["explore"][key]?.icon,
+      icon: tools.explore[key].icon,
       disabled: disabled(key),
       onClick: () => {
         useStore.getState().updateTools({ type: "slide", key });

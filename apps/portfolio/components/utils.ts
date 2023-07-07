@@ -1,4 +1,4 @@
-import { MouseEvent } from "react";
+import type { MouseEvent } from "react";
 
 export const range = (start: number, end: number): number[] =>
   Array.from({ length: end - start }, (_, k) => k + start);

@@ -10,8 +10,8 @@ export const AppearCard = forwardRef<
       ref={ref}
       data-state={open ? "open" : "closed"}
       className={cn(
-        "z-50 card absolute bottom-0 left-0",
-        "data-[state=open]:animate-in data-[state=open]:fade-in data-[state=open]:zoom-in data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:zoom-out data-[state=closed]:opacity-0",
+        "card absolute bottom-0 left-0 z-50",
+        "data-[state=closed]:opacity-0 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=open]:fade-in data-[state=closed]:zoom-out data-[state=open]:zoom-in",
         className
       )}
       {...props}

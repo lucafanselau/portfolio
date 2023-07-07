@@ -1,6 +1,7 @@
 import { range } from "@components/utils";
 import { Vector3 } from "three";
-import { Building, Prop, TerrainType } from "./types";
+import type { Building, Prop } from "./types";
+import { TerrainType } from "./types";
 
 const F = TerrainType.Flat;
 // const C = TerrainType.Clipping;
@@ -97,10 +98,10 @@ const initialBuildings: Building[] = [
 const initialProps: Prop[] = [
   ...range(0, 4).map(
     (i): Prop => ({
-      id: "tree-" + i,
+      id: "tree-" + i.toString(),
       position: new Vector3(Math.floor(i / 2) * -8 + 4, 0, -12 + (i % 2) * 24),
-      // @ts-expect-error
-      type: "tree" + Math.ceil(Math.random() * 4),
+      // @ts-expect-error tree1, tree2, tree3, tree4 are all valid
+      type: "tree" + Math.ceil(Math.random() * 4).toString(),
       rotation: 0,
     })
   ),

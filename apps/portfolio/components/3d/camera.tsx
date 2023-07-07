@@ -3,8 +3,8 @@ import { isNone } from "@components/utils";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
-import { PerspectiveCamera as PerspectiveCameraType } from "three";
-import { OrbitControls as OrbitControlsType } from "three-stdlib";
+import type { PerspectiveCamera as PerspectiveCameraType } from "three";
+import type { OrbitControls as OrbitControlsType } from "three-stdlib";
 import { constants } from "./constants";
 import { selectors } from "./store/selector";
 

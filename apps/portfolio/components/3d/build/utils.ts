@@ -1,5 +1,5 @@
 import { constants } from "@3d/constants";
-import { Vector3 } from "three";
+import type { Vector3 } from "three";
 
 const { tileSize, tiles } = constants.world;
 

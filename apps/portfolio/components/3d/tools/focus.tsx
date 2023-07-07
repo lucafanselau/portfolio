@@ -4,7 +4,8 @@ import { animated, useSpring } from "@react-spring/web";
 import { Button } from "@ui/button";
 import { ScrollArea } from "@ui/scroll-area";
 import { cn } from "@ui/utils";
-import { FC, ReactNode, useCallback, useState } from "react";
+import type { FC, ReactNode } from "react";
+import { useCallback, useState } from "react";
 
 export const ToolsFocusPanel: FC<{ children?: ReactNode }> = ({ children }) => {
   const open = useStore(...selectors.ui.open.focus);
@@ -34,12 +35,12 @@ export const ToolsFocusPanel: FC<{ children?: ReactNode }> = ({ children }) => {
       style={springs}
       className={cn(
         // NOTE: mb-2 is for the popover to be nicely spaced to the toolbar
-        "card p-2 basis-auto min-h-0 mb-2 flex flex-col space-y-2",
+        "card mb-2 flex min-h-0 basis-auto flex-col space-y-2 p-2",
         open && "pointer-events-auto"
       )}
     >
       <ScrollArea className="h-full">
-        <div id="popover-children" className="pr-4 w-full">
+        <div id="popover-children" className="w-full pr-4">
           {children}
         </div>
       </ScrollArea>

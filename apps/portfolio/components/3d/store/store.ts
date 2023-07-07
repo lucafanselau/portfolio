@@ -1,15 +1,11 @@
-import { BuildState } from "@3d/build/types";
-import { constants, Interaction } from "@3d/constants";
+import type { BuildState } from "@3d/build/types";
+import type { Interaction } from "@3d/constants";
+import { constants } from "@3d/constants";
 import { initial } from "@3d/world/inital";
-import {
-  Building,
-  BuildingType,
-  Prop,
-  PropType,
-  TerrainType,
-} from "@3d/world/types";
+import type { Building, Prop, TerrainType } from "@3d/world/types";
 import type { ToolContentKeys } from "@content/tools";
-import { Object3D, Vector3 } from "three";
+import type { Object3D } from "three";
+import { Vector3 } from "three";
 
 export type Store = {
   target: Vector3;
@@ -53,8 +49,8 @@ export type Store = {
 export const defaultStore: Store = {
   target: new Vector3(),
   camera: {
-    target: constants.transitions.target["start"],
-    position: constants.transitions.position["start"],
+    target: constants.transitions.target.start,
+    position: constants.transitions.position.start,
     controlled: {
       position: true,
       target: true,

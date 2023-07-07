@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint --fix && pnpm prettier --plugin 'prettier-plugin-organize-imports' --plugin 'prettier-plugin-tailwindcss' --write .",
     "script:color": "node ./scripts/color.js",
     "components:add": "pnpx shadcn-ui@latest add"
   },

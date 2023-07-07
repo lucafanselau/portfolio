@@ -1,8 +1,9 @@
 import { formatters } from "@components/formatters";
 import { content } from "@content/index";
 import { P } from "@ui/typography";
-import { FC } from "react";
-import { Timeline, TimelineElement } from "./timeline";
+import type { FC } from "react";
+import type { TimelineElement } from "./timeline";
+import { Timeline } from "./timeline";
 
 const elements = content.academic
   .sort((a, b) => b.date[0].getTime() - a.date[0].getTime())

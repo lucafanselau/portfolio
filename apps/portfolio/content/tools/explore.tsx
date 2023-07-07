@@ -15,7 +15,7 @@ import { FC } from "react";
 import { ToolsContent } from "./types";
 
 const Instruction: FC<{ Icon: Icon; text: string }> = ({ Icon, text }) => (
-  <div className="flex flex-col items-center flex-1 space-y-2">
+  <div className="flex flex-1 flex-col items-center space-y-2">
     <Icon />
     <P align={"center"}>{text}</P>
   </div>

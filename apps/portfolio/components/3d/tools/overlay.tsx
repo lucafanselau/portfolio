@@ -1,7 +1,8 @@
 import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
 import { cn } from "@ui/utils";
-import { FC, ReactNode, useCallback } from "react";
+import type { FC, ReactNode } from "react";
+import { useCallback } from "react";
 
 export const ToolsOverlay: FC<{ children?: ReactNode }> = ({ children }) => {
   const opaque = useStore(...selectors.ui.opaque);

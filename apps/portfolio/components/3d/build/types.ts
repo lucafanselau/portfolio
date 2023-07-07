@@ -1,9 +1,5 @@
-import {
-  AssetCategory,
-  AssetEntry,
-  defaultStreetsEntry,
-  findAssetEntry,
-} from "@3d/generated-loader";
+import type { AssetCategory, AssetEntry } from "@3d/generated-loader";
+import { defaultStreetsEntry, findAssetEntry } from "@3d/generated-loader";
 import { selectors } from "@3d/store/selector";
 import type { Store } from "@3d/store/store";
 import { match, P } from "ts-pattern";

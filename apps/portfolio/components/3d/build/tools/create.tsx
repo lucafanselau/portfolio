@@ -1,12 +1,10 @@
-import {
-  AssetCategory,
-  AssetEntry,
-  defaultStreetsEntry,
-} from "@3d/generated-loader";
+import type { AssetCategory, AssetEntry } from "@3d/generated-loader";
+import { defaultStreetsEntry } from "@3d/generated-loader";
 import collection from "@3d/generated/collection.json";
 import { useStore } from "@3d/store";
 import { H2 } from "@ui/typography";
-import { FC, Fragment } from "react";
+import type { FC } from "react";
+import { Fragment } from "react";
 import { ToolsItemCard } from "./item-card";
 
 const CreateCard: FC<{
@@ -31,11 +29,11 @@ export const keyLabels = {
 
 export const CreatePanel = () => {
   return (
-    <div className={"flex flex-col gap-4 w-full"}>
+    <div className={"flex w-full flex-col gap-4"}>
       {keys.map((key) => (
         <Fragment key={key}>
           <H2>{keyLabels[key]}</H2>
-          <div className="grid w-full gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid w-full grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4">
             {(key === "streets"
               ? [defaultStreetsEntry]
               : Object.values(collection[key])

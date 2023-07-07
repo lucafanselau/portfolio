@@ -4,7 +4,7 @@ import { ToolsPanelContent } from "@3d/tools/content";
 import { ToolsProgress } from "@3d/tools/progress";
 import { content } from "@content/index";
 import { tools } from "@content/tools";
-import { FC } from "react";
+import type { FC } from "react";
 
 const StartContent: FC = () => {
   return <ToolsPanelContent panel={tools.start.info} />;

@@ -2,7 +2,7 @@ import { toArray } from "@components/utils";
 import { content } from "@content/index";
 import { Card } from "@ui/card";
 import { H2, P } from "@ui/typography";
-import { FC } from "react";
+import type { FC } from "react";
 
 export const Projects: FC = () => {
   return (

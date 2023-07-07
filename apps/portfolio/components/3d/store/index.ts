@@ -1,16 +1,18 @@
-import { constants, Interaction } from "@3d/constants";
-import { AssetCategory } from "@3d/generated-loader";
+import type { Interaction } from "@3d/constants";
+import { constants } from "@3d/constants";
+import type { AssetCategory } from "@3d/generated-loader";
 import { transitionVector3 } from "@3d/transition";
-import { TerrainType } from "@3d/world/types";
+import type { TerrainType } from "@3d/world/types";
 import { isSome } from "@components/utils";
 import type { ToolContentKeys } from "@content/tools";
 import { produce } from "immer";
-import { Vector3 } from "three";
+import type { Vector3 } from "three";
 import { match } from "ts-pattern";
 import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
-import { CharacterState, defaultStore, Store } from "./store";
+import type { CharacterState, Store } from "./store";
+import { defaultStore } from "./store";
 
 type Actions = {
   updateState: (target: Store["state"]) => Promise<void>;
@@ -89,7 +91,7 @@ export const useStore = create<Store & Actions>()(
         set((s) => {
           s.ui.mode = {
             type: "build",
-            // @ts-ignore
+            // @ts-expect-error (i dunno go figure it out yourself)
             payload: { type: "build", payload: { type: key, id } },
           };
         }),
@@ -137,7 +139,7 @@ export const useStore = create<Store & Actions>()(
           if (!s.ui.transition && s.state === "explore") {
             s.camera.target
               .copy(vector)
-              .add(constants.transitions.target["explore"]);
+              .add(constants.transitions.target.explore);
           }
         }),
       setTileType: (x, z, type, rotation = 0) =>

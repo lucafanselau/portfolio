@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { ExploreInteractions } from "./interactions";
 import { ExploreTarget } from "./target";
 

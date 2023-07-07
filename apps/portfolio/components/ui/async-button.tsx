@@ -1,6 +1,7 @@
 import { Slot } from "@radix-ui/react-slot";
 import { forwardRef, useState } from "react";
-import { Button, ButtonProps } from "./button";
+import type { ButtonProps } from "./button";
+import { Button } from "./button";
 
 const AsyncButton = forwardRef<
   HTMLButtonElement,
@@ -9,10 +10,13 @@ const AsyncButton = forwardRef<
   const Comp = asChild ? Slot : Button;
   const [disabled, setDisabled] = useState(props.disabled);
 
-  const onClick = async (event: any) => {
-    setDisabled(true);
-    await onAsyncClick(event);
-    setDisabled(false);
+  const onClick = (event: any) => {
+    const executor = async () => {
+      setDisabled(true);
+      await onAsyncClick(event);
+      setDisabled(false);
+    };
+    void executor();
   };
 
   return (

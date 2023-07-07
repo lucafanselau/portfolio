@@ -1,8 +1,8 @@
 import { useControls } from "@components/hooks/use-controls";
 import { useFrame } from "@react-three/fiber";
 import { easing } from "maath";
-import { RefObject } from "react";
-import { Object3D } from "three";
+import type { RefObject } from "react";
+import type { Object3D } from "three";
 
 const animSchema = {
   smoothTime: 0.5,

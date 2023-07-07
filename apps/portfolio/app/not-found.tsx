@@ -6,13 +6,13 @@ export default function NotFound() {
   return (
     <main
       className={
-        "w-full py-8 mx-auto space-y-4 flex-1 flex flex-col items-center justify-start"
+        "mx-auto flex w-full flex-1 flex-col items-center justify-start space-y-4 py-8"
       }
     >
       <H1>
         <span className="text-animation">404</span>, Nothing here...
       </H1>
-      <P className={"leading-snug text-center max-w-[48ch]"} size="sm">
+      <P className={"max-w-[48ch] text-center leading-snug"} size="sm">
         The page you are looking for <b>does not exist</b>...
         <br />
         While you are here, why not play a bit. If you want to learn more about

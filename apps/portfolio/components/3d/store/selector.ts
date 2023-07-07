@@ -1,11 +1,9 @@
 import { constants } from "@3d/constants";
-import type { ProgressItem } from "@3d/tools/progress";
-import { ToolContentKeys, tools } from "@content/tools";
+import type { ToolContentKeys } from "@content/tools";
+import { tools } from "@content/tools";
 import type { ToolsContent } from "@content/tools/types";
 import { deepEqual, shallowEqual } from "fast-equals";
-import { match } from "ts-pattern";
-import { Store } from "./store";
-import collection from "@3d/generated/collection.json";
+import type { Store } from "./store";
 
 type S = Store;
 const pack = <T>(sel: (s: S) => T, eq: (a: T, b: T) => boolean = Object.is) =>
@@ -26,7 +24,7 @@ const content = pack((s): ToolsContent | undefined => {
   if (s.ui.mode.type !== "focus" && s.ui.mode.type !== "slide")
     return undefined;
   // @ts-expect-error unsafe access with "key"
-  return tools[s.state]?.[s.ui.mode.key];
+  return tools[s.state][s.ui.mode.key];
 });
 
 const hovered = pack((s) => s.world.hovered, shallowEqual);
@@ -71,13 +69,14 @@ const actions = pack((s) => {
     // keep all in "build" mode
     if (s.state === "build") return false;
     // for explore, let's check if the user visited it
-    // @ts-ignore
+    // @ts-expect-error (unsafe access with "key")
     return s.world.interaction.history[key] !== true;
   };
 
   return (Object.keys(tools[s.state]) as ToolContentKeys[]).map((key) => {
-    // @ts-ignore
-    return [key, tools[s.state][key]?.icon, disabled(key)] as const;
+    // @ts-expect-error (unsafe access with "key")
+    const content = tools[s.state][key] as ToolsContent;
+    return [key, content.icon, disabled(key)] as const;
   });
 }, deepEqual);
 
@@ -101,7 +100,7 @@ export const selectors = {
     open: {
       focus,
       slide,
-			outline,
+      outline,
       target: targetOpen,
       build: buildOpen,
     },

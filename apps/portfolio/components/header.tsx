@@ -12,16 +12,16 @@ export const Header = () => {
   return (
     <div
       className={
-        "flex justify-between py-4 items-center z-10 px-4 rounded-lg bg-background shadow-md"
+        "z-10 flex items-center justify-between rounded-lg bg-background px-4 py-4 shadow-md"
       }
     >
       <Link href={"/"}>
-        <div className={"flex space-x-2 items-center"}>
+        <div className={"flex items-center space-x-2"}>
           <IconAppWindowFilled size={24} />
           <H4>guythat.codes</H4>
         </div>
       </Link>
-      <div className={"flex space-x-2 items-center h-6"}>
+      <div className={"flex h-6 items-center space-x-2"}>
         {/* <Link href={"/about"}>
             <IconUser size={24} />
             </Link>

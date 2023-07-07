@@ -23,26 +23,26 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn(inter.variable, roboto.variable, "h-full fullscreen")}
+      className={cn(inter.variable, roboto.variable, "fullscreen h-full")}
     >
       <body
         className={
-          "bg-background text-foreground w-screen font-sans flex justify-center pb-[env(safe-area-inset-bottom)] h-full"
+          "flex h-full w-screen justify-center bg-background pb-[env(safe-area-inset-bottom)] font-sans text-foreground"
         }
       >
         {/* Main Column */}
-        <div className={"container flex flex-col space-y-2 flex-1 h-full p-4"}>
+        <div className={"container flex h-full flex-1 flex-col space-y-2 p-4"}>
           <Header />
           {children}
         </div>
         <div
           className={
-            "overflow-hidden absolute w-full h-full top-0 left-0 -z-10"
+            "absolute left-0 top-0 -z-10 h-full w-full overflow-hidden"
           }
         >
           <span
             className={
-              "absolute top-16 rotate-[6deg] -right-[200px] rounded-full bg-gradient-to-b h-[85vh] w-[400px] from-green-300 to-blue-500 via-cyan-600 opacity-80 blur-3xl filter"
+              "absolute -right-[200px] top-16 h-[85vh] w-[400px] rotate-[6deg] rounded-full bg-gradient-to-b from-green-300 via-cyan-600 to-blue-500 opacity-80 blur-3xl filter"
             }
           />
         </div>

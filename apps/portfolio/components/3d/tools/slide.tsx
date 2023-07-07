@@ -3,7 +3,7 @@ import { selectors } from "@3d/store/selector";
 import { animated, config, useSpring } from "@react-spring/web";
 import { ScrollArea } from "@ui/scroll-area";
 import { cn } from "@ui/utils";
-import { FC, ReactNode } from "react";
+import type { FC, ReactNode } from "react";
 import useMeasure from "react-use-measure";
 
 const targets = {
@@ -21,7 +21,7 @@ export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
   const open = useStore(...selectors.ui.open.slide);
 
   const spring = useSpring({
-    from: { y: targets["closed"] },
+    from: { y: targets.closed },
     to: { y: targets[open ? "open" : "closed"] },
     config: springConfig,
   });
@@ -30,7 +30,7 @@ export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
     <div
       // NOTE: This might look complicated, but its basically just a container right abouve the toolbar extended to the height of the screen, but
       // with overflow hidden so that the content can be animated in and out of view
-      className="absolute top-[var(--radius)] pb-[var(--radius)] pt-[100vh] -translate-y-full w-full left-0 right-0 overflow-hidden z-30 pointer-events-none"
+      className="pointer-events-none absolute left-0 right-0 top-[var(--radius)] z-30 w-full -translate-y-full overflow-hidden pb-[var(--radius)] pt-[100vh]"
       // py-[var(--radius)]
     >
       <animated.div
@@ -42,7 +42,7 @@ export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
       >
         <div
           className={cn(
-            "card rounded-t-lg rounded-b-none border-b-0 flex flex-col space-y-2 pointer-events-auto"
+            "card pointer-events-auto flex flex-col space-y-2 rounded-b-none rounded-t-lg border-b-0"
           )}
         >
           {children}
@@ -50,7 +50,7 @@ export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
         {/*NOTE: This div is only here to provide a background for the open animation*/}
         <div
           className={cn(
-            "bg-background h-8 absolute -bottom-8 left-0 right-0 border-x-2 border-t-2"
+            "absolute -bottom-8 left-0 right-0 h-8 border-x-2 border-t-2 bg-background"
           )}
         />
       </animated.div>
@@ -88,12 +88,12 @@ export const ToolsSlidePanelHeight: FC<{ children?: ReactNode }> = ({
       <animated.div className="overflow-hidden" style={spring}>
         <div className="h-[calc(100%-2px)] p-2">
           <ScrollArea className="h-full">
-            <div className="pr-4 w-full" ref={measureRef}>
+            <div className="w-full pr-4" ref={measureRef}>
               {children}
             </div>
           </ScrollArea>
         </div>
-        <div className="h-[2px] flex-none bg-border w-full" />
+        <div className="h-[2px] w-full flex-none bg-border" />
       </animated.div>
     </>
   );

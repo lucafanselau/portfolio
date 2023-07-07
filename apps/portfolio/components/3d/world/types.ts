@@ -1,5 +1,5 @@
 import type { models } from "@3d/generated/loader";
-import { Vector3 } from "three";
+import type { Vector3 } from "three";
 
 export type BuildingType = keyof (typeof models)["buildings"];
 export type PropType = keyof (typeof models)["props"];

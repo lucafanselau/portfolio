@@ -1,13 +1,11 @@
 import { constants } from "@3d/constants";
 import { useStore } from "@3d/store";
-import { selectors } from "@3d/store/selector";
 import { Plane } from "@react-three/drei";
-import { FC, forwardRef } from "react";
+import type { ThreeEvent } from "@react-three/fiber";
 import { useRef, useState } from "react";
-import { Mesh, MeshStandardMaterial, Vector3 } from "three";
-import { MeshProps, ThreeEvent, useFrame } from "@react-three/fiber";
+import type { Mesh } from "three";
+import { MeshStandardMaterial } from "three";
 import { point } from "./utils";
-import { BuildPreview } from "./preview";
 
 const { tileSize, tiles } = constants.world;
 const planeSize = tileSize * tiles;

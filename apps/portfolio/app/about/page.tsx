@@ -5,7 +5,7 @@ import { H1, H2, P } from "@ui/typography";
 
 export default function Home() {
   return (
-    <main className={"flex-1 flex flex-col pt-8 space-y-4"}>
+    <main className={"flex flex-1 flex-col space-y-4 pt-8"}>
       <H1>
         Hi <span className="text-animation">There</span>, glad you found your
         way here!
