@@ -13,7 +13,7 @@ export const ToolsToolbar: FC<{
 
   return (
     <div
-      className={cn("relative w-full basis-auto flex flex-col justify-end")}
+      className={cn("relative w-full basis-auto flex flex-col justify-end ")}
       style={{ minHeight }}
     >
       <div className={cn("card p-0 pointer-events-auto", className)}>

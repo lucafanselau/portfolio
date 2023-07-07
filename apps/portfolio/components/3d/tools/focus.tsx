@@ -27,18 +27,21 @@ export const ToolsFocusPanel: FC<{ children?: ReactNode }> = ({ children }) => {
     useStore.getState().updateTools({ type: "dismiss" });
   }, []);
 
-  //   if (!mounted) return null;
+  if (!mounted) return null;
 
   return (
     <animated.div
       style={springs}
       className={cn(
-        "card basis-auto min-h-0 mb-2 flex flex-col space-y-2",
+        // NOTE: mb-2 is for the popover to be nicely spaced to the toolbar
+        "card p-2 basis-auto min-h-0 mb-2 flex flex-col space-y-2",
         open && "pointer-events-auto"
       )}
     >
-      <ScrollArea className="">
-        <div id="popover-children">{children}</div>
+      <ScrollArea className="h-full">
+        <div id="popover-children" className="pr-4 w-full">
+          {children}
+        </div>
       </ScrollArea>
       {dismissable && (
         <div id="popover-actions" className="flex justify-end">

@@ -19,12 +19,8 @@ const progress = selectors.pack((store): ProgressItem => {
   const finished = checked >= total;
 
   let extraText = "";
-  if (finished)
-    extraText =
-      "Great you have finished the quest. Now let's expand the city a bit!";
-  else
-    extraText = `You are still *missing ${total - checked} locations*. Look
-            for the *School, Office and House*`;
+  if (finished) extraText = "Now let's expand the city a bit!";
+  else extraText = `You are still *missing ${total - checked} locations*.`;
   return {
     button: "Next",
     target: "build",

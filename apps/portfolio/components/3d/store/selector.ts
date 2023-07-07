@@ -32,7 +32,10 @@ const content = pack((s): ToolsContent | undefined => {
 const hovered = pack((s) => s.world.hovered, shallowEqual);
 
 const opaque = pack(
-  (s) => s.state !== "start" && s.ui.mode.type === "focus" && !s.ui.transition
+  (s) =>
+    s.state !== "start" &&
+    (s.ui.mode.type === "focus" || s.ui.mode.type === "slide") &&
+    !s.ui.transition
 );
 const dismissable = pack(
   (s) =>

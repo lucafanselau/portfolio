@@ -58,7 +58,18 @@ export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
   );
 };
 
-const AnimatedScrollArea = animated(ScrollArea);
+// NOTE: Ugly, but we need to add the padding of the card (2*8) to the height plus the divider (2)
+const calcHeight = (content: number) => {
+  const padded = content + 2 + 2 * 8;
+  const height =
+    typeof window !== "undefined"
+      ? window.innerHeight ||
+        document.documentElement.clientHeight ||
+        document.body.clientHeight
+      : 0;
+  if (height) return Math.min(padded, 0.6 * height);
+  else return padded;
+};
 
 export const ToolsSlidePanelHeight: FC<{ children?: ReactNode }> = ({
   children,
@@ -68,19 +79,21 @@ export const ToolsSlidePanelHeight: FC<{ children?: ReactNode }> = ({
   const [measureRef, { height }] = useMeasure();
   const spring = useSpring({
     from: { flexBasis: 0 },
-    to: { flexBasis: open ? height : 0 },
+    to: { flexBasis: open ? calcHeight(height) : 0 },
     config: springConfig,
   });
 
   return (
     <>
-      <animated.div className="grow-0 shrink overflow-hidden" style={spring}>
-        <ScrollArea>
-          <div className="flex flex-col p-2 md:p-4 w-full" ref={measureRef}>
-            {children}
-          </div>
-        </ScrollArea>
-        {open && <div className="h-[2px] flex-none bg-border w-full" />}
+      <animated.div className="overflow-hidden" style={spring}>
+        <div className="h-[calc(100%-2px)] p-2">
+          <ScrollArea className="h-full">
+            <div className="pr-4 w-full" ref={measureRef}>
+              {children}
+            </div>
+          </ScrollArea>
+        </div>
+        <div className="h-[2px] flex-none bg-border w-full" />
       </animated.div>
     </>
   );
