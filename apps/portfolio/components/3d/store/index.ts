@@ -1,9 +1,11 @@
+import { mutation } from "@3d/build/mutation";
+import { point } from "@3d/build/utils";
 import type { Interaction } from "@3d/constants";
 import { constants } from "@3d/constants";
 import type { AssetCategory } from "@3d/generated-loader";
 import { transitionVector3 } from "@3d/transition";
 import type { TerrainType } from "@3d/world/types";
-import { isSome } from "@components/utils";
+import { isNone, isSome } from "@components/utils";
 import type { ToolContentKeys } from "@content/tools";
 import { produce } from "immer";
 import type { Vector3 } from "three";
@@ -21,7 +23,7 @@ type Actions = {
   ) => void;
   startBuild: (key: AssetCategory, id: string) => void;
   startDestroy: () => void;
-  build: () => void;
+  build: (type: "click" | "drag") => void;
   setPointer: (pointer: Store["pointer"]) => void;
   interact: (interaction: Interaction["title"] | undefined) => void;
   updateTarget: (target: Vector3) => void;
@@ -104,13 +106,22 @@ export const useStore = create<Store & Actions>()(
             })
         ),
 
-      build: () => {
+      build: (build) => {
         const {
           ui: { mode },
           pointer,
         } = get();
-        if (mode.type !== "build") return;
-        // TODO: build dispatch should happen somewhere else
+        if (mode.type !== "build" || isNone(pointer)) return;
+        match(mode.payload)
+          .with({ type: "build", payload: { type: "streets" } }, () => {
+            const tile = point.tile.to(pointer);
+            console.log(pointer, tile);
+            mutation.streets.build(tile);
+          })
+          .with({ type: "build", payload: { type: "buildings" } }, () => {})
+          .with({ type: "build", payload: { type: "props" } }, () => {})
+          .with({ type: "destroy" }, () => {})
+          .exhaustive();
         // const { type } = mode.mode;
         // if (!pointer) return;
         // const [x, z] = pointer;

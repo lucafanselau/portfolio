@@ -18,17 +18,18 @@ export const InteractionPlane = () => {
 
   const onPointer = (e: ThreeEvent<PointerEvent>) => {
     if (!e.point) return;
-    useStore.getState().setPointer(point.tile(e.point));
+    useStore.getState().setPointer([e.point.x, e.point.z]);
   };
   const onPointerDown = (e: ThreeEvent<PointerEvent>) => {
     onPointer(e);
-    useStore.setState((s) => (s.pointerDown = true));
-    useStore.getState().build();
+    useStore.setState((s) => void (s.pointerDown = true));
+    useStore.getState().build("click");
   };
   const onPointerUp = (e: ThreeEvent<PointerEvent>) => {
-    useStore.setState((s) => (s.pointerDown = false));
+    useStore.setState((s) => void (s.pointerDown = false));
     onPointer(e);
   };
+
   return (
     <Plane
       ref={interaction}
