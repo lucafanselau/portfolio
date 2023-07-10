@@ -93,7 +93,6 @@ export const Buildings = () => {
 
 export const PropLoader: FC<Prop> = ({ type, rotation, position }) => {
   const Model = models.props[type];
-  if (isNone(Model)) return null;
 
   const ref = useRef<Group>(null);
   const props = useMemo(
@@ -111,6 +110,7 @@ export const PropLoader: FC<Prop> = ({ type, rotation, position }) => {
     [ref]
   );
 
+  if (isNone(Model)) return null;
   return (
     <Model
       {...props}

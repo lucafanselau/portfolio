@@ -15,9 +15,6 @@ export const Camera = () => {
   const controls = useRef<OrbitControlsType | null>(null);
   const camera = useRef<PerspectiveCameraType>(null);
 
-  useEffect(() => {
-    controls.current?.listenToKeyEvents(document);
-  }, [controls.current]);
   useFrame(() => {
     if (isNone(camera.current) || isNone(controls.current)) return;
     const {
