@@ -2,7 +2,7 @@ import { useStore } from "@3d/store";
 import { isNone } from "@components/utils";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import type { PerspectiveCamera as PerspectiveCameraType } from "three";
 import type { OrbitControls as OrbitControlsType } from "three-stdlib";
 import { constants } from "./constants";
@@ -15,6 +15,9 @@ export const Camera = () => {
   const controls = useRef<OrbitControlsType | null>(null);
   const camera = useRef<PerspectiveCameraType>(null);
 
+  useEffect(() => {
+    controls.current?.listenToKeyEvents(document);
+  }, [controls.current]);
   useFrame(() => {
     if (isNone(camera.current) || isNone(controls.current)) return;
     const {

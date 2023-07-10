@@ -3,6 +3,7 @@ import type { ToolContentKeys } from "@content/tools";
 import { tools } from "@content/tools";
 import type { ToolsContent } from "@content/tools/types";
 import { deepEqual, shallowEqual } from "fast-equals";
+import { isMatching } from "ts-pattern";
 import type { Store } from "./store";
 
 type S = Store;
@@ -49,7 +50,7 @@ const slide = pack((s) => s.ui.mode.type === "slide" && !s.ui.transition);
 const targetOpen = pack((s) => s.state === "explore");
 const buildOpen = pack((s) => s.ui.mode.type === "build");
 const outline = pack(
-  (s) => s.ui.mode.type === "build" && s.ui.mode.payload.type === "destroy"
+  isMatching({ ui: { mode: { type: "build", payload: { type: "destroy" } } } })
 );
 const build = pack((s) =>
   s.ui.mode.type === "build" ? s.ui.mode.payload : undefined

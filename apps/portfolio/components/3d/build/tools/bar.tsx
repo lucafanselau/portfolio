@@ -45,8 +45,9 @@ const actions = selectors.pack((store) => {
     return {
       icon: tools.build[key].icon,
       onClick: () => {
+        if (key === "destroy") useStore.getState().startDestroy();
         // TODO: on destory just start destroy mode
-        useStore.getState().updateTools({ type: "slide", key });
+        else useStore.getState().updateTools({ type: "slide", key });
       },
     };
   });

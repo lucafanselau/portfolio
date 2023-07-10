@@ -31,7 +31,7 @@ export const point = {
   tile: {
     to: toTileCoord,
     normalize: (point: Point): Point => {
-      return [toTile(point[0]) + tileSize / 2, toTile(point[1]) + tileSize / 2];
+      return [toTile(point[0]), toTile(point[1])];
     },
   },
 };

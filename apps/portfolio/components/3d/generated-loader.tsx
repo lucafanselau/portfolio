@@ -95,8 +95,28 @@ export const PropLoader: FC<Prop> = ({ type, rotation, position }) => {
   const Model = models.props[type];
   if (isNone(Model)) return null;
 
+  const ref = useRef<Group>(null);
+  const props = useMemo(
+    (): GroupProps => ({
+      onPointerOver: (e) =>
+        useStore.setState((s) => void s.world.hovered.push(e.object)),
+      onPointerOut: (e) =>
+        useStore.setState(
+          (s) =>
+            void (s.world.hovered = s.world.hovered.filter(
+              (h) => h !== e.object
+            ))
+        ),
+    }),
+    [ref]
+  );
+
   return (
-    <Model position={position} rotation={[0, (rotation * Math.PI) / 2, 0]} />
+    <Model
+      {...props}
+      position={position}
+      rotation={[0, (rotation * Math.PI) / 2, 0]}
+    />
   );
 };
 

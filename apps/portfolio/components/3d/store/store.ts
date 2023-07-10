@@ -56,7 +56,7 @@ export const defaultStore: Store = {
       target: true,
     },
   },
-  state: "build", // "start",
+  state: "start",
   ui: {
     mode: { type: "focus", key: "info" },
     transition: false,

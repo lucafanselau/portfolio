@@ -35,26 +35,36 @@ export const ConditionalLoader: FC<PropsWithChildren<{ states: State[] }>> = ({
 const Scene = () => {
   return (
     <Suspense fallback={<LoadingAnimation />}>
-      <div className={"absolute left-0 top-0 h-full w-full"}>
-        <Canvas dpr={[1, 2]} shadows gl={{ logarithmicDepthBuffer: true }}>
-          <Loader>
-            {process.env.ENABLE_DEBUG &&
-              process.env.NEXT_PUBLIC_NODE_ENV === "development" && (
-                <axesHelper args={[constants.world.tileSize]} />
-              )}
-            {process.env.NEXT_PUBLIC_NODE_ENV === "development" && <Stats />}
-            <Environment files="./puresky.hdr" />
-            <Lights />
-            <AnimatedCharacter />
-            <Camera />
-            <World />
-            <ExploreModule />
-            <BuildModule />
-          </Loader>
-        </Canvas>
+      <div
+        onPointerUp={() =>
+          useStore.setState((s) => void (s.pointerDown = false))
+        }
+        onPointerDown={() =>
+          useStore.setState((s) => void (s.pointerDown = true))
+        }
+        className="h-full w-full select-none"
+      >
+        <div className={"absolute left-0 top-0 h-full w-full"}>
+          <Canvas dpr={[1, 2]} shadows gl={{ logarithmicDepthBuffer: true }}>
+            <Loader>
+              {process.env.ENABLE_DEBUG &&
+                process.env.NEXT_PUBLIC_NODE_ENV === "development" && (
+                  <axesHelper args={[constants.world.tileSize]} />
+                )}
+              {process.env.NEXT_PUBLIC_NODE_ENV === "development" && <Stats />}
+              <Environment files="./puresky.hdr" />
+              <Lights />
+              <AnimatedCharacter />
+              <Camera />
+              <World />
+              <ExploreModule />
+              <BuildModule />
+            </Loader>
+          </Canvas>
+        </div>
+        {/* NOTE: this is all of the ui */}
+        <ToolsLoader />
       </div>
-      {/* NOTE: this is all of the ui */}
-      <ToolsLoader />
     </Suspense>
   );
 };

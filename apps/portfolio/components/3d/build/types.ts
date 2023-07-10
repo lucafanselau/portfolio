@@ -13,7 +13,7 @@ export type BuildStateBuild = {
   type: "build";
   payload: PropsPayload | BuildingsPayload | StreetsPayload;
 };
-type BuildStateDestroy = { type: "destroy"; payload: AssetCategory };
+type BuildStateDestroy = { type: "destroy" };
 export type BuildState = BuildStateBuild | BuildStateDestroy;
 
 export const buildEntry = selectors.pack(

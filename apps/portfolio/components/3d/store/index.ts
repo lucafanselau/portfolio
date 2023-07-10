@@ -1,4 +1,5 @@
 import { mutation } from "@3d/build/mutation";
+import { buildPosition } from "@3d/build/preview";
 import { point } from "@3d/build/utils";
 import type { Interaction } from "@3d/constants";
 import { constants } from "@3d/constants";
@@ -8,11 +9,12 @@ import type { TerrainType } from "@3d/world/types";
 import { isNone, isSome } from "@components/utils";
 import type { ToolContentKeys } from "@content/tools";
 import { produce } from "immer";
-import type { Vector3 } from "three";
+import { Vector3 } from "three";
 import { match } from "ts-pattern";
 import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
+import { selectors } from "./selector";
 import type { CharacterState, Store } from "./store";
 import { defaultStore } from "./store";
 
@@ -102,7 +104,7 @@ export const useStore = create<Store & Actions>()(
           (s) =>
             void (s.ui.mode = {
               type: "build",
-              payload: { type: "destroy", payload: "streets" },
+              payload: { type: "destroy" },
             })
         ),
 
@@ -118,8 +120,36 @@ export const useStore = create<Store & Actions>()(
             console.log(pointer, tile);
             mutation.streets.build(tile);
           })
-          .with({ type: "build", payload: { type: "buildings" } }, () => {})
-          .with({ type: "build", payload: { type: "props" } }, () => {})
+          .with(
+            { type: "build", payload: { type: "buildings" } },
+            ({ payload: { id } }) =>
+              set((s) => {
+                const pos = buildPosition[0](s);
+                if (isNone(pos)) return;
+                const position = new Vector3(pos[0], 0, pos[1]);
+                s.world.buildings.push({
+                  position,
+                  id: `${id}-${s.world.buildings.length}`,
+                  rotation: 0,
+                  type: id,
+                });
+              })
+          )
+          .with(
+            { type: "build", payload: { type: "props" } },
+            ({ payload: { id } }) =>
+              set((s) => {
+                const pos = selectors.pointer[0](s);
+                if (isNone(pos)) return;
+                const position = new Vector3(pos[0], 0, pos[1]);
+                s.world.props.push({
+                  position,
+                  id: `${id}-${s.world.props.length}`,
+                  rotation: 0,
+                  type: id,
+                });
+              })
+          )
           .with({ type: "destroy" }, () => {})
           .exhaustive();
         // const { type } = mode.mode;
