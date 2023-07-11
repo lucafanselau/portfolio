@@ -96,7 +96,7 @@ export const useStore = create<Store & Actions>()(
           s.ui.mode = {
             type: "build",
             // @ts-expect-error (i dunno go figure it out yourself)
-            payload: { type: "build", payload: { type: key, id } },
+            payload: { type: "build", payload: { type: key, id, state: {} } },
           };
         }),
       startDestroy: () =>

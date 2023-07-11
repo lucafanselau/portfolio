@@ -26,6 +26,7 @@ const onClick: GroupProps["onClick"] = ({ point, ...e }) => {
 const TileLoader = forwardRef<Group, { tile: TerrainType } & GroupProps>(
   ({ tile, ...rest }, ref) => {
     const props = { ...rest, onClick };
+    // TODO: coord rework
     return match(tile)
       .with(TerrainType.Flat, () => (
         <group ref={ref} {...props}>

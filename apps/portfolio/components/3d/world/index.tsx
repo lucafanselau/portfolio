@@ -14,6 +14,8 @@ export const normalizeTile = (x: number) =>
 const Tile: FC<{ x: number; z: number }> = ({ x, z }) => {
   const type = useStore(useCallback((s) => s.world.terrain[x][z][0], [x, z]));
   const rot = useStore(useCallback((s) => s.world.terrain[x][z][1], [x, z]));
+  // TODO: coord rework
+
   const position = useMemo(
     () => [normalizeTile(x), 0, normalizeTile(z)] as [number, number, number],
     [x, z]

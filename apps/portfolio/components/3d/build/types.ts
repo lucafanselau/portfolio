@@ -6,7 +6,11 @@ import { match, P } from "ts-pattern";
 import type { BuildingType, PropType } from "../world/types";
 
 type StreetsPayload = { type: "streets" };
-type BuildingsPayload = { type: "buildings"; id: BuildingType };
+type BuildingsPayload = {
+  type: "buildings";
+  id: BuildingType;
+  state: { invalid?: boolean };
+};
 type PropsPayload = { type: "props"; id: PropType };
 
 export type BuildStateBuild = {
