@@ -147,7 +147,7 @@ console.log(
 // ------------------------------
 
 async function createGltf(key: string, entry: Entry, index: number = -1) {
-  const file = `${base}${key}/${entry.file}`;
+  const file = `${base}${key}/${entryFile(entry, index)}`;
   const outputRelative = `${key}/${ident(entry, index)}.tsx`;
   const output = `${target.src}${outputRelative}`;
   const transformedName = entryFile(entry, index).replace(
@@ -177,6 +177,7 @@ async function createGltf(key: string, entry: Entry, index: number = -1) {
     console.log(`[${chalk.green("success")}] - created model file ${output}`);
   } catch (e) {
     console.log(`[${chalk.red("error")}] - ${file} failed to create tsx file`);
+    console.error(e);
   }
   const transformed = `./${transformedName}`;
   const newPath = `${target.assets}${assetFile}`;
@@ -282,7 +283,7 @@ function createLoaderFile() {
           return `import { Model as M${safeIdent(
             entry,
             index
-          )} from "./${entry.output[index]?.src.replace(".tsx", "")}";`;
+          )} } from "./${entry.output[index]?.src.replace(".tsx", "")}";`;
         else
           return `import { Model as M${safeIdent(
             entry,
@@ -306,7 +307,7 @@ function createLoaderFile() {
         return `"${ident(entry, index)}": M${safeIdent(entry, index)},`;
       };
 
-      const innerFields = Object.values(entries).map((entry) => {
+      const innerFields = Object.values(entries).flatMap((entry) => {
         if (Array.isArray(entry.file))
           return entry.file.map((file, index) => fieldStatement(entry, index));
         return fieldStatement(entry, -1);
