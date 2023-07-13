@@ -20,10 +20,10 @@ import { Model as Mpark2 } from "./buildings/park2";
 import { Model as Mpark3 } from "./buildings/park3";
 import { Model as Mpark4 } from "./buildings/park4";
 import { Model as Mschool } from "./buildings/school";
-import { Model as Mtree1 } from "./props/tree1";
-import { Model as Mtree2 } from "./props/tree2";
-import { Model as Mtree3 } from "./props/tree3";
-import { Model as Mtree4 } from "./props/tree4";
+import { Model as Mtree_one } from "./props/tree-one";
+import { Model as Mtree_two } from "./props/tree-two";
+import { Model as Mtree_three } from "./props/tree-three";
+import { Model as Mtree_four } from "./props/tree-four";
 export const models = {
 	streets: {
  "street-end": Mstreet_end,
@@ -51,9 +51,9 @@ buildings: {
 "school": Mschool,
  },
 props: {
- "tree1": Mtree1,
-"tree2": Mtree2,
-"tree3": Mtree3,
-"tree4": Mtree4,
+ "tree-one": Mtree_one,
+"tree-two": Mtree_two,
+"tree-three": Mtree_three,
+"tree-four": Mtree_four,
  },
 };

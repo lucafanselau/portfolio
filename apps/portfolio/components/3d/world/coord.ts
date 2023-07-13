@@ -62,6 +62,16 @@ const tile = {
       .with({ type: "tile" }, ({ value }) => ({ type: "tile", value }))
       .exhaustive();
   },
+  exact(from: Coord): TileCoord {
+    return match<Coord, TileCoord>(from)
+      .with({ type: "plane" }, ({ value }) => ({
+        type: "tile",
+        value: vec2.div(value, vec2.splat(ts)),
+      }))
+      .with({ type: "world" }, (world) => tile.from(plane.from(world)))
+      .with({ type: "tile" }, ({ value }) => ({ type: "tile", value }))
+      .exhaustive();
+  },
 };
 
 const plane = {

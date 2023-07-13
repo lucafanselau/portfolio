@@ -8,13 +8,13 @@ import { IconBulldozer, IconHammer } from "@tabler/icons-react";
 import { Button } from "@ui/button";
 import { P } from "@ui/typography";
 import type { FC } from "react";
-import { buildEntry } from "../types";
+// import { buildEntry } from "../types";
 
 export const BuildActiveBar: FC = ({}) => {
-  const entry = useStore(...buildEntry);
-  if (isNone(entry)) return null;
+  // const entry = useStore(...buildEntry);
+  // if (isNone(entry)) return null;
 
-  const text = `Building *${entry.name ?? "Unknown"}*`;
+  const text = `Building *${undefined ?? "Unknown"}*`;
 
   const onClick = () => {
     useStore.getState().updateTools({ type: "dismiss" });

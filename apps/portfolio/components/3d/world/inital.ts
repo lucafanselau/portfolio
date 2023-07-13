@@ -1,14 +1,23 @@
 import { range } from "@components/utils";
 import { Vector3 } from "three";
 import { coord } from "./coord";
-import type { Building, Prop } from "./types";
-import { TerrainType } from "./types";
+import type { Entity } from "./types";
+import { Terrain } from "./types";
 
-const F = TerrainType.Flat;
+const F = { type: "flat" } as Terrain;
 // const C = TerrainType.Clipping;
 const M = F;
-const S = TerrainType.StreetStraight;
-const T = TerrainType.StreetTurn;
+
+const S: Terrain = {
+  type: "street",
+  range: coord.range.create(coord.world.create(0, 0), [1, 1], 0),
+  variant: "straight",
+};
+const T = (type: number): Terrain => ({
+  type: "street",
+  range: coord.range.create(coord.world.create(0, 0), [1, 1], 0),
+  variant: "turn",
+});
 
 const template = [
   [F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F],
@@ -73,29 +82,32 @@ const template = [
   [F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F],
   [F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F],
   [F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F],
-] as ([TerrainType, number] | TerrainType)[][];
+] as ([Terrain, number] | Terrain)[][];
 
-const initialBuildings: Building[] = [
+const initialBuildings: Entity[] = [
   {
     id: "school",
-    range: coord.range.building(coord.world.create(16, 16), "school", 1),
+    category: "buildings",
+    transform: coord.range.building(coord.world.create(16, 16), "school", 1),
     type: "school",
   },
   {
     id: "house",
-    range: coord.range.building(coord.world.create(-8, 24), "house1", 0),
+    category: "buildings",
+    transform: coord.range.building(coord.world.create(-8, 24), "house1", 0),
     type: "house1",
   },
   {
     id: "office",
-    range: coord.range.building(coord.world.create(8, -24), "office1", 2),
+    category: "buildings",
+    transform: coord.range.building(coord.world.create(8, -24), "office1", 2),
     type: "office1",
   },
 ];
 
-const initialProps: Prop[] = [
+const initialProps: Entity[] = [
   ...range(0, 4).map(
-    (i): Prop => ({
+    (i): Entity => ({
       id: "tree-" + i.toString(),
       position: coord.plane.create(
         Math.floor(i / 2) * -8 + 4,
@@ -110,8 +122,10 @@ const initialProps: Prop[] = [
 
 export const initial = {
   terrain: template.map((row) =>
-    row.map<[TerrainType, number]>((type) =>
-      Array.isArray(type) ? type : [type, 0]
+    row.map<Terrain>((type) =>
+      Array.isArray(type) && type[0].type === "street"
+        ? { ...type[0], range: { ...type[0].range, rotation: type[1] } }
+        : (type as Terrain)
     )
   ),
   buildings: initialBuildings,

@@ -7,11 +7,12 @@ import type { GroupProps } from "@react-three/fiber";
 import type { FC, ReactNode } from "react";
 import { useMemo, useRef } from "react";
 import type { Group } from "three";
-import { BuildPreviewPlane } from "@3d/build/preview";
 import { constants } from "@3d/constants";
 import type { Building, Prop } from "@3d/world/types";
 import { findAssetEntry } from "@3d/generated-loader";
 import { coord } from "./coord";
+import { BuildPreviewPlane } from "@3d/build/overlay";
+import { loadModel } from "./model";
 
 const pointerProps: GroupProps = {
   onPointerOver: (e) =>
@@ -25,7 +26,6 @@ const pointerProps: GroupProps = {
 
 export const BuildingLoader: FC<Building> = ({ type, range }) => {
   const ref = useRef<Group>(null);
-  const Model = models.buildings[type];
 
   const { plane, wrapper, rotation, model } = coord.objects.building(range);
   if (isNone(Model)) return null;

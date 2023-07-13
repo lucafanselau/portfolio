@@ -29,27 +29,32 @@
         {
           "src": "streets/street-end.tsx",
           "glb": "generated/street-end-transformed.glb",
-          "img": "generated/street-preview.png"
+          "id": "street-end",
+          "img": "generated/street-end-preview.png"
         },
         {
           "src": "streets/street-four.tsx",
           "glb": "generated/street-four-transformed.glb",
-          "img": "generated/street-preview.png"
+          "id": "street-four",
+          "img": "generated/street-four-preview.png"
         },
         {
           "src": "streets/street-straight.tsx",
           "glb": "generated/street-straight-transformed.glb",
-          "img": "generated/street-preview.png"
+          "id": "street-straight",
+          "img": "generated/street-straight-preview.png"
         },
         {
           "src": "streets/street-three.tsx",
           "glb": "generated/street-three-transformed.glb",
-          "img": "generated/street-preview.png"
+          "id": "street-three",
+          "img": "generated/street-three-preview.png"
         },
         {
           "src": "streets/street-turn.tsx",
           "glb": "generated/street-turn-transformed.glb",
-          "img": "generated/street-preview.png"
+          "id": "street-turn",
+          "img": "generated/street-turn-preview.png"
         }
       ]
     }
@@ -66,6 +71,7 @@
       "output": {
         "src": "buildings/hotel.tsx",
         "glb": "generated/hotel-transformed.glb",
+        "id": "hotel",
         "img": "generated/hotel-preview.png"
       }
     },
@@ -80,6 +86,7 @@
       "output": {
         "src": "buildings/house1.tsx",
         "glb": "generated/house-transformed.glb",
+        "id": "house1",
         "img": "generated/house1-preview.png"
       }
     },
@@ -94,6 +101,7 @@
       "output": {
         "src": "buildings/house2.tsx",
         "glb": "generated/house2-transformed.glb",
+        "id": "house2",
         "img": "generated/house2-preview.png"
       }
     },
@@ -108,6 +116,7 @@
       "output": {
         "src": "buildings/house3.tsx",
         "glb": "generated/house3-transformed.glb",
+        "id": "house3",
         "img": "generated/house3-preview.png"
       }
     },
@@ -122,6 +131,7 @@
       "output": {
         "src": "buildings/house4.tsx",
         "glb": "generated/house4-transformed.glb",
+        "id": "house4",
         "img": "generated/house4-preview.png"
       }
     },
@@ -136,6 +146,7 @@
       "output": {
         "src": "buildings/house5.tsx",
         "glb": "generated/house5-transformed.glb",
+        "id": "house5",
         "img": "generated/house5-preview.png"
       }
     },
@@ -150,6 +161,7 @@
       "output": {
         "src": "buildings/house6.tsx",
         "glb": "generated/house6-transformed.glb",
+        "id": "house6",
         "img": "generated/house6-preview.png"
       }
     },
@@ -164,6 +176,7 @@
       "output": {
         "src": "buildings/house7.tsx",
         "glb": "generated/house7-transformed.glb",
+        "id": "house7",
         "img": "generated/house7-preview.png"
       }
     },
@@ -178,6 +191,7 @@
       "output": {
         "src": "buildings/office1.tsx",
         "glb": "generated/office-transformed.glb",
+        "id": "office1",
         "img": "generated/office1-preview.png"
       }
     },
@@ -192,6 +206,7 @@
       "output": {
         "src": "buildings/office2.tsx",
         "glb": "generated/office2-transformed.glb",
+        "id": "office2",
         "img": "generated/office2-preview.png"
       }
     },
@@ -206,6 +221,7 @@
       "output": {
         "src": "buildings/office3.tsx",
         "glb": "generated/office3-transformed.glb",
+        "id": "office3",
         "img": "generated/office3-preview.png"
       }
     },
@@ -220,6 +236,7 @@
       "output": {
         "src": "buildings/park1.tsx",
         "glb": "generated/park-transformed.glb",
+        "id": "park1",
         "img": "generated/park1-preview.png"
       }
     },
@@ -234,6 +251,7 @@
       "output": {
         "src": "buildings/park2.tsx",
         "glb": "generated/park2-transformed.glb",
+        "id": "park2",
         "img": "generated/park2-preview.png"
       }
     },
@@ -248,6 +266,7 @@
       "output": {
         "src": "buildings/park3.tsx",
         "glb": "generated/park3-transformed.glb",
+        "id": "park3",
         "img": "generated/park3-preview.png"
       }
     },
@@ -262,6 +281,7 @@
       "output": {
         "src": "buildings/park4.tsx",
         "glb": "generated/park4-transformed.glb",
+        "id": "park4",
         "img": "generated/park4-preview.png"
       }
     },
@@ -276,50 +296,59 @@
       "output": {
         "src": "buildings/school.tsx",
         "glb": "generated/school-transformed.glb",
+        "id": "school",
         "img": "generated/school-preview.png"
       }
     }
   },
   "props": {
-    "tree1": {
-      "id": "tree1",
-      "file": "tree.glb",
-      "name": "Tree 1",
-      "output": {
-        "src": "props/tree1.tsx",
-        "glb": "generated/tree-transformed.glb",
-        "img": "generated/tree1-preview.png"
-      }
-    },
-    "tree2": {
-      "id": "tree2",
-      "file": "tree2.glb",
-      "name": "Tree 2",
-      "output": {
-        "src": "props/tree2.tsx",
-        "glb": "generated/tree2-transformed.glb",
-        "img": "generated/tree2-preview.png"
-      }
-    },
-    "tree3": {
-      "id": "tree3",
-      "file": "tree3.glb",
-      "name": "Tree 3",
-      "output": {
-        "src": "props/tree3.tsx",
-        "glb": "generated/tree3-transformed.glb",
-        "img": "generated/tree3-preview.png"
-      }
-    },
-    "tree4": {
-      "id": "tree4",
-      "file": "tree4.glb",
-      "name": "Tree 4",
-      "output": {
-        "src": "props/tree4.tsx",
-        "glb": "generated/tree4-transformed.glb",
-        "img": "generated/tree4-preview.png"
-      }
+    "tree": {
+      "id": "tree",
+      "file": [
+        {
+          "file": "tree.glb",
+          "id": "one"
+        },
+        {
+          "file": "tree2.glb",
+          "id": "two"
+        },
+        {
+          "file": "tree3.glb",
+          "id": "three"
+        },
+        {
+          "file": "tree4.glb",
+          "id": "four"
+        }
+      ],
+      "name": "Tree",
+      "output": [
+        {
+          "src": "props/tree-one.tsx",
+          "glb": "generated/tree-transformed.glb",
+          "id": "tree-one",
+          "img": "generated/tree-one-preview.png"
+        },
+        {
+          "src": "props/tree-two.tsx",
+          "glb": "generated/tree2-transformed.glb",
+          "id": "tree-two",
+          "img": "generated/tree-two-preview.png"
+        },
+        {
+          "src": "props/tree-three.tsx",
+          "glb": "generated/tree3-transformed.glb",
+          "id": "tree-three",
+          "img": "generated/tree-three-preview.png"
+        },
+        {
+          "src": "props/tree-four.tsx",
+          "glb": "generated/tree4-transformed.glb",
+          "id": "tree-four",
+          "img": "generated/tree-four-preview.png"
+        }
+      ]
     }
   }
 }

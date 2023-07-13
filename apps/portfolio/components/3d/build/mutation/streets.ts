@@ -1,30 +1,30 @@
 import { useStore } from "@3d/store";
 import { coord, TileCoord } from "@3d/world/coord";
-import { TerrainType } from "@3d/world/types";
+import { Terrain } from "@3d/world/types";
 import { match } from "ts-pattern";
 
-const isStreet = (terrain: TerrainType | undefined) => {
+const isStreet = (terrain: Terrain | undefined) => {
   if (terrain === undefined) return false;
-  return terrain >= TerrainType.StreetEnd && terrain <= TerrainType.StreetFour;
+  return terrain.type === "street";
 };
 
 const getTileType = (x: number, z: number) => {
   const { world } = useStore.getState();
 
-  const left = world.terrain[x - 1]?.[z]?.[0];
-  const right = world.terrain[x + 1]?.[z]?.[0];
-  const top = world.terrain[x]?.[z - 1]?.[0];
-  const bottom = world.terrain[x]?.[z + 1]?.[0];
+  const left = world.terrain[x - 1]?.[z];
+  const right = world.terrain[x + 1]?.[z];
+  const top = world.terrain[x]?.[z - 1];
+  const bottom = world.terrain[x]?.[z + 1];
 
   const neighbors = [top, left, bottom, right];
   const streetLookup = neighbors.map(isStreet);
   const numConnections = streetLookup.filter(Boolean).length;
 
-  return match<number, [TerrainType, number]>(numConnections)
-    .with(0, () => [TerrainType.StreetFour, 0])
+  return match<number, [string, number]>(numConnections)
+    .with(0, () => ["four", 0])
     .with(1, () => {
       const rotation = streetLookup.indexOf(true);
-      return [TerrainType.StreetEnd, rotation];
+      return ["end", rotation];
     })
     .with(2, () => {
       const streets = streetLookup
@@ -35,23 +35,20 @@ const getTileType = (x: number, z: number) => {
 
       if (diff === 1 || diff === 3) {
         // only one difference -> turn
-        return [
-          TerrainType.StreetTurn,
-          diff === 3 ? streets[0].i : streets[1].i,
-        ];
+        return ["turn", diff === 3 ? streets[0].i : streets[1].i];
       } else {
         // two differences -> straight
-        return [TerrainType.StreetStraight, streets[0].i - 1];
+        return ["straight", streets[0].i - 1];
       }
     })
-    .with(3, () => [TerrainType.StreetThree, streetLookup.indexOf(false)])
-    .with(4, () => [TerrainType.StreetFour, 0])
+    .with(3, () => ["three", streetLookup.indexOf(false)])
+    .with(4, () => ["four", 0])
     .run();
 };
 
 const updateNeighbor = (x: number, z: number) => {
   const { world, setTileType } = useStore.getState();
-  const type = world.terrain[x]?.[z]?.[0];
+  const type = world.terrain[x]?.[z];
   if (!type) return;
 
   if (isStreet(type)) {
@@ -63,7 +60,7 @@ const updateNeighbor = (x: number, z: number) => {
 const destroyStreet = (tile: TileCoord) => {
   const [x, z] = coord.unwrap(tile);
   const { setTileType } = useStore.getState();
-  setTileType(x, z, TerrainType.Flat);
+  setTileType(x, z, { type: "flat" });
   // also update the neighbors
   updateNeighbor(x - 1, z);
   updateNeighbor(x + 1, z);

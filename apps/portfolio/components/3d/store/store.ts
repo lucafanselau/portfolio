@@ -3,7 +3,7 @@ import type { Interaction } from "@3d/constants";
 import { constants } from "@3d/constants";
 import { coord, Coord, vec2, Vec2, WorldCoord } from "@3d/world/coord";
 import { initial } from "@3d/world/inital";
-import type { Building, Prop, TerrainType } from "@3d/world/types";
+import type { Entity, Terrain } from "@3d/world/types";
 import type { ToolContentKeys } from "@content/tools";
 import type { Object3D } from "three";
 import { Vector3 } from "three";
@@ -37,9 +37,8 @@ export type Store = {
   pointerDown: boolean;
   world: {
     hovered: Object3D[];
-    terrain: [type: TerrainType, rotation: number][][];
-    buildings: Building[];
-    props: Prop[];
+    terrain: Terrain[][];
+    entities: Entity[];
     interaction: {
       current?: Interaction["title"];
       history: Record<Interaction["title"], boolean>;
@@ -71,8 +70,7 @@ export const defaultStore: Store = {
   world: {
     hovered: [],
     terrain: initial.terrain,
-    buildings: initial.buildings,
-    props: initial.props,
+    entities: [...initial.buildings, ...initial.props],
     interaction: {
       current: undefined,
       history: { home: false, office: false, school: false },

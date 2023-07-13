@@ -117,24 +117,15 @@
   // currently we have props "tree" (from 1 to 4)
   "props": [
     {
-      "file": "tree.glb",
-      "id": "tree1",
-      "name": "Tree 1"
-    },
-    {
-      "file": "tree2.glb",
-      "id": "tree2",
-      "name": "Tree 2"
-    },
-    {
-      "file": "tree3.glb",
-      "id": "tree3",
-      "name": "Tree 3"
-    },
-    {
-      "file": "tree4.glb",
-      "id": "tree4",
-      "name": "Tree 4"
+      "file": [
+        // currently we have props "tree" (from 1 to 4)
+        { "file": "tree.glb", "id": "one" },
+        { "file": "tree2.glb", "id": "two" },
+        { "file": "tree3.glb", "id": "three" },
+        { "file": "tree4.glb", "id": "four" }
+      ],
+      "id": "tree",
+      "name": "Tree"
     }
   ]
 }

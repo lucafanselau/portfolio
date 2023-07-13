@@ -13,6 +13,7 @@ import { forwardRef, useState, useMemo } from "react";
 import { Box2, Group, Mesh, Vector2, Vector3 } from "three";
 import { MeshStandardMaterial } from "three";
 import { isMatching, match, P, Pattern } from "ts-pattern";
+import { BuildPreviewPlane } from "./overlay";
 import { buildEntry, BuildStateBuild } from "./types";
 
 const { tileSize } = constants.world;

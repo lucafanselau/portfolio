@@ -7,12 +7,7 @@ import type { GroupProps } from "@react-three/fiber";
 import type { FC, ReactNode } from "react";
 import { useMemo, useRef } from "react";
 import type { Group } from "three";
-import { BuildPreviewPlane } from "./build/preview";
-import { constants } from "./constants";
 import type { Building, Prop } from "./world/types";
-
-// TODO: coord rework
-// in total i don't like this file here
 
 // ***************************************************
 // Collection and Assets types and helpers
@@ -23,16 +18,13 @@ export type AssetEntry<Keys extends AssetCategory = AssetCategory> =
   UnwrapUnion<AssetCollection[Keys]>;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
+export type AssetKey<T extends AssetCategory> = KeysOfUnion<AssetCollection[T]>;
 type UnwrapUnion<T> = T extends T ? T[keyof T] : never;
 export const findAssetEntry = <C extends AssetCategory>(
   category: C,
   item: KeysOfUnion<AssetCollection[C]>
 ) => {
   return collection[category][item] as AssetEntry<C>;
-};
-export const defaultStreetsEntry = {
-  ...findAssetEntry("streets", "street-four"),
-  name: "Standard Street",
 };
 
 // ***************************************************
@@ -42,45 +34,4 @@ export const GeneratedLoader: FC<{ children?: ReactNode }> = ({ children }) => {
   // NOTE: currently instances are turned off
   return <>{children}</>;
   // return <Instances>{children}</Instances>;
-};
-
-export const PropLoader: FC<Prop> = ({ type, rotation, position }) => {
-  const Model = models.props[type];
-
-  const ref = useRef<Group>(null);
-  const props = useMemo(
-    (): GroupProps => ({
-      onPointerOver: (e) =>
-        useStore.setState((s) => void s.world.hovered.push(e.object)),
-      onPointerOut: (e) =>
-        useStore.setState(
-          (s) =>
-            void (s.world.hovered = s.world.hovered.filter(
-              (h) => h !== e.object
-            ))
-        ),
-    }),
-    [ref]
-  );
-
-  if (isNone(Model)) return null;
-  return (
-    <Model
-      {...props}
-      position={position}
-      rotation={[0, (rotation * Math.PI) / 2, 0]}
-    />
-  );
-};
-
-export const Props = () => {
-  const props = useStore((state) => state.world.props);
-
-  return (
-    <>
-      {props.map((prop) => (
-        <PropLoader key={prop.id} {...prop} />
-      ))}
-    </>
-  );
 };

@@ -192,12 +192,12 @@ async function createGltf(key: string, entry: Entry, index: number = -1) {
       newPath
     );
   }
-  return { src: outputRelative, glb: assetFile };
+  return { src: outputRelative, glb: assetFile, id: ident(entry, index) };
 }
 
 async function createThumbnail(key: string, entry: Entry, index: number) {
   const file = `${base}${key}/${entryFile(entry, index)}`;
-  const assetFile = `${assetPrefix}${entry.id}-preview.png`;
+  const assetFile = `${assetPrefix}${ident(entry, index)}-preview.png`;
   const out = `${target.assets}${assetFile}`;
 
   try {
