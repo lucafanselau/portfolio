@@ -1,10 +1,5 @@
 import { AssetCategory, AssetKey } from "@3d/generated-loader";
-import type { models } from "@3d/generated/loader";
-import type { Vector3 } from "three";
 import { PlaneCoord, TileRange } from "./coord";
-
-export type BuildingType = keyof (typeof models)["buildings"];
-export type PropType = keyof (typeof models)["props"];
 
 export type Terrain =
   | { type: "flat" }

@@ -192,28 +192,26 @@ const range = {
   },
 };
 
-const objects = {
-  // methods intended for custom use cases
-  building(range: TileRange) {
-    const [x, z] = unwrap(world.from(range.anchor));
-    const [w, d] = unwrap(plane.from(range.extend));
-    return {
-      plane: {
-        args: [w, d, 2, 2],
-        rotation: [-Math.PI / 2, 0, 0],
-        position: [w / 2, constants.eps, d / 2],
-      },
-      wrapper: {
-        position: [x, 0, z],
-      },
-      rotation: {
-        rotation: [0, (range.rotation * Math.PI) / 2, 0],
-      },
-      model: {
-        position: [w / 2, 0, d / 2],
-      },
-    } satisfies Record<string, ComponentProps<typeof Plane>>;
-  },
+// methods intended for custom use cases
+const objects = (range: TileRange) => {
+  const [x, z] = unwrap(world.from(range.anchor));
+  const [w, d] = unwrap(plane.from(range.extend));
+  return {
+    plane: {
+      args: [w, d, 2, 2],
+      rotation: [-Math.PI / 2, 0, 0],
+      position: [w / 2, constants.eps, d / 2],
+    },
+    wrapper: {
+      position: [x, 0, z],
+    },
+    rotation: {
+      rotation: [0, (range.rotation * Math.PI) / 2, 0],
+    },
+    model: {
+      position: [w / 2, 0, d / 2],
+    },
+  } satisfies Record<string, ComponentProps<typeof Plane>>;
 };
 
 export const coord = {

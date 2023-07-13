@@ -1,10 +1,9 @@
 import { constants } from "@3d/constants";
-import { Props } from "@3d/generated-loader";
 import { useStore } from "@3d/store";
 import { range } from "@components/utils";
 import type { FC } from "react";
 import { useCallback, useMemo } from "react";
-import { Buildings } from "./buildings";
+import { ModelLoader } from "./model";
 import TileLoader from "./tile";
 
 const { tileSize, tiles } = constants.world;
@@ -12,6 +11,7 @@ const { tileSize, tiles } = constants.world;
 export const normalizeTile = (x: number) =>
   (x - tiles / 2) * tileSize + tileSize / 2;
 
+// TODO
 const Tile: FC<{ x: number; z: number }> = ({ x, z }) => {
   const type = useStore(useCallback((s) => s.world.terrain[x][z][0], [x, z]));
   const rot = useStore(useCallback((s) => s.world.terrain[x][z][1], [x, z]));
@@ -32,14 +32,24 @@ const Tile: FC<{ x: number; z: number }> = ({ x, z }) => {
   );
 };
 
+const Entities = () => {
+  const entities = useStore((s) => s.world.entities);
+  return (
+    <group>
+      {entities.map((e) => (
+        <ModelLoader key={e.id} entity={e} />
+      ))}
+    </group>
+  );
+};
+
 export const World = () => {
   return (
     <group>
       {range(0, tiles).map((x) =>
         range(0, tiles).map((z) => <Tile x={x} z={z} key={`tile-${x}-${z}`} />)
       )}
-      <Buildings />
-      <Props />
+      <Entities />
     </group>
   );
 };

@@ -1,16 +1,21 @@
+import { BuildPreviewPlane } from "@3d/build/overlay";
 import { AssetCategory, AssetKey, findAssetEntry } from "@3d/generated-loader";
 import { models } from "@3d/generated/loader";
+import { useStore } from "@3d/store";
 import { isNone, isSome } from "@components/utils";
+import { GroupProps } from "@react-three/fiber";
 import { FC, useMemo } from "react";
+import { coord } from "./coord";
+import { Entity } from "./types";
 
 type ModelLoaderProps<C extends AssetCategory> = {
   category: C;
-  key: AssetKey<C>;
+  type: AssetKey<C>;
   variant?: string;
 };
 export const loadModel = <C extends AssetCategory>({
   category,
-  key,
+  type: key,
   variant,
 }: ModelLoaderProps<C>) => {
   const entry = useMemo(() => findAssetEntry(category, key), [category, key]);
@@ -30,4 +35,30 @@ export const loadModel = <C extends AssetCategory>({
   return Model;
 };
 
-export const ModelLoader = <{ model: }>
+const pointerProps: GroupProps = {
+  onPointerOver: (e) =>
+    useStore.setState((s) => void s.world.hovered.push(e.object)),
+  onPointerOut: (e) =>
+    useStore.setState(
+      (s) =>
+        void (s.world.hovered = s.world.hovered.filter((h) => h !== e.object))
+    ),
+};
+
+export const ModelLoader = <C extends AssetCategory>({
+  entity,
+}: {
+  entity: Entity<C>;
+}) => {
+  const Model = useMemo(() => loadModel<C>(entity), [entity]);
+  const { plane, wrapper, rotation, model } = coord.objects(entity.transform);
+  if (isNone(Model)) return null;
+  return (
+    <group {...wrapper}>
+      <group {...rotation}>
+        <BuildPreviewPlane {...plane} />
+        <Model {...pointerProps} {...model} />
+      </group>
+    </group>
+  );
+};
