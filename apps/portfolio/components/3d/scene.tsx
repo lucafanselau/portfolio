@@ -47,7 +47,7 @@ const Scene = () => {
         <div className={"absolute left-0 top-0 h-full w-full"}>
           <Canvas dpr={[1, 2]} shadows gl={{ logarithmicDepthBuffer: true }}>
             <Loader>
-              {process.env.ENABLE_DEBUG &&
+              {process.env.NEXT_PUBLIC_ENABLE_DEBUG &&
                 process.env.NEXT_PUBLIC_NODE_ENV === "development" && (
                   <axesHelper args={[constants.world.tileSize]} />
                 )}

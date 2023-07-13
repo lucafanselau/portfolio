@@ -3,33 +3,27 @@
 // Generated from ./assets/generated/buildings/house3.glb
 */
 
-import { useGLTF } from "@react-three/drei";
-import type * as THREE from "three";
-import type { GLTF } from "three-stdlib";
+import * as THREE from 'three'
+import React, { useRef } from 'react'
+import { useGLTF } from '@react-three/drei'
+import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
   nodes: {
-    building058: THREE.Mesh;
-  };
+    building058: THREE.Mesh
+  }
   materials: {
-    city: THREE.MeshStandardMaterial;
-  };
-};
-
-export function Model(props: JSX.IntrinsicElements["group"]) {
-  const { nodes, materials } = useGLTF(
-    "/generated/house3-transformed.glb"
-  ) as GLTFResult;
-  return (
-    <group {...props} dispose={null}>
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.building058.geometry}
-        material={materials.city}
-      />
-    </group>
-  );
+    city: THREE.MeshStandardMaterial
+  }
 }
 
-useGLTF.preload("/generated/house3-transformed.glb");
+export function Model(props: JSX.IntrinsicElements['group']) {
+  const { nodes, materials } = useGLTF('/generated/house3-transformed.glb') as GLTFResult
+  return (
+    <group {...props} dispose={null}>
+      <mesh castShadow receiveShadow geometry={nodes.building058.geometry} material={materials.city} />
+    </group>
+  )
+}
+
+useGLTF.preload('/generated/house3-transformed.glb')

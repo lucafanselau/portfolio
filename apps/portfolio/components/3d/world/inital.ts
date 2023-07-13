@@ -1,5 +1,6 @@
 import { range } from "@components/utils";
 import { Vector3 } from "three";
+import { coord } from "./coord";
 import type { Building, Prop } from "./types";
 import { TerrainType } from "./types";
 
@@ -77,21 +78,18 @@ const template = [
 const initialBuildings: Building[] = [
   {
     id: "school",
-    position: new Vector3(16, 0, 16),
+    range: coord.range.building(coord.world.create(16, 16), "school", 1),
     type: "school",
-    rotation: 1,
   },
   {
     id: "house",
-    position: new Vector3(-8, 0, 24),
+    range: coord.range.building(coord.world.create(-8, 24), "house1", 0),
     type: "house1",
-    rotation: 0,
   },
   {
     id: "office",
-    position: new Vector3(8, 0, -24),
+    range: coord.range.building(coord.world.create(8, -24), "office1", 2),
     type: "office1",
-    rotation: 2,
   },
 ];
 
@@ -99,7 +97,10 @@ const initialProps: Prop[] = [
   ...range(0, 4).map(
     (i): Prop => ({
       id: "tree-" + i.toString(),
-      position: new Vector3(Math.floor(i / 2) * -8 + 4, 0, -12 + (i % 2) * 24),
+      position: coord.plane.create(
+        Math.floor(i / 2) * -8 + 4,
+        -12 + (i % 2) * 24
+      ),
       // @ts-expect-error tree1, tree2, tree3, tree4 are all valid
       type: "tree" + Math.ceil(Math.random() * 4).toString(),
       rotation: 0,

@@ -1,7 +1,7 @@
 import { useStore } from "@3d/store";
+import { coord, TileCoord } from "@3d/world/coord";
 import { TerrainType } from "@3d/world/types";
 import { match } from "ts-pattern";
-import { Point } from "../utils";
 
 const isStreet = (terrain: TerrainType | undefined) => {
   if (terrain === undefined) return false;
@@ -60,8 +60,8 @@ const updateNeighbor = (x: number, z: number) => {
   }
 };
 
-const destroyStreet = (tile: Point) => {
-  const [x, z] = tile;
+const destroyStreet = (tile: TileCoord) => {
+  const [x, z] = coord.unwrap(tile);
   const { setTileType } = useStore.getState();
   setTileType(x, z, TerrainType.Flat);
   // also update the neighbors
@@ -71,9 +71,9 @@ const destroyStreet = (tile: Point) => {
   updateNeighbor(x, z + 1);
 };
 
-const buildStreet = (tile: Point) => {
+const buildStreet = (tile: TileCoord) => {
   const { setTileType } = useStore.getState();
-  const [x, z] = tile;
+  const [x, z] = coord.unwrap(tile);
 
   const [type, rotation] = getTileType(x, z);
   setTileType(x, z, type, rotation);
@@ -87,4 +87,5 @@ const buildStreet = (tile: Point) => {
 export const streets = {
   build: buildStreet,
   destroy: destroyStreet,
+  type: getTileType,
 };

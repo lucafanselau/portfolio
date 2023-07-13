@@ -7,6 +7,7 @@ import chalk from "chalk";
 import gltfjsx from "gltfjsx/src/gltfjsx";
 import prependFile from "prepend-file";
 import spawnAsync from "@expo/spawn-async";
+import { isNone } from "apps/portfolio/components/utils";
 
 const base = "./assets/generated/";
 const target = {
@@ -22,7 +23,10 @@ const rawCollection = JSON5.parse(collectionFile);
 
 const baseEntry = z.object({
   id: z.string(),
-  file: z.string(),
+  file: z.union([
+    z.string(),
+    z.array(z.object({ file: z.string(), id: z.string() })),
+  ]),
 });
 
 const collectionSchema = z.object({
@@ -40,7 +44,10 @@ const collectionSchema = z.object({
 const collection = collectionSchema.parse(rawCollection);
 
 type Key = keyof typeof collection;
-type Entry = Unpacked<(typeof collection)[Key]>;
+type Entry = Omit<Unpacked<(typeof collection)[Key]>, "file"> & {
+  file: string;
+  variant?: string;
+};
 
 type ExtendedEntry = Entry & {
   src: string;
@@ -79,7 +86,15 @@ const mapped = await Promise.all(
     const entries = collection[key];
     if (entries === undefined) return;
     const mapped = (
-      await Promise.all(entries.map((entry) => processEntry(key, entry)))
+      await Promise.all(
+        entries.flatMap(({ file, ...rest }) =>
+          Array.isArray(file) || isNone(file)
+            ? (file ?? []).map(({ id: variant, file }) =>
+                processEntry(key, { ...rest, file, variant })
+              )
+            : [processEntry(key, { ...rest, file })]
+        )
+      )
     ).reduce((acc, curr) => ({ ...acc, [curr.id]: curr }), {}) as Record<
       string,
       ExtendedEntry

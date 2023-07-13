@@ -1,6 +1,5 @@
 import { mutation } from "@3d/build/mutation";
 import { buildPosition } from "@3d/build/preview";
-import { point } from "@3d/build/utils";
 import type { Interaction } from "@3d/constants";
 import { constants } from "@3d/constants";
 import type { AssetCategory } from "@3d/generated-loader";

@@ -1,12 +1,17 @@
 import { constants } from "@3d/constants";
 import { useStore } from "@3d/store";
-import { selectors } from "@3d/store/selector";
+import { coord } from "@3d/world/coord";
 import { Plane } from "@react-three/drei";
 import type { ThreeEvent } from "@react-three/fiber";
-import { useEffect, useRef, useState } from "react";
+import {
+  ComponentPropsWithoutRef,
+  forwardRef,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import type { Mesh } from "three";
 import { MeshStandardMaterial } from "three";
-import { point } from "./utils";
 
 const { tileSize, tiles } = constants.world;
 const planeSize = tileSize * tiles;
@@ -19,7 +24,7 @@ export const InteractionPlane = () => {
 
   const onPointer = (e: ThreeEvent<PointerEvent>) => {
     if (!e.point) return;
-    useStore.getState().setPointer([e.point.x, e.point.z]);
+    useStore.getState().setPointer(coord.world.create(e.point.x, e.point.z));
   };
   const onPointerDown = (e: ThreeEvent<PointerEvent>) => {
     onPointer(e);
@@ -43,3 +48,36 @@ export const InteractionPlane = () => {
     />
   );
 };
+
+// ******************************************************
+// REUSABLE
+
+const colors = {
+  red: "#ef4444",
+  green: "#10b981",
+  blue: "#3b82f6",
+};
+type Color = keyof typeof colors;
+
+export const BuildPreviewPlane = forwardRef<
+  Mesh,
+  ComponentPropsWithoutRef<typeof Plane> & {
+    depthTest?: boolean;
+    color?: Color;
+  }
+>(({ depthTest = false, color = "blue", ...props }, ref) => {
+  const [material] = useState(
+    () =>
+      new MeshStandardMaterial({
+        depthTest,
+        transparent: true,
+        opacity: 0.5,
+      })
+  );
+
+  useEffect(() => {
+    material.color.set(colors[color]);
+  }, [color]);
+
+  return <Plane {...props} ref={ref} receiveShadow material={material} />;
+});

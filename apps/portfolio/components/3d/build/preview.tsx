@@ -1,13 +1,9 @@
 import { constants } from "@3d/constants";
-import {
-  AssetEntry,
-  BuildingLoader,
-  findAssetEntry,
-  PropLoader,
-} from "@3d/generated-loader";
+import { AssetEntry, findAssetEntry, PropLoader } from "@3d/generated-loader";
 import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
 import { Store } from "@3d/store/store";
+import { coord, TileRange } from "@3d/world/coord";
 import { Building, BuildingType, Prop, PropType } from "@3d/world/types";
 import { isNone } from "@components/utils";
 import { Plane } from "@react-three/drei";
@@ -18,50 +14,8 @@ import { Box2, Group, Mesh, Vector2, Vector3 } from "three";
 import { MeshStandardMaterial } from "three";
 import { isMatching, match, P, Pattern } from "ts-pattern";
 import { buildEntry, BuildStateBuild } from "./types";
-import { Point, point } from "./utils";
 
 const { tileSize } = constants.world;
-
-// ******************************************************
-// REUSABLE
-
-const colors = {
-  red: "#ef4444",
-  green: "#10b981",
-  blue: "#3b82f6",
-};
-type Color = keyof typeof colors;
-
-export const BuildPreviewPlane = forwardRef<
-  Mesh,
-  ComponentPropsWithoutRef<typeof Plane> & {
-    depthTest?: boolean;
-    color?: Color;
-  }
->(({ depthTest = false, color = "blue", ...props }, ref) => {
-  const [material] = useState(
-    () =>
-      new MeshStandardMaterial({
-        depthTest,
-        transparent: true,
-        opacity: 0.5,
-      })
-  );
-
-  useEffect(() => {
-    material.color.set(colors[color]);
-  }, [color]);
-
-  return (
-    <Plane
-      {...props}
-      ref={ref}
-      rotation={[-Math.PI / 2, 0, 0]}
-      receiveShadow
-      material={material}
-    />
-  );
-});
 
 // ******************************************************
 // STREETS
@@ -69,9 +23,11 @@ export const BuildPreviewPlane = forwardRef<
 const streetPosition = selectors.pack((s) => {
   const pointer = selectors.pointer[0](s);
   if (isNone(pointer)) return undefined;
-  const [x, z] = point.tile.normalize(pointer);
-  return [x + tileSize / 2, z + tileSize / 2] as [number, number];
-}, point.eq);
+  // const [x, z] = point.tile.normalize(pointer);
+  // return [x + tileSize / 2, z + tileSize / 2] as [number, number];
+  return pointer;
+  // TODO: eql
+});
 
 const StreetsBuildPreviewPlane = () => {
   const ref = useRef<Mesh>(null);
@@ -109,35 +65,11 @@ export const buildPosition = selectors.pack((s) => {
 
 const _current = new Box2(new Vector2(), new Vector2());
 const _check = new Box2(new Vector2(), new Vector2());
-const _zero = new Vector2(0, 0);
-const _setBox2 = (v: Box2, p: Point, type: BuildingType, rotation: number) => {
-  const entry = findAssetEntry("buildings", type);
-  v.min.set(p[0], p[1]);
-  v.max.set(
-    p[0] + entry.extend[0] * tileSize - constants.eps,
-    p[1] + entry.extend[1] * tileSize - constants.eps
-  );
-  console.log(v.min.x, v.min.y, v.max.x, v.max.y);
-  v.min.rotateAround(v.min, (rotation * Math.PI) / 2);
-  v.max.rotateAround(v.min, (rotation * Math.PI) / 2);
-  console.log(v.min.x, v.min.y, v.max.x, v.max.y);
-};
-const isValidBuilding = (
-  point: Point,
-  type: BuildingType,
-  rotation: number
-) => {
-  _setBox2(_current, point, type, rotation);
-  console.log(_current);
+const isValidBuilding = (range: TileRange) => {
   const buildings = useStore.getState().world.buildings;
+  coord.range.box(range, _current);
   for (const building of buildings) {
-    console.log(building);
-    _setBox2(
-      _check,
-      [building.position.x, building.position.z],
-      building.type,
-      building.rotation
-    );
+    coord.range.box(building.range, _check);
     if (_current.intersectsBox(_check)) return false;
   }
   return true;
@@ -155,34 +87,41 @@ const buildingStatePattern = {
 const BuildingBuildPreviewPlane: FC<{ type: BuildingType }> = ({ type }) => {
   const ref = useRef<Group>(null);
   const entry = useMemo(() => findAssetEntry("buildings", type), [type]);
-  const building = useMemo((): Building => {
+  const building = useMemo((): Omit<Building, "range"> => {
     return {
       id: "building-preview",
       type,
-      position: new Vector3(),
-      rotation: 0,
     };
-  }, [entry]);
+  }, [type]);
   const [color, setColor] = useState<Color>("blue");
+  const [range, setRange] = useState<TileRange>(
+    coord.range.create(coord.world.create(0, 0))
+  );
 
   useEffect(() => {
     return useStore.subscribe(
       buildPosition[0],
       (p) => {
         if (!ref.current || isNone(p)) return;
-        ref.current.position.set(p[0], 0, p[1]);
+        // ref.current.position.set(p[0], 0, p[1]);
+        const value = coord.range.building(
+          coord.world.create(p[0], p[1]),
+          type,
+          0
+        );
+        setRange(value);
 
         // NOTE: Handle valid of building this
         useStore.setState((s) => {
           if (!isMatching(buildingStatePattern, s)) return;
-          const isValid = isValidBuilding(p, type, building.rotation);
+          const isValid = isValidBuilding(value, type);
           s.ui.mode.payload.payload.state.invalid = !isValid;
           setColor(isValid ? "green" : "red");
         });
       },
       { equalityFn: buildPosition[1] }
     );
-  }, []);
+  }, [type]);
 
   if (isNone(entry)) return null;
   const extend = entry.extend;
@@ -195,7 +134,7 @@ const BuildingBuildPreviewPlane: FC<{ type: BuildingType }> = ({ type }) => {
         args={size}
         position={[size[0] / 2, 0, size[1] / 2]}
       />
-      <BuildingLoader plane={false} {...building} />
+      <BuildingLoader {...building} range={range} />
     </group>
   );
 };

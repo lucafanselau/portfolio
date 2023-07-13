@@ -1,6 +1,7 @@
 import type { BuildState } from "@3d/build/types";
 import type { Interaction } from "@3d/constants";
 import { constants } from "@3d/constants";
+import { coord, Coord, vec2, Vec2, WorldCoord } from "@3d/world/coord";
 import { initial } from "@3d/world/inital";
 import type { Building, Prop, TerrainType } from "@3d/world/types";
 import type { ToolContentKeys } from "@content/tools";
@@ -32,7 +33,7 @@ export type Store = {
     position: Vector3;
   };
   // pointer for building
-  pointer?: [number, number];
+  pointer: WorldCoord;
   pointerDown: boolean;
   world: {
     hovered: Object3D[];
@@ -65,7 +66,7 @@ export const defaultStore: Store = {
     state: "greet",
     position: new Vector3(),
   },
-  pointer: undefined,
+  pointer: coord.world.new(vec2.splat(0)),
   pointerDown: false,
   world: {
     hovered: [],

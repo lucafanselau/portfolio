@@ -1,25 +1,17 @@
 {
-  // street variations are "end", "four", "straight", "three", "turn"
   "streets": [
     {
-      "file": "street-end.glb",
-      "id": "street-end"
-    },
-    {
-      "file": "street-four.glb",
-      "id": "street-four"
-    },
-    {
-      "file": "street-straight.glb",
-      "id": "street-straight"
-    },
-    {
-      "file": "street-three.glb",
-      "id": "street-three"
-    },
-    {
-      "file": "street-turn.glb",
-      "id": "street-turn"
+      "file": [
+        // street variations are "end", "four", "straight", "three", "turn"
+        { "file": "street-end.glb", "id": "end" },
+        { "file": "street-four.glb", "id": "four" },
+        { "file": "street-straight.glb", "id": "straight" },
+        { "file": "street-three.glb", "id": "three" },
+        { "file": "street-turn.glb", "id": "turn" }
+      ],
+
+      "id": "street",
+      "name": "Standard Street"
     }
   ],
   // currently we have buildings "hotel", "house" (from 1 to 7), "office" (from 1 to 3), "park" (from 1 to 4), "school"

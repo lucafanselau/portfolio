@@ -7,6 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "test": "vitest",
     "lint": "next lint --fix && pnpm prettier --plugin 'prettier-plugin-organize-imports' --plugin 'prettier-plugin-tailwindcss' --write .",
     "script:color": "node ./scripts/color.js",
     "components:add": "pnpx shadcn-ui@latest add"
@@ -62,6 +63,7 @@
   "devDependencies": {
     "@next/bundle-analyzer": "^13.4.7",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "@vitejs/plugin-react": "^4.0.3",
     "@wasm-tool/wasm-pack-plugin": "^1.7.0",
     "autoprefixer": "^10.4.14",
     "eslint-config-prettier": "^8.8.0",
@@ -69,6 +71,8 @@
     "prettier": "^2.8.7",
     "prettier-plugin-organize-imports": "^3.2.2",
     "prettier-plugin-tailwindcss": "^0.3.0",
-    "tailwindcss": "^3.3.2"
+    "tailwindcss": "^3.3.2",
+    "vite-tsconfig-paths": "^4.2.0",
+    "vitest": "^0.33.0"
   }
 }
