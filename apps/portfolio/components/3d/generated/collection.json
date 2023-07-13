@@ -1,7 +1,39 @@
 {
   "streets": {
-    "street": {
-      "src": "streets/street.tsx",
+    "street-end": {
+      "src": "streets/street-end.tsx",
+      "glb": "generated/street-end-transformed.glb",
+      "img": "generated/street-preview.png",
+      "id": "street",
+      "file": "street-end.glb",
+      "variant": "end"
+    },
+    "street-four": {
+      "src": "streets/street-four.tsx",
+      "glb": "generated/street-four-transformed.glb",
+      "img": "generated/street-preview.png",
+      "id": "street",
+      "file": "street-four.glb",
+      "variant": "four"
+    },
+    "street-straight": {
+      "src": "streets/street-straight.tsx",
+      "glb": "generated/street-straight-transformed.glb",
+      "img": "generated/street-preview.png",
+      "id": "street",
+      "file": "street-straight.glb",
+      "variant": "straight"
+    },
+    "street-three": {
+      "src": "streets/street-three.tsx",
+      "glb": "generated/street-three-transformed.glb",
+      "img": "generated/street-preview.png",
+      "id": "street",
+      "file": "street-three.glb",
+      "variant": "three"
+    },
+    "street-turn": {
+      "src": "streets/street-turn.tsx",
       "glb": "generated/street-turn-transformed.glb",
       "img": "generated/street-preview.png",
       "id": "street",

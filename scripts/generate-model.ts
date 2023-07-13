@@ -27,43 +27,62 @@ const baseEntry = z.object({
     z.string(),
     z.array(z.object({ file: z.string(), id: z.string() })),
   ]),
+  name: z.string(),
 });
 
 const collectionSchema = z.object({
   streets: z.array(baseEntry),
   buildings: z.array(
     baseEntry.extend({
-      name: z.string(),
       extend: z.tuple([z.number(), z.number()]),
     })
   ),
-  props: z.array(baseEntry.extend({ name: z.string() })),
+  props: z.array(baseEntry),
 });
 
 // validate the collection file
 const collection = collectionSchema.parse(rawCollection);
 
 type Key = keyof typeof collection;
-type Entry = Omit<Unpacked<(typeof collection)[Key]>, "file"> & {
-  file: string;
-  variant?: string;
-};
+type Entry = Unpacked<(typeof collection)[Key]>;
 
-type ExtendedEntry = Entry & {
-  src: string;
-  glb: string;
-  img: string;
+const ident = (entry: Entry, index: number) =>
+  entry.id + (Array.isArray(entry.file) ? `-${entry.file[index]?.id}` : "");
+const safeIdent = (entry: Entry, index: number) =>
+  ident(entry, index).replace(/[^a-zA-Z0-9]/g, "_");
+const entryFile = (entry: Entry, index: number): string =>
+  Array.isArray(entry.file) ? entry.file[index]?.file ?? "" : entry.file;
+
+type Output = Awaited<ReturnType<typeof createGltf>> &
+  Awaited<ReturnType<typeof createThumbnail>> & { variant?: string };
+
+type ExportedEntry = Entry & {
+  output: Output | Output[];
 };
 
 // function invoked to process a single entry
-const processEntry = async (key: string, entry: Entry) => {
-  // process all subprocesses
-  const [gltf, preview] = await Promise.all([
-    createGltf(key, entry),
-    createThumbnail(key, entry),
-  ]);
+const processEntry = async (
+  key: string,
+  { ...entry }: Entry
+): Promise<ExportedEntry> => {
+  const doIndex = async (index: number): Promise<Output> => {
+    const [gltf, preview] = await Promise.all([
+      createGltf(key, entry, index),
+      createThumbnail(key, entry, index),
+    ]);
+    return { ...gltf, ...preview };
+  };
 
-  return { ...gltf, ...preview, ...entry };
+  // process all subprocesses
+  if (Array.isArray(entry.file)) {
+    const output: ExportedEntry["output"] = await Promise.all(
+      entry.file.map((_, index) => doIndex(index))
+    );
+    return { ...entry, output };
+  } else {
+    const output = await doIndex(0);
+    return { ...entry, output };
+  }
 };
 
 // reset target directory
@@ -86,18 +105,10 @@ const mapped = await Promise.all(
     const entries = collection[key];
     if (entries === undefined) return;
     const mapped = (
-      await Promise.all(
-        entries.flatMap(({ file, ...rest }) =>
-          Array.isArray(file) || isNone(file)
-            ? (file ?? []).map(({ id: variant, file }) =>
-                processEntry(key, { ...rest, file, variant })
-              )
-            : [processEntry(key, { ...rest, file })]
-        )
-      )
+      await Promise.all(entries.map((entry) => processEntry(key, entry)))
     ).reduce((acc, curr) => ({ ...acc, [curr.id]: curr }), {}) as Record<
       string,
-      ExtendedEntry
+      ExportedEntry
     >;
 
     return { [key]: mapped };
@@ -117,11 +128,11 @@ console.log(
 
 // create the instances file
 if (instance) {
-  const instancesFile = createInstancesFile();
-  await writeFile(target.src + "index.tsx", instancesFile);
-  console.log(
-    `[${chalk.green("general")}] - wrote new instances file to ${target.src}`
-  );
+  // const instancesFile = createInstancesFile();
+  // await writeFile(target.src + "index.tsx", instancesFile);
+  // console.log(
+  //   `[${chalk.green("general")}] - wrote new instances file to ${target.src}`
+  // );
 }
 
 // create the loader file
@@ -135,10 +146,14 @@ console.log(
 // UTILITY FUNCTIONS FROM HERE ON
 // ------------------------------
 
-async function createGltf(key: string, entry: Entry) {
+async function createGltf(key: string, entry: Entry, index: number = -1) {
   const file = `${base}${key}/${entry.file}`;
-  const output = `${target.src}${key}/${entry.id}.tsx`;
-  const transformedName = entry.file.replace(".glb", "-transformed.glb");
+  const outputRelative = `${key}/${ident(entry, index)}.tsx`;
+  const output = `${target.src}${outputRelative}`;
+  const transformedName = entryFile(entry, index).replace(
+    ".glb",
+    "-transformed.glb"
+  );
   const assetFile = `${assetPrefix}${transformedName}`;
   try {
     const response = await gltfjsx(file, output, {
@@ -176,11 +191,11 @@ async function createGltf(key: string, entry: Entry) {
       newPath
     );
   }
-  return { src: `${key}/${entry.id}.tsx`, glb: `${assetFile}` };
+  return { src: outputRelative, glb: assetFile };
 }
 
-async function createThumbnail(key: string, entry: Entry) {
-  const file = `${base}${key}/${entry.file}`;
+async function createThumbnail(key: string, entry: Entry, index: number) {
+  const file = `${base}${key}/${entryFile(entry, index)}`;
   const assetFile = `${assetPrefix}${entry.id}-preview.png`;
   const out = `${target.assets}${assetFile}`;
 
@@ -208,69 +223,77 @@ async function createThumbnail(key: string, entry: Entry) {
   return { img: assetFile };
 }
 
-function createInstancesFile() {
-  // write out the import file
-  const imports = Object.keys(newCollection ?? {})
-    .flatMap((key) => {
-      const entries = newCollection?.[key] ?? [];
+// function createInstancesFile() {
+//   // write out the import file
+//   const imports = Object.keys(newCollection ?? {})
+//     .flatMap((key) => {
+//       const entries = newCollection?.[key] ?? [];
 
-      return Object.values(entries).map((entry) => {
-        const { id } = entry;
-        return `import { Instances as I${id.replace(
-          "-",
-          ""
-        )} } from "./${entry.src.replace(".tsx", "")}";`;
-      });
-    })
-    .join("\n");
+//       return Object.values(entries).map((entry) => {
+//         return `import { Instances as I${ident(entry).replace(
+//           "-",
+//           ""
+//         )} } from "./${entry.src.replace(".tsx", "")}";`;
+//       });
+//     })
+//     .join("\n");
 
-  const startBrackets = Object.keys(newCollection ?? {})
-    .flatMap((key) => {
-      const entries = newCollection?.[key] ?? [];
+//   const startBrackets = Object.keys(newCollection ?? {})
+//     .flatMap((key) => {
+//       const entries = newCollection?.[key] ?? [];
 
-      return Object.values(entries).map((entry) => {
-        const { id } = entry;
-        return `<I${id.replace("-", "")} receiveShadow castShadow>`;
-      });
-    })
-    .join("\n");
-  const closeBrackets = Object.keys(newCollection ?? {})
-    .flatMap((key) => {
-      const entries = newCollection?.[key] ?? [];
+//       return Object.values(entries).map((entry) => {
+//         return `<I${ident(entry).replace("-", "")} receiveShadow castShadow>`;
+//       });
+//     })
+//     .join("\n");
+//   const closeBrackets = Object.keys(newCollection ?? {})
+//     .flatMap((key) => {
+//       const entries = newCollection?.[key] ?? [];
 
-      return Object.values(entries).map((entry) => {
-        const { id } = entry;
-        return `</I${id.replace("-", "")}>`;
-      });
-    })
-    .reverse()
-    .join("\n");
+//       return Object.values(entries).map((entry) => {
+//         return `</I${ident(entry).replace("-", "")}>`;
+//       });
+//     })
+//     .reverse()
+//     .join("\n");
 
-  return `
-import { FC, ReactNode } from "react";
-${imports}
+//   return `
+// import { FC, ReactNode } from "react";
+// ${imports}
 
-export const Instances: FC<{ children: ReactNode }> = ({ children }) => {
-	return (
-      ${startBrackets}
-			{children}
-			${closeBrackets}
-	);
-};
-`;
-}
+// export const Instances: FC<{ children: ReactNode }> = ({ children }) => {
+// 	return (
+//       ${startBrackets}
+// 			{children}
+// 			${closeBrackets}
+// 	);
+// };
+// `;
+// }
 
 function createLoaderFile() {
   const imports = Object.keys(newCollection ?? {})
     .flatMap((key) => {
       const entries = newCollection?.[key] ?? [];
 
-      return Object.values(entries).map((entry) => {
-        const { id } = entry;
-        return `import { Model as M${id.replace(
-          "-",
-          ""
-        )} } from "./${entry.src.replace(".tsx", "")}";`;
+      const importStatement = (entry: ExportedEntry, index: number) => {
+        if (Array.isArray(entry.output))
+          return `import { Model as M${safeIdent(
+            entry,
+            index
+          )} from "./${entry.output[index]?.src.replace(".tsx", "")}";`;
+        else
+          return `import { Model as M${safeIdent(
+            entry,
+            index
+          )} } from "./${entry.output.src.replace(".tsx", "")}";`;
+      };
+
+      return Object.values(entries).flatMap((entry) => {
+        if (Array.isArray(entry.file))
+          return entry.file.map((file, index) => importStatement(entry, index));
+        return importStatement(entry, -1);
       });
     })
     .join("\n");
@@ -279,9 +302,14 @@ function createLoaderFile() {
     .map((key) => {
       const entries = newCollection?.[key] ?? [];
 
+      const fieldStatement = (entry: ExportedEntry, index: number) => {
+        return `"${ident(entry, index)}": M${safeIdent(entry, index)},`;
+      };
+
       const innerFields = Object.values(entries).map((entry) => {
-        const { id } = entry;
-        return `"${id}": M${id.replace("-", "")},`;
+        if (Array.isArray(entry.file))
+          return entry.file.map((file, index) => fieldStatement(entry, index));
+        return fieldStatement(entry, -1);
       });
 
       return `${key}: {\n ${innerFields.join("\n")}\n },`;
