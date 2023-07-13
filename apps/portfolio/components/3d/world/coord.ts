@@ -1,11 +1,10 @@
 import { constants } from "@3d/constants";
-import { AssetCategory, findAssetEntry } from "@3d/generated-loader";
+import { AssetCategory, AssetKey, findAssetEntry } from "@3d/generated-loader";
 import { Plane } from "@react-three/drei";
 import { MeshProps } from "@react-three/fiber";
 import { ComponentProps } from "react";
 import { Box2, Vector2 } from "three";
 import { match } from "ts-pattern";
-import { BuildingType } from "./types";
 
 export type Vec2 = [number, number];
 // general mathemtical utility functions for 2 dimensional vector Point
@@ -20,20 +19,20 @@ export const vec2 = {
   create: (x: number, z: number): Vec2 => [x, z],
 };
 
-export interface PlaneCoord {
+export type PlaneCoord = {
   type: "plane";
   value: Vec2;
-}
+};
 
-export interface WorldCoord {
+export type WorldCoord = {
   type: "world";
   value: Vec2;
-}
+};
 
-export interface TileCoord {
+export type TileCoord = {
   type: "tile";
   value: Vec2;
-}
+};
 
 export type Coord = PlaneCoord | WorldCoord | TileCoord;
 
@@ -146,11 +145,7 @@ function rangeDirection(range: TileRange): Vec2 {
 const unwrap = (coord: Coord) => coord.value;
 
 const range = {
-  create(
-    anchor: Coord,
-    extend: Extend = [1, 1],
-    rotation: number = 0
-  ): TileRange {
+  create(anchor: Coord, extend: Extend = [1, 1], rotation = 0): TileRange {
     return {
       anchor: tile.from(anchor),
       extend: tile.new(extend),
@@ -158,7 +153,11 @@ const range = {
     };
   },
 
-  building(anchor: Coord, type: BuildingType, rotation: number = 0): TileRange {
+  building(
+    anchor: Coord,
+    type: AssetKey<"buildings">,
+    rotation = 0
+  ): TileRange {
     const entry = findAssetEntry("buildings", type);
     return {
       anchor: tile.from(anchor),

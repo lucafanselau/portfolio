@@ -13,11 +13,11 @@ type ModelLoaderProps<C extends AssetCategory> = {
   type: AssetKey<C>;
   variant?: string;
 };
-export const loadModel = <C extends AssetCategory>({
+export const useModel = <C extends AssetCategory>({
   category,
   type: key,
   variant,
-}: ModelLoaderProps<C>) => {
+}: ModelLoaderProps<C>): Comp => {
   const entry = useMemo(() => findAssetEntry(category, key), [category, key]);
 
   if (isNone(entry)) return null;
@@ -29,8 +29,7 @@ export const loadModel = <C extends AssetCategory>({
     id = Array.isArray(entry.output) ? undefined : entry.output.id;
   }
   if (!id) return null;
-  // @ts-expect-error: Variant is type unsafe
-  const Model = models[category][id];
+  const Model = models[category][id as keyof (typeof models)[C]];
   if (!Model) return null;
   return Model;
 };
@@ -50,7 +49,7 @@ export const ModelLoader = <C extends AssetCategory>({
 }: {
   entity: Entity<C>;
 }) => {
-  const Model = useMemo(() => loadModel<C>(entity), [entity]);
+  const Model = useModel<C>(entity);
   const { plane, wrapper, rotation, model } = coord.objects(entity.transform);
   if (isNone(Model)) return null;
   return (

@@ -1,10 +1,9 @@
 import { mutation } from "@3d/build/mutation";
-import { buildPosition } from "@3d/build/preview";
 import type { Interaction } from "@3d/constants";
 import { constants } from "@3d/constants";
 import type { AssetCategory } from "@3d/generated-loader";
 import { transitionVector3 } from "@3d/transition";
-import type { TerrainType } from "@3d/world/types";
+import { Entity, Terrain } from "@3d/world/types";
 import { isNone, isSome } from "@components/utils";
 import type { ToolContentKeys } from "@content/tools";
 import { produce } from "immer";
@@ -24,18 +23,13 @@ type Actions = {
   ) => void;
   startBuild: (key: AssetCategory, id: string) => void;
   startDestroy: () => void;
-  build: (type: "click" | "drag") => void;
+  build: () => void;
   setPointer: (pointer: Store["pointer"]) => void;
   interact: (interaction: Interaction["title"] | undefined) => void;
   updateTarget: (target: Vector3) => void;
   updateCharacter: (state: CharacterState["state"]) => void;
   updatePosition: (vector: Vector3) => void;
-  setTileType: (
-    x: number,
-    z: number,
-    type: TerrainType,
-    rotation?: number
-  ) => void;
+  setTileType: (x: number, z: number, terrain: Terrain) => void;
 };
 
 export const useStore = create<Store & Actions>()(
@@ -107,50 +101,55 @@ export const useStore = create<Store & Actions>()(
             })
         ),
 
-      build: (build) => {
+      build: () => {
         const {
           ui: { mode },
           pointer,
         } = get();
-        if (mode.type !== "build" || isNone(pointer)) return;
-        match(mode.payload)
-          .with({ type: "build", payload: { type: "streets" } }, () => {
-            const tile = point.tile.to(pointer);
-            console.log(pointer, tile);
-            mutation.streets.build(tile);
-          })
-          .with(
-            { type: "build", payload: { type: "buildings" } },
-            ({ payload: { id } }) =>
-              set((s) => {
-                const pos = buildPosition[0](s);
-                if (isNone(pos)) return;
-                const position = new Vector3(pos[0], 0, pos[1]);
-                s.world.buildings.push({
-                  position,
-                  id: `${id}-${s.world.buildings.length}`,
-                  rotation: 0,
-                  type: id,
-                });
-              })
-          )
-          .with(
-            { type: "build", payload: { type: "props" } },
-            ({ payload: { id } }) =>
-              set((s) => {
-                const pos = selectors.pointer[0](s);
-                if (isNone(pos)) return;
-                const position = new Vector3(pos[0], 0, pos[1]);
-                s.world.props.push({
-                  position,
-                  id: `${id}-${s.world.props.length}`,
-                  rotation: 0,
-                  type: id,
-                });
-              })
-          )
-          .with({ type: "destroy" }, () => {})
-          .exhaustive();
+        // if (entity.category === "streets") {
+        //   // since streets is
+        // } else {
+        //   // just push back the entity
+        // }
+        // if (mode.type !== "build" || isNone(pointer)) return;
+        // match(mode.payload)
+        //   .with({ type: "build", payload: { type: "streets" } }, () => {
+        //     const tile = point.tile.to(pointer);
+        //     console.log(pointer, tile);
+        //     mutation.streets.build(tile);
+        //   })
+        //   .with(
+        //     { type: "build", payload: { type: "buildings" } },
+        //     ({ payload: { id } }) =>
+        //       set((s) => {
+        //         const pos = buildPosition[0](s);
+        //         if (isNone(pos)) return;
+        //         const position = new Vector3(pos[0], 0, pos[1]);
+        //         s.world.buildings.push({
+        //           position,
+        //           id: `${id}-${s.world.buildings.length}`,
+        //           rotation: 0,
+        //           type: id,
+        //         });
+        //       })
+        //   )
+        //   .with(
+        //     { type: "build", payload: { type: "props" } },
+        //     ({ payload: { id } }) =>
+        //       set((s) => {
+        //         const pos = selectors.pointer[0](s);
+        //         if (isNone(pos)) return;
+        //         const position = new Vector3(pos[0], 0, pos[1]);
+        //         s.world.props.push({
+        //           position,
+        //           id: `${id}-${s.world.props.length}`,
+        //           rotation: 0,
+        //           type: id,
+        //         });
+        //       })
+        //   )
+        //   .with({ type: "destroy" }, () => {})
+        //   .exhaustive();
         // const { type } = mode.mode;
         // if (!pointer) return;
         // const [x, z] = pointer;
@@ -182,13 +181,10 @@ export const useStore = create<Store & Actions>()(
               .add(constants.transitions.target.explore);
           }
         }),
-      setTileType: (x, z, type, rotation = 0) =>
-        set((state) => ({
-          ...state,
-          world: produce(state.world, (draft) => {
-            draft.terrain[x][z] = [type, rotation];
-          }),
-        })),
+      setTileType: (x, z, terrain) =>
+        set((state) => {
+          state.world.terrain[x][z] = terrain;
+        }),
     }))
   )
 );
