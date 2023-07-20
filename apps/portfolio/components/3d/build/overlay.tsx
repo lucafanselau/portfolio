@@ -29,7 +29,7 @@ export const InteractionPlane = () => {
   const onPointerDown = (e: ThreeEvent<PointerEvent>) => {
     onPointer(e);
     useStore.setState((s) => void (s.pointerDown = true));
-    useStore.getState().build("click");
+    useStore.getState().build();
   };
   const onPointerUp = (e: ThreeEvent<PointerEvent>) => {
     useStore.setState((s) => void (s.pointerDown = false));

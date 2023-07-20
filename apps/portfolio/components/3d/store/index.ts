@@ -1,18 +1,15 @@
-import { mutation } from "@3d/build/mutation";
 import type { Interaction } from "@3d/constants";
 import { constants } from "@3d/constants";
 import type { AssetCategory } from "@3d/generated-loader";
 import { transitionVector3 } from "@3d/transition";
-import { Entity, Terrain } from "@3d/world/types";
-import { isNone, isSome } from "@components/utils";
+import { Terrain } from "@3d/world/types";
+import { isSome } from "@components/utils";
 import type { ToolContentKeys } from "@content/tools";
-import { produce } from "immer";
 import { Vector3 } from "three";
 import { match } from "ts-pattern";
 import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
-import { selectors } from "./selector";
 import type { CharacterState, Store } from "./store";
 import { defaultStore } from "./store";
 

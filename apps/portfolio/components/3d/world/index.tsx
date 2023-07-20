@@ -2,34 +2,14 @@ import { constants } from "@3d/constants";
 import { useStore } from "@3d/store";
 import { range } from "@components/utils";
 import type { FC } from "react";
-import { useCallback, useMemo } from "react";
-import { ModelLoader } from "./model";
-import TileLoader from "./tile";
+import { useCallback } from "react";
+import { ModelLoader, TerrainLoader } from "./model";
 
 const { tileSize, tiles } = constants.world;
 
-export const normalizeTile = (x: number) =>
-  (x - tiles / 2) * tileSize + tileSize / 2;
-
-// TODO
 const Tile: FC<{ x: number; z: number }> = ({ x, z }) => {
   const terrain = useStore(useCallback((s) => s.world.terrain[x][z], [x, z]));
-  // const rot = useStore(useCallback((s) => s.world.terrain[x][z][1], [x, z]));
-  // TODO: coord rework
-  // const position = useMemo(
-  //   () => [normalizeTile(x), 0, normalizeTile(z)] as [number, number, number],
-  //   [x, z]
-  // );
-  // const rotation = useMemo(
-  //   () => [0, rot * (Math.PI / 2), 0] as [number, number, number],
-  //   [rot]
-  // );
-  // return (
-  //   <group position={position} rotation={rotation}>
-  //     <TileLoader tile={type} />
-  //   </group>
-  // );
-  return null;
+  return <TerrainLoader terrain={terrain} />;
 };
 
 const Entities = () => {

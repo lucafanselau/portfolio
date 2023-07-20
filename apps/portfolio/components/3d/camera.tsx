@@ -2,7 +2,7 @@ import { useStore } from "@3d/store";
 import { isNone } from "@components/utils";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import type { PerspectiveCamera as PerspectiveCameraType } from "three";
 import type { OrbitControls as OrbitControlsType } from "three-stdlib";
 import { constants } from "./constants";
@@ -46,6 +46,7 @@ export const Camera = () => {
         enableZoom={zoom}
         enableRotate={rotate}
         enableDamping={false}
+        regress
       />
     </group>
   );

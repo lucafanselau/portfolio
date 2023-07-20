@@ -1,5 +1,4 @@
 import type { AssetCategory, AssetEntry } from "@3d/generated-loader";
-import { defaultStreetsEntry } from "@3d/generated-loader";
 import collection from "@3d/generated/collection.json";
 import { useStore } from "@3d/store";
 import { H2 } from "@ui/typography";
@@ -34,10 +33,7 @@ export const CreatePanel = () => {
         <Fragment key={key}>
           <H2>{keyLabels[key]}</H2>
           <div className="grid w-full grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4">
-            {(key === "streets"
-              ? [defaultStreetsEntry]
-              : Object.values(collection[key])
-            ).map((entry) => (
+            {(Object.values(collection[key]) as AssetEntry[]).map((entry) => (
               <CreateCard
                 key={entry.id}
                 id={entry.id}

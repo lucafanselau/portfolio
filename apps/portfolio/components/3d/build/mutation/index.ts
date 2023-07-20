@@ -1,5 +1,3 @@
-import { AssetCategory } from "@3d/generated-loader";
-import { Coord, coord, TileRange } from "@3d/world/coord";
 import { streets } from "./streets";
 
 // const pointer = {

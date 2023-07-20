@@ -1,4 +1,4 @@
-import { useFrame } from "@react-three/fiber";
+import { invalidate, useFrame, useThree } from "@react-three/fiber";
 import { easing } from "maath";
 import type { Vector3 } from "three";
 import { create } from "zustand";
@@ -41,21 +41,31 @@ export const createTransition = <T = unknown>(cb: Transition["cb"]) => {
       id: crypto.randomUUID(),
     };
     useTransitionStore.getState().add(transition);
+    // and invalidate
+    invalidate();
   });
   return promise;
 };
 
 export const useTransitions = () => {
+  const performance = useThree((state) => state.performance);
   return useFrame((_, delta) => {
     const { transitions, remove } = useTransitionStore.getState();
     transitions.forEach(({ cb, resolve, id }) => {
       if (!cb(delta)) {
         remove(id);
         resolve(true);
+      } else {
+        // also dispatch a next frame
+        invalidate();
+        // and notify the performance monitor
+        performance.regress();
       }
     });
   }, 0);
 };
+
+const maxFrameTime = 1 / 30;
 
 export const transitionVector3 = async (vector: Vector3, target: Vector3) => {
   await createTransition((delta) => {
@@ -65,7 +75,7 @@ export const transitionVector3 = async (vector: Vector3, target: Vector3) => {
       vector,
       target,
       0.25,
-      delta,
+      Math.min(delta, maxFrameTime),
       maxSpeed,
       undefined, // easing.exp,
       eps

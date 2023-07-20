@@ -1,7 +1,6 @@
 import { constants } from "@3d/constants";
-import { AssetCategory, AssetKey, findAssetEntry } from "@3d/generated-loader";
+import { AssetKey, findAssetEntry } from "@3d/generated-loader";
 import { Plane } from "@react-three/drei";
-import { MeshProps } from "@react-three/fiber";
 import { ComponentProps } from "react";
 import { Box2, Vector2 } from "three";
 import { match } from "ts-pattern";
@@ -121,7 +120,7 @@ const world = {
 // Tile Range type
 
 type Extend = Vec2;
-export type TileRange = {
+export type Transform = {
   anchor: TileCoord;
   extend: TileCoord;
   // Number can be 0..3
@@ -135,7 +134,7 @@ const __vec_0 = new Vector2(0, 0);
 const __vec_1 = new Vector2(0, 0);
 
 // NOTE: intended for internal use
-function rangeDirection(range: TileRange): Vec2 {
+function rangeDirection(range: Transform): Vec2 {
   __vec.set(range.extend.value[0], range.extend.value[1]);
   // __rot_base.set(range.anchor.value[0], range.anchor.value[1]);
   __vec.rotateAround(__rot_base, (range.rotation * Math.PI) / 2);
@@ -145,7 +144,7 @@ function rangeDirection(range: TileRange): Vec2 {
 const unwrap = (coord: Coord) => coord.value;
 
 const range = {
-  create(anchor: Coord, extend: Extend = [1, 1], rotation = 0): TileRange {
+  create(anchor: Coord, extend: Extend = [1, 1], rotation = 0): Transform {
     return {
       anchor: tile.from(anchor),
       extend: tile.new(extend),
@@ -157,7 +156,7 @@ const range = {
     anchor: Coord,
     type: AssetKey<"buildings">,
     rotation = 0
-  ): TileRange {
+  ): Transform {
     const entry = findAssetEntry("buildings", type);
     return {
       anchor: tile.from(anchor),
@@ -166,20 +165,20 @@ const range = {
     };
   },
   // Get the lower left corner of the range
-  lower(range: TileRange): TileCoord {
+  lower(range: Transform): TileCoord {
     return range.anchor;
   },
-  upper(range: TileRange): TileCoord {
+  upper(range: Transform): TileCoord {
     const dir: Vec2 = rangeDirection(range);
     return tile.new(vec2.add(range.anchor.value, dir));
   },
-  middle(range: TileRange): TileCoord {
+  middle(range: Transform): TileCoord {
     const dir: Vec2 = rangeDirection(range);
     return tile.new(
       vec2.add(range.anchor.value, vec2.mul(vec2.splat(0.5), dir))
     );
   },
-  box(range: TileRange, box: Box2) {
+  box(range: Transform, box: Box2) {
     const lower = unwrap(this.lower(range));
     const upper = unwrap(this.upper(range));
 
@@ -192,23 +191,24 @@ const range = {
 };
 
 // methods intended for custom use cases
-const objects = (range: TileRange) => {
+const objects = (range: Transform) => {
   const [x, z] = unwrap(world.from(range.anchor));
   const [w, d] = unwrap(plane.from(range.extend));
   return {
     plane: {
       args: [w, d, 2, 2],
       rotation: [-Math.PI / 2, 0, 0],
-      position: [w / 2, constants.eps, d / 2],
+      position: [0, constants.eps, 0],
     },
     wrapper: {
       position: [x, 0, z],
     },
     rotation: {
+      position: [w / 2, 0, d / 2],
       rotation: [0, (range.rotation * Math.PI) / 2, 0],
     },
     model: {
-      position: [w / 2, 0, d / 2],
+      //position: [w / 2, 0, d / 2],
     },
   } satisfies Record<string, ComponentProps<typeof Plane>>;
 };

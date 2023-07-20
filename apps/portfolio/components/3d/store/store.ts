@@ -1,7 +1,7 @@
 import type { BuildState } from "@3d/build/types";
 import type { Interaction } from "@3d/constants";
 import { constants } from "@3d/constants";
-import { coord, Coord, vec2, Vec2, WorldCoord } from "@3d/world/coord";
+import { coord, vec2, WorldCoord } from "@3d/world/coord";
 import { initial } from "@3d/world/inital";
 import type { Entity, Terrain } from "@3d/world/types";
 import type { ToolContentKeys } from "@content/tools";

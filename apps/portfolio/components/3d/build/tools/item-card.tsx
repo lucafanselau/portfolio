@@ -1,5 +1,5 @@
 import type { AssetEntry } from "@3d/generated-loader";
-import { isNone } from "@components/utils";
+import { isNone, toArray } from "@components/utils";
 import { P } from "@ui/typography";
 import { cn } from "@ui/utils";
 import Image from "next/image";
@@ -13,8 +13,10 @@ export const ToolsItemCard = forwardRef<
 >(({ entry, ...props }, ref) => {
   if (isNone(entry)) return null;
 
-  const name = "name" in entry ? entry.name : entry.id;
+  const name = entry.name;
   const extend = "extend" in entry ? entry.extend : undefined;
+
+  const img = toArray(entry.output)[0].img;
 
   return (
     <button
@@ -26,7 +28,7 @@ export const ToolsItemCard = forwardRef<
       )}
     >
       <Image
-        src={"/" + entry.img}
+        src={"/" + img}
         alt={`${name} Preview`}
         width={156}
         height={156 - 40}

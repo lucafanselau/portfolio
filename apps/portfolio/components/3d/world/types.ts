@@ -1,19 +1,25 @@
 import { AssetCategory, AssetKey } from "@3d/generated-loader";
-import { PlaneCoord, TileRange } from "./coord";
+import { Transform } from "./coord";
 
-export type Terrain =
-  | { type: "flat" }
-  | { type: "clipping" }
-  | {
-      type: "street";
-      variant: "end" | "straight" | "turn" | "three" | "four";
-      range: TileRange;
-    };
+export type BaseTerrain = {
+  transform: Transform;
+};
+
+export type StreetVariant = "end" | "straight" | "turn" | "three" | "four";
+export type Terrain = BaseTerrain &
+  (
+    | { type: "flat" }
+    | { type: "clipping" }
+    | {
+        type: "street";
+        variant: StreetVariant;
+      }
+  );
 
 export type Entity<C extends AssetCategory = AssetCategory> = {
   id: string;
   category: C;
   type: AssetKey<C>;
-  transform: TileRange;
+  transform: Transform;
   variant?: string;
 };

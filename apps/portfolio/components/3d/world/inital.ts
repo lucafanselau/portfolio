@@ -1,23 +1,25 @@
 import { range } from "@components/utils";
-import { Vector3 } from "three";
 import { coord } from "./coord";
 import type { Entity } from "./types";
 import { Terrain } from "./types";
 
-const F = { type: "flat" } as Terrain;
+const F: Terrain = {
+  type: "flat",
+  transform: coord.range.create(coord.world.create(0, 0), [1, 1], 0),
+};
 // const C = TerrainType.Clipping;
 const M = F;
 
 const S: Terrain = {
   type: "street",
-  range: coord.range.create(coord.world.create(0, 0), [1, 1], 0),
+  transform: coord.range.create(coord.world.create(0, 0), [1, 1], 0),
   variant: "straight",
 };
-const T = (type: number): Terrain => ({
+const T: Terrain = {
   type: "street",
-  range: coord.range.create(coord.world.create(0, 0), [1, 1], 0),
+  transform: coord.range.create(coord.world.create(0, 0), [1, 1], 0),
   variant: "turn",
-});
+};
 
 const template = [
   [F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F],
@@ -88,19 +90,19 @@ const initialBuildings: Entity[] = [
   {
     id: "school",
     category: "buildings",
-    transform: coord.range.building(coord.world.create(16, 16), "school", 1),
+    transform: coord.range.building(coord.tile.create(11, 9), "school", 1),
     type: "school",
   },
   {
     id: "house",
     category: "buildings",
-    transform: coord.range.building(coord.world.create(-8, 24), "house1", 0),
+    transform: coord.range.building(coord.tile.create(9, 13), "house1", 0),
     type: "house1",
   },
   {
     id: "office",
     category: "buildings",
-    transform: coord.range.building(coord.world.create(8, -24), "office1", 2),
+    transform: coord.range.building(coord.tile.create(8, 5), "office1", 2),
     type: "office1",
   },
 ];
@@ -109,23 +111,35 @@ const initialProps: Entity[] = [
   ...range(0, 4).map(
     (i): Entity => ({
       id: "tree-" + i.toString(),
-      position: coord.plane.create(
-        Math.floor(i / 2) * -8 + 4,
-        -12 + (i % 2) * 24
+      category: "props",
+      transform: coord.range.create(
+        coord.tile.exact(
+          coord.world.create(Math.floor(i / 2) * -8 + 4, -12 + (i % 2) * 24)
+        ),
+        [0.2, 0.2]
       ),
-      // @ts-expect-error tree1, tree2, tree3, tree4 are all valid
-      type: "tree" + Math.ceil(Math.random() * 4).toString(),
-      rotation: 0,
+      type: "tree",
+      variant: ["one", "two", "three", "four"][i],
     })
   ),
 ];
 
 export const initial = {
-  terrain: template.map((row) =>
-    row.map<Terrain>((type) =>
+  terrain: template.map((row, x) =>
+    row.map<Terrain>((type, z) =>
       Array.isArray(type) && type[0].type === "street"
-        ? { ...type[0], range: { ...type[0].range, rotation: type[1] } }
-        : (type as Terrain)
+        ? {
+            ...type[0],
+            transform: coord.range.create(
+              coord.tile.create(x, z),
+              [1, 1],
+              type[1]
+            ),
+          }
+        : ({
+            ...type,
+            transform: coord.range.create(coord.tile.create(x, z), [1, 1], 0),
+          } as Terrain)
     )
   ),
   buildings: initialBuildings,

@@ -1,6 +1,6 @@
 "use client";
 
-import { Environment, Stats } from "@react-three/drei";
+import { AdaptiveDpr, Environment, Stats } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { LoadingAnimation } from "@ui/loader";
 import type { FC, PropsWithChildren, ReactNode } from "react";
@@ -45,20 +45,26 @@ const Scene = () => {
         className="h-full w-full select-none"
       >
         <div className={"absolute left-0 top-0 h-full w-full"}>
-          <Canvas dpr={[1, 2]} shadows gl={{ logarithmicDepthBuffer: true }}>
+          <Canvas
+            dpr={[1, 2]}
+            shadows
+            gl={{ logarithmicDepthBuffer: true }}
+            frameloop="demand"
+          >
             <Loader>
               {process.env.NEXT_PUBLIC_ENABLE_DEBUG &&
                 process.env.NEXT_PUBLIC_NODE_ENV === "development" && (
                   <axesHelper args={[constants.world.tileSize]} />
                 )}
               {process.env.NEXT_PUBLIC_NODE_ENV === "development" && <Stats />}
-              <Environment files="./puresky.hdr" />
+              <Environment files="./puresky.hdr" background />
               <Lights />
               <AnimatedCharacter />
               <Camera />
               <World />
               <ExploreModule />
               <BuildModule />
+              <AdaptiveDpr />
             </Loader>
           </Canvas>
         </div>

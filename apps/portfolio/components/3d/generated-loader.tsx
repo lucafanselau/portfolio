@@ -1,13 +1,6 @@
 import collection from "@3d/generated/collection.json";
 // import { Instances } from "@3d/generated/index";
-import { models } from "@3d/generated/loader";
-import { useStore } from "@3d/store";
-import { isNone } from "@components/utils";
-import type { GroupProps } from "@react-three/fiber";
 import type { FC, ReactNode } from "react";
-import { useMemo, useRef } from "react";
-import type { Group } from "three";
-import type { Building, Prop } from "./world/types";
 
 // ***************************************************
 // Collection and Assets types and helpers
@@ -25,6 +18,11 @@ export const findAssetEntry = <C extends AssetCategory>(
   item: KeysOfUnion<AssetCollection[C]>
 ) => {
   return collection[category][item] as AssetEntry<C>;
+};
+
+// utility functions
+export const toArray = <T extends object>(value: T | T[]) => {
+  return Array.isArray(value) ? value : [value];
 };
 
 // ***************************************************

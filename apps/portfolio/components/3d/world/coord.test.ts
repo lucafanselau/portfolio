@@ -1,6 +1,4 @@
-import { expect } from "vitest";
-import { test } from "vitest";
-import { describe } from "vitest";
+import { describe, expect, test } from "vitest";
 
 import { constants } from "@3d/constants";
 import { coord } from "./coord";

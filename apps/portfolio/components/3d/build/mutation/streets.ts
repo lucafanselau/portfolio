@@ -1,6 +1,6 @@
 import { useStore } from "@3d/store";
 import { coord, TileCoord } from "@3d/world/coord";
-import { Terrain } from "@3d/world/types";
+import { StreetVariant, Terrain } from "@3d/world/types";
 import { match } from "ts-pattern";
 
 const isStreet = (terrain: Terrain | undefined) => {
@@ -20,7 +20,7 @@ const getTileType = (x: number, z: number) => {
   const streetLookup = neighbors.map(isStreet);
   const numConnections = streetLookup.filter(Boolean).length;
 
-  return match<number, [string, number]>(numConnections)
+  return match<number, [StreetVariant, number]>(numConnections)
     .with(0, () => ["four", 0])
     .with(1, () => {
       const rotation = streetLookup.indexOf(true);
@@ -53,14 +53,24 @@ const updateNeighbor = (x: number, z: number) => {
 
   if (isStreet(type)) {
     const [newType, rotation] = getTileType(x, z);
-    setTileType(x, z, newType, rotation);
+    const terrain: Terrain = {
+      type: "street",
+      transform: coord.range.create(coord.tile.create(x, z), [1, 1], rotation),
+      variant: newType,
+    };
+
+    setTileType(x, z, terrain);
   }
 };
 
 const destroyStreet = (tile: TileCoord) => {
   const [x, z] = coord.unwrap(tile);
   const { setTileType } = useStore.getState();
-  setTileType(x, z, { type: "flat" });
+  const terrain: Terrain = {
+    type: "flat",
+    transform: coord.range.create(coord.tile.create(x, z), [1, 1], 0),
+  };
+  setTileType(x, z, terrain);
   // also update the neighbors
   updateNeighbor(x - 1, z);
   updateNeighbor(x + 1, z);
@@ -73,7 +83,13 @@ const buildStreet = (tile: TileCoord) => {
   const [x, z] = coord.unwrap(tile);
 
   const [type, rotation] = getTileType(x, z);
-  setTileType(x, z, type, rotation);
+  const terrain: Terrain = {
+    type: "street",
+    transform: coord.range.create(coord.tile.create(x, z), [1, 1], rotation),
+    variant: type,
+  };
+
+  setTileType(x, z, terrain);
   // also update the neighbors
   updateNeighbor(x - 1, z);
   updateNeighbor(x + 1, z);

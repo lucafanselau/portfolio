@@ -2,7 +2,6 @@ import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
 import { ToolsAction } from "@3d/tools/bar";
 import { formatters } from "@components/formatters";
-import { isNone } from "@components/utils";
 import { tools } from "@content/tools";
 import { IconBulldozer, IconHammer } from "@tabler/icons-react";
 import { Button } from "@ui/button";

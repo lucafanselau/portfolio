@@ -1,4 +1,4 @@
-import type { AssetCategory, AssetEntry, AssetKey } from "@3d/generated-loader";
+import type { AssetKey } from "@3d/generated-loader";
 
 type StreetsPayload = { type: "streets" };
 type BuildingsPayload = {
