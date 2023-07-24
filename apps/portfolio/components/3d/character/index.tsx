@@ -2,7 +2,7 @@ import { constants } from "@3d/constants";
 import { useStore } from "@3d/store";
 import type { CharacterState } from "@3d/store/store";
 import { isNone } from "@components/utils";
-import type { RootState } from "@react-three/fiber";
+import { invalidate, RootState } from "@react-three/fiber";
 import { useFrame } from "@react-three/fiber";
 import { easing, misc } from "maath";
 import type { FC, PropsWithChildren } from "react";
@@ -80,11 +80,16 @@ export const AnimatedCharacter: FC<PropsWithChildren> = ({ children }) => {
   // frame - to - frame logic
   useFrame((args, delta) => {
     if (isNone(model.current) || isNone(guy.current)) return;
-    useStore
-      .getState()
-      .updateCharacter(
-        characterStateMachine(args, guy.current, model.current, delta)
-      );
+    const character = characterStateMachine(
+      args,
+      guy.current,
+      model.current,
+      delta
+    );
+    // invalidate during the animation
+    if (character !== "idle") invalidate();
+
+    useStore.getState().updateCharacter(character);
     useStore.getState().updatePosition(guy.current.position);
   });
 
