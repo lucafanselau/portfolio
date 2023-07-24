@@ -89,7 +89,6 @@ export const ModelLoader = <C extends AssetCategory>({
 };
 
 export const TerrainLoader = ({ terrain }: { terrain: Terrain }) => {
-  console.log(terrain);
   const model = match(terrain)
     .with({ type: "flat" }, ({ transform: { extend } }) => (
       <Plane

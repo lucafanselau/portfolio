@@ -12,17 +12,18 @@ const targets = {
 };
 
 const springConfig = {
-  mass: 2,
-  precision: 0.0001,
   ...config.slow,
+  mass: 5,
+  precision: 0.0001,
 };
 
 export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
   const open = useStore(...selectors.ui.open.slide);
 
+  const [measureRef, { height }] = useMeasure();
   const spring = useSpring({
-    from: { y: targets.closed },
-    to: { y: targets[open ? "open" : "closed"] },
+    from: { y: 0 },
+    to: { y: !open ? calcHeight(height) : 0 },
     config: springConfig,
   });
 
@@ -36,14 +37,13 @@ export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
       <animated.div
         // className="mb-[var(--radius)]"
         className="relative"
-        style={{
-          transform: spring.y.to((v) => `translateY(${v})`),
-        }}
+        style={spring}
       >
         <div
           className={cn(
             "card pointer-events-auto flex flex-col space-y-2 rounded-b-none rounded-t-lg border-b-0"
           )}
+          ref={measureRef}
         >
           {children}
         </div>

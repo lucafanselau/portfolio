@@ -5,6 +5,7 @@ import { ToolsAction } from "@3d/tools/bar";
 import { ToolsPanelContent } from "@3d/tools/content";
 import type { ProgressItem } from "@3d/tools/progress";
 import { ToolsProgress } from "@3d/tools/progress";
+import { useRetained } from "@components/hooks/use-retained";
 import { isNone } from "@components/utils";
 import { tools } from "@content/tools";
 import type { ToolsContent } from "@content/tools/types";
@@ -46,8 +47,9 @@ const content = selectors.pack((store): ToolsContent | undefined => {
 
 const ExploreContent: FC = () => {
   const item = useStore(...content);
-  if (isNone(item)) return null;
-  return <ToolsPanelContent panel={item} />;
+  const retained = useRetained(item);
+  if (isNone(retained)) return null;
+  return <ToolsPanelContent panel={retained} />;
 };
 
 const actions = selectors.pack((store) => {

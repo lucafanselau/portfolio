@@ -7,7 +7,8 @@ import { BuildPreview } from "./preview";
 
 export const BuildModule = () => {
   const building = useStore(...selectors.ui.open.build);
-  if (!building) return null;
+  const open = useStore(...selectors.state.build);
+  if (!building || !open) return null;
   return (
     <group renderOrder={9999} position={[0, -1 * constants.eps, 0]}>
       <InteractionPlane />

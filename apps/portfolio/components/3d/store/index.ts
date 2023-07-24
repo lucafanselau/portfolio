@@ -5,6 +5,7 @@ import { transitionVector3 } from "@3d/transition";
 import { Terrain } from "@3d/world/types";
 import { isSome } from "@components/utils";
 import type { ToolContentKeys } from "@content/tools";
+import { invalidate } from "@react-three/fiber";
 import { Vector3 } from "three";
 import { match } from "ts-pattern";
 import { create } from "zustand";
@@ -165,8 +166,11 @@ export const useStore = create<Store & Actions>()(
         }),
       updateTarget: (target) =>
         set((s) => {
+          // kick of at least one frame
+          invalidate();
           s.character.state = "rotate";
-          s.target = target;
+          console.log(target, s.target);
+          s.target = new Vector3(target.x, 0, target.z);
         }),
       updateCharacter: (s) => set((state) => void (state.character.state = s)),
       updatePosition: (vector) =>

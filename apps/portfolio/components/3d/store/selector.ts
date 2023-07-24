@@ -45,6 +45,12 @@ const dismissable = pack(
 
 const pointer = pack((s) => s.pointer, deepEqual);
 
+const state = {
+  explore: pack((s) => s.state === "explore"),
+  build: pack((s) => s.state === "build"),
+  start: pack((s) => s.state === "start"),
+};
+
 const focus = pack((s) => s.ui.mode.type === "focus" && !s.ui.transition);
 const slide = pack((s) => s.ui.mode.type === "slide" && !s.ui.transition);
 const targetOpen = pack((s) => s.state === "explore");
@@ -80,10 +86,6 @@ const actions = pack((s) => {
     return [key, content.icon, disabled(key)] as const;
   });
 }, deepEqual);
-
-const state = {
-  start: pack((s) => s.state === "start"),
-};
 
 export const selectors = {
   pack,
