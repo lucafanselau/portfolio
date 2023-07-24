@@ -3,7 +3,7 @@ import useMeasure from "react-use-measure";
 import { ToolsToolbar } from "./bar";
 import { ToolsFocusPanel } from "./focus";
 import { ToolsLayout } from "./layout";
-import { ToolsSlidePanelHeight } from "./slide";
+import { ToolsSlidePanel, ToolsSlidePanelHeight } from "./slide";
 
 const MeasuredBar = ({
   children,
@@ -12,18 +12,12 @@ const MeasuredBar = ({
   children?: ReactNode;
   bar?: ReactNode;
 }) => {
-  const [measureRef, { height }] = useMeasure();
+  // const [measureRef, { height }] = useMeasure();
 
   return (
-    <ToolsToolbar
-      className="flex max-h-full flex-col flex-nowrap"
-      minHeight={height + 4}
-    >
-      <ToolsSlidePanelHeight>{children}</ToolsSlidePanelHeight>
-      <div
-        className="flex w-full flex-none flex-wrap items-center justify-between space-x-2 p-2"
-        ref={measureRef}
-      >
+    <ToolsToolbar className="flex max-h-full flex-col flex-nowrap">
+      <ToolsSlidePanel>{children}</ToolsSlidePanel>
+      <div className="flex w-full flex-none flex-wrap items-center justify-between space-x-2 p-2">
         {bar}
       </div>
       {/* NOTE: This is not really *inside* of the toolbar, but needs its as a parent, for positioning*/}
