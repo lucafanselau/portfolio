@@ -107,7 +107,7 @@ export const TerrainLoader = ({ terrain }: { terrain: Terrain }) => {
 
   return (
     <RangeLoader
-      plane={false}
+      plane={terrain.type === "street"}
       planeProps={terrain.type === "flat"}
       range={terrain.transform}
     >

@@ -21,7 +21,7 @@ export const ExploreTarget = () => {
   const visible = useStore(...selectors.ui.open.target);
 
   return (
-    <group position={[0, 2 * constants.eps, 0]} visible={visible}>
+    <group position={[0, 3 * constants.eps, 0]} visible={visible}>
       <mesh ref={ref} renderOrder={999} rotation={[Math.PI / -2, 0, 0]}>
         <planeBufferGeometry args={[1, 1, 1]} />
         <meshStandardMaterial map={texture} transparent />
@@ -29,3 +29,5 @@ export const ExploreTarget = () => {
     </group>
   );
 };
+
+useTexture.preload("/crosshair.png");

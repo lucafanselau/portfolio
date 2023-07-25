@@ -3,6 +3,7 @@ import type { ToolContentKeys } from "@content/tools";
 import { tools } from "@content/tools";
 import type { ToolsContent } from "@content/tools/types";
 import { deepEqual, shallowEqual } from "fast-equals";
+import { useEffect } from "react";
 import { isMatching } from "ts-pattern";
 import type { Store } from "./store";
 

@@ -124,6 +124,7 @@ const initialProps: Entity[] = [
   ),
 ];
 
+console.log(initialProps);
 export const initial = {
   terrain: template.map((row, x) =>
     row.map<Terrain>((type, z) =>

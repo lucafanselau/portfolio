@@ -1,5 +1,9 @@
 import { Box3, Vector3 } from "three";
 
+export const DEBUG =
+  process.env.NEXT_PUBLIC_ENABLE_DEBUG &&
+  process.env.NEXT_PUBLIC_NODE_ENV === "development";
+
 export const base = {
   eps: 1e-3,
   guy: {

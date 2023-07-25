@@ -6,10 +6,11 @@ import { ScrollArea } from "@ui/scroll-area";
 import { cn } from "@ui/utils";
 import type { FC, ReactNode } from "react";
 import { useCallback, useState } from "react";
+import { springConfig } from "./slide";
 
 export const ToolsFocusPanel: FC<{ children?: ReactNode }> = ({ children }) => {
   const open = useStore(...selectors.ui.open.focus);
-  const [mounted, setMounted] = useState(open);
+  // const [mounted, setMounted] = useState(open);
   const dismissable = useStore(...selectors.ui.dismissable);
   const springs = useSpring({
     from: { opacity: 0, transform: "scale(0%)" },
@@ -17,18 +18,13 @@ export const ToolsFocusPanel: FC<{ children?: ReactNode }> = ({ children }) => {
       opacity: open ? 1 : 0,
       transform: open ? "scale(100%)" : "scale(0%)",
     },
-    onStart: () => {
-      if (open) setMounted(true);
-    },
-    onRest: () => {
-      if (!open) setMounted(false);
-    },
+    config: springConfig,
   });
   const onClick = useCallback(() => {
     useStore.getState().updateTools({ type: "dismiss" });
   }, []);
 
-  if (!mounted) return null;
+  // if (!mounted) return null;
 
   return (
     <animated.div

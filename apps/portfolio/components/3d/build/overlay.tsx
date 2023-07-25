@@ -1,5 +1,7 @@
 import { constants } from "@3d/constants";
 import { useStore } from "@3d/store";
+import { selectors } from "@3d/store/selector";
+import { useSubscribe } from "@3d/store/utils";
 import { coord } from "@3d/world/coord";
 import { Plane } from "@react-three/drei";
 import type { ThreeEvent } from "@react-three/fiber";
@@ -29,7 +31,7 @@ export const InteractionPlane = () => {
   const onPointerDown = (e: ThreeEvent<PointerEvent>) => {
     onPointer(e);
     useStore.setState((s) => void (s.pointerDown = true));
-    useStore.getState().build();
+    // useStore.getState().build();
   };
   const onPointerUp = (e: ThreeEvent<PointerEvent>) => {
     useStore.setState((s) => void (s.pointerDown = false));
@@ -61,23 +63,30 @@ type Color = keyof typeof colors;
 
 export const BuildPreviewPlane = forwardRef<
   Mesh,
-  ComponentPropsWithoutRef<typeof Plane> & {
-    depthTest?: boolean;
-    color?: Color;
-  }
->(({ depthTest = false, color = "blue", ...props }, ref) => {
+  ComponentPropsWithoutRef<typeof Plane> & {}
+>(({ ...props }, ref) => {
   const [material] = useState(
     () =>
       new MeshStandardMaterial({
-        depthTest,
+        depthTest: false,
+        color: colors["green"],
         transparent: true,
         opacity: 0.5,
       })
   );
 
-  useEffect(() => {
-    material.color.set(colors[color]);
-  }, [color]);
+  // load dynamic state, based on build
+  useSubscribe(selectors.ui.open.build, (open) => {
+    material.visible = open;
+  });
 
-  return <Plane {...props} ref={ref} receiveShadow material={material} />;
+  return (
+    <Plane
+      {...props}
+      ref={ref}
+      receiveShadow
+      renderOrder={999}
+      material={material}
+    />
+  );
 });

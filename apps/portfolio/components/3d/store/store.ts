@@ -34,6 +34,7 @@ export type Store = {
   };
   // pointer for building
   pointer: WorldCoord;
+  // NOTE: might be unused, so maybe remove
   pointerDown: boolean;
   world: {
     hovered: Object3D[];

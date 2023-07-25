@@ -1,6 +1,6 @@
 "use client";
 
-import { AdaptiveDpr, Environment, Stats } from "@react-three/drei";
+import { AdaptiveDpr, Environment, Preload, Stats } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { LoadingAnimation } from "@ui/loader";
 import type { FC, PropsWithChildren, ReactNode } from "react";
@@ -8,7 +8,7 @@ import { Suspense } from "react";
 import { BuildModule } from "./build";
 import { Camera } from "./camera";
 import { AnimatedCharacter } from "./character";
-import { constants } from "./constants";
+import { constants, DEBUG } from "./constants";
 import { ExploreModule } from "./explore";
 import { GeneratedLoader } from "./generated-loader";
 import { Lights } from "./lights";
@@ -52,19 +52,26 @@ const Scene = () => {
             frameloop="demand"
           >
             <Loader>
-              {process.env.NEXT_PUBLIC_ENABLE_DEBUG &&
-                process.env.NEXT_PUBLIC_NODE_ENV === "development" && (
-                  <axesHelper args={[constants.world.tileSize]} />
-                )}
-              {process.env.NEXT_PUBLIC_NODE_ENV === "development" && <Stats />}
+              {/* 🌄 Environment */}
               <Environment files="./puresky.hdr" background />
               <Lights />
-              <AnimatedCharacter />
               <Camera />
+              {/* 👥 Entities */}
+              <AnimatedCharacter />
               <World />
+              {/* 📚 Modules */}
               <ExploreModule />
               <BuildModule />
+              {/* ✨ Optimizations */}
               <AdaptiveDpr />
+              <Preload all />
+              {/* ⚙ Debug */}
+              {DEBUG && (
+                <>
+                  <axesHelper args={[constants.world.tileSize]} />
+                  <Stats />
+                </>
+              )}
             </Loader>
           </Canvas>
         </div>

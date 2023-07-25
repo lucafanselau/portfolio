@@ -1,9 +1,11 @@
+import { previewEntity } from "@3d/build/preview";
 import type { Interaction } from "@3d/constants";
 import { constants } from "@3d/constants";
 import type { AssetCategory } from "@3d/generated-loader";
 import { transitionVector3 } from "@3d/transition";
+import { coord, vec2 } from "@3d/world/coord";
 import { Terrain } from "@3d/world/types";
-import { isSome } from "@components/utils";
+import { isNone, isSome } from "@components/utils";
 import type { ToolContentKeys } from "@content/tools";
 import { invalidate } from "@react-three/fiber";
 import { Vector3 } from "three";
@@ -13,14 +15,15 @@ import { subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import type { CharacterState, Store } from "./store";
 import { defaultStore } from "./store";
+import { StreetVariant } from "@3d/world/types";
+import { BuildState } from "@3d/build/types";
 
 type Actions = {
   updateState: (target: Store["state"]) => Promise<void>;
   updateTools: (
     config: { type: "dismiss" } | { type: "slide"; key: ToolContentKeys }
   ) => void;
-  startBuild: (key: AssetCategory, id: string) => void;
-  startDestroy: () => void;
+  initBuild: (state: BuildState) => void;
   build: () => void;
   setPointer: (pointer: Store["pointer"]) => void;
   interact: (interaction: Interaction["title"] | undefined) => void;
@@ -82,77 +85,34 @@ export const useStore = create<Store & Actions>()(
           )
           .exhaustive();
       },
-      startBuild: (key, id) =>
+
+      initBuild: (state) =>
         set((s) => {
           s.ui.mode = {
             type: "build",
-            // @ts-expect-error (i dunno go figure it out yourself)
-            payload: { type: "build", payload: { type: key, id, state: {} } },
+            payload: state,
           };
         }),
-      startDestroy: () =>
-        set(
-          (s) =>
-            void (s.ui.mode = {
-              type: "build",
-              payload: { type: "destroy" },
-            })
-        ),
-
       build: () => {
-        const {
-          ui: { mode },
-          pointer,
-        } = get();
-        // if (entity.category === "streets") {
-        //   // since streets is
-        // } else {
-        //   // just push back the entity
-        // }
-        // if (mode.type !== "build" || isNone(pointer)) return;
-        // match(mode.payload)
-        //   .with({ type: "build", payload: { type: "streets" } }, () => {
-        //     const tile = point.tile.to(pointer);
-        //     console.log(pointer, tile);
-        //     mutation.streets.build(tile);
-        //   })
-        //   .with(
-        //     { type: "build", payload: { type: "buildings" } },
-        //     ({ payload: { id } }) =>
-        //       set((s) => {
-        //         const pos = buildPosition[0](s);
-        //         if (isNone(pos)) return;
-        //         const position = new Vector3(pos[0], 0, pos[1]);
-        //         s.world.buildings.push({
-        //           position,
-        //           id: `${id}-${s.world.buildings.length}`,
-        //           rotation: 0,
-        //           type: id,
-        //         });
-        //       })
-        //   )
-        //   .with(
-        //     { type: "build", payload: { type: "props" } },
-        //     ({ payload: { id } }) =>
-        //       set((s) => {
-        //         const pos = selectors.pointer[0](s);
-        //         if (isNone(pos)) return;
-        //         const position = new Vector3(pos[0], 0, pos[1]);
-        //         s.world.props.push({
-        //           position,
-        //           id: `${id}-${s.world.props.length}`,
-        //           rotation: 0,
-        //           type: id,
-        //         });
-        //       })
-        //   )
-        //   .with({ type: "destroy" }, () => {})
-        //   .exhaustive();
-        // const { type } = mode.mode;
-        // if (!pointer) return;
-        // const [x, z] = pointer;
-        // if (type === "build") mutation.build.street(x, z);
-        // else if (type === "destroy") mutation.destroy.street(x, z);
+        // reuse the preview entity routine
+        const entity = previewEntity[0](get());
+        if (isNone(entity)) return;
+
+        if (entity.category === "streets") {
+          const { variant, transform } = entity;
+          const [x, z] = vec2.floor(coord.unwrap(transform.anchor));
+          set(
+            (s) =>
+              void (s.world.terrain[x][z] = {
+                type: "street",
+                variant: variant as StreetVariant,
+                transform,
+              })
+          );
+        } else {
+          // just push back the entity
+          set((s) => void s.world.entities.push(entity));
+        }
       },
       setPointer: (p) => set((s) => void (s.pointer = p)),
       interact: (i) =>

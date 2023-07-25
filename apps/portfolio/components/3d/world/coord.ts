@@ -66,7 +66,7 @@ const tile = {
         type: "tile",
         value: vec2.div(value, vec2.splat(ts)),
       }))
-      .with({ type: "world" }, (world) => tile.from(plane.from(world)))
+      .with({ type: "world" }, (world) => tile.exact(plane.from(world)))
       .with({ type: "tile" }, ({ value }) => ({ type: "tile", value }))
       .exhaustive();
   },

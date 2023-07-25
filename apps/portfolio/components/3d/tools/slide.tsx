@@ -6,7 +6,7 @@ import { cn } from "@ui/utils";
 import type { FC, ReactNode } from "react";
 import useMeasure from "react-use-measure";
 
-const springConfig: SpringConfig = {
+export const springConfig: SpringConfig = {
   ...config.stiff,
   bounce: 0.8,
   // mass: 5,

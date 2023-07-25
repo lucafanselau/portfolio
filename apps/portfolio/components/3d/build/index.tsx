@@ -10,7 +10,7 @@ export const BuildModule = () => {
   const open = useStore(...selectors.state.build);
   if (!building || !open) return null;
   return (
-    <group renderOrder={9999} position={[0, -1 * constants.eps, 0]}>
+    <group position={[0, -1 * constants.eps, 0]}>
       <InteractionPlane />
       <OutlineEffect />
       <BuildPreview />

@@ -1,20 +1,18 @@
-import type { AssetKey } from "@3d/generated-loader";
+import type { AssetCategory, AssetKey } from "@3d/generated-loader";
 
-type StreetsPayload = { type: "streets" };
-type BuildingsPayload = {
-  type: "buildings";
-  id: AssetKey<"buildings">;
-  state: { invalid?: boolean; rotation: number };
-};
-type PropsPayload = {
-  type: "props";
-  id: AssetKey<"props">;
-  state: { rotation: number; variant?: string };
+type Payload<Category extends AssetCategory> = {
+  type: Category;
+  id: AssetKey<Category>;
+  state: {
+    valid: true | { intersects: string[] };
+    rotation?: number;
+    variant?: string;
+  };
 };
 
 export type BuildStateBuild = {
   type: "build";
-  payload: PropsPayload | BuildingsPayload | StreetsPayload;
+  payload: Payload<AssetCategory>;
 };
 type BuildStateDestroy = { type: "destroy" };
 export type BuildState = BuildStateBuild | BuildStateDestroy;

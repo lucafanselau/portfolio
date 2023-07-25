@@ -3,7 +3,7 @@ import { selectors } from "@3d/store/selector";
 import { ToolsAction } from "@3d/tools/bar";
 import { formatters } from "@components/formatters";
 import { tools } from "@content/tools";
-import { IconBulldozer, IconHammer } from "@tabler/icons-react";
+import { IconBulldozer, IconHammer, IconX } from "@tabler/icons-react";
 import { Button } from "@ui/button";
 import { P } from "@ui/typography";
 import type { FC } from "react";
@@ -15,24 +15,28 @@ export const BuildActiveBar: FC = ({}) => {
 
   const text = `Building *${undefined ?? "Unknown"}*`;
 
-  const onClick = () => {
+  const dismiss = () => {
     useStore.getState().updateTools({ type: "dismiss" });
+  };
+
+  const build = () => {
+    useStore.getState().build();
   };
 
   return (
     <>
       <div className="flex items-center space-x-2">
-        {true ? <IconHammer /> : <IconBulldozer />}
         <P>{formatters.bold(text)}</P>
       </div>
-      <Button
-        onClick={onClick}
-        variant="outline"
-        size="sm"
-        className="pointer-events-auto px-8"
-      >
-        Finish
-      </Button>
+
+      <div className="flex items-center space-x-2 pointer-events-auto">
+        <Button onClick={dismiss} variant="outline" size="icon">
+          <IconX />
+        </Button>
+        <Button onClick={build} variant="outline" size="icon">
+          <IconHammer />
+        </Button>
+      </div>
     </>
   );
 };
@@ -44,7 +48,8 @@ const actions = selectors.pack((store) => {
     return {
       icon: tools.build[key].icon,
       onClick: () => {
-        if (key === "destroy") useStore.getState().startDestroy();
+        if (key === "destroy")
+          useStore.getState().initBuild({ type: "destroy" });
         // TODO: on destory just start destroy mode
         else useStore.getState().updateTools({ type: "slide", key });
       },
