@@ -63,7 +63,7 @@ type Color = keyof typeof colors;
 
 export const BuildPreviewPlane = forwardRef<
   Mesh,
-  ComponentPropsWithoutRef<typeof Plane> & {}
+  ComponentPropsWithoutRef<typeof Plane>
 >(({ ...props }, ref) => {
   const [material] = useState(
     () =>
