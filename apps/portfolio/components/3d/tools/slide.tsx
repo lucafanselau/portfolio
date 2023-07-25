@@ -22,39 +22,34 @@ export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
 
   const [measureRef, { height }] = useMeasure();
   const spring = useSpring({
-    from: { y: 0 },
-    to: { y: !open ? calcHeight(height) : 0 },
+    from: { top: 0 },
+    to: { top: open ? -calcHeight(height) : 0 },
     config: springConfig,
   });
 
   return (
-    <div
+    <animated.div
       // NOTE: This might look complicated, but its basically just a container right abouve the toolbar extended to the height of the screen, but
       // with overflow hidden so that the content can be animated in and out of view
-      className="pointer-events-none absolute left-0 right-0 top-[var(--radius)] z-30 w-full -translate-y-full overflow-hidden pb-[var(--radius)] pt-[100vh]"
+      className="pointer-events-none absolute left-0 right-0 z-30 w-full -translate-y-full overflow-hidden pb-[var(--radius)] "
       // py-[var(--radius)]
+      style={spring}
     >
-      <animated.div
-        // className="mb-[var(--radius)]"
-        className="relative"
-        style={spring}
+      <div
+        className={cn(
+          "card pointer-events-auto flex flex-col space-y-2 rounded-b-none rounded-t-lg border-b-0"
+        )}
+        ref={measureRef}
       >
-        <div
-          className={cn(
-            "card pointer-events-auto flex flex-col space-y-2 rounded-b-none rounded-t-lg border-b-0"
-          )}
-          ref={measureRef}
-        >
-          {children}
-        </div>
-        {/*NOTE: This div is only here to provide a background for the open animation*/}
-        <div
-          className={cn(
-            "absolute -bottom-8 left-0 right-0 h-8 border-x-2 border-t-2 bg-background"
-          )}
-        />
-      </animated.div>
-    </div>
+        {children}
+      </div>
+      {/*NOTE: This div is only here to provide a background for the open animation*/}
+      <div
+        className={cn(
+          "absolute -bottom-8 left-0 right-0 h-8 border-x-2 border-t-2 bg-background"
+        )}
+      />
+    </animated.div>
   );
 };
 
