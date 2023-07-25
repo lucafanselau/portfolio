@@ -40,6 +40,7 @@ export const Camera = () => {
         makeDefault
         ref={controls}
         maxPolarAngle={Math.PI / 2 - constants.eps}
+        minPolarAngle={Math.PI / 8}
         maxDistance={distance}
         enabled={controlsEnabled}
         enablePan={pan}

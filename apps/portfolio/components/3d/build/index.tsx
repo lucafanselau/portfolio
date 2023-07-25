@@ -6,14 +6,15 @@ import { InteractionPlane } from "./overlay";
 import { BuildPreview } from "./preview";
 
 export const BuildModule = () => {
-  const building = useStore(...selectors.ui.open.build);
   const open = useStore(...selectors.state.build);
-  if (!building || !open) return null;
+  if (!open) return null;
   return (
-    <group position={[0, -1 * constants.eps, 0]}>
-      <InteractionPlane />
+    <>
       <OutlineEffect />
-      <BuildPreview />
-    </group>
+      <group position={[0, -1 * constants.eps, 0]}>
+        <InteractionPlane />
+        <BuildPreview />
+      </group>
+    </>
   );
 };

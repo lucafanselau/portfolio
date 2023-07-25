@@ -7,8 +7,7 @@ import { useEffect, useRef } from "react";
 const [selector, eq] = selectors.hovered;
 export const OutlineEffect = () => {
   const ref = useRef<EffectImpl>(null);
-  const open = useStore(...selectors.ui.open.outline);
-  console.log(open);
+  const open = true; // useStore(...selectors.ui.open.outline);
 
   useEffect(() => {
     if (!open) ref.current?.selection.clear();
