@@ -5,14 +5,14 @@ import type { FC, ReactNode } from "react";
 export const ToolsToolbar: FC<{
   children?: ReactNode;
   className?: string;
-  minHeight?: number;
-}> = ({ children, className, minHeight = 0 }) => {
+}> = ({ children, className }) => {
   //  const open = useStore(...selectors.ui.open.focus);
 
   return (
     <div
-      className={cn("relative flex w-full basis-auto flex-col justify-end ")}
-      style={{ minHeight }}
+      className={cn(
+        "relative flex w-full basis-auto flex-col justify-end z-50"
+      )}
     >
       <div className={cn("card pointer-events-auto p-0", className)}>
         {children}

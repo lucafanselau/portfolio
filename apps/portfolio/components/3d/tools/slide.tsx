@@ -1,61 +1,88 @@
 import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
-import { animated, config, useSpring } from "@react-spring/web";
+import { animated, config, useSpring, SpringConfig } from "@react-spring/web";
 import { ScrollArea } from "@ui/scroll-area";
 import { cn } from "@ui/utils";
 import type { FC, ReactNode } from "react";
 import useMeasure from "react-use-measure";
 
-const targets = {
-  open: "0%",
-  closed: "100%",
+const springConfig: SpringConfig = {
+  ...config.stiff,
+  bounce: 0.8,
+  // mass: 5,
+  // precision: 0.0001,
 };
 
-const springConfig = {
-  ...config.slow,
-  mass: 5,
-  precision: 0.0001,
+const getWindowHeight = () => {
+  return (
+    typeof window !== "undefined" &&
+    (window.innerHeight ||
+      document.documentElement.clientHeight ||
+      document.body.clientHeight)
+  );
+};
+
+const clampHeight = (measured: number) => {
+  const height = getWindowHeight();
+  if (height) return Math.min(measured, Math.round(0.6 * height));
+  else return measured;
 };
 
 export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
   const open = useStore(...selectors.ui.open.slide);
 
   const [measureRef, { height }] = useMeasure();
+  const clamped = clampHeight(height);
   const spring = useSpring({
     from: { top: 0 },
-    to: { top: open ? -calcHeight(height) : 0 },
+    to: { top: open ? -clamped : 0 },
     config: springConfig,
   });
 
   return (
-    <animated.div
-      // NOTE: This might look complicated, but its basically just a container right abouve the toolbar extended to the height of the screen, but
-      // with overflow hidden so that the content can be animated in and out of view
-      className="pointer-events-none absolute left-0 right-0 z-30 w-full -translate-y-full overflow-hidden pb-[var(--radius)] "
-      // py-[var(--radius)]
-      style={spring}
+    <div
+      className={cn(
+        // base layout
+        "absolute inset-x-0 bottom-full w-full",
+        // setup to compoensate for the radius of the toolbar
+        "top-[calc(-100vh+var(--radius))] pt-[calc(100vh-var(--radius))] pb-[var(--radius)] ",
+        // interaction
+        "overflow-hidden",
+        !open && "pointer-events-none"
+      )}
     >
-      <div
-        className={cn(
-          "card pointer-events-auto flex flex-col space-y-2 rounded-b-none rounded-t-lg border-b-0"
-        )}
-        ref={measureRef}
-      >
-        {children}
+      <div className="relative">
+        <animated.div
+          style={spring}
+          className={cn(
+            // positioning / layout
+            "absolute inset-x-0 h-screen bottom-full",
+            // visual
+            "card p-0"
+          )}
+        >
+          <div>
+            <ScrollArea
+              className={"p-2 w-full"}
+              // we are compensating for the border here
+              style={{ height: clamped - 2 }}
+            >
+              <div ref={measureRef}>{children}</div>
+            </ScrollArea>
+            <div className="h-[2px] w-full flex-none bg-border" />
+          </div>
+        </animated.div>
       </div>
-      {/*NOTE: This div is only here to provide a background for the open animation*/}
-      <div
-        className={cn(
-          "absolute -bottom-8 left-0 right-0 h-8 border-x-2 border-t-2 bg-background"
-        )}
-      />
-    </animated.div>
+    </div>
   );
 };
 
+// DEPRECATED SECTION:
+// NOTE: loved that the layout is that much smaller and concice, but the flex basis animation chokes on mobile
+
 // NOTE: Ugly, but we need to add the padding of the card (2*8) to the height plus the divider (2)
 const calcHeight = (content: number) => {
-  const padded = content + 2 + 2 * 8;
+  const padded = content;
   const height =
     typeof window !== "undefined"
       ? window.innerHeight ||
