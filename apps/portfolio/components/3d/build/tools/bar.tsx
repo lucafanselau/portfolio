@@ -8,20 +8,24 @@ import { Button } from "@ui/button";
 import { P } from "@ui/typography";
 import type { FC } from "react";
 import { mutation } from "../mutation";
+import { isMatching } from "ts-pattern";
+import { buildPattern } from "../mutation/build";
 // import { buildEntry } from "../types";
 
 export const BuildActiveBar: FC = ({}) => {
   // const entry = useStore(...buildEntry);
   // if (isNone(entry)) return null;
 
-  const text = `Building *${undefined ?? "Unknown"}*`;
+  const isBuild = useStore((s) => isMatching(buildPattern("build"), s));
+
+  const text = isBuild ? `Building *${undefined ?? "Unknown"}*` : "Destroying";
 
   const dismiss = () => {
     useStore.getState().updateTools({ type: "dismiss" });
   };
 
   const build = () => {
-    useStore.getState().build();
+    mutation.build();
   };
 
   return (
@@ -35,7 +39,7 @@ export const BuildActiveBar: FC = ({}) => {
           <IconX />
         </Button>
         <Button onClick={build} variant="outline" size="icon">
-          <IconHammer />
+          {isBuild ? <IconHammer /> : <IconBulldozer />}
         </Button>
       </div>
     </>

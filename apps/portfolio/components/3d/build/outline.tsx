@@ -11,12 +11,15 @@ export const OutlineEffect = () => {
 
   useEffect(() => {
     if (!open) ref.current?.selection.clear();
-    else ref.current?.selection.set(selector(useStore.getState()));
+    else
+      ref.current?.selection.set(
+        selector(useStore.getState()).map(([h, _]) => h)
+      );
 
     return useStore.subscribe(
       selector,
       (hovered) => {
-        if (open) ref.current?.selection.set(hovered);
+        if (open) ref.current?.selection.set(hovered.map(([h, _]) => h));
       },
       { equalityFn: eq }
     );

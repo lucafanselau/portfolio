@@ -6,13 +6,13 @@ import { Store } from "@3d/store/store";
 import { coord, vec2 } from "@3d/world/coord";
 import { ModelLoader } from "@3d/world/model";
 import { Entity } from "@3d/world/types";
-import { isNone } from "@components/utils";
 import { deepEqual } from "fast-equals";
 import { FC, useEffect, useRef } from "react";
 import { Group } from "three";
 import { match } from "ts-pattern";
 import { mutation } from "./mutation";
 import { BuildStateBuild } from "./types";
+import { isNone, isSome } from "@components/utils";
 
 // ******************************************************
 // LOADER
@@ -81,8 +81,11 @@ const BuildBuildPreview: FC<{ state: BuildStateBuild }> = ({
   const entity = useStore(...previewEntity);
   const ref = useRef<Group>(null);
   useEffect(
-    () => ref.current && mutation.events.init.preview(ref.current),
-    [ref.current]
+    () =>
+      ref.current &&
+      isSome(entity) &&
+      mutation.events.init.preview(ref.current, entity),
+    [ref.current, entity]
   );
   if (isNone(entity)) return null;
 

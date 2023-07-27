@@ -79,7 +79,7 @@ export const ModelLoader = forwardRef<Group, { entity: Entity<AssetCategory> }>(
 
     return (
       <RangeLoader ref={ref} range={entity.transform}>
-        <Model {...mutation.events.model} />
+        <Model {...mutation.events.model(entity)} />
       </RangeLoader>
     );
   }

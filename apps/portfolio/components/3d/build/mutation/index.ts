@@ -1,5 +1,6 @@
 import { streets } from "./streets";
 import { events } from "./events";
+import { buildOrDestroy } from "./build";
 
 // const pointer = {
 //   streets: (p) => {
@@ -12,4 +13,5 @@ import { events } from "./events";
 export const mutation = {
   streets,
   events,
+  build: buildOrDestroy,
 };
