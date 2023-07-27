@@ -1,5 +1,6 @@
 import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
+import { invalidate } from "@react-three/fiber";
 import { EffectComposer, Outline } from "@react-three/postprocessing";
 import type { OutlineEffect as EffectImpl } from "postprocessing";
 import { useEffect, useRef } from "react";
@@ -16,10 +17,16 @@ export const OutlineEffect = () => {
         selector(useStore.getState()).map(([h, _]) => h)
       );
 
+    // kick off at least one frame
+    invalidate();
+
     return useStore.subscribe(
       selector,
       (hovered) => {
-        if (open) ref.current?.selection.set(hovered.map(([h, _]) => h));
+        if (open) {
+          ref.current?.selection.set(hovered.map(([h, _]) => h));
+          invalidate();
+        }
       },
       { equalityFn: eq }
     );
