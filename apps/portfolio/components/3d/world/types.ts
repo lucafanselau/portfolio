@@ -12,9 +12,14 @@ export type Terrain = BaseTerrain &
     | { type: "clipping" }
     | {
         type: "street";
+        id: string;
         variant: StreetVariant;
       }
   );
+
+export const streetId = (x: number, z: number) => {
+  return `street-${x}-${z}`;
+};
 
 export type Entity<C extends AssetCategory = AssetCategory> = {
   id: string;

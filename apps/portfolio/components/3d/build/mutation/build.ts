@@ -25,23 +25,35 @@ export const build = () => {
 export const destroy = () => {
   // For now we will destroy everything that is currently hovered
   const {
-    world: { hovered },
+    world: { hovered, terrain },
   } = get();
 
   if (hovered.length === 0) return;
   set((s) => {
+    // remove all hovered entities
     s.world.entities = s.world.entities.filter(
-      (e) => !hovered.some(([_, entity]) => entity.id === e.id)
+      (e) => !hovered.some(([_, entity]) => entity === e.id)
     );
   });
+
+  // remove all hovered tiles
+  for (let x = 0; x < terrain.length; x++) {
+    for (let z = 0; z < terrain[x].length; z++) {
+      const t = terrain[x][z];
+      if (t.type === "street" && hovered.some(([_, id]) => id === t.id))
+        streets.destroy(coord.tile.create(x, z));
+    }
+  }
+
+  // also reset hover, because we just deleted everything in it
+  set((s) => void (s.world.hovered = []));
 };
 
-export const buildPattern = (
-  type: "destroy" | "build"
-): Pattern.Pattern<Store> => ({
-  state: "build",
-  ui: { mode: { type: "build", payload: { type } } },
-});
+export const buildPattern = (type: "destroy" | "build") =>
+  ({
+    state: "build",
+    ui: { mode: { type: "build", payload: { type: type } } },
+  } as const);
 
 export const buildOrDestroy = () => {
   match(get())

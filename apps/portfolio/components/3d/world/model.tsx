@@ -79,7 +79,7 @@ export const ModelLoader = forwardRef<Group, { entity: Entity<AssetCategory> }>(
 
     return (
       <RangeLoader ref={ref} range={entity.transform}>
-        <Model {...mutation.events.model(entity)} />
+        <Model {...mutation.events.model(entity.id)} />
       </RangeLoader>
     );
   }
@@ -95,10 +95,10 @@ export const TerrainLoader = ({ terrain }: { terrain: Terrain }) => {
       />
     ))
     .with({ type: "clipping" }, () => null)
-    .with({ type: "street" }, ({ variant }) => {
+    .with({ type: "street" }, ({ variant, id }) => {
       const Model = findModel({ type: "street", category: "streets", variant });
       if (isNone(Model)) return null;
-      return <Model />;
+      return <Model {...mutation.events.model(id)} />;
     })
     .exhaustive();
 

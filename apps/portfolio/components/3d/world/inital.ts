@@ -1,6 +1,6 @@
 import { range } from "@components/utils";
 import { coord } from "./coord";
-import type { Entity } from "./types";
+import { Entity, streetId } from "./types";
 import { Terrain } from "./types";
 
 const F: Terrain = {
@@ -14,11 +14,13 @@ const S: Terrain = {
   type: "street",
   transform: coord.range.create(coord.world.create(0, 0), [1, 1], 0),
   variant: "straight",
+  id: "street",
 };
 const T: Terrain = {
   type: "street",
   transform: coord.range.create(coord.world.create(0, 0), [1, 1], 0),
   variant: "turn",
+  id: "street",
 };
 
 const template = [
@@ -124,11 +126,10 @@ const initialProps: Entity[] = [
   ),
 ];
 
-console.log(initialProps);
 export const initial = {
   terrain: template.map((row, x) =>
     row.map<Terrain>((type, z) =>
-      Array.isArray(type) && type[0].type === "street"
+      Array.isArray(type)
         ? {
             ...type[0],
             transform: coord.range.create(
@@ -136,10 +137,12 @@ export const initial = {
               [1, 1],
               type[1]
             ),
+            id: streetId(x, z),
           }
         : ({
             ...type,
             transform: coord.range.create(coord.tile.create(x, z), [1, 1], 0),
+            id: type.type === "street" ? streetId(x, z) : undefined,
           } as Terrain)
     )
   ),

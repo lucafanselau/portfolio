@@ -35,13 +35,16 @@ export const events = {
     onPointerUp,
     onPointerMove: onPointer,
   },
-  model: (entity: Entity) => ({
+  model: (entity: string) => ({
     onPointerOver: (e) => {
       // If we cannot hover lets not build, this is handled by a button then
       if (!getCanHover()) return;
       if (!isMatching(destroyPattern, get())) return;
+
+      console.log("pointer over", entity);
       // otherwise lets append that
       set((s) => {
+        if (s.world.hovered.find(([_, id]) => id === entity)) return;
         s.world.hovered.push([e.object, entity]);
       });
     },
@@ -51,7 +54,7 @@ export const events = {
       if (!isMatching(destroyPattern, get())) return;
       // otherwise lets append that
       set((s) => {
-        s.world.hovered = s.world.hovered.filter(([h, _]) => h !== e.object);
+        s.world.hovered = s.world.hovered.filter(([_, id]) => id !== entity);
       });
     },
     onPointerDown: (e) => {
@@ -107,5 +110,5 @@ export const events = {
   },
 } satisfies Record<
   "interaction" | "model",
-  GroupProps | ((entity: Entity) => GroupProps)
+  GroupProps | ((entity: string) => GroupProps)
 > & { init: object };
