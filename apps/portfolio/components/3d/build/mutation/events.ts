@@ -75,7 +75,7 @@ export const events = {
   }),
   init: {
     preview: (object: Object3D, entity: Entity) => {
-      set((s) => void s.world.hovered.push([object, entity]));
+      set((s) => void s.world.hovered.push([object, entity.id]));
       return () =>
         set(
           (s) =>

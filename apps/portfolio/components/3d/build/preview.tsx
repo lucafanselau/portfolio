@@ -82,9 +82,9 @@ const BuildBuildPreview: FC<{ state: BuildStateBuild }> = ({
   const ref = useRef<Group>(null);
   useEffect(
     () =>
-      ref.current &&
-      isSome(entity) &&
-      mutation.events.init.preview(ref.current, entity),
+      ref.current && isSome(entity)
+        ? mutation.events.init.preview(ref.current, entity)
+        : void 0,
     [ref.current, entity]
   );
   if (isNone(entity)) return null;

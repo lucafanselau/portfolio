@@ -49,14 +49,16 @@ export const destroy = () => {
   set((s) => void (s.world.hovered = []));
 };
 
-export const buildPattern = (type: "destroy" | "build") =>
-  ({
-    state: "build",
-    ui: { mode: { type: "build", payload: { type: type } } },
-  } as const);
+export const buildPattern = (
+  type: "destroy" | "build"
+): Pattern.Pattern<Store> => ({
+  state: "build",
+  // @ts-expect-error Not really any idea why this is not working
+  ui: { mode: { type: "build", payload: { type: type } } },
+});
 
 export const buildOrDestroy = () => {
-  match(get())
+  match<Store, void>(get())
     .with(buildPattern("build"), build)
     .with(buildPattern("destroy"), destroy)
     .run();
