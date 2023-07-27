@@ -14,6 +14,7 @@ import {
 } from "react";
 import type { Mesh } from "three";
 import { MeshStandardMaterial } from "three";
+import { mutation } from "./mutation";
 
 const { tileSize, tiles } = constants.world;
 const planeSize = tileSize * tiles;
@@ -24,26 +25,10 @@ export const InteractionPlane = () => {
     () => new MeshStandardMaterial({ transparent: true, opacity: 0 })
   );
 
-  const onPointer = (e: ThreeEvent<PointerEvent>) => {
-    if (!e.point) return;
-    useStore.getState().setPointer(coord.world.create(e.point.x, e.point.z));
-  };
-  const onPointerDown = (e: ThreeEvent<PointerEvent>) => {
-    onPointer(e);
-    useStore.setState((s) => void (s.pointerDown = true));
-    // useStore.getState().build();
-  };
-  const onPointerUp = (e: ThreeEvent<PointerEvent>) => {
-    useStore.setState((s) => void (s.pointerDown = false));
-    onPointer(e);
-  };
-
   return (
     <Plane
       ref={interaction}
-      onPointerMove={onPointer}
-      onPointerUp={onPointerUp}
-      onPointerDown={onPointerDown}
+      {...mutation.events.interaction}
       args={[planeSize, planeSize, 2, 2]}
       rotation={[-Math.PI / 2, 0, 0]}
       material={material}

@@ -4,6 +4,7 @@ import { useStore } from "@3d/store";
 import { H2 } from "@ui/typography";
 import type { FC } from "react";
 import { Fragment } from "react";
+import { mutation } from "../mutation";
 import { ToolsItemCard } from "./item-card";
 
 const CreateCard: FC<{
@@ -11,24 +12,7 @@ const CreateCard: FC<{
   entry: AssetEntry;
 }> = ({ type, entry }) => {
   const onClick = () => {
-    // default variant
-    // lets select a random variant
-    const variant = Array.isArray(entry.file)
-      ? entry.file[Math.floor(Math.random() * entry.file.length)].id
-      : undefined;
-
-    useStore.getState().initBuild({
-      type: "build",
-      payload: {
-        id: entry.id as AssetKey<AssetCategory>,
-        type,
-        state: {
-          rotation: 0,
-          valid: true,
-          variant,
-        },
-      },
-    });
+    mutation.events.init.build(type, entry);
   };
 
   return <ToolsItemCard onClick={onClick} entry={entry} />;

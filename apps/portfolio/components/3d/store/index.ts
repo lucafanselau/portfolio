@@ -18,13 +18,14 @@ import { defaultStore } from "./store";
 import { StreetVariant } from "@3d/world/types";
 import { BuildState } from "@3d/build/types";
 
-type Actions = {
+export type { Store };
+
+export type Actions = {
   updateState: (target: Store["state"]) => Promise<void>;
   updateTools: (
     config: { type: "dismiss" } | { type: "slide"; key: ToolContentKeys }
   ) => void;
   initBuild: (state: BuildState) => void;
-  build: () => void;
   setPointer: (pointer: Store["pointer"]) => void;
   interact: (interaction: Interaction["title"] | undefined) => void;
   updateTarget: (target: Vector3) => void;
@@ -93,27 +94,6 @@ export const useStore = create<Store & Actions>()(
             payload: state,
           };
         }),
-      build: () => {
-        // reuse the preview entity routine
-        const entity = previewEntity[0](get());
-        if (isNone(entity)) return;
-
-        if (entity.category === "streets") {
-          const { variant, transform } = entity;
-          const [x, z] = vec2.floor(coord.unwrap(transform.anchor));
-          set(
-            (s) =>
-              void (s.world.terrain[x][z] = {
-                type: "street",
-                variant: variant as StreetVariant,
-                transform,
-              })
-          );
-        } else {
-          // just push back the entity
-          set((s) => void s.world.entities.push(entity));
-        }
-      },
       setPointer: (p) => set((s) => void (s.pointer = p)),
       interact: (i) =>
         set((s) => {

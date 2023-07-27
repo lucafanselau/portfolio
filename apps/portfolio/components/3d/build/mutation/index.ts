@@ -1,4 +1,5 @@
 import { streets } from "./streets";
+import { events } from "./events";
 
 // const pointer = {
 //   streets: (p) => {
@@ -10,4 +11,5 @@ import { streets } from "./streets";
 
 export const mutation = {
   streets,
+  events,
 };

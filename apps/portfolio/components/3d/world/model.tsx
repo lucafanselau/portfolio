@@ -1,3 +1,4 @@
+import { mutation } from "@3d/build/mutation";
 import { BuildPreviewPlane } from "@3d/build/overlay";
 import { AssetCategory, AssetKey, findAssetEntry } from "@3d/generated-loader";
 import { models } from "@3d/generated/loader";
@@ -6,8 +7,8 @@ import { isNone, isSome } from "@components/utils";
 import { Slot } from "@radix-ui/react-slot";
 import { Plane } from "@react-three/drei";
 import { GroupProps } from "@react-three/fiber";
-import { ComponentType, ReactNode, useMemo } from "react";
-import { MeshStandardMaterial } from "three";
+import { ComponentType, forwardRef, ReactNode, useMemo } from "react";
+import { Group, MeshStandardMaterial } from "three";
 import { match } from "ts-pattern";
 import { coord, Transform } from "./coord";
 import { Entity, Terrain } from "./types";
@@ -38,55 +39,51 @@ export const findModel = <C extends AssetCategory>({
   return Model as ComponentType;
 };
 
-const pointerProps: GroupProps = {
-  onPointerOver: (e) =>
-    useStore.setState((s) => void s.world.hovered.push(e.object)),
-  onPointerOut: (e) =>
-    useStore.setState(
-      (s) =>
-        void (s.world.hovered = s.world.hovered.filter((h) => h !== e.object))
-    ),
-};
+export const RangeLoader = forwardRef<
+  Group,
+  {
+    range: Transform;
+    children?: ReactNode;
 
-export const RangeLoader = ({
-  range,
-  children,
+    // config stuff
+    plane?: boolean; // enable plane
+    planeProps?: boolean; // treat children like a plane
+  }
+>(
+  (
+    {
+      range,
+      children,
 
-  plane: enablePlane = true,
-  planeProps = false,
-}: {
-  range: Transform;
-  children?: ReactNode;
-
-  // config stuff
-  plane?: boolean; // enable plane
-  planeProps?: boolean; // treat children like a plane
-}) => {
-  const { plane, wrapper, rotation, model } = coord.objects(range);
-  return (
-    <group {...wrapper}>
-      <group {...rotation}>
-        {enablePlane && <BuildPreviewPlane {...plane} />}
-        <Slot {...(!planeProps ? model : plane)}>{children}</Slot>
+      plane: enablePlane = true,
+      planeProps = false,
+    },
+    ref
+  ) => {
+    const { plane, wrapper, rotation, model } = coord.objects(range);
+    return (
+      <group ref={ref} {...wrapper}>
+        <group {...rotation}>
+          {enablePlane && <BuildPreviewPlane {...plane} />}
+          <Slot {...(!planeProps ? model : plane)}>{children}</Slot>
+        </group>
       </group>
-    </group>
-  );
-};
+    );
+  }
+);
 
-export const ModelLoader = <C extends AssetCategory>({
-  entity,
-}: {
-  entity: Entity<C>;
-}) => {
-  const Model = useMemo(() => findModel<C>(entity), [entity]);
-  if (isNone(Model)) return null;
+export const ModelLoader = forwardRef<Group, { entity: Entity<AssetCategory> }>(
+  ({ entity }, ref) => {
+    const Model = useMemo(() => findModel(entity), [entity]);
+    if (isNone(Model)) return null;
 
-  return (
-    <RangeLoader range={entity.transform}>
-      <Model {...pointerProps} />
-    </RangeLoader>
-  );
-};
+    return (
+      <RangeLoader ref={ref} range={entity.transform}>
+        <Model {...mutation.events.model} />
+      </RangeLoader>
+    );
+  }
+);
 
 export const TerrainLoader = ({ terrain }: { terrain: Terrain }) => {
   const model = match(terrain)

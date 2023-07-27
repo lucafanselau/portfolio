@@ -37,7 +37,7 @@ export type Store = {
   // NOTE: might be unused, so maybe remove
   pointerDown: boolean;
   world: {
-    hovered: Object3D[];
+    hovered: [Object3D, Entity][];
     terrain: Terrain[][];
     entities: Entity[];
     interaction: {

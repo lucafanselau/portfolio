@@ -8,7 +8,8 @@ import { ModelLoader } from "@3d/world/model";
 import { Entity } from "@3d/world/types";
 import { isNone } from "@components/utils";
 import { deepEqual } from "fast-equals";
-import { FC } from "react";
+import { FC, useEffect, useRef } from "react";
+import { Group } from "three";
 import { match } from "ts-pattern";
 import { mutation } from "./mutation";
 import { BuildStateBuild } from "./types";
@@ -78,8 +79,14 @@ const BuildBuildPreview: FC<{ state: BuildStateBuild }> = ({
   state: payload,
 }) => {
   const entity = useStore(...previewEntity);
+  const ref = useRef<Group>(null);
+  useEffect(
+    () => ref.current && mutation.events.init.preview(ref.current),
+    [ref.current]
+  );
   if (isNone(entity)) return null;
-  return <ModelLoader entity={entity} />;
+
+  return <ModelLoader ref={ref} entity={entity} />;
 };
 
 export const BuildPreview = () => {

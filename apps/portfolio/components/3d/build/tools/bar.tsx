@@ -7,6 +7,7 @@ import { IconBulldozer, IconHammer, IconX } from "@tabler/icons-react";
 import { Button } from "@ui/button";
 import { P } from "@ui/typography";
 import type { FC } from "react";
+import { mutation } from "../mutation";
 // import { buildEntry } from "../types";
 
 export const BuildActiveBar: FC = ({}) => {
@@ -48,9 +49,8 @@ const actions = selectors.pack((store) => {
     return {
       icon: tools.build[key].icon,
       onClick: () => {
-        if (key === "destroy")
-          useStore.getState().initBuild({ type: "destroy" });
-        // TODO: on destory just start destroy mode
+        // NOTE: on destory just start destroy mode
+        if (key === "destroy") mutation.events.init.destroy();
         else useStore.getState().updateTools({ type: "slide", key });
       },
     };
