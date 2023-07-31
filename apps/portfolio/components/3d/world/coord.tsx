@@ -222,8 +222,8 @@ export const coord = {
   eq: (a: Coord, b: Coord) => {
     return a.type === b.type && vec2.eq(a.value, b.value);
   },
-  map: (coord: Coord, fn: (v: Vec2) => Vec2) => {
-    return { type: coord.type, value: fn(coord.value) };
+  map: <C extends Coord>(coord: C, fn: (v: Vec2) => Vec2): C => {
+    return { type: coord.type, value: fn(coord.value) } as C;
   },
   tile,
   plane,

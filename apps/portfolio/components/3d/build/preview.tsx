@@ -57,7 +57,7 @@ const BuildBuildPreview: FC<{ state: BuildStateBuild }> = ({
   );
   if (isNone(entity)) return null;
 
-  return <ModelLoader plane={false} ref={ref} entity={entity} />;
+  return <ModelLoader ref={ref} entity={entity} />;
 };
 
 export const BuildPreview = () => {

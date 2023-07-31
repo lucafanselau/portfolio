@@ -1,6 +1,6 @@
 import { Store, useStore } from "@3d/store";
-import { coord } from "@3d/world/coord";
-import { isNone } from "@components/utils";
+import { coord, vec2 } from "@3d/world/coord";
+import { isNone, isSome } from "@components/utils";
 import { Draft } from "immer";
 import { match, Pattern } from "ts-pattern";
 import { previewEntity } from "../preview";
@@ -11,12 +11,28 @@ export const build = () => {
   const { getState: get, setState: set } = useStore;
   // TODO: Check if build is valid
 
+  const state = get();
   // reuse the preview entity routine
-  const entity = previewEntity[0](get());
+  const entity = previewEntity[0](state);
   if (isNone(entity)) return;
   if (entity.category === "streets") {
     streets.build(entity.transform.anchor);
     // TODO: Handle auto advance
+    set((s) => {
+      if (s.ui.mode.type === "build" && s.ui.mode.payload.type === "build") {
+        const current = coord.unwrap(entity.transform.anchor);
+        if (isSome(s.ui.mode.payload.payload.state.last)) {
+          const last = s.ui.mode.payload.payload.state.last;
+          const delta = coord.tile.new(vec2.sub(current, last));
+          // we are in tile coords
+          s.pointer = coord.map(s.pointer, (p) =>
+            vec2.add(p, coord.unwrap(coord.plane.from(delta)))
+          );
+        }
+        // Update last
+        s.ui.mode.payload.payload.state.last = current;
+      }
+    });
   } else {
     // just push back the entity
     set((s) => void s.world.entities.push(entity));

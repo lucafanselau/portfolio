@@ -5,6 +5,7 @@ type Payload<Category extends AssetCategory> = {
   id: AssetKey<Category>;
   state: {
     valid: true | { intersects: string[] };
+    last?: [number, number];
     rotation?: number;
     variant?: string;
   };
