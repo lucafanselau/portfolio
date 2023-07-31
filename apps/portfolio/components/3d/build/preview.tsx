@@ -13,6 +13,8 @@ import { match } from "ts-pattern";
 import { mutation } from "./mutation";
 import { BuildStateBuild } from "./types";
 import { isNone, isSome } from "@components/utils";
+import { matchBuild } from "./mutation/build";
+import { checkPreviewValid, createPreviewEntity } from "./mutation/preview";
 
 // ******************************************************
 // LOADER
@@ -20,58 +22,11 @@ import { isNone, isSome } from "@components/utils";
 // Selector to select the current rotation and variant for the build
 // TODO: this should be called more sparingly
 export const previewEntity = selectors.pack(
-  (store: Store): Entity | undefined => {
-    if (store.ui.mode.type !== "build") return undefined;
-    const state = store.ui.mode.payload;
-    if (state.type !== "build") return undefined;
-    const payload = state.payload;
-    const pointer = coord.tile.from(store.pointer);
-
-    return match<BuildStateBuild["payload"], Entity>(payload)
-      .with({ type: "streets" }, () => {
-        // streets are auto rotating and auto variant
-        const [variant, rotation] = mutation.streets.type(
-          ...coord.unwrap(pointer)
-        );
-        return {
-          category: "streets",
-          id: "preview",
-          transform: coord.range.create(pointer, vec2.splat(1), rotation),
-          type: "street",
-          variant,
-        };
-      })
-      .with({ type: "buildings" }, ({ id, state: { rotation } }) => {
-        return {
-          category: "buildings",
-          id: "preview",
-          transform: coord.range.building(
-            pointer,
-            id as AssetKey<"buildings">,
-            rotation
-          ),
-          type: id,
-        };
-      })
-      .with({ type: "props" }, ({ id, state: { rotation, variant } }) => {
-        const position = coord.tile.exact(store.pointer);
-        // Remove so that we have to lower left corner
-        position.value = vec2.sub(position.value, vec2.splat(0.1));
-        const transform = coord.range.create(
-          position,
-          vec2.splat(0.2),
-          rotation
-        );
-        return {
-          category: "props",
-          id: "preview",
-          transform,
-          type: id,
-          variant,
-        };
-      })
-      .exhaustive();
-  },
+  (store: Store): Entity | undefined =>
+    matchBuild(store, {
+      build: (payload) => createPreviewEntity(store.pointer, payload),
+      destroy: () => undefined,
+    }),
   deepEqual
 );
 
@@ -79,17 +34,33 @@ const BuildBuildPreview: FC<{ state: BuildStateBuild }> = ({
   state: payload,
 }) => {
   const entity = useStore(...previewEntity);
+
+  // update valid state when entity changes
+  useEffect(() => {
+    if (isNone(entity)) return;
+    const valid = checkPreviewValid(entity);
+    console.log(valid);
+    useStore.setState((s) =>
+      matchBuild(s, {
+        build: (payload) => {
+          payload.state.valid = valid;
+        },
+        destroy: () => {},
+      })
+    );
+  }, [entity]);
+
   const ref = useRef<Group>(null);
   useEffect(
     () =>
       ref.current && isSome(entity)
-        ? mutation.events.init.preview(ref.current, entity)
+        ? mutation.events.init.preview(ref.current, entity.id)
         : void 0,
-    [ref.current, entity]
+    [ref.current, entity?.id]
   );
   if (isNone(entity)) return null;
 
-  return <ModelLoader ref={ref} entity={entity} />;
+  return <ModelLoader plane={false} ref={ref} entity={entity} />;
 };
 
 export const BuildPreview = () => {

@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 
 import { constants } from "@3d/constants";
-import { coord } from "./coord";
+import { coord, Vec2, vec2 } from "./coord";
 
 const { tileSize: ts, tiles } = constants.world;
 const ps = ts * tiles;
@@ -26,8 +26,20 @@ describe("coord", () => {
   });
 
   test("range", () => {
-    const range = coord.range.create(coord.world.create(1, 2));
-
-    expect(coord.range.middle(range)).toEqual(coord.tile.create(10.5, 10.5));
+    const cases = [
+      [0, [1, 1]],
+      [1, [-1, 1]],
+      [2, [-1, -1]],
+      [3, [1, -1]],
+    ] as [number, Vec2][];
+    for (const [dir, expected] of cases) {
+      const actual = coord.unwrap(
+        coord.transform.direction(
+          coord.transform.create(coord.tile.create(0, 0), [1, 1], dir)
+        )
+      );
+      expect(actual[0]).to.be.approximately(expected[0], 0.001);
+      expect(actual[1]).to.be.approximately(expected[1], 0.001);
+    }
   });
 });

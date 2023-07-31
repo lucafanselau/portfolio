@@ -5,9 +5,11 @@ import { useSubscribe } from "@3d/store/utils";
 import { coord } from "@3d/world/coord";
 import { Plane } from "@react-three/drei";
 import type { ThreeEvent } from "@react-three/fiber";
+import { shallowEqual } from "fast-equals";
 import {
   ComponentPropsWithoutRef,
   forwardRef,
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -46,10 +48,20 @@ const colors = {
 };
 type Color = keyof typeof colors;
 
+const intersects = selectors.pack((s) => {
+  if (
+    s.ui.mode.type === "build" &&
+    s.ui.mode.payload.type === "build" &&
+    s.ui.mode.payload.payload.state.valid !== true
+  )
+    return s.ui.mode.payload.payload.state.valid.intersects;
+  else return [];
+}, shallowEqual);
+
 export const BuildPreviewPlane = forwardRef<
   Mesh,
-  ComponentPropsWithoutRef<typeof Plane>
->(({ ...props }, ref) => {
+  ComponentPropsWithoutRef<typeof Plane> & { entityId?: string }
+>(({ entityId, ...props }, ref) => {
   const [material] = useState(
     () =>
       new MeshStandardMaterial({
@@ -59,6 +71,19 @@ export const BuildPreviewPlane = forwardRef<
         opacity: 0.5,
       })
   );
+
+  const handleIntersect = useCallback(
+    (ids: string[]) => {
+      if (entityId === undefined) return;
+      if (ids.includes(entityId)) {
+        material.color.set(colors["red"]);
+      } else {
+        material.color.set(colors["green"]);
+      }
+    },
+    [entityId]
+  );
+  useSubscribe(intersects, handleIntersect);
 
   // load dynamic state, based on build
   useSubscribe(selectors.ui.open.build, (open) => {

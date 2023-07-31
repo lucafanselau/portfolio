@@ -5,22 +5,21 @@ import { Terrain } from "./types";
 
 const F: Terrain = {
   type: "flat",
-  transform: coord.range.create(coord.world.create(0, 0), [1, 1], 0),
 };
 // const C = TerrainType.Clipping;
 const M = F;
 
 const S: Terrain = {
   type: "street",
-  transform: coord.range.create(coord.world.create(0, 0), [1, 1], 0),
   variant: "straight",
   id: "street",
+  rotation: 0,
 };
 const T: Terrain = {
   type: "street",
-  transform: coord.range.create(coord.world.create(0, 0), [1, 1], 0),
   variant: "turn",
   id: "street",
+  rotation: 0,
 };
 
 const template = [
@@ -92,19 +91,23 @@ const initialBuildings: Entity[] = [
   {
     id: "school",
     category: "buildings",
-    transform: coord.range.building(coord.tile.create(11, 9), "school", 1),
+    transform: coord.transform.building(coord.tile.create(13, 10), "school", 1),
     type: "school",
   },
   {
     id: "house",
     category: "buildings",
-    transform: coord.range.building(coord.tile.create(9, 13), "house1", 0),
+    transform: coord.transform.building(coord.tile.create(10, 14), "house1", 0),
     type: "house1",
   },
   {
     id: "office",
     category: "buildings",
-    transform: coord.range.building(coord.tile.create(8, 5), "office1", 2),
+    transform: coord.transform.building(
+      coord.tile.create(9.5, 6),
+      "office1",
+      2
+    ),
     type: "office1",
   },
 ];
@@ -114,10 +117,8 @@ const initialProps: Entity[] = [
     (i): Entity => ({
       id: "tree-" + i.toString(),
       category: "props",
-      transform: coord.range.create(
-        coord.tile.exact(
-          coord.world.create(Math.floor(i / 2) * -8 + 4, -12 + (i % 2) * 24)
-        ),
+      transform: coord.transform.create(
+        coord.world.create(Math.floor(i / 2) * -8 + 4, -12 + (i % 2) * 24),
         [0.2, 0.2]
       ),
       type: "tree",
@@ -132,17 +133,13 @@ export const initial = {
       Array.isArray(type)
         ? {
             ...type[0],
-            transform: coord.range.create(
-              coord.tile.create(x, z),
-              [1, 1],
-              type[1]
-            ),
-            id: streetId(x, z),
+            id: type[0].type === "street" ? streetId(x, z) : "tile",
+            rotation: type[1],
           }
         : ({
             ...type,
-            transform: coord.range.create(coord.tile.create(x, z), [1, 1], 0),
             id: type.type === "street" ? streetId(x, z) : undefined,
+            rotation: type.type === "street" ? 0 : undefined,
           } as Terrain)
     )
   ),

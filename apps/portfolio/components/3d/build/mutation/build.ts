@@ -1,13 +1,14 @@
 import { Store, useStore } from "@3d/store";
 import { coord, vec2 } from "@3d/world/coord";
 import { isNone } from "@components/utils";
+import { Draft } from "immer";
 import { match, Pattern } from "ts-pattern";
 import { previewEntity } from "../preview";
+import { BuildStateBuild } from "../types";
 import { streets } from "./streets";
 
-const { getState: get, setState: set } = useStore;
-
 export const build = () => {
+  const { getState: get, setState: set } = useStore;
   // TODO: Check if build is valid
 
   // reuse the preview entity routine
@@ -23,6 +24,7 @@ export const build = () => {
 };
 
 export const destroy = () => {
+  const { getState: get, setState: set } = useStore;
   // For now we will destroy everything that is currently hovered
   const {
     world: { hovered, terrain },
@@ -49,6 +51,31 @@ export const destroy = () => {
   set((s) => void (s.world.hovered = []));
 };
 
+export const matchBuild = <R = void>(
+  store: Draft<Store>,
+  cb: {
+    destroy: () => R;
+    build: (state: Draft<BuildStateBuild["payload"]>) => R;
+  }
+): R | undefined => {
+  return match<Store>(store)
+    .with(
+      {
+        state: "build",
+        ui: { mode: { type: "build", payload: { type: "destroy" } } },
+      },
+      cb.destroy
+    )
+    .with(
+      {
+        state: "build",
+        ui: { mode: { type: "build", payload: { type: "build" } } },
+      },
+      (s) => cb.build(s.ui.mode.payload.payload)
+    )
+    .otherwise(() => undefined);
+};
+
 export const buildPattern = (
   type: "destroy" | "build"
 ): Pattern.Pattern<Store> => ({
@@ -58,8 +85,9 @@ export const buildPattern = (
 });
 
 export const buildOrDestroy = () => {
+  const { getState: get, setState: set } = useStore;
   match<Store, void>(get())
     .with(buildPattern("build"), build)
     .with(buildPattern("destroy"), destroy)
-    .run();
+    .otherwise(() => void 0);
 };

@@ -55,7 +55,7 @@ const updateNeighbor = (x: number, z: number) => {
     const [newType, rotation] = getTileType(x, z);
     const terrain: Terrain = {
       type: "street",
-      transform: coord.range.create(coord.tile.create(x, z), [1, 1], rotation),
+			rotation,
       variant: newType,
       id: streetId(x, z),
     };
@@ -65,11 +65,10 @@ const updateNeighbor = (x: number, z: number) => {
 };
 
 const destroyStreet = (tile: TileCoord) => {
-  const [x, z] = coord.unwrap(tile);
+  const [x, z] = coord.unwrap(coord.tile.floor(tile));
   const { setTileType } = useStore.getState();
   const terrain: Terrain = {
     type: "flat",
-    transform: coord.range.create(coord.tile.create(x, z), [1, 1], 0),
   };
   setTileType(x, z, terrain);
   // also update the neighbors
@@ -81,12 +80,12 @@ const destroyStreet = (tile: TileCoord) => {
 
 const buildStreet = (tile: TileCoord) => {
   const { setTileType } = useStore.getState();
-  const [x, z] = coord.unwrap(tile);
+  const [x, z] = coord.unwrap(coord.tile.floor(tile));
 
   const [type, rotation] = getTileType(x, z);
   const terrain: Terrain = {
     type: "street",
-    transform: coord.range.create(coord.tile.create(x, z), [1, 1], rotation),
+    rotation,
     variant: type,
     id: streetId(x, z),
   };

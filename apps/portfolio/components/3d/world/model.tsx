@@ -1,5 +1,6 @@
 import { mutation } from "@3d/build/mutation";
 import { BuildPreviewPlane } from "@3d/build/overlay";
+import { constants } from "@3d/constants";
 import { AssetCategory, AssetKey, findAssetEntry } from "@3d/generated-loader";
 import { models } from "@3d/generated/loader";
 import { useStore } from "@3d/store";
@@ -7,10 +8,17 @@ import { isNone, isSome } from "@components/utils";
 import { Slot } from "@radix-ui/react-slot";
 import { Plane } from "@react-three/drei";
 import { GroupProps } from "@react-three/fiber";
-import { ComponentType, forwardRef, ReactNode, useMemo } from "react";
+import {
+  ComponentProps,
+  ComponentType,
+  forwardRef,
+  ReactNode,
+  useMemo,
+} from "react";
 import { Group, MeshStandardMaterial } from "three";
 import { match } from "ts-pattern";
 import { coord, Transform } from "./coord";
+import { TransformLoader } from "./transform";
 import { Entity, Terrain } from "./types";
 
 type ModelLoaderProps<C extends AssetCategory> = {
@@ -39,58 +47,45 @@ export const findModel = <C extends AssetCategory>({
   return Model as ComponentType;
 };
 
-export const RangeLoader = forwardRef<
+export const ModelLoader = forwardRef<
   Group,
-  {
-    range: Transform;
-    children?: ReactNode;
+  { entity: Entity<AssetCategory>; plane?: boolean }
+>(({ entity, plane = true }, ref) => {
+  const Model = useMemo(() => findModel(entity), [entity]);
+  if (isNone(Model)) return null;
 
-    // config stuff
-    plane?: boolean; // enable plane
-    planeProps?: boolean; // treat children like a plane
-  }
->(
-  (
-    {
-      range,
-      children,
+  return (
+    <TransformLoader
+      ref={ref}
+      id={entity.id}
+      transform={entity.transform}
+      plane={plane}
+    >
+      <Model {...mutation.events.model(entity.id)} />
+    </TransformLoader>
+  );
+});
 
-      plane: enablePlane = true,
-      planeProps = false,
-    },
-    ref
-  ) => {
-    const { plane, wrapper, rotation, model } = coord.objects(range);
-    return (
-      <group ref={ref} {...wrapper}>
-        <group {...rotation}>
-          {enablePlane && <BuildPreviewPlane {...plane} />}
-          <Slot {...(!planeProps ? model : plane)}>{children}</Slot>
-        </group>
-      </group>
-    );
-  }
-);
+const {
+  world: { tileSize },
+} = constants;
 
-export const ModelLoader = forwardRef<Group, { entity: Entity<AssetCategory> }>(
-  ({ entity }, ref) => {
-    const Model = useMemo(() => findModel(entity), [entity]);
-    if (isNone(Model)) return null;
-
-    return (
-      <RangeLoader ref={ref} range={entity.transform}>
-        <Model {...mutation.events.model(entity.id)} />
-      </RangeLoader>
-    );
-  }
-);
-
-export const TerrainLoader = ({ terrain }: { terrain: Terrain }) => {
+export const TerrainLoader = ({
+  terrain,
+  x,
+  z,
+}: {
+  terrain: Terrain;
+  x: number;
+  z: number;
+}) => {
   const model = match(terrain)
-    .with({ type: "flat" }, ({ transform: { extend } }) => (
+    .with({ type: "flat" }, () => (
       <Plane
         receiveShadow
-        args={[...coord.unwrap(coord.plane.from(extend))]}
+        args={[tileSize, tileSize]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        position={[0, constants.eps, 0]}
         material={new MeshStandardMaterial({ color: "#85B16A" })}
       />
     ))
@@ -102,13 +97,21 @@ export const TerrainLoader = ({ terrain }: { terrain: Terrain }) => {
     })
     .exhaustive();
 
+  // for terrain we can ignore rotation alignment since the center is always the same
+  const transform = coord.transform.create(
+    coord.tile.create(x + 0.5, z + 0.5),
+    [1, 1],
+    terrain.type === "street" ? terrain.rotation : 0
+  );
+
   return (
-    <RangeLoader
+    <TransformLoader
+      // Create interaction plane
       plane={terrain.type === "street"}
-      planeProps={terrain.type === "flat"}
-      range={terrain.transform}
+      transform={transform}
+      id={terrain.type === "street" ? terrain.id : `tile-${x}-${z}`}
     >
       {model}
-    </RangeLoader>
+    </TransformLoader>
   );
 };

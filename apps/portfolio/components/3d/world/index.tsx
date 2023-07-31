@@ -5,11 +5,12 @@ import type { FC } from "react";
 import { useCallback } from "react";
 import { ModelLoader, TerrainLoader } from "./model";
 
-const { tileSize, tiles } = constants.world;
+const { tiles } = constants.world;
 
 const Tile: FC<{ x: number; z: number }> = ({ x, z }) => {
   const terrain = useStore(useCallback((s) => s.world.terrain[x][z], [x, z]));
-  return <TerrainLoader terrain={terrain} />;
+  const props = { terrain, x, z };
+  return <TerrainLoader {...props} />;
 };
 
 const Entities = () => {

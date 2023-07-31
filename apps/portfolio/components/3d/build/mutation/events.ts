@@ -6,16 +6,18 @@ import { getCanHover } from "@components/hooks/use-can-hover";
 import { GroupProps, ThreeEvent } from "@react-three/fiber";
 import { Object3D } from "three";
 import { isMatching, Pattern } from "ts-pattern";
-import { build, buildOrDestroy, buildPattern } from "./build";
+import { isMap } from "util/types";
+import { build, buildOrDestroy, buildPattern, matchBuild } from "./build";
 
 const destroyPattern = buildPattern("destroy");
-const { getState: get, setState: set } = useStore;
 
 const onPointer = (e: ThreeEvent<PointerEvent>) => {
+  const { getState: get, setState: set } = useStore;
   if (!e.point) return;
   get().setPointer(coord.world.create(e.point.x, e.point.z));
 };
 const onPointerDown = (e: ThreeEvent<PointerEvent>) => {
+  const { getState: get, setState: set } = useStore;
   onPointer(e);
   set((s) => void (s.pointerDown = true));
 
@@ -25,6 +27,7 @@ const onPointerDown = (e: ThreeEvent<PointerEvent>) => {
   buildOrDestroy();
 };
 const onPointerUp = (e: ThreeEvent<PointerEvent>) => {
+  const { getState: get, setState: set } = useStore;
   set((s) => void (s.pointerDown = false));
   onPointer(e);
 };
@@ -37,11 +40,11 @@ export const events = {
   },
   model: (entity: string) => ({
     onPointerOver: (e) => {
+      const { getState: get, setState: set } = useStore;
       // If we cannot hover lets not build, this is handled by a button then
       if (!getCanHover()) return;
       if (!isMatching(destroyPattern, get())) return;
 
-      console.log("pointer over", entity);
       // otherwise lets append that
       set((s) => {
         if (s.world.hovered.find(([_, id]) => id === entity)) return;
@@ -49,6 +52,7 @@ export const events = {
       });
     },
     onPointerOut: (e) => {
+      const { getState: get, setState: set } = useStore;
       // If we cannot hover lets not build, this is handled by a button then
       if (!getCanHover()) return;
       if (!isMatching(destroyPattern, get())) return;
@@ -58,7 +62,7 @@ export const events = {
       });
     },
     onPointerDown: (e) => {
-      console.log("pointer down", getCanHover());
+      const { getState: get, setState: set } = useStore;
       // NOTE: THIS IS A MOBILE ONLY INTERACTION
       if (getCanHover()) return;
       if (!isMatching(destroyPattern, get())) return;
@@ -74,17 +78,19 @@ export const events = {
     },
   }),
   init: {
-    preview: (object: Object3D, entity: Entity) => {
-      set((s) => void s.world.hovered.push([object, entity.id]));
+    preview: (object: Object3D, entity: string) => {
+      const { getState: get, setState: set } = useStore;
+      set((s) => void s.world.hovered.push([object, entity]));
       return () =>
         set(
           (s) =>
             void (s.world.hovered = s.world.hovered.filter(
-              ([h, _]) => h !== object
+              ([_, id]) => id !== entity
             ))
         );
     },
     build: (type: AssetCategory, entry: AssetEntry) => {
+      const { getState: get, setState: set } = useStore;
       // default variant
       // lets select a random variant
       const variant = Array.isArray(entry.file)
@@ -105,10 +111,26 @@ export const events = {
       });
     },
     destroy: () => {
+      const { getState: get, setState: set } = useStore;
       get().initBuild({ type: "destroy" });
+    },
+  },
+  other: {
+    rotate: (dir: "CW" | "CCW") => {
+      const { getState: get, setState: set } = useStore;
+
+      set((s) => {
+        matchBuild(s, {
+          build: ({ state }) => {
+            state.rotation =
+              ((state.rotation ?? 0) + (dir === "CW" ? 1 : -1)) % 4;
+          },
+          destroy: () => {},
+        });
+      });
     },
   },
 } satisfies Record<
   "interaction" | "model",
   GroupProps | ((entity: string) => GroupProps)
-> & { init: object };
+> & { init: object; other: object };
