@@ -1,13 +1,11 @@
 import { AssetCategory, AssetEntry, AssetKey } from "@3d/generated-loader";
-import { useStore, Store } from "@3d/store";
+import { useStore } from "@3d/store";
 import { coord } from "@3d/world/coord";
-import { Entity } from "@3d/world/types";
 import { getCanHover } from "@components/hooks/use-can-hover";
 import { GroupProps, ThreeEvent } from "@react-three/fiber";
 import { Object3D } from "three";
-import { isMatching, Pattern } from "ts-pattern";
-import { isMap } from "util/types";
-import { build, buildOrDestroy, buildPattern, matchBuild } from "./build";
+import { isMatching } from "ts-pattern";
+import { buildOrDestroy, buildPattern, matchBuild } from "./build";
 
 const destroyPattern = buildPattern("destroy");
 

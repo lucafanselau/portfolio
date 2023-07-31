@@ -1,6 +1,6 @@
-import { streets } from "./streets";
-import { events } from "./events";
 import { buildOrDestroy } from "./build";
+import { events } from "./events";
+import { streets } from "./streets";
 
 // const pointer = {
 //   streets: (p) => {

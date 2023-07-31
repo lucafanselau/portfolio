@@ -1,6 +1,5 @@
-import type { AssetCategory, AssetEntry, AssetKey } from "@3d/generated-loader";
+import type { AssetCategory, AssetEntry } from "@3d/generated-loader";
 import collection from "@3d/generated/collection.json";
-import { useStore } from "@3d/store";
 import { H2 } from "@ui/typography";
 import type { FC } from "react";
 import { Fragment } from "react";

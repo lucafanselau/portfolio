@@ -1,6 +1,6 @@
 import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
-import { animated, config, useSpring, SpringConfig } from "@react-spring/web";
+import { animated, config, SpringConfig, useSpring } from "@react-spring/web";
 import { ScrollArea } from "@ui/scroll-area";
 import { cn } from "@ui/utils";
 import type { FC, ReactNode } from "react";
@@ -45,7 +45,7 @@ export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
         // base layout
         "absolute inset-x-0 bottom-full w-full",
         // setup to compoensate for the radius of the toolbar
-        "top-[calc(-100vh+var(--radius))] pt-[calc(100vh-var(--radius))] pb-[var(--radius)] ",
+        "top-[calc(-100vh+var(--radius))] pb-[var(--radius)] pt-[calc(100vh-var(--radius))] ",
         // interaction
         "overflow-hidden",
         !open && "pointer-events-none"
@@ -56,14 +56,14 @@ export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
           style={spring}
           className={cn(
             // positioning / layout
-            "absolute inset-x-0 h-screen bottom-full",
+            "absolute inset-x-0 bottom-full h-screen",
             // visual
             "card p-0"
           )}
         >
           <div>
             <ScrollArea
-              className={"p-2 w-full"}
+              className={"w-full p-2"}
               // we are compensating for the border here
               style={{ height: clamped - 2 }}
             >

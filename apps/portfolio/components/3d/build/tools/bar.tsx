@@ -7,8 +7,8 @@ import { IconBulldozer, IconHammer, IconX } from "@tabler/icons-react";
 import { Button } from "@ui/button";
 import { P } from "@ui/typography";
 import type { FC } from "react";
-import { mutation } from "../mutation";
 import { isMatching } from "ts-pattern";
+import { mutation } from "../mutation";
 import { buildPattern } from "../mutation/build";
 // import { buildEntry } from "../types";
 
@@ -34,7 +34,7 @@ export const BuildActiveBar: FC = ({}) => {
         <P>{formatters.bold(text)}</P>
       </div>
 
-      <div className="flex items-center space-x-2 pointer-events-auto">
+      <div className="pointer-events-auto flex items-center space-x-2">
         <Button onClick={dismiss} variant="outline" size="icon">
           <IconX />
         </Button>

@@ -1,16 +1,12 @@
 import { constants } from "@3d/constants";
-import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
 import { useSubscribe } from "@3d/store/utils";
-import { coord } from "@3d/world/coord";
 import { Plane } from "@react-three/drei";
-import type { ThreeEvent } from "@react-three/fiber";
 import { shallowEqual } from "fast-equals";
 import {
   ComponentPropsWithoutRef,
   forwardRef,
   useCallback,
-  useEffect,
   useRef,
   useState,
 } from "react";
@@ -66,7 +62,7 @@ export const BuildPreviewPlane = forwardRef<
     () =>
       new MeshStandardMaterial({
         depthTest: false,
-        color: colors["green"],
+        color: colors.green,
         transparent: true,
         opacity: 0.5,
       })
@@ -76,9 +72,9 @@ export const BuildPreviewPlane = forwardRef<
     (ids: string[]) => {
       if (entityId === undefined) return;
       if (ids.includes(entityId)) {
-        material.color.set(colors["red"]);
+        material.color.set(colors.red);
       } else {
-        material.color.set(colors["green"]);
+        material.color.set(colors.green);
       }
     },
     [entityId]

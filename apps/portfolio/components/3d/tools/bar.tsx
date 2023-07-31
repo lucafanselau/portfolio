@@ -11,7 +11,7 @@ export const ToolsToolbar: FC<{
   return (
     <div
       className={cn(
-        "relative flex w-full basis-auto flex-col justify-end z-50"
+        "relative z-50 flex w-full basis-auto flex-col justify-end"
       )}
     >
       <div className={cn("card pointer-events-auto p-0", className)}>

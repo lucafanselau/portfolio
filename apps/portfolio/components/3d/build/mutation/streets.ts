@@ -55,7 +55,7 @@ const updateNeighbor = (x: number, z: number) => {
     const [newType, rotation] = getTileType(x, z);
     const terrain: Terrain = {
       type: "street",
-			rotation,
+      rotation,
       variant: newType,
       id: streetId(x, z),
     };

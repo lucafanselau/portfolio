@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 
 import { constants } from "@3d/constants";
-import { coord, Vec2, vec2 } from "./coord";
+import { coord, Vec2 } from "./coord";
 
 const { tileSize: ts, tiles } = constants.world;
 const ps = ts * tiles;

@@ -1,7 +1,6 @@
 import { range } from "@components/utils";
 import { coord } from "./coord";
-import { Entity, streetId } from "./types";
-import { Terrain } from "./types";
+import { Entity, streetId, Terrain } from "./types";
 
 const F: Terrain = {
   type: "flat",

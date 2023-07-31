@@ -6,7 +6,6 @@ import { LoadingAnimation } from "@ui/loader";
 import type { FC, PropsWithChildren, ReactNode } from "react";
 import { Suspense } from "react";
 import { BuildModule } from "./build";
-import { OutlineEffect } from "./build/outline";
 import { Camera } from "./camera";
 import { AnimatedCharacter } from "./character";
 import { constants, DEBUG } from "./constants";

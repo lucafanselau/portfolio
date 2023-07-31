@@ -1,5 +1,5 @@
 import { Store, useStore } from "@3d/store";
-import { coord, vec2 } from "@3d/world/coord";
+import { coord } from "@3d/world/coord";
 import { isNone } from "@components/utils";
 import { Draft } from "immer";
 import { match, Pattern } from "ts-pattern";

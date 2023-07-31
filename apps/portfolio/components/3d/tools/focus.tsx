@@ -5,7 +5,7 @@ import { Button } from "@ui/button";
 import { ScrollArea } from "@ui/scroll-area";
 import { cn } from "@ui/utils";
 import type { FC, ReactNode } from "react";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { springConfig } from "./slide";
 
 export const ToolsFocusPanel: FC<{ children?: ReactNode }> = ({ children }) => {

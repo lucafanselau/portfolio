@@ -1,23 +1,14 @@
 import { mutation } from "@3d/build/mutation";
-import { BuildPreviewPlane } from "@3d/build/overlay";
 import { constants } from "@3d/constants";
 import { AssetCategory, AssetKey, findAssetEntry } from "@3d/generated-loader";
 import { models } from "@3d/generated/loader";
-import { useStore } from "@3d/store";
 import { isNone, isSome } from "@components/utils";
-import { Slot } from "@radix-ui/react-slot";
 import { Plane } from "@react-three/drei";
 import { GroupProps } from "@react-three/fiber";
-import {
-  ComponentProps,
-  ComponentType,
-  forwardRef,
-  ReactNode,
-  useMemo,
-} from "react";
+import { ComponentType, forwardRef, useMemo } from "react";
 import { Group, MeshStandardMaterial } from "three";
 import { match } from "ts-pattern";
-import { coord, Transform } from "./coord";
+import { coord } from "./coord";
 import { TransformLoader } from "./transform";
 import { Entity, Terrain } from "./types";
 
@@ -49,7 +40,7 @@ export const findModel = <C extends AssetCategory>({
 
 export const ModelLoader = forwardRef<
   Group,
-  { entity: Entity<AssetCategory>; plane?: boolean }
+  { entity: Entity; plane?: boolean }
 >(({ entity, plane = true }, ref) => {
   const Model = useMemo(() => findModel(entity), [entity]);
   if (isNone(Model)) return null;

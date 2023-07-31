@@ -1,20 +1,17 @@
-import { constants } from "@3d/constants";
-import { AssetKey } from "@3d/generated-loader";
 import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
 import { Store } from "@3d/store/store";
-import { coord, vec2 } from "@3d/world/coord";
 import { ModelLoader } from "@3d/world/model";
 import { Entity } from "@3d/world/types";
+import { isNone, isSome } from "@components/utils";
 import { deepEqual } from "fast-equals";
 import { FC, useEffect, useRef } from "react";
 import { Group } from "three";
 import { match } from "ts-pattern";
 import { mutation } from "./mutation";
-import { BuildStateBuild } from "./types";
-import { isNone, isSome } from "@components/utils";
 import { matchBuild } from "./mutation/build";
 import { checkPreviewValid, createPreviewEntity } from "./mutation/preview";
+import { BuildStateBuild } from "./types";
 
 // ******************************************************
 // LOADER

@@ -1,11 +1,9 @@
-import { previewEntity } from "@3d/build/preview";
+import { BuildState } from "@3d/build/types";
 import type { Interaction } from "@3d/constants";
 import { constants } from "@3d/constants";
-import type { AssetCategory } from "@3d/generated-loader";
 import { transitionVector3 } from "@3d/transition";
-import { coord, vec2 } from "@3d/world/coord";
 import { Terrain } from "@3d/world/types";
-import { isNone, isSome } from "@components/utils";
+import { isSome } from "@components/utils";
 import type { ToolContentKeys } from "@content/tools";
 import { invalidate } from "@react-three/fiber";
 import { Vector3 } from "three";
@@ -15,8 +13,6 @@ import { subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import type { CharacterState, Store } from "./store";
 import { defaultStore } from "./store";
-import { StreetVariant } from "@3d/world/types";
-import { BuildState } from "@3d/build/types";
 
 export type { Store };
 

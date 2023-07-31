@@ -1,9 +1,8 @@
 import type { FC, ReactNode } from "react";
-import useMeasure from "react-use-measure";
 import { ToolsToolbar } from "./bar";
 import { ToolsFocusPanel } from "./focus";
 import { ToolsLayout } from "./layout";
-import { ToolsSlidePanel, ToolsSlidePanelHeight } from "./slide";
+import { ToolsSlidePanel } from "./slide";
 
 const MeasuredBar = ({
   children,

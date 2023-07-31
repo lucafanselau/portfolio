@@ -1,10 +1,9 @@
-import { AssetCategory, AssetKey, findAssetEntry } from "@3d/generated-loader";
+import { AssetCategory, findAssetEntry } from "@3d/generated-loader";
 import { useStore } from "@3d/store";
 import { coord, Transform, Vec2, vec2, WorldCoord } from "@3d/world/coord";
 import { Entity } from "@3d/world/types";
 import { isSome } from "@components/utils";
 import { deepEqual } from "fast-equals";
-import { memoize } from "proxy-memoize";
 import { Box2 } from "three";
 import { match } from "ts-pattern";
 import { mutation } from ".";
