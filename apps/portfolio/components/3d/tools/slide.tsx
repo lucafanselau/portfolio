@@ -32,7 +32,8 @@ export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
   const open = useStore(...selectors.ui.open.slide);
 
   const [measureRef, { height }] = useMeasure();
-  const clamped = clampHeight(height);
+  // NOTE: Ugly, but we need to add the padding of the card (2*8) to the height plus the divider (2)
+  const clamped = clampHeight(height + 16 + 2);
   const spring = useSpring({
     from: { top: 0 },
     to: { top: open ? -clamped : 0 },
@@ -48,7 +49,7 @@ export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
         "top-[calc(-100vh+var(--radius))] pb-[var(--radius)] pt-[calc(100vh-var(--radius))] ",
         // interaction
         "overflow-hidden",
-        !open && "pointer-events-none"
+        "pointer-events-none"
       )}
     >
       <div className="relative">
@@ -63,7 +64,7 @@ export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
         >
           <div>
             <ScrollArea
-              className={"w-full p-2"}
+              className={"w-full p-[8px] pointer-events-auto"}
               // we are compensating for the border here
               style={{ height: clamped - 2 }}
             >

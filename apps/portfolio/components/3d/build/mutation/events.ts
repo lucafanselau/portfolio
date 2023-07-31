@@ -20,13 +20,18 @@ const onPointerDown = (e: ThreeEvent<PointerEvent>) => {
   set((s) => void (s.pointerDown = true));
 
   // If we cannot hover lets not build, this is handled by a button then
-  if (!getCanHover()) return;
-  // otherwise lets build
-  buildOrDestroy();
+  // if (!getCanHover()) return;
+  // // otherwise lets build
+  // buildOrDestroy();
 };
 const onPointerUp = (e: ThreeEvent<PointerEvent>) => {
   const { getState: get, setState: set } = useStore;
   set((s) => void (s.pointerDown = false));
+  onPointer(e);
+};
+const onPointerMove = (e: ThreeEvent<PointerEvent>) => {
+  const { getState: get, setState: set } = useStore;
+  if (!get().pointerDown) return;
   onPointer(e);
 };
 
@@ -34,7 +39,7 @@ export const events = {
   interaction: {
     onPointerDown,
     onPointerUp,
-    onPointerMove: onPointer,
+    onPointerMove: onPointerMove,
   },
   model: (entity: string) => ({
     onPointerOver: (e) => {

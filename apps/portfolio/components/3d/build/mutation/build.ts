@@ -15,8 +15,8 @@ export const build = () => {
   const entity = previewEntity[0](get());
   if (isNone(entity)) return;
   if (entity.category === "streets") {
-    // TODO: dumb we could be reusing the variant from the entity
     streets.build(entity.transform.anchor);
+    // TODO: Handle auto advance
   } else {
     // just push back the entity
     set((s) => void s.world.entities.push(entity));

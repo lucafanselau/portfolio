@@ -2,11 +2,15 @@ import { useStore } from "@3d/store";
 import { isNone } from "@components/utils";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { useRef } from "react";
-import type { PerspectiveCamera as PerspectiveCameraType } from "three";
+import { useEffect, useRef } from "react";
+import { PerspectiveCamera as PerspectiveCameraType, Vector3 } from "three";
 import type { OrbitControls as OrbitControlsType } from "three-stdlib";
 import { constants } from "./constants";
 import { selectors } from "./store/selector";
+const targetRange = {
+  min: new Vector3(-100, 0, -100),
+  max: new Vector3(100, 100, 100),
+};
 
 export const Camera = () => {
   const { zoom, pan, rotate, distance, controlsEnabled } = useStore(
@@ -30,12 +34,22 @@ export const Camera = () => {
     if (controlled.target) {
       controls.current.target.copy(target);
       camera.current.lookAt(target.x, target.y, target.z);
-    } else target.copy(controls.current.target);
+    } else {
+      // clamp target and copy back to state
+      controls.current.target.clamp(targetRange.min, targetRange.max);
+      target.copy(controls.current.target);
+    }
   }, -2);
 
   return (
     <group>
-      <PerspectiveCamera ref={camera} makeDefault fov={45} far={500} />
+      <PerspectiveCamera
+        ref={camera}
+        makeDefault
+        fov={45}
+        far={500}
+        up={[0, 1, 0]}
+      />
       <OrbitControls
         makeDefault
         ref={controls}
