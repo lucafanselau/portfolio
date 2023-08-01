@@ -1,5 +1,5 @@
 import { Store, useStore } from "@3d/store";
-import { coord, vec2 } from "@3d/world/coord";
+import { coord, Vec2, vec2 } from "@3d/world/coord";
 import { isNone, isSome } from "@components/utils";
 import { Draft } from "immer";
 import { match, Pattern } from "ts-pattern";
@@ -20,17 +20,35 @@ export const build = () => {
     // TODO: Handle auto advance
     set((s) => {
       if (s.ui.mode.type === "build" && s.ui.mode.payload.type === "build") {
-        const current = coord.unwrap(entity.transform.anchor);
-        if (isSome(s.ui.mode.payload.payload.state.last)) {
-          const last = s.ui.mode.payload.payload.state.last;
-          const delta = coord.tile.new(vec2.sub(current, last));
-          // we are in tile coords
+        const current = coord.unwrap(coord.tile.floor(entity.transform.anchor));
+        // try to semi intelligently guess the next tile
+        const [bx, bz] = current;
+        // check all tile variants and find the next tile which is free and if two are free sits opposite to the street tile
+        const variants = [
+          [+1, 0],
+          [-1, 0],
+          [0, +1],
+          [0, -1],
+        ] as Vec2[];
+        const free = variants.filter(([x, z]) => {
+          const t = state.world.terrain[bx + x]?.[bz + z];
+          return t?.type !== "street";
+        });
+        if (free.length === 3) {
+          const taken = variants.find((v) => free.every((f) => !vec2.eq(v, f)));
+          const delta = coord.tile.new(vec2.mul(taken!, vec2.splat(-1)));
+          console.log(delta, free);
           s.pointer = coord.map(s.pointer, (p) =>
             vec2.add(p, coord.unwrap(coord.plane.from(delta)))
           );
+        } else {
+          const random = coord.tile.new(
+            free[Math.floor(Math.random() * free.length)]
+          );
+          s.pointer = coord.map(s.pointer, (p) =>
+            vec2.add(p, coord.unwrap(coord.plane.from(random)))
+          );
         }
-        // Update last
-        s.ui.mode.payload.payload.state.last = current;
       }
     });
   } else {
