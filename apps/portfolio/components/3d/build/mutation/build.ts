@@ -12,12 +12,20 @@ export const build = () => {
   // TODO: Check if build is valid
 
   const state = get();
+
+  if (state.ui.mode.type !== "build" || state.ui.mode.payload.type !== "build")
+    return;
+  const { state: buildState } = state.ui.mode.payload.payload;
+
+  // TODO: maybe think about a user feedback for invalid builds
+  if (typeof buildState.valid === "object") return;
+
   // reuse the preview entity routine
   const entity = previewEntity[0](state);
   if (isNone(entity)) return;
+
   if (entity.category === "streets") {
     streets.build(entity.transform.anchor);
-    // TODO: Handle auto advance
     set((s) => {
       if (s.ui.mode.type === "build" && s.ui.mode.payload.type === "build") {
         const current = coord.unwrap(coord.tile.floor(entity.transform.anchor));
