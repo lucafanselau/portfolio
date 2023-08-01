@@ -53,7 +53,24 @@ export const build = () => {
     });
   } else {
     // just push back the entity
-    set((s) => void s.world.entities.push(entity));
+    set((s) => {
+      // and we need to create a new id for the entity
+      s.world.entities.push({
+        ...entity,
+        id: "entity-" + s.world.entities.length,
+      });
+      // also auto advance the pointer (by the extend of the entity (but only on one axis))
+      const extend = coord.map(entity.transform.extend, ([a, _]) =>
+        vec2.create(a, 0)
+      );
+      const direction = coord.transform.direction({
+        extend,
+        rotation: entity.transform.rotation,
+      });
+      s.pointer = coord.map(s.pointer, (p) =>
+        vec2.add(p, coord.unwrap(coord.plane.from(direction)))
+      );
+    });
   }
 };
 

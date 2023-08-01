@@ -126,7 +126,7 @@ export const events = {
         matchBuild(s, {
           build: ({ state }) => {
             state.rotation =
-              ((state.rotation ?? 0) + (dir === "CW" ? 1 : -1)) % 4;
+              ((state.rotation ?? 0) + (dir === "CW" ? -1 : 1)) % 4;
           },
           destroy: () => {},
         });

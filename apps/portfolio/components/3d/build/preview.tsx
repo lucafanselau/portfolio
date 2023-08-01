@@ -36,7 +36,6 @@ const BuildBuildPreview: FC<{ state: BuildStateBuild }> = ({
   useEffect(() => {
     if (isNone(entity)) return;
     const valid = checkPreviewValid(entity);
-    console.log(valid);
     useStore.setState((s) =>
       matchBuild(s, {
         build: (payload) => {

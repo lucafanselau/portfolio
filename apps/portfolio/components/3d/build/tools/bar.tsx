@@ -1,45 +1,91 @@
+import { findAssetEntry } from "@3d/generated-loader";
 import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
 import { ToolsAction } from "@3d/tools/bar";
 import { formatters } from "@components/formatters";
+import { isNone } from "@components/utils";
 import { tools } from "@content/tools";
-import { IconBulldozer, IconHammer, IconX } from "@tabler/icons-react";
+import {
+  IconBulldozer,
+  IconChevronLeft,
+  IconHammer,
+  IconRotateClockwise,
+  IconX,
+} from "@tabler/icons-react";
 import { Button } from "@ui/button";
 import { P } from "@ui/typography";
+import { deepEqual } from "fast-equals";
 import type { FC } from "react";
 import { isMatching } from "ts-pattern";
 import { mutation } from "../mutation";
-import { buildPattern } from "../mutation/build";
+import { buildPattern, matchBuild } from "../mutation/build";
 // import { buildEntry } from "../types";
+
+const barInfo = selectors.pack(
+  (s) =>
+    matchBuild(s, {
+      build: (b) => {
+        const entry = findAssetEntry(b.type, b.id);
+
+        return {
+          icon: <IconHammer />,
+          rotate: b.type !== "streets",
+          text: `Building *${entry?.name}*`,
+        };
+      },
+      destroy: () => ({
+        icon: <IconBulldozer />,
+        rotate: false,
+        text: "Destroying",
+      }),
+    }),
+  deepEqual
+);
+const dismiss = () => {
+  useStore.getState().updateTools({ type: "dismiss" });
+};
 
 export const BuildActiveBar: FC = ({}) => {
   // const entry = useStore(...buildEntry);
   // if (isNone(entry)) return null;
+  const info = useStore(...barInfo);
+  if (isNone(info)) return null;
 
-  const isBuild = useStore((s) => isMatching(buildPattern("build"), s));
-
-  const text = isBuild ? `Building *${undefined ?? "Unknown"}*` : "Destroying";
-
-  const dismiss = () => {
-    useStore.getState().updateTools({ type: "dismiss" });
-  };
-
-  const build = () => {
-    mutation.build();
-  };
+  const { icon, rotate, text } = info;
 
   return (
     <>
+      <div className="pointer-events-auto flex items-center space-x-2">
+        <Button onClick={dismiss} variant="outline" size="icon">
+          <IconChevronLeft />
+        </Button>
+      </div>
       <div className="flex items-center space-x-2">
         <P>{formatters.bold(text)}</P>
       </div>
 
       <div className="pointer-events-auto flex items-center space-x-2">
-        <Button onClick={dismiss} variant="outline" size="icon">
-          <IconX />
-        </Button>
-        <Button onClick={build} variant="outline" size="icon">
-          {isBuild ? <IconHammer /> : <IconBulldozer />}
+        {rotate && (
+          <>
+            <Button
+              onClick={() => mutation.events.other.rotate("CCW")}
+              variant="outline"
+              size="icon"
+            >
+              <IconRotateClockwise className={"-scale-y-100"} />
+            </Button>
+            <Button
+              onClick={() => mutation.events.other.rotate("CW")}
+              variant="outline"
+              size="icon"
+            >
+              <IconRotateClockwise className="-scale-x-100 -scale-y-100" />
+            </Button>
+            <div className="w-[2px] h-8 bg-input" />
+          </>
+        )}
+        <Button onClick={mutation.build} variant="outline" size="icon">
+          {icon}
         </Button>
       </div>
     </>
@@ -67,7 +113,13 @@ const BuildActions: FC = () => {
 };
 
 const BuildProgress: FC = () => {
-  return <Button variant="outline">Screenshot</Button>;
+  const screenshot = () => {};
+
+  return (
+    <Button onClick={screenshot} variant="outline" size={"sm"}>
+      Screenshot
+    </Button>
+  );
 };
 
 export const BuildBar = () => {
