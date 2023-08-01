@@ -65,7 +65,7 @@ export const build = () => {
       // and we need to create a new id for the entity
       s.world.entities.push({
         ...entity,
-        id: "entity-" + s.world.entities.length,
+        id: `entity-${s.world.entities.length}`,
       });
       // also auto advance the pointer (by the extend of the entity (but only on one axis))
       const extend = coord.map(entity.transform.extend, ([a, _]) =>

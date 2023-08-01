@@ -1,4 +1,5 @@
 import WasmPackPlugin from "@wasm-tool/wasm-pack-plugin";
+import Analyzer from "@next/bundle-analyzer";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -51,4 +52,9 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+const withBundleAnalyzer = Analyzer({
+  enabled: process.env.ANALYZE === "true",
+  openAnalyzer: false,
+});
+
+export default withBundleAnalyzer(nextConfig);
