@@ -1,4 +1,4 @@
-import { buildOrDestroy } from "./build";
+import { buildOrDestroy, onlyDestroy } from "./build";
 import { events } from "./events";
 import { streets } from "./streets";
 
@@ -14,4 +14,5 @@ export const mutation = {
   streets,
   events,
   build: buildOrDestroy,
+  onlyDestroy: onlyDestroy,
 };

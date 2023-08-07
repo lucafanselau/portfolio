@@ -150,3 +150,9 @@ export const buildOrDestroy = () => {
     .with(buildPattern("destroy"), destroy)
     .otherwise(() => void 0);
 };
+export const onlyDestroy = () => {
+  const { getState: get, setState: set } = useStore;
+  match<Store, void>(get())
+    .with(buildPattern("destroy"), destroy)
+    .otherwise(() => void 0);
+};
