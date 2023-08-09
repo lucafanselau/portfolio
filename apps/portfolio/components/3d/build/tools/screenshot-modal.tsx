@@ -119,20 +119,25 @@ export const ScreenshotModal: FC = () => {
   );
 };
 
-const numOfArcs = 3;
+const numOfArcs = 6;
+const colors = ["to-blue-500", "to-purple-600", "to-amber-500"];
 const GradientEffect = () => {
   return (
-    <div className={"absolute inset-0 translate-y-1/2  translate-x-1/2 -z-10"}>
+    <div
+      className={
+        "absolute inset-0 translate-y-1/2  translate-x-1/2 -z-10 blur-3xl"
+      }
+    >
       {range(0, numOfArcs).map((i) => (
         <span
           key={`gradient-arc-${i}`}
           style={{ rotate: `${i * (360 / numOfArcs)}deg` }}
           className={cn(
             // translate-x-[15% / 80%]
-            "absolute h-[50%] w-[80%] origin-top-left translate-x-[-50px] translate-y-[-50px] rounded-full ",
+            "absolute h-[50%] w-[60%] origin-top-left translate-x-[-50px] translate-y-[-50px] rounded-full ",
             "bg-gradient-to-r from-green-300  via-green-400",
-            i == 0 ? "to-blue-500" : i == 1 ? "to-purple-600" : "to-amber-500",
-            "blur-3xl filter"
+            colors[i % colors.length]
+            // "blur-xl"
             // "bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-green-300 via-cyan-600/50 to-blue-500/20"
           )}
         />
