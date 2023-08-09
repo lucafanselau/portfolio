@@ -3,7 +3,7 @@ import type { Interaction } from "@3d/constants";
 import { constants } from "@3d/constants";
 import { transitionVector3 } from "@3d/transition";
 import { Terrain } from "@3d/world/types";
-import { isSome } from "@components/utils";
+import { DeepPartial, isSome } from "@components/utils";
 import type { ToolContentKeys } from "@content/tools";
 import { invalidate } from "@react-three/fiber";
 import { Vector3 } from "three";
@@ -28,6 +28,8 @@ export type Actions = {
   updateCharacter: (state: CharacterState["state"]) => void;
   updatePosition: (vector: Vector3) => void;
   setTileType: (x: number, z: number, terrain: Terrain) => void;
+
+  exportState: () => DeepPartial<Store>;
 };
 
 export const useStore = create<Store & Actions>()(
@@ -122,6 +124,18 @@ export const useStore = create<Store & Actions>()(
         set((state) => {
           state.world.terrain[x][z] = terrain;
         }),
+      exportState: () => {
+        // get the important parts of the current state
+        const {
+          world: { terrain, entities },
+        } = get();
+        return {
+          world: {
+            terrain,
+            entities,
+          },
+        };
+      },
     }))
   )
 );

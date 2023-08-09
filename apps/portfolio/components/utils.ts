@@ -1,5 +1,11 @@
 import type { MouseEvent } from "react";
 
+export type DeepPartial<T> = {
+  [K in keyof T]?: T[K] extends Record<string, unknown>
+    ? DeepPartial<T[K]>
+    : Partial<T[K]>;
+};
+
 export const range = (start: number, end: number): number[] =>
   Array.from({ length: end - start }, (_, k) => k + start);
 

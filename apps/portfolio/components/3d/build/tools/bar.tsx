@@ -10,6 +10,7 @@ import {
   IconBulldozer,
   IconCamera,
   IconChevronLeft,
+  IconDeviceFloppy,
   IconHammer,
   IconRotateClockwise,
   IconX,
@@ -17,10 +18,11 @@ import {
 import { Button } from "@ui/button";
 import { P } from "@ui/typography";
 import { deepEqual } from "fast-equals";
-import type { FC } from "react";
+import { FC, useCallback } from "react";
 import { isMatching } from "ts-pattern";
 import { mutation } from "../mutation";
 import { buildPattern, matchBuild } from "../mutation/build";
+import { ScreenshotModal } from "./screenshot-modal";
 // import { buildEntry } from "../types";
 
 const barInfo = selectors.pack(
@@ -115,36 +117,18 @@ const BuildActions: FC = () => {
 };
 
 const BuildProgress: FC = () => {
-  const screenshot = () => {
-    const three = useStore.getState().getThree?.();
-    if (isNone(three)) return;
-
-    three.gl.domElement.toBlob((blob) => {
-      if (isNone(blob)) return;
-
-      const file = new File([blob], "screenshot.png", { type: blob.type });
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        navigator.share({
-          files: [file],
-          title: "Screenshot",
-        });
-      } else {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "screenshot.png";
-        a.click();
-        a.remove();
-      }
-
-      window.URL.revokeObjectURL(url);
-    });
-  };
+  const save = useCallback(() => {
+    const { exportState } = useStore.getState();
+    localStorage.setItem("export", JSON.stringify(exportState()));
+  }, []);
 
   return (
-    <Button onClick={screenshot} variant="outline" size={"icon"}>
-      <IconCamera />
-    </Button>
+    <div className="flex items-center space-x-2">
+      <Button onClick={save} variant="outline" size="icon">
+        <IconDeviceFloppy />
+      </Button>
+      <ScreenshotModal />
+    </div>
   );
 };
 
