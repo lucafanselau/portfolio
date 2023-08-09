@@ -86,6 +86,9 @@ export const ScreenshotModal: FC = () => {
           <DialogDescription>
             Thanks for sticking all the way to the end! You can share your
             creation with your friends or download it to your device.
+            <br />
+            By the way. If you want to come back to your small city just click
+            the save button and the city will be saved in your browser.
           </DialogDescription>
         </DialogHeader>
         <div className="flex space-y-4 flex-col relative items-center justify-center">

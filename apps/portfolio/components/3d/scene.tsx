@@ -34,52 +34,48 @@ export const ConditionalLoader: FC<PropsWithChildren<{ states: State[] }>> = ({
 
 const Scene = () => {
   return (
-    <Suspense fallback={<LoadingAnimation />}>
-      <div
-        onPointerUp={() =>
-          useStore.setState((s) => void (s.pointerDown = false))
-        }
-        onPointerDown={() =>
-          useStore.setState((s) => void (s.pointerDown = true))
-        }
-        className="h-full w-full select-none"
-      >
-        <div className={"absolute left-0 top-0 h-full w-full"}>
-          <Canvas
-            onCreated={(state) => useStore.setState({ getThree: state.get })}
-            dpr={[1, 2]}
-            shadows
-            gl={{ logarithmicDepthBuffer: true, preserveDrawingBuffer: true }}
-            frameloop="demand"
-          >
-            <Loader>
-              {/* 🌄 Environment */}
-              <Environment files="./puresky.hdr" background />
-              <Lights />
-              <Camera />
-              {/* 👥 Entities */}
-              <AnimatedCharacter />
-              <World />
-              {/* 📚 Modules */}
-              <ExploreModule />
-              <BuildModule />
-              {/* ✨ Optimizations */}
-              <AdaptiveDpr />
-              <Preload all />
-              {/* ⚙ Debug */}
-              {DEBUG && (
-                <>
-                  <axesHelper args={[constants.world.tileSize]} />
-                  <Stats />
-                </>
-              )}
-            </Loader>
-          </Canvas>
-        </div>
-        {/* NOTE: this is all of the ui */}
-        <ToolsLoader />
+    <div
+      onPointerUp={() => useStore.setState((s) => void (s.pointerDown = false))}
+      onPointerDown={() =>
+        useStore.setState((s) => void (s.pointerDown = true))
+      }
+      className="h-full w-full select-none"
+    >
+      <div className={"absolute left-0 top-0 h-full w-full"}>
+        <Canvas
+          onCreated={(state) => useStore.setState({ getThree: state.get })}
+          dpr={[1, 2]}
+          shadows
+          gl={{ logarithmicDepthBuffer: true, preserveDrawingBuffer: true }}
+          frameloop="demand"
+        >
+          <Loader>
+            {/* 🌄 Environment */}
+            <Environment files="./puresky.hdr" background />
+            <Lights />
+            <Camera />
+            {/* 👥 Entities */}
+            <AnimatedCharacter />
+            <World />
+            {/* 📚 Modules */}
+            <ExploreModule />
+            <BuildModule />
+            {/* ✨ Optimizations */}
+            <AdaptiveDpr />
+            <Preload all />
+            {/* ⚙ Debug */}
+            {DEBUG && (
+              <>
+                <axesHelper args={[constants.world.tileSize]} />
+                <Stats />
+              </>
+            )}
+          </Loader>
+        </Canvas>
       </div>
-    </Suspense>
+      {/* NOTE: this is all of the ui */}
+      <ToolsLoader />
+    </div>
   );
 };
 
