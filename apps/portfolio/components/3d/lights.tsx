@@ -6,21 +6,18 @@ import { Sky, SoftShadows } from "@react-three/drei";
 const shadowSize = 100;
 
 export const Lights = () => {
-  const { ambient, intensity, position, showSky, softShadows } = useControls(
-    "lights",
-    {
-      ambient: 0.2,
-      intensity: 0.8,
-      position: [0, 40, 20],
-      showSky: false,
-      softShadows: true,
-    }
-  );
+  const { ambient, intensity, position, showSky, softShadows } = {
+    ambient: 0.1,
+    intensity: 0.8,
+    position: [0, 40, 20],
+    showSky: false,
+    softShadows: true,
+  } as const;
 
   return (
     <>
       {showSky && <Sky sunPosition={[100, 20, 100]} />}
-      {/* <ambientLight intensity={ambient} /> */}
+      <ambientLight intensity={ambient} />
       <directionalLight
         castShadow
         position={position}

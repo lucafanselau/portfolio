@@ -7,7 +7,11 @@ import { Suspense } from "react";
 
 const SceneComponent = dynamic(() => import("@3d/scene"), {
   ssr: false,
-  loading: () => <LoadingAnimation />,
+  loading: () => (
+    <div className="absolute inset-0">
+      <LoadingAnimation />
+    </div>
+  ),
 });
 
 export const SceneLoader: FC = () => {

@@ -86,7 +86,8 @@ export const AnimatedCharacter: FC<PropsWithChildren> = ({ children }) => {
       delta
     );
     // invalidate during the animation
-    if (character !== "idle") invalidate();
+    if (useStore.getState().state !== "build" && character !== "idle")
+      invalidate();
 
     useStore.getState().updateCharacter(character);
     useStore.getState().updatePosition(guy.current.position);

@@ -36,7 +36,6 @@ export default function RootLayout({
           <Header />
           {children}
         </div>
-        <FullPageGradient />
       </body>
     </html>
   );
