@@ -62,7 +62,7 @@ export const defaultStore: Store = {
   },
   state: "start",
   ui: {
-    mode: { type: "focus", key: "info" },
+    mode: { type: "closed" }, //  { type: "focus", key: "info" },
     transition: false,
   },
   character: {

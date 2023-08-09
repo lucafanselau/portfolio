@@ -11,9 +11,5 @@ const SceneComponent = dynamic(() => import("@3d/scene"), {
 });
 
 export const SceneLoader: FC = () => {
-  return (
-    <Suspense fallback={<LoadingAnimation />}>
-      <SceneComponent />
-    </Suspense>
-  );
+  return <SceneComponent />;
 };

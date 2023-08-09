@@ -14,7 +14,7 @@ export const ToolsFocusPanel: FC<{ children?: ReactNode }> = ({ children }) => {
   const dismissable = useStore(...selectors.ui.dismissable);
   const springs = useSpring({
     // starting opened, since this is the case at startup
-    from: { opacity: 1, transform: "scale(100%)" },
+    from: { opacity: 0, transform: "scale(100%)" },
     to: {
       opacity: open ? 1 : 0,
       transform: open ? "scale(100%)" : "scale(0%)",

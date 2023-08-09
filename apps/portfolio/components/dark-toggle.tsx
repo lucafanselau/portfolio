@@ -85,10 +85,10 @@ const getInitial = () => {
 
 const names = ["sun", "moon", "handle"] as const;
 
-export const DarkToggle: FC = () => {
+const DarkToggle: FC = () => {
   const [mode, setMode] = useLocalStorage("theme", getInitial());
 
-  const isMounted = useHasMounted();
+  // const isMounted = useHasMounted();
 
   useEffect(() => {
     const list = document.documentElement.classList;
@@ -130,13 +130,13 @@ export const DarkToggle: FC = () => {
     >
       <img
         alt={"sun icon"}
-        style={isMounted ? state.sun[mode] : {}}
+        style={state.sun[mode]}
         ref={sun}
         src={"/sun.svg"}
         className="absolute left-[6px] top-[6px] h-[16px] w-[16px]"
       />
       <img
-        style={isMounted ? state.moon[mode] : {}}
+        style={state.moon[mode]}
         ref={moon}
         src={"/moon.svg"}
         className="absolute right-[6px] top-[6px] h-[16px] w-[16px]"
@@ -145,7 +145,7 @@ export const DarkToggle: FC = () => {
       <svg
         ref={handle}
         className="absolute top-[4px] text-accent-foreground"
-        style={isMounted ? state.handle[mode] : {}}
+        style={state.handle[mode]}
         width="20"
         height="20"
         viewBox="0 0 33 33"
@@ -162,3 +162,5 @@ export const DarkToggle: FC = () => {
     </button>
   );
 };
+
+export default DarkToggle;

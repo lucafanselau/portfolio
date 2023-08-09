@@ -1,9 +1,11 @@
 import { IconLoader3 } from "@tabler/icons-react";
+import { ReactNode } from "react";
 
-export const LoadingAnimation = () => {
+export const LoadingAnimation = ({ children }: { children?: ReactNode }) => {
   return (
     <div className={"flex h-full w-full items-center justify-center"}>
       <LoadingSpinner />
+      {children}
     </div>
   );
 };

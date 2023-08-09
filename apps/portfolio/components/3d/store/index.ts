@@ -19,7 +19,9 @@ export type { Store };
 export type Actions = {
   updateState: (target: Store["state"]) => Promise<void>;
   updateTools: (
-    config: { type: "dismiss" } | { type: "slide"; key: ToolContentKeys }
+    config:
+      | { type: "dismiss" }
+      | { type: "slide" | "focus"; key: ToolContentKeys }
   ) => void;
   initBuild: (state: BuildState) => void;
   setPointer: (pointer: Store["pointer"]) => void;
@@ -82,6 +84,9 @@ export const useStore = create<Store & Actions>()(
               }
             })
           )
+          .with({ type: "focus" }, (config) => {
+            set((s) => void (s.ui.mode = config));
+          })
           .exhaustive();
       },
 
