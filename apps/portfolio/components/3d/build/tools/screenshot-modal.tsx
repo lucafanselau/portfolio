@@ -129,7 +129,7 @@ const GradientEffect = () => {
           style={{ rotate: `${i * (360 / numOfArcs)}deg` }}
           className={cn(
             // translate-x-[15% / 80%]
-            "absolute h-[80%] w-[80%] origin-top-left translate-x-[-50%] translate-y-[-50%] rounded-full ",
+            "absolute h-[50%] w-[80%] origin-top-left translate-x-[-50px] translate-y-[-50px] rounded-full ",
             "bg-gradient-to-r from-green-300  via-green-400",
             i == 0 ? "to-blue-500" : i == 1 ? "to-purple-600" : "to-amber-500",
             "blur-3xl filter"
