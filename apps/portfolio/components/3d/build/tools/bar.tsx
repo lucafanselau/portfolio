@@ -5,8 +5,10 @@ import { ToolsAction } from "@3d/tools/bar";
 import { formatters } from "@components/formatters";
 import { isNone } from "@components/utils";
 import { tools } from "@content/tools";
+import { useStore as useThreeStore } from "@react-three/fiber";
 import {
   IconBulldozer,
+  IconCamera,
   IconChevronLeft,
   IconHammer,
   IconRotateClockwise,
@@ -113,11 +115,35 @@ const BuildActions: FC = () => {
 };
 
 const BuildProgress: FC = () => {
-  const screenshot = () => {};
+  const screenshot = () => {
+    const three = useStore.getState().getThree?.();
+    if (isNone(three)) return;
+
+    three.gl.domElement.toBlob((blob) => {
+      if (isNone(blob)) return;
+
+      const file = new File([blob], "screenshot.png", { type: blob.type });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        navigator.share({
+          files: [file],
+          title: "Screenshot",
+        });
+      } else {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "screenshot.png";
+        a.click();
+        a.remove();
+      }
+
+      window.URL.revokeObjectURL(url);
+    });
+  };
 
   return (
-    <Button onClick={screenshot} variant="outline" size={"sm"}>
-      Screenshot
+    <Button onClick={screenshot} variant="outline" size={"icon"}>
+      <IconCamera />
     </Button>
   );
 };

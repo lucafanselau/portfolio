@@ -1,3 +1,4 @@
+import type { RootState as ThreeState } from "@react-three/fiber";
 import type { BuildState } from "@3d/build/types";
 import type { Interaction } from "@3d/constants";
 import { constants } from "@3d/constants";
@@ -9,6 +10,7 @@ import type { Object3D } from "three";
 import { Vector3 } from "three";
 
 export type Store = {
+  getThree?: () => ThreeState;
   target: Vector3;
   camera: {
     target: Vector3;
@@ -48,6 +50,7 @@ export type Store = {
 };
 
 export const defaultStore: Store = {
+  getThree: undefined,
   target: new Vector3(),
   camera: {
     target: constants.transitions.target.start,

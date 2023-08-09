@@ -46,9 +46,10 @@ const Scene = () => {
       >
         <div className={"absolute left-0 top-0 h-full w-full"}>
           <Canvas
+            onCreated={(state) => useStore.setState({ getThree: state.get })}
             dpr={[1, 2]}
             shadows
-            gl={{ logarithmicDepthBuffer: true }}
+            gl={{ logarithmicDepthBuffer: true, preserveDrawingBuffer: true }}
             frameloop="demand"
           >
             <Loader>
