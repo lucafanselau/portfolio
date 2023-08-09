@@ -1,5 +1,5 @@
 import { useStore } from "@3d/store";
-import { isNone, range } from "@components/utils";
+import { isNone, isSome, range } from "@components/utils";
 import { IconCamera, IconDownload, IconShare } from "@tabler/icons-react";
 import { Button } from "@ui/button";
 import {
@@ -30,7 +30,7 @@ const screenshot = (): Promise<File | undefined> => {
 
 const share = (file: File) => {
   if (navigator.canShare && navigator.canShare({ files: [file] })) {
-    navigator.share({
+    void navigator.share({
       files: [file],
       title: "Screenshot",
     });
@@ -58,7 +58,7 @@ export const ScreenshotModal: FC = () => {
   const onOpen = useCallback(
     (state: boolean) => {
       if (state) {
-        (async () => {
+        void (async () => {
           const file = await screenshot();
           if (isNone(file)) return;
           startTransition(() => {
@@ -76,7 +76,7 @@ export const ScreenshotModal: FC = () => {
   return (
     <Dialog open={open} onOpenChange={onOpen}>
       <DialogTrigger asChild>
-        <Button onClick={screenshot} variant="outline" size={"icon"}>
+        <Button variant="outline" size={"icon"}>
           {loading ? <LoadingSpinner /> : <IconCamera />}
         </Button>
       </DialogTrigger>
@@ -99,7 +99,7 @@ export const ScreenshotModal: FC = () => {
             <Button
               variant="background"
               size={"sm"}
-              onClick={() => share(file?.file!)}
+              onClick={() => isSome(file) && share(file.file)}
             >
               <IconShare className={"mr-4"} />
               Share
@@ -107,7 +107,7 @@ export const ScreenshotModal: FC = () => {
             <Button
               variant="background"
               size={"sm"}
-              onClick={() => download(file?.file!)}
+              onClick={() => isSome(file) && download(file.file)}
             >
               <IconDownload className={"mr-4"} />
               Download
