@@ -5,7 +5,7 @@ import { getCanHover } from "@components/hooks/use-can-hover";
 import { GroupProps, ThreeEvent } from "@react-three/fiber";
 import { Object3D } from "three";
 import { isMatching } from "ts-pattern";
-import { buildOrDestroy, buildPattern, matchBuild, onlyDestroy } from "./build";
+import { buildPattern, matchBuild } from "./build";
 
 const destroyPattern = buildPattern("destroy");
 
@@ -43,7 +43,7 @@ export const events = {
   },
   model: (entity: string) => ({
     onPointerOver: (e) => {
-			return;
+      return;
       const { getState: get, setState: set } = useStore;
       // If we cannot hover lets not build, this is handled by a button then
       if (!getCanHover()) return;
@@ -56,7 +56,7 @@ export const events = {
       });
     },
     onPointerOut: (e) => {
-			return;
+      return;
       const { getState: get, setState: set } = useStore;
       // If we cannot hover lets not build, this is handled by a button then
       if (!getCanHover()) return;

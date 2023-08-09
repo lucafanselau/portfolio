@@ -64,7 +64,7 @@ export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
         >
           <div>
             <ScrollArea
-              className={"w-full p-[8px] pointer-events-auto"}
+              className={"pointer-events-auto w-full p-[8px]"}
               // we are compensating for the border here
               style={{ height: clamped - 2 }}
             >

@@ -5,23 +5,19 @@ import { ToolsAction } from "@3d/tools/bar";
 import { formatters } from "@components/formatters";
 import { isNone } from "@components/utils";
 import { tools } from "@content/tools";
-import { useStore as useThreeStore } from "@react-three/fiber";
 import {
   IconBulldozer,
-  IconCamera,
   IconChevronLeft,
   IconDeviceFloppy,
   IconHammer,
   IconRotateClockwise,
-  IconX,
 } from "@tabler/icons-react";
 import { Button } from "@ui/button";
 import { P } from "@ui/typography";
 import { deepEqual } from "fast-equals";
 import { FC, useCallback } from "react";
-import { isMatching } from "ts-pattern";
 import { mutation } from "../mutation";
-import { buildPattern, matchBuild } from "../mutation/build";
+import { matchBuild } from "../mutation/build";
 import { ScreenshotModal } from "./screenshot-modal";
 // import { buildEntry } from "../types";
 
@@ -34,7 +30,7 @@ const barInfo = selectors.pack(
         return {
           icon: <IconHammer />,
           rotate: b.type !== "streets",
-          text: `Building *${entry?.name}*`,
+          text: `Building *${entry.name}*`,
         };
       },
       destroy: () => ({
@@ -85,7 +81,7 @@ export const BuildActiveBar: FC = ({}) => {
             >
               <IconRotateClockwise className="-scale-x-100 -scale-y-100" />
             </Button>
-            <div className="w-[2px] h-8 bg-input" />
+            <div className="h-8 w-[2px] bg-input" />
           </>
         )}
         <Button onClick={mutation.build} variant="outline" size="icon">

@@ -6,12 +6,11 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@ui/dialog";
-import { LoadingAnimation, LoadingSpinner } from "@ui/loader";
+import { LoadingSpinner } from "@ui/loader";
 import { cn } from "@ui/utils";
 import { FC, useCallback, useState, useTransition } from "react";
 
@@ -91,14 +90,14 @@ export const ScreenshotModal: FC = () => {
             the save button and the city will be saved in your browser.
           </DialogDescription>
         </DialogHeader>
-        <div className="flex space-y-4 flex-col relative items-center justify-center">
+        <div className="relative flex flex-col items-center justify-center space-y-4">
           <GradientEffect />
           <img
-            className="w-2/3 rounded-md shadow-xl border-2 "
+            className="w-2/3 rounded-md border-2 shadow-xl "
             src={file?.url}
           />
 
-          <div className=" flex justify-center items-center space-x-2">
+          <div className=" flex items-center justify-center space-x-2">
             <Button
               variant="background"
               size={"sm"}
@@ -128,7 +127,7 @@ const GradientEffect = () => {
   return (
     <div
       className={
-        "absolute inset-0 translate-y-1/2  translate-x-1/2 -z-10 blur-3xl"
+        "absolute inset-0 -z-10  translate-x-1/2 translate-y-1/2 blur-3xl"
       }
     >
       {range(0, numOfArcs).map((i) => (

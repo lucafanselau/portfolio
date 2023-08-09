@@ -1,5 +1,5 @@
-import WasmPackPlugin from "@wasm-tool/wasm-pack-plugin";
 import Analyzer from "@next/bundle-analyzer";
+import WasmPackPlugin from "@wasm-tool/wasm-pack-plugin";
 import path from "path";
 import { fileURLToPath } from "url";
 

@@ -1,6 +1,6 @@
 import { Store, useStore } from "@3d/store";
 import { coord, Vec2, vec2 } from "@3d/world/coord";
-import { isNone, isSome } from "@components/utils";
+import { isNone } from "@components/utils";
 import { Draft } from "immer";
 import { match, Pattern } from "ts-pattern";
 import { previewEntity } from "../preview";
@@ -40,7 +40,7 @@ export const build = () => {
         ] as Vec2[];
         const free = variants.filter(([x, z]) => {
           const t = state.world.terrain[bx + x]?.[bz + z];
-          return t?.type !== "street";
+          return t.type !== "street";
         });
         if (free.length === 3) {
           const taken = variants.find((v) => free.every((f) => !vec2.eq(v, f)));

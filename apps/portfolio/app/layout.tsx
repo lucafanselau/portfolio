@@ -1,5 +1,4 @@
 import { Header } from "@components/header";
-import { FullPageGradient } from "@components/random";
 import { cn } from "@ui/utils";
 import { Inter, Roboto_Mono } from "next/font/google";
 import type { Metadata } from "next/types";

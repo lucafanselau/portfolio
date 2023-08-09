@@ -2,7 +2,7 @@ import { useStore } from "@3d/store";
 import { isNone } from "@components/utils";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { PerspectiveCamera as PerspectiveCameraType, Vector3 } from "three";
 import type { OrbitControls as OrbitControlsType } from "three-stdlib";
 import { constants } from "./constants";

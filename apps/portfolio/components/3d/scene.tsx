@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  AdaptiveDpr,
-  Environment,
-  Preload,
-  Stats,
-  Loader as DreiLoader,
-} from "@react-three/drei";
+import { AdaptiveDpr, Environment, Preload, Stats } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { LoadingAnimation } from "@ui/loader";
 import type { FC, PropsWithChildren, ReactNode } from "react";
@@ -18,7 +12,6 @@ import { constants, DEBUG } from "./constants";
 import { ExploreModule } from "./explore";
 import { GeneratedLoader } from "./generated-loader";
 import { Lights } from "./lights";
-import { Loader } from "./loading-progress";
 import { useStore } from "./store";
 import type { State } from "./store/store";
 import { ToolsLoader } from "./tools/loader";
@@ -56,7 +49,7 @@ const Scene = () => {
             <Canvas
               onCreated={(state) => useStore.setState({ getThree: state.get })}
               dpr={[1, 2]}
-							flat
+              flat
               shadows
               gl={{ logarithmicDepthBuffer: true, preserveDrawingBuffer: true }}
               frameloop="demand"

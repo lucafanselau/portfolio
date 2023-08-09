@@ -1,6 +1,5 @@
 "use client";
 
-import { useHasMounted } from "@components/hooks/has-mounted";
 import { useLocalStorage } from "@components/hooks/local-storage";
 import type { FC } from "react";
 import { useCallback, useEffect, useRef } from "react";

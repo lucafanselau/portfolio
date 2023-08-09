@@ -1,8 +1,7 @@
 import { constants } from "@3d/constants";
 import { useStore } from "@3d/store";
 import { range } from "@components/utils";
-import { FC, useEffect } from "react";
-import { useCallback } from "react";
+import { FC, useCallback, useEffect } from "react";
 import { ModelLoader, TerrainLoader } from "./model";
 
 const { tiles } = constants.world;

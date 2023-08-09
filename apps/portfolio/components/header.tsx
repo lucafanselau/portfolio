@@ -7,8 +7,8 @@ import { Separator } from "@ui/seperator";
 import { H4 } from "@ui/typography";
 import Link from "next/link";
 
-import dynamic from "next/dynamic";
 import { LoadingSpinner } from "@ui/loader";
+import dynamic from "next/dynamic";
 
 const DarkToggle = dynamic(() => import("./dark-toggle"), {
   ssr: false,
