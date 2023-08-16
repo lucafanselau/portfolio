@@ -48,8 +48,8 @@ export const findModel = <C extends AssetCategory>({
 
 export const ModelLoader = forwardRef<
   Group,
-  { entity: Entity; plane?: boolean; hideable?: boolean;
->(({ entity, plane = true,  hideable = false }, ref) => {
+  { entity: Entity; plane?: boolean; hideable?: boolean }
+>(({ entity, plane = true, hideable = false }, ref) => {
   const slotRef = useSlotRef(entity.id);
   const Model = useMemo(() => findModel(entity), [entity]);
   if (isNone(Model)) return null;
