@@ -21,7 +21,7 @@ const Entities = () => {
   return (
     <group>
       {entities.map((e, i) => (
-        <ModelLoader key={e.id} entity={e} delay={500 + i * 500} />
+        <ModelLoader key={e.id} entity={e} hideable />
       ))}
     </group>
   );

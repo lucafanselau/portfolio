@@ -48,15 +48,15 @@ export const findModel = <C extends AssetCategory>({
 
 export const ModelLoader = forwardRef<
   Group,
-  { entity: Entity; plane?: boolean; delay?: number }
->(({ entity, plane = true, delay }, ref) => {
+  { entity: Entity; plane?: boolean; hideable?: boolean;
+>(({ entity, plane = true,  hideable = false }, ref) => {
   const slotRef = useSlotRef(entity.id);
   const Model = useMemo(() => findModel(entity), [entity]);
   if (isNone(Model)) return null;
 
   return (
     <TransformLoader
-      scale={[0, 0, 0]}
+      scale={hideable ? [0, 0, 0] : undefined}
       ref={mergeRefs([slotRef, ref])}
       id={entity.id}
       transform={entity.transform}
