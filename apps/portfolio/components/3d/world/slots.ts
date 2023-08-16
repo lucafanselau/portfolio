@@ -1,13 +1,13 @@
 import { isSome } from "@components/utils";
-import { RefCallback, RefObject } from "react";
+import { RefCallback } from "react";
 import { Group } from "three";
 import { create } from "zustand";
 
-interface Store {
+type Store = {
   slots: Map<string, Group>;
   setSlot: (name: string, slot: Group) => void;
   removeSlot: (name: string) => void;
-}
+};
 
 export const useSlots = create<Store>((set, get) => ({
   slots: new Map<string, Group>(),

@@ -1,5 +1,4 @@
 import { useStore } from "@3d/store";
-import { selectors } from "@3d/store/selector";
 import { ToolsComposition } from "@3d/tools";
 import { ToolsAction } from "@3d/tools/bar";
 import { ToolsPanelContent } from "@3d/tools/content";

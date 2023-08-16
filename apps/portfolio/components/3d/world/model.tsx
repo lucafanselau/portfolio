@@ -2,64 +2,23 @@ import { mutation } from "@3d/build/mutation";
 import { constants } from "@3d/constants";
 import { AssetCategory, AssetKey, findAssetEntry } from "@3d/generated-loader";
 import { models } from "@3d/generated/loader";
-import { transitionVector3 } from "@3d/transition";
 import { isNone, isSome } from "@components/utils";
 import { useTexture } from "@react-three/drei";
 import { GroupProps } from "@react-three/fiber";
-import {
-  ComponentType,
-  FC,
-  forwardRef,
-  Ref,
-  RefObject,
-  useEffect,
-  useMemo,
-  useRef,
-} from "react";
+import { ComponentType, FC, forwardRef, useMemo } from "react";
+import { mergeRefs } from "react-merge-refs";
 import {
   BoxGeometry,
   Group,
   Material,
   MeshStandardMaterial,
   NearestFilter,
-  Vector3,
 } from "three";
 import { match } from "ts-pattern";
 import { coord } from "./coord";
+import { useSlotRef } from "./slots";
 import { TransformLoader } from "./transform";
 import { Entity, Terrain } from "./types";
-import { mergeRefs } from "react-merge-refs";
-import { useSlotRef } from "./slots";
-const ZERO = new Vector3(0, 0, 0),
-  ONE = new Vector3(1, 1, 1);
-
-// const useShown = (
-//   ref: RefObject<Group>,
-//   shown: boolean,
-//   delay?: number,
-//   smoothTime?: number
-// ) => {
-//   useEffect(() => {
-//     if (ref.current && !shown) ref.current.scale.setScalar(0);
-//   }, []);
-
-//   useEffect(() => {
-//     const timeout = setTimeout(() => {
-//       if (ref.current) {
-//         let target;
-//         if (shown) target = ONE;
-//         else target = ZERO;
-//         transitionVector3(
-//           ref.current.scale,
-//           target,
-//           isSome(smoothTime) ? { smoothTime } : undefined
-
-//         ).catch(console.error);
-//       }
-//     }, delay ?? 0);
-//     return () => clearTimeout(timeout);
-//   }, [shown, delay]);
-// };
 
 type ModelLoaderProps<C extends AssetCategory> = {
   category: C;
@@ -91,10 +50,9 @@ export const ModelLoader = forwardRef<
   Group,
   { entity: Entity; plane?: boolean; delay?: number }
 >(({ entity, plane = true, delay }, ref) => {
+  const slotRef = useSlotRef(entity.id);
   const Model = useMemo(() => findModel(entity), [entity]);
   if (isNone(Model)) return null;
-
-  const slotRef = useSlotRef(entity.id);
 
   return (
     <TransformLoader
