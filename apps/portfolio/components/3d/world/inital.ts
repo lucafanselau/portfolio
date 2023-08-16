@@ -1,27 +1,29 @@
 import { range } from "@components/utils";
 import { coord } from "./coord";
-import { Entity, streetId, Terrain } from "./types";
+import { Entity, terrainId, Terrain } from "./types";
 
 const F: Terrain = {
   type: "flat",
-  shown: false,
+  id: "tile",
+  appear: "build",
 };
+const E = { ...F, appear: "explore" };
 // const C = TerrainType.Clipping;
-const M = { ...F, shown: true };
+const M = { ...F, appear: "start" };
 
 const S: Terrain = {
   type: "street",
   variant: "straight",
   id: "street",
   rotation: 0,
-  shown: false,
+  appear: "explore",
 };
 const T: Terrain = {
   type: "street",
   variant: "turn",
   id: "street",
   rotation: 0,
-  shown: false,
+  appear: "explore",
 };
 
 const template = [
@@ -31,56 +33,56 @@ const template = [
   [F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F],
   [F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F],
   [F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F],
-  [F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F],
-  [F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F],
+  [F, F, F, F, F, E, E, E, E, E, E, E, E, E, E, F, F, F, F, F],
+  [F, F, F, F, F, E, E, E, E, E, E, E, E, E, E, F, F, F, F, F],
   [
     F,
     F,
     F,
     F,
     F,
-    F,
-    F,
+    E,
+    E,
     [T, 3],
     [S, 1],
     [S, 1],
     [S, 1],
     [S, 1],
     [T, 0],
-    F,
-    F,
+    E,
+    E,
     F,
     F,
     F,
     F,
     F,
   ],
-  [F, F, F, F, F, F, F, S, M, M, M, M, S, F, F, F, F, F, F, F],
-  [F, F, F, F, F, F, F, S, M, M, M, M, S, F, F, F, F, F, F, F],
+  [F, F, F, F, F, E, E, S, M, M, M, M, S, E, E, F, F, F, F, F],
+  [F, F, F, F, F, E, E, S, M, M, M, M, S, E, E, F, F, F, F, F],
   [
     F,
     F,
     F,
     F,
     F,
-    F,
-    F,
+    E,
+    E,
     [T, 2],
     [S, 1],
     [S, 1],
     [S, 1],
     [S, 1],
     [T, 1],
-    F,
-    F,
+    E,
+    E,
     F,
     F,
     F,
     F,
     F,
   ],
-  [F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F],
-  [F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F],
+  [F, F, F, F, F, E, E, E, E, E, E, E, E, E, E, F, F, F, F, F],
+  [F, F, F, F, F, E, E, E, E, E, E, E, E, E, E, F, F, F, F, F],
   [F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F],
   [F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F],
   [F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F],
@@ -138,12 +140,12 @@ export const initial = {
       Array.isArray(type)
         ? {
             ...type[0],
-            id: type[0].type === "street" ? streetId(x, z) : "tile",
+            id: terrainId(x, z),
             rotation: type[1],
           }
         : ({
             ...type,
-            id: type.type === "street" ? streetId(x, z) : undefined,
+            id: terrainId(x, z),
             rotation: type.type === "street" ? 0 : undefined,
           } as Terrain)
     )

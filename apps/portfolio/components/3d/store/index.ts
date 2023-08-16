@@ -1,7 +1,8 @@
 import { BuildState } from "@3d/build/types";
 import type { Interaction } from "@3d/constants";
 import { constants } from "@3d/constants";
-import { transitionVector3 } from "@3d/transition";
+import { sleep, transitionVector3 } from "@3d/transition";
+import { useSlots } from "@3d/world/slots";
 import { Terrain } from "@3d/world/types";
 import { DeepPartial, isSome } from "@components/utils";
 import type { ToolContentKeys } from "@content/tools";
@@ -34,6 +35,8 @@ export type Actions = {
   exportState: () => DeepPartial<Store>;
 };
 
+const ONE = new Vector3(1, 1, 1);
+
 export const useStore = create<Store & Actions>()(
   immer(
     subscribeWithSelector((set, get) => ({
@@ -47,22 +50,17 @@ export const useStore = create<Store & Actions>()(
           s.camera.controlled.position = true;
           s.camera.controlled.target = true;
           // also let the land and buildings appear
-          s.world.terrain.forEach((row, x) => {
-            row.forEach((tile, z) => {
-              if (target === "explore") {
-                if (x >= 6 && x <= 13 && z >= 5 && z <= 14) tile.shown = true;
-              } else {
-                tile.shown = true;
-              }
-            });
-          });
-          s.world.entities.forEach(
-            (e) => void (e.hidden === true ? (e.hidden = false) : undefined)
-          );
         });
 
         // do the actual transition
-        const { camera } = get();
+        const { camera, world } = get();
+        const { slots } = useSlots.getState();
+        const tiles = world.terrain
+          .flatMap((row, x) => row.map((terrain, z) => ({ x, z, terrain })))
+          // filter out only the tiles that should appear
+          .filter(({ terrain }) => terrain.appear === target);
+        const entities = target === "explore" ? world.entities : [];
+
         await Promise.all([
           transitionVector3(
             camera.position,
@@ -72,6 +70,23 @@ export const useStore = create<Store & Actions>()(
             camera.target,
             constants.transitions.target[target]
           ),
+          // and let the world appear
+          ...tiles.map(async ({ terrain }, index) => {
+            const slot = slots.get(terrain.id);
+            if (isSome(slot)) {
+              await sleep((index / tiles.length) * 1000);
+              await transitionVector3(slot.scale, ONE, { smoothTime: 0.25 });
+            }
+          }),
+
+          // and also the buildings
+          ...entities.map(async ({ id }) => {
+            const slot = slots.get(id);
+            if (isSome(slot)) {
+              await sleep(1000);
+              await transitionVector3(slot.scale, ONE, { smoothTime: 0.25 });
+            }
+          }),
         ]);
 
         // after that update everything in the store

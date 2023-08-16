@@ -29,35 +29,37 @@ import { coord } from "./coord";
 import { TransformLoader } from "./transform";
 import { Entity, Terrain } from "./types";
 import { mergeRefs } from "react-merge-refs";
+import { useSlotRef } from "./slots";
 const ZERO = new Vector3(0, 0, 0),
   ONE = new Vector3(1, 1, 1);
 
-const useShown = (
-  ref: RefObject<Group>,
-  shown: boolean,
-  delay?: number,
-  smoothTime?: number
-) => {
-  useEffect(() => {
-    if (ref.current && !shown) ref.current.scale.setScalar(0);
-  }, []);
+// const useShown = (
+//   ref: RefObject<Group>,
+//   shown: boolean,
+//   delay?: number,
+//   smoothTime?: number
+// ) => {
+//   useEffect(() => {
+//     if (ref.current && !shown) ref.current.scale.setScalar(0);
+//   }, []);
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (ref.current) {
-        let target;
-        if (shown) target = ONE;
-        else target = ZERO;
-        transitionVector3(
-          ref.current.scale,
-          target,
-          isSome(smoothTime) ? { smoothTime } : undefined
-        ).catch(console.error);
-      }
-    }, delay ?? 0);
-    return () => clearTimeout(timeout);
-  }, [shown, delay]);
-};
+//   useEffect(() => {
+//     const timeout = setTimeout(() => {
+//       if (ref.current) {
+//         let target;
+//         if (shown) target = ONE;
+//         else target = ZERO;
+//         transitionVector3(
+//           ref.current.scale,
+//           target,
+//           isSome(smoothTime) ? { smoothTime } : undefined
+
+//         ).catch(console.error);
+//       }
+//     }, delay ?? 0);
+//     return () => clearTimeout(timeout);
+//   }, [shown, delay]);
+// };
 
 type ModelLoaderProps<C extends AssetCategory> = {
   category: C;
@@ -92,12 +94,12 @@ export const ModelLoader = forwardRef<
   const Model = useMemo(() => findModel(entity), [entity]);
   if (isNone(Model)) return null;
 
-  const shownRef = useRef<Group>(null);
-  useShown(shownRef, isNone(entity.hidden) || !entity.hidden, delay);
+  const slotRef = useSlotRef(entity.id);
 
   return (
     <TransformLoader
-      ref={mergeRefs([shownRef, ref])}
+      scale={[0, 0, 0]}
+      ref={mergeRefs([slotRef, ref])}
       id={entity.id}
       transform={entity.transform}
       plane={plane}
@@ -167,11 +169,9 @@ type TerrainLoaderProps = {
   terrain: Terrain;
   x: number;
   z: number;
-  delay?: number;
 };
 
-export const TerrainLoader = ({ terrain, x, z, delay }: TerrainLoaderProps) => {
-  const ref = useRef<Group>(null);
+export const TerrainLoader = ({ terrain, x, z }: TerrainLoaderProps) => {
   const model = match(terrain)
     .with({ type: "flat" }, () => <TerrainTile top />)
     .with({ type: "clipping" }, () => null)
@@ -189,11 +189,12 @@ export const TerrainLoader = ({ terrain, x, z, delay }: TerrainLoaderProps) => {
     terrain.type === "street" ? terrain.rotation : 0
   );
 
-  useShown(ref, terrain.shown, delay, 0.5);
+  const slotRef = useSlotRef(terrain.id);
 
   return (
     <TransformLoader
-      ref={ref}
+      scale={[0, 0, 0]}
+      ref={slotRef}
       // Create interaction plane
       plane={terrain.type === "street"}
       transform={transform}

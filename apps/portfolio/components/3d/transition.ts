@@ -33,6 +33,8 @@ export const defaultTransitionConfig = {
   eps: 1e-5,
 };
 
+export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
 export const createTransition = <T = unknown>(cb: Transition["cb"]) => {
   const promise = new Promise<T>((r) => {
     const transition: Transition<T> = {

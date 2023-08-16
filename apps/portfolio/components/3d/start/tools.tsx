@@ -1,3 +1,5 @@
+import { useStore } from "@3d/store";
+import { selectors } from "@3d/store/selector";
 import { ToolsComposition } from "@3d/tools";
 import { ToolsAction } from "@3d/tools/bar";
 import { ToolsPanelContent } from "@3d/tools/content";
@@ -21,6 +23,7 @@ const actions = content.config.socials.map((social) => {
 });
 
 export const StartTools = () => {
+  const transition = useStore((s) => s.ui.transition);
   return (
     <ToolsComposition
       bar={
@@ -29,6 +32,7 @@ export const StartTools = () => {
           <ToolsProgress
             item={{
               button: "Let's go!",
+              disabled: transition,
               target: "explore",
             }}
           />

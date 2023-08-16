@@ -1,6 +1,6 @@
 import { useStore } from "@3d/store";
 import { coord, TileCoord } from "@3d/world/coord";
-import { streetId, StreetVariant, Terrain } from "@3d/world/types";
+import { terrainId, StreetVariant, Terrain } from "@3d/world/types";
 import { match } from "ts-pattern";
 
 const isStreet = (terrain: Terrain | undefined) => {
@@ -57,7 +57,7 @@ const updateNeighbor = (x: number, z: number) => {
       type: "street",
       rotation,
       variant: newType,
-      id: streetId(x, z),
+      id: terrainId(x, z),
       shown: true,
     };
 
@@ -89,7 +89,7 @@ const buildStreet = (tile: TileCoord) => {
     type: "street",
     rotation,
     variant: type,
-    id: streetId(x, z),
+    id: terrainId(x, z),
     shown: true,
   };
 

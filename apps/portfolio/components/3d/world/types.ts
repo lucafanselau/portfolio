@@ -1,4 +1,5 @@
 import { AssetCategory, AssetKey } from "@3d/generated-loader";
+import { Store } from "@3d/store";
 import { Transform } from "./coord";
 
 // export type BaseTerrain = {};
@@ -10,13 +11,12 @@ export type Terrain = (
   | {
       type: "street";
       rotation: number;
-      id: string;
       variant: StreetVariant;
     }
-) & { shown: boolean };
+) & { id: string; appear?: Store["state"] };
 
-export const streetId = (x: number, z: number) => {
-  return `street-${x}-${z}`;
+export const terrainId = (x: number, z: number) => {
+  return `terrain-${x}-${z}`;
 };
 
 export type Entity<C extends AssetCategory = AssetCategory> = {

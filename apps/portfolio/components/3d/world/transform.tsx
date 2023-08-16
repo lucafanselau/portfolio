@@ -4,6 +4,7 @@
 import { BuildPreviewPlane } from "@3d/build/overlay";
 import { constants } from "@3d/constants";
 import { Plane } from "@react-three/drei";
+import { GroupProps } from "@react-three/fiber";
 import { ComponentProps, forwardRef, ReactNode } from "react";
 import { Group } from "three";
 import { coord, Transform } from "./coord";
@@ -32,6 +33,8 @@ export const TransformLoader = forwardRef<
     children?: ReactNode;
     id: string;
 
+    scale?: GroupProps["scale"];
+
     // config stuff
     plane?: boolean; // enable plane
     planeProps?: boolean; // treat children like a plane
@@ -42,6 +45,7 @@ export const TransformLoader = forwardRef<
       transform,
       children,
       id,
+      scale,
 
       plane: enablePlane = true,
     },
@@ -49,7 +53,7 @@ export const TransformLoader = forwardRef<
   ) => {
     const { wrapper, plane } = transformProps(transform);
     return (
-      <group ref={ref} {...wrapper}>
+      <group scale={scale} ref={ref} {...wrapper}>
         {enablePlane && <BuildPreviewPlane entityId={id} {...plane} />}
         {children}
       </group>

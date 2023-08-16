@@ -30,7 +30,7 @@ const Entities = () => {
 export const World = () => {
   useEffect(() => {
     // KICK OF STORY LINE
-    useStore.getState().updateTools({ type: "focus", key: "info" });
+    useStore.getState().updateState("start"); //   updateTools({ type: "focus", key: "info" });
   }, []);
 
   return (
