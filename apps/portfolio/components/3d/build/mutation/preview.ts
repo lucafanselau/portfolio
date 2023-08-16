@@ -173,7 +173,6 @@ export const checkPreviewValid = (
     .map(([id, t]) => {
       coord.transform.box(t, box2);
       const intersects = box1.intersectsBox(box2);
-      console.log(id, box2, intersects);
       return intersects ? id : undefined;
     })
     .filter(isSome);

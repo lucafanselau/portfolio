@@ -208,7 +208,7 @@ importers:
         version: 4.2.0(typescript@4.9.5)(vite@4.4.2)
       vitest:
         specifier: ^0.33.0
-        version: 0.33.0(jsdom@20.0.3)
+        version: 0.33.0
 
   packages/rust-404/pkg: {}
 
@@ -7624,7 +7624,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest@0.33.0(jsdom@20.0.3):
+  /vitest@0.33.0:
     resolution: {integrity: sha512-1CxaugJ50xskkQ0e969R/hW47za4YXDUfWJDxip1hwbnhUjYolpfUn2AMOulqG/Dtd9WYAtkHmM/m3yKVrEejQ==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -7668,7 +7668,6 @@ packages:
       cac: 6.7.14
       chai: 4.3.7
       debug: 4.3.4
-      jsdom: 20.0.3
       local-pkg: 0.4.3
       magic-string: 0.30.1
       pathe: 1.1.1

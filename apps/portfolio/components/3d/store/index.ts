@@ -46,6 +46,19 @@ export const useStore = create<Store & Actions>()(
           s.ui.transition = true;
           s.camera.controlled.position = true;
           s.camera.controlled.target = true;
+          // also let the land and buildings appear
+          s.world.terrain.forEach((row, x) => {
+            row.forEach((tile, z) => {
+              if (target === "explore") {
+                if (x >= 6 && x <= 13 && z >= 5 && z <= 14) tile.shown = true;
+              } else {
+                tile.shown = true;
+              }
+            });
+          });
+          s.world.entities.forEach(
+            (e) => void (e.hidden === true ? (e.hidden = false) : undefined)
+          );
         });
 
         // do the actual transition

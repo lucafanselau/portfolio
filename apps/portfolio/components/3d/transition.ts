@@ -28,8 +28,8 @@ const useTransitionStore = create<{
 );
 
 export const defaultTransitionConfig = {
-  smoothTime: 0.1, //0.5,
-  maxSpeed: 400, // 25,
+  smoothTime: 0.25, //0.5,
+  maxSpeed: 300, // 25,
   eps: 1e-5,
 };
 
@@ -67,9 +67,16 @@ export const useTransitions = () => {
 
 const maxFrameTime = 1 / 30;
 
-export const transitionVector3 = async (vector: Vector3, target: Vector3) => {
+export const transitionVector3 = async (
+  vector: Vector3,
+  target: Vector3,
+  config?: Partial<typeof defaultTransitionConfig>
+) => {
   await createTransition((delta) => {
-    const { smoothTime, maxSpeed, eps } = defaultTransitionConfig;
+    const { smoothTime, maxSpeed, eps } = {
+      ...defaultTransitionConfig,
+      ...(config ?? {}),
+    };
 
     const result = easing.damp3(
       vector,

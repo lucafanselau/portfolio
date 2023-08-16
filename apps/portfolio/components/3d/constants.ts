@@ -16,6 +16,8 @@ export const base = {
   world: {
     tiles: 20,
     tileSize: 8,
+    tileHeight: 1,
+
     moveScope: {
       min: new Vector3(-17, 0, -25),
       max: new Vector3(17, 0, 26.5),
@@ -60,13 +62,13 @@ export const constants = {
         0
       ),
       explore: new Vector3(
-        -base.camera.distance * 5,
-        base.guy.approximateHeight * 6,
+        base.camera.distance * -10,
+        base.guy.approximateHeight * 10,
         0
       ),
       build: new Vector3(
-        base.guy.approximateHeight * -10,
-        base.guy.approximateHeight * 25,
+        base.guy.approximateHeight * -20,
+        base.guy.approximateHeight * 40,
         0
       ),
     },

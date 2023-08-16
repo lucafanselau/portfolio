@@ -4,7 +4,7 @@ import { Transform } from "./coord";
 // export type BaseTerrain = {};
 
 export type StreetVariant = "end" | "straight" | "turn" | "three" | "four";
-export type Terrain =
+export type Terrain = (
   | { type: "flat" }
   | { type: "clipping" }
   | {
@@ -12,7 +12,8 @@ export type Terrain =
       rotation: number;
       id: string;
       variant: StreetVariant;
-    };
+    }
+) & { shown: boolean };
 
 export const streetId = (x: number, z: number) => {
   return `street-${x}-${z}`;
@@ -24,4 +25,5 @@ export type Entity<C extends AssetCategory = AssetCategory> = {
   type: AssetKey<C>;
   transform: Transform;
   variant?: string;
+  hidden?: boolean;
 };

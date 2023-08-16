@@ -10,6 +10,7 @@ import { springConfig } from "./slide";
 
 export const ToolsFocusPanel: FC<{ children?: ReactNode }> = ({ children }) => {
   const open = useStore(...selectors.ui.open.focus);
+  console.log("tool focus panel open ", open);
   // const [mounted, setMounted] = useState(open);
   const dismissable = useStore(...selectors.ui.dismissable);
   const springs = useSpring({

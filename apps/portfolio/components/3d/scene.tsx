@@ -49,7 +49,7 @@ const Scene = () => {
             <Canvas
               onCreated={(state) => useStore.setState({ getThree: state.get })}
               dpr={[1, 2]}
-              flat
+              // flat
               shadows
               gl={{ logarithmicDepthBuffer: true, preserveDrawingBuffer: true }}
               frameloop="demand"
@@ -59,7 +59,7 @@ const Scene = () => {
                 <AdaptiveDpr />
                 <Preload all />
                 {/* 🌄 Environment */}
-                <Environment files="./puresky.hdr" />
+                <Environment background files="./puresky.hdr" />
                 <Lights />
                 <Camera />
                 {/* 📚 Modules */}

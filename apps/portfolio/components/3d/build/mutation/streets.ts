@@ -58,6 +58,7 @@ const updateNeighbor = (x: number, z: number) => {
       rotation,
       variant: newType,
       id: streetId(x, z),
+      shown: true,
     };
 
     setTileType(x, z, terrain);
@@ -69,6 +70,7 @@ const destroyStreet = (tile: TileCoord) => {
   const { setTileType } = useStore.getState();
   const terrain: Terrain = {
     type: "flat",
+    shown: true,
   };
   setTileType(x, z, terrain);
   // also update the neighbors
@@ -88,6 +90,7 @@ const buildStreet = (tile: TileCoord) => {
     rotation,
     variant: type,
     id: streetId(x, z),
+    shown: true,
   };
 
   setTileType(x, z, terrain);

@@ -6,9 +6,13 @@ import { ModelLoader, TerrainLoader } from "./model";
 
 const { tiles } = constants.world;
 
-const Tile: FC<{ x: number; z: number }> = ({ x, z }) => {
+const Tile: FC<{ x: number; z: number; index: number }> = ({ x, z, index }) => {
   const terrain = useStore(useCallback((s) => s.world.terrain[x][z], [x, z]));
-  const props = { terrain, x, z };
+
+  const distanceToCenter = Math.floor(
+    Math.sqrt((x - tiles / 2) ** 2 + (z - tiles / 2) ** 2)
+  );
+  const props = { terrain, x, z, delay: distanceToCenter * 400 };
   return <TerrainLoader {...props} />;
 };
 
@@ -16,8 +20,8 @@ const Entities = () => {
   const entities = useStore((s) => s.world.entities);
   return (
     <group>
-      {entities.map((e) => (
-        <ModelLoader key={e.id} entity={e} />
+      {entities.map((e, i) => (
+        <ModelLoader key={e.id} entity={e} delay={500 + i * 500} />
       ))}
     </group>
   );
@@ -31,9 +35,11 @@ export const World = () => {
 
   return (
     <group>
-      {range(0, tiles).map((x) =>
-        range(0, tiles).map((z) => <Tile x={x} z={z} key={`tile-${x}-${z}`} />)
-      )}
+      {range(0, tiles)
+        .flatMap((x) => range(0, tiles).map((z) => ({ x, z })))
+        .map(({ x, z }, index) => (
+          <Tile index={index} x={x} z={z} key={`tile-${x}-${z}`} />
+        ))}
       <Entities />
     </group>
   );

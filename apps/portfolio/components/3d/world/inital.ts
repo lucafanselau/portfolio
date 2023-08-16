@@ -4,21 +4,24 @@ import { Entity, streetId, Terrain } from "./types";
 
 const F: Terrain = {
   type: "flat",
+  shown: false,
 };
 // const C = TerrainType.Clipping;
-const M = F;
+const M = { ...F, shown: true };
 
 const S: Terrain = {
   type: "street",
   variant: "straight",
   id: "street",
   rotation: 0,
+  shown: false,
 };
 const T: Terrain = {
   type: "street",
   variant: "turn",
   id: "street",
   rotation: 0,
+  shown: false,
 };
 
 const template = [
@@ -92,12 +95,14 @@ const initialBuildings: Entity[] = [
     category: "buildings",
     transform: coord.transform.building(coord.tile.create(13, 10), "school", 1),
     type: "school",
+    hidden: true,
   },
   {
     id: "house",
     category: "buildings",
     transform: coord.transform.building(coord.tile.create(10, 14), "house1", 0),
     type: "house1",
+    hidden: true,
   },
   {
     id: "office",
@@ -108,6 +113,7 @@ const initialBuildings: Entity[] = [
       2
     ),
     type: "office1",
+    hidden: true,
   },
 ];
 

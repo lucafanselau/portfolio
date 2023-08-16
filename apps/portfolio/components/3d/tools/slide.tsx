@@ -3,7 +3,7 @@ import { selectors } from "@3d/store/selector";
 import { animated, config, SpringConfig, useSpring } from "@react-spring/web";
 import { ScrollArea } from "@ui/scroll-area";
 import { cn } from "@ui/utils";
-import type { FC, ReactNode } from "react";
+import { FC, ReactNode, useEffect } from "react";
 import useMeasure from "react-use-measure";
 
 export const springConfig: SpringConfig = {
@@ -30,15 +30,25 @@ const clampHeight = (measured: number) => {
 
 export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
   const open = useStore(...selectors.ui.open.slide);
+  console.log("tool slide panel open ", open);
 
   const [measureRef, { height }] = useMeasure();
   // NOTE: Ugly, but we need to add the padding of the card (2*8) to the height plus the divider (2)
   const clamped = clampHeight(height + 16 + 2);
-  const spring = useSpring({
+  const [spring, api] = useSpring(() => ({
     from: { top: 0 },
-    to: { top: open ? -clamped : 0 },
     config: springConfig,
-  });
+
+    onChange: (value) => console.log(value),
+  }));
+
+  useEffect(() => {
+    const value = open ? -clamped : 0;
+    console.log("setting to ", value);
+    Promise.all(api.start({ top: value }))
+      .then(() => console.log("finished animating to ", value))
+      .catch((e) => console.log("error animating to ", value, e));
+  }, [open, clamped]);
 
   return (
     <div
