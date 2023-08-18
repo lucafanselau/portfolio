@@ -2,7 +2,7 @@ import type { BuildState } from "@3d/build/types";
 import type { Interaction } from "@3d/constants";
 import { constants } from "@3d/constants";
 import { coord, vec2, WorldCoord } from "@3d/world/coord";
-import { initial } from "@3d/world/inital";
+import initial from "../world/initial-export.json";
 import type { Entity, Terrain } from "@3d/world/types";
 import type { ToolContentKeys } from "@content/tools";
 import type { RootState as ThreeState } from "@react-three/fiber";
@@ -72,9 +72,8 @@ export const defaultStore: Store = {
   pointer: coord.world.new(vec2.splat(0)),
   pointerDown: false,
   world: {
+    ...(initial.world as Store["world"]),
     hovered: [],
-    terrain: initial.terrain,
-    entities: [...initial.buildings, ...initial.props],
     interaction: {
       current: undefined,
       history: { home: false, office: false, school: false },

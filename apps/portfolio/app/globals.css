@@ -11,7 +11,7 @@
     @apply font-medium text-accent-foreground underline underline-offset-2;
   }
   .card {
-    @apply rounded-lg border-2 bg-background p-4 shadow-md outline-none;
+    @apply rounded-lg border bg-background p-4 shadow-md outline-none;
   }
   .card-padding {
     @apply p-2 md:px-4;

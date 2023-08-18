@@ -30,7 +30,7 @@ const useTransitionStore = create<{
 export const defaultTransitionConfig = {
   smoothTime: 0.2, //0.5,
   maxSpeed: 50,
-  eps: 1e-5,
+  eps: 1e-3,
 };
 
 export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));

@@ -25,15 +25,15 @@ export const base = {
     interactions: [
       {
         title: "school" as const,
-        zone: new Box3(new Vector3(16, 0, -5), new Vector3(20, 0, 5)),
+        zone: new Box3(new Vector3(16, 0, -8), new Vector3(24, 0, 8)),
       },
       {
         title: "office" as const,
-        zone: new Box3(new Vector3(-15, 0, -32), new Vector3(-4, 0, -24)),
+        zone: new Box3(new Vector3(-15, 0, -24), new Vector3(-4, 0, -16)),
       },
       {
         title: "home" as const,
-        zone: new Box3(new Vector3(-5, 0, 24), new Vector3(5, 0, 32)),
+        zone: new Box3(new Vector3(-5, 0, 16), new Vector3(5, 0, 24)),
       },
     ],
   },

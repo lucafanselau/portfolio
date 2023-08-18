@@ -130,7 +130,7 @@ export const ScreenshotModal: FC = () => {
           <div className="relative flex flex-col items-center justify-center">
             <GradientEffect />
             <img
-              className="w-2/3 md:w-full rounded-md border-2 shadow-xl "
+              className="w-2/3 md:w-full rounded-md border border-input shadow-xl "
               src={file?.url}
             />
           </div>

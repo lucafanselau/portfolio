@@ -25,7 +25,7 @@ const StartContent: FC = () => {
   return (
     <animated.div
       style={spring}
-      className="relative z-50 card card-padding flex-1 min-h-0"
+      className="relative z-50 card card-padding min-h-0"
     >
       <ToolsPanelContent panel={tools.start.info} />
     </animated.div>
@@ -47,6 +47,7 @@ export const StartTools = () => {
   return (
     <ToolsLayout>
       <div className="flex h-full flex-col flex-nowrap justify-between">
+        <div className="flex-1 min-h-0" />
         <StartContent />
         {/* Used to give a window to the small figure */}
         <div className="w-full h-[300px]" />

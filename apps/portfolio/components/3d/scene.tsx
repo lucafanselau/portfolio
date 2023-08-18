@@ -1,9 +1,9 @@
 "use client";
 
 import { AdaptiveDpr, Environment, Preload, Stats } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, invalidate, useThree } from "@react-three/fiber";
 import { LoadingAnimation } from "@ui/loader";
-import type { FC, PropsWithChildren, ReactNode } from "react";
+import { FC, PropsWithChildren, ReactNode, useEffect } from "react";
 import { Suspense } from "react";
 import { BuildModule } from "./build";
 import { Camera } from "./camera";
@@ -20,6 +20,16 @@ import { World } from "./world";
 
 const UtilityLoader: FC<{ children: ReactNode }> = ({ children }) => {
   useTransitions();
+
+  // NOTE: This fixes a bug where after regress finished, no higher resolution image would be rendered
+  // since we are using frameloop="demand" we need to manually trigger a rerender
+  const perf = useThree((s) => s.viewport.dpr);
+  const invalidate = useThree((s) => s.invalidate);
+  useEffect(() => {
+    console.log(perf);
+    invalidate(100);
+  }, [perf]);
+
   return <GeneratedLoader>{children}</GeneratedLoader>;
 };
 
@@ -39,7 +49,8 @@ const Scene = () => {
           <Suspense fallback={<LoadingAnimation />}>
             <Canvas
               onCreated={(state) => useStore.setState({ getThree: state.get })}
-              dpr={[1, 2]}
+              performance={{ debounce: 250, min: 0.75 }}
+              // dpr={[1, 2]}
               // flat
               shadows
               gl={{ logarithmicDepthBuffer: true, preserveDrawingBuffer: true }}

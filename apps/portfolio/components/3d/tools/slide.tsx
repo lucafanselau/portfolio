@@ -80,7 +80,7 @@ export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
             >
               <div ref={measureRef}>{children}</div>
             </ScrollArea>
-            <div className="h-[2px] w-full flex-none bg-border" />
+            <div className="h-[1px] w-full flex-none bg-border" />
           </div>
         </animated.div>
       </div>
