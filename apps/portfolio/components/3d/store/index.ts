@@ -86,11 +86,6 @@ export const useStore = create<Store & Actions>()(
         ]);
 
         // and the ui transition
-        console.log(
-          "transitioning",
-          camera.position,
-          constants.transitions.position[target]
-        );
         await Promise.all([
           transitionVector3(
             camera.position,
@@ -103,8 +98,6 @@ export const useStore = create<Store & Actions>()(
           // for start we do want for the world to appear for the sake of the ui
           ...(target === "start" ? [promise] : []),
         ]);
-
-        console.log("awaited transitions");
 
         // after that update everything in the store
         set((s) => {
@@ -158,7 +151,6 @@ export const useStore = create<Store & Actions>()(
           // kick of at least one frame
           invalidate();
           s.character.state = "rotate";
-          console.log(target, s.target);
           s.target = new Vector3(target.x, 0, target.z);
         }),
       updateCharacter: (s) => set((state) => void (state.character.state = s)),

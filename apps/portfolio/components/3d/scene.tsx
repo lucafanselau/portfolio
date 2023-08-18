@@ -26,7 +26,6 @@ const UtilityLoader: FC<{ children: ReactNode }> = ({ children }) => {
   const perf = useThree((s) => s.viewport.dpr);
   const invalidate = useThree((s) => s.invalidate);
   useEffect(() => {
-    console.log(perf);
     invalidate(100);
   }, [perf]);
 

@@ -36,7 +36,6 @@ const BuildKeyboardDispatcher = () => {
         (state) => state[name],
         (state) => {
           if (state) {
-            console.log(name);
             switch (name) {
               case "rotateCCW":
                 return mutation.events.other.rotate("CCW");

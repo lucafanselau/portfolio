@@ -45,7 +45,6 @@ export const build = () => {
         if (free.length === 3) {
           const taken = variants.find((v) => free.every((f) => !vec2.eq(v, f)));
           const delta = coord.tile.new(vec2.mul(taken!, vec2.splat(-1)));
-          console.log(delta, free);
           s.pointer = coord.map(s.pointer, (p) =>
             vec2.add(p, coord.unwrap(coord.plane.from(delta)))
           );

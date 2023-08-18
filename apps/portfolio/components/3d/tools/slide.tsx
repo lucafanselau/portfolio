@@ -30,7 +30,6 @@ const clampHeight = (measured: number) => {
 
 export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
   const open = useStore(...selectors.ui.open.slide);
-  console.log("tool slide panel open ", open);
 
   const [measureRef, { height }] = useMeasure();
   // NOTE: Ugly, but we need to add the padding of the card (2*8) to the height plus the divider (2)
@@ -38,16 +37,11 @@ export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
   const [spring, api] = useSpring(() => ({
     from: { top: 0 },
     config: springConfig,
-
-    onChange: (value) => console.log(value),
   }));
 
   useEffect(() => {
     const value = open ? -clamped : 0;
-    console.log("setting to ", value);
-    Promise.all(api.start({ top: value }))
-      .then(() => console.log("finished animating to ", value))
-      .catch((e) => console.log("error animating to ", value, e));
+    Promise.all(api.start({ top: value }));
   }, [open, clamped]);
 
   return (
