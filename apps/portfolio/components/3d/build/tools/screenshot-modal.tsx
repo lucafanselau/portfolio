@@ -112,10 +112,12 @@ export const ScreenshotModal: FC = () => {
           {loading ? <LoadingSpinner /> : <IconCamera />}
         </Button>
       </DialogTrigger>
-      <DialogContent className="overflow-hidden container">
-        <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row-reverse md:space-x-4 md:space-x-reverse">
+      <DialogContent className="max-h-full overflow-hidden container">
+        <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row-reverse md:space-x-4 md:space-x-reverse max-h-full">
           <DialogHeader>
-            <DialogTitle>Look at what you have built!</DialogTitle>
+            <DialogTitle className={"text-2xl"}>
+              Look at what you have built!
+            </DialogTitle>
             <DialogDescription>
               Thanks for sticking all the way to the end! You can share your
               creation with your friends or download it to your device.
@@ -128,7 +130,7 @@ export const ScreenshotModal: FC = () => {
           <div className="relative flex flex-col items-center justify-center">
             <GradientEffect />
             <img
-              className="w-full rounded-md border-2 shadow-xl "
+              className="w-2/3 md:w-full rounded-md border-2 shadow-xl "
               src={file?.url}
             />
           </div>
