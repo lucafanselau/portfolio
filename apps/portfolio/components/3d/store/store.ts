@@ -54,7 +54,7 @@ export const defaultStore: Store = {
   target: new Vector3(),
   camera: {
     target: constants.transitions.target.start.clone(),
-    position: constants.transitions.position.explore.clone(),
+    position: constants.transitions.position.initial.clone(),
     controlled: {
       position: true,
       target: true,

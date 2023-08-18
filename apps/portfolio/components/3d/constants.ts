@@ -56,6 +56,11 @@ export const constants = {
   ...base,
   transitions: {
     position: {
+      initial: new Vector3(
+        -base.camera.distance,
+        base.guy.approximateHeight * 10,
+        0
+      ),
       start: new Vector3(
         -base.camera.distance,
         base.guy.approximateHeight * 2,

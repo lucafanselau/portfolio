@@ -33,7 +33,7 @@ export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
 
   const [measureRef, { height }] = useMeasure();
   // NOTE: Ugly, but we need to add the padding of the card (2*8) to the height plus the divider (2)
-  const clamped = clampHeight(height + 16 + 2);
+  const clamped = clampHeight(height + 2);
   const [spring, api] = useSpring(() => ({
     from: { top: 0 },
     config: springConfig,
@@ -68,11 +68,13 @@ export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
         >
           <div>
             <ScrollArea
-              className={"pointer-events-auto w-full p-[8px]"}
+              className={"pointer-events-auto w-full"}
               // we are compensating for the border here
               style={{ height: clamped - 2 }}
             >
-              <div ref={measureRef}>{children}</div>
+              <div ref={measureRef} className={"card-padding"}>
+                {children}
+              </div>
             </ScrollArea>
             <div className="h-[1px] w-full flex-none bg-border" />
           </div>

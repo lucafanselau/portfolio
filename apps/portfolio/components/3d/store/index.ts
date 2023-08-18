@@ -85,6 +85,8 @@ export const useStore = create<Store & Actions>()(
           }),
         ]);
 
+        if (target === "start") await promise;
+
         // and the ui transition
         await Promise.all([
           transitionVector3(
@@ -95,8 +97,6 @@ export const useStore = create<Store & Actions>()(
             camera.target,
             constants.transitions.target[target]
           ),
-          // for start we do want for the world to appear for the sake of the ui
-          ...(target === "start" ? [promise] : []),
         ]);
 
         // after that update everything in the store

@@ -6,15 +6,16 @@ export const projects = [
     title: "Own A World",
     subtitle:
       "Experimenting with value creation through composition of NFTs in a Sims like experience",
-    links: link("https://owna.world"),
+    links: link("https://owna-monorepo.vercel.app/"),
     description: "",
     timeframe: [new Date(2020), new Date(2021)],
   },
   {
     title: "Portfolio",
-    subtitle: "",
+    subtitle: "Ok, let's overengineer a portfolio website. Sounds fun!",
     links: [link(config.website), link(config.github + "/portfolio", "github")],
-    description: "",
+    description:
+      "The page you are currently visiting. It is all opensource and you can find the code on github. Psst. Secret tip, have you checked out the 404 page?",
     timeframe: new Date(2023),
   },
   {

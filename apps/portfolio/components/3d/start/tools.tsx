@@ -7,6 +7,7 @@ import { ToolsProgress } from "@3d/tools/progress";
 import { springConfig } from "@3d/tools/slide";
 import { content } from "@content/index";
 import { tools } from "@content/tools";
+import { ScrollArea } from "@ui/scroll-area";
 import { animated, useSpring } from "@react-spring/web";
 import type { FC } from "react";
 
@@ -25,9 +26,11 @@ const StartContent: FC = () => {
   return (
     <animated.div
       style={spring}
-      className="relative z-50 card card-padding min-h-0"
+      className="relative z-50 card card-padding min-h-0 pointer-events-auto"
     >
-      <ToolsPanelContent panel={tools.start.info} />
+      <ScrollArea className="h-full">
+        <ToolsPanelContent panel={tools.start.info} />
+      </ScrollArea>
     </animated.div>
   );
 };

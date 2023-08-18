@@ -7,22 +7,26 @@ import { ToolsContent } from "./types";
 const info = {
   header: [
     <>
-      Hi There, I Am <span className={"text-animation"}>Luca</span>
+      Hi There Visitor, I am <span className={"text-animation"}>Luca</span>
     </>,
     "Software Engineer, 22 years, from 🇩🇪",
   ],
   body: (
     <>
       <P>
+        Welcome to my town, stranger! Its always nice to see new faces. TODO
         Welcome to my website, I am glad you found your way here! This
-        landingpage is an interactive experience designed as my Portfolio. If
-        you want a more structured and static overview or if this webpage causes
-        trouble with your device, you can checkout the{" "}
-        <Link className={"link"} href={"/about"}>
-          About
-        </Link>{" "}
-        page. In the second case I would be happy if you could report the issue
-        to me. Either via{" "}
+        landingpage is an interactive experience designed as my Portfolio.
+      </P>
+      <P>
+        If you decided to stay here, let's start by exploring the space... It
+        still a bit empty here, but that will change very soon. Otherwise you
+        can also checkout my social media profiles, which are linked in the
+        toolbar.
+      </P>
+      <P color={"lighter"}>
+        If you encounter any issues with the issues with the website, please
+        report them to me, either via{" "}
         <Link className={"link"} href={"mailto:" + config.mail}>
           E-Mail
         </Link>
@@ -30,12 +34,11 @@ const info = {
         <Link className={"link"} target={"_blank"} href={config.projectGithub}>
           Github Repository
         </Link>
-      </P>
-      <P>
-        If you decided to stay here, let's start by exploring the space... It
-        still a bit empty here, but that will change very soon. Otherwise you
-        can also checkout my social media profiles, which are linked in the
-        toolbar.
+        . As a fallback you can always checkout the static version of my
+        portfolio content on the{" "}
+        <Link className={"link"} href={"/about"}>
+          About page
+        </Link>
       </P>
     </>
   ),

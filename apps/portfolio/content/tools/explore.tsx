@@ -15,30 +15,43 @@ import { FC } from "react";
 import { ToolsContent } from "./types";
 
 const Instruction: FC<{ Icon: Icon; text: string }> = ({ Icon, text }) => (
-  <div className="flex flex-1 flex-col items-center space-y-2">
+  <div className="flex flex-1 flex-col items-center space-y-2 max-w-[196px]">
     <Icon />
     <P align={"center"}>{text}</P>
   </div>
 );
+
+/*
+
+        <Instruction Icon={IconMouse} text={"Click and drag to pan around"} />
+
+ */
 
 const info = {
   header: [
     <>
       Let's <span className={"text-animation"}>Explore</span> a bit
     </>,
-    "This world is filled with locations, that are important to me.",
+    "This world is filled with locations, that are important to me. Explore them all and become the mayor of this town.",
   ],
   body: (
     <>
-      <div className={"mb-4 flex space-x-2"}>
-        <Instruction Icon={IconPointer} text={"Click to move character"} />
-        <Instruction Icon={IconMouse} text={"Click and drag to pan around"} />
+      <P>
+        You can freely move around in this world. Some of the locations carry
+        information about me, my life and my work. Make yourself comfortable and
+        explore the world.
+      </P>
+      <div className={"mb-4 flex space-x-2 justify-center"}>
+        <Instruction
+          Icon={IconPointer}
+          text={"Click to move character around"}
+        />
         <Instruction
           Icon={IconArrowsMaximize}
-          text={"Scroll / Pan to zoom in or out"}
+          text={"Scroll / Pan with two fingers to zoom in or out"}
         />
       </div>
-      <P color={"lighter"} size={"xs"}>
+      <P size={"xs"}>
         You can visit the locations in the town, by walking up to their
         entrance. Pssst, once you explored all the locations, the journey is not
         over...
