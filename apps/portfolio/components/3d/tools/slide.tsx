@@ -41,7 +41,7 @@ export const ToolsSlidePanel: FC<{ children?: ReactNode }> = ({ children }) => {
 
   useEffect(() => {
     const value = open ? -clamped : 0;
-    Promise.all(api.start({ top: value }));
+    Promise.all(api.start({ top: value })).catch(console.error);
   }, [open, clamped]);
 
   return (
