@@ -47,6 +47,39 @@ const download = (file: File) => {
   window.URL.revokeObjectURL(url);
 };
 
+const ShareButtons = ({
+  className,
+  file,
+}: {
+  className: string;
+  file: { file: File; url: string } | undefined;
+}) => {
+  return (
+    <div
+      className={cn("flex items-center justify-center space-x-2", className)}
+    >
+      <Button
+        variant="inverted"
+        size={"sm"}
+        className={"flex-1"}
+        onClick={() => isSome(file) && share(file.file)}
+      >
+        <IconShare className={"mr-4"} />
+        Share
+      </Button>
+      <Button
+        variant="inverted"
+        className={"flex-1"}
+        size={"sm"}
+        onClick={() => isSome(file) && download(file.file)}
+      >
+        <IconDownload className={"mr-4"} />
+        Download
+      </Button>
+    </div>
+  );
+};
+
 export const ScreenshotModal: FC = () => {
   const [loading, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
@@ -79,50 +112,35 @@ export const ScreenshotModal: FC = () => {
           {loading ? <LoadingSpinner /> : <IconCamera />}
         </Button>
       </DialogTrigger>
-      <DialogContent className="overflow-hidden">
-        <DialogHeader>
-          <DialogTitle>Look at what you have built!</DialogTitle>
-          <DialogDescription>
-            Thanks for sticking all the way to the end! You can share your
-            creation with your friends or download it to your device.
-            <br />
-            By the way. If you want to come back to your small city just click
-            the save button and the city will be saved in your browser.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="relative flex flex-col items-center justify-center space-y-4">
-          <GradientEffect />
-          <img
-            className="w-2/3 rounded-md border-2 shadow-xl "
-            src={file?.url}
-          />
-
-          <div className=" flex items-center justify-center space-x-2">
-            <Button
-              variant="background"
-              size={"sm"}
-              onClick={() => isSome(file) && share(file.file)}
-            >
-              <IconShare className={"mr-4"} />
-              Share
-            </Button>
-            <Button
-              variant="background"
-              size={"sm"}
-              onClick={() => isSome(file) && download(file.file)}
-            >
-              <IconDownload className={"mr-4"} />
-              Download
-            </Button>
+      <DialogContent className="overflow-hidden container">
+        <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row-reverse md:space-x-4 md:space-x-reverse">
+          <DialogHeader>
+            <DialogTitle>Look at what you have built!</DialogTitle>
+            <DialogDescription>
+              Thanks for sticking all the way to the end! You can share your
+              creation with your friends or download it to your device.
+              <br />
+              By the way. If you want to come back to your small city just click
+              the save button and the city will be saved in your browser.
+            </DialogDescription>
+            <ShareButtons className="hidden md:flex" file={file} />
+          </DialogHeader>
+          <div className="relative flex flex-col items-center justify-center">
+            <GradientEffect />
+            <img
+              className="w-full rounded-md border-2 shadow-xl "
+              src={file?.url}
+            />
           </div>
+          <ShareButtons className="flex md:hidden" file={file} />
         </div>
       </DialogContent>
     </Dialog>
   );
 };
 
-const numOfArcs = 6;
-const colors = ["to-blue-500", "to-purple-600", "to-amber-500"];
+const numOfArcs = 3;
+const colors = ["to-blue-500/80", "to-green-500/50"]; // ""to-purple-600", "to-amber-500"];
 const GradientEffect = () => {
   return (
     <div
@@ -133,11 +151,11 @@ const GradientEffect = () => {
       {range(0, numOfArcs).map((i) => (
         <span
           key={`gradient-arc-${i}`}
-          style={{ rotate: `${i * (360 / numOfArcs)}deg` }}
+          style={{ rotate: `${i * (360 / numOfArcs) + Math.random() * 60}deg` }}
           className={cn(
             // translate-x-[15% / 80%]
-            "absolute h-[50%] w-[60%] origin-top-left translate-x-[-50px] translate-y-[-50px] rounded-full ",
-            "bg-gradient-to-r from-green-300  via-green-400",
+            "absolute h-[50%] w-[100%] origin-top-left translate-x-[-50px] translate-y-[-50px] rounded-full ",
+            "bg-gradient-to-r from-green-300/30",
             colors[i % colors.length]
             // "blur-xl"
             // "bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-green-300 via-cyan-600/50 to-blue-500/20"
