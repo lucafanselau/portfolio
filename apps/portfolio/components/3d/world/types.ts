@@ -26,4 +26,5 @@ export type Entity<C extends AssetCategory = AssetCategory> = {
   transform: Transform;
   variant?: string;
   hidden?: boolean;
+  appear?: Store["state"];
 };

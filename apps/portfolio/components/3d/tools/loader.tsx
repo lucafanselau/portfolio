@@ -10,7 +10,7 @@ export const ToolsLoader = () => {
       .with({ state: "start" }, () => StartTools)
       .with({ state: "explore" }, () => ExploreTools)
       .with({ state: "build" }, () => BuildTools)
-      .exhaustive();
+      .otherwise(() => () => null);
   }, Object.is);
   return <ToolsSlot />;
 };

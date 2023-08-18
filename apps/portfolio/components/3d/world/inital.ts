@@ -98,6 +98,7 @@ const initialBuildings: Entity[] = [
     transform: coord.transform.building(coord.tile.create(13, 10), "school", 1),
     type: "school",
     hidden: true,
+    appear: "explore",
   },
   {
     id: "house",
@@ -105,6 +106,7 @@ const initialBuildings: Entity[] = [
     transform: coord.transform.building(coord.tile.create(10, 14), "house1", 0),
     type: "house1",
     hidden: true,
+    appear: "explore",
   },
   {
     id: "office",
@@ -116,6 +118,19 @@ const initialBuildings: Entity[] = [
     ),
     type: "office1",
     hidden: true,
+    appear: "explore",
+  },
+  {
+    category: "buildings",
+    id: "starting park",
+    transform: {
+      anchor: { type: "tile", value: [10, 10] },
+      extend: { type: "tile", value: [2, 2] },
+      rotation: 0,
+    },
+    hidden: true,
+    appear: "start",
+    type: "park4",
   },
 ];
 
@@ -129,6 +144,8 @@ const initialProps: Entity[] = [
         [0.2, 0.2]
       ),
       type: "tree",
+      hidden: true,
+      appear: "start",
       variant: ["one", "two", "three", "four"][i],
     })
   ),

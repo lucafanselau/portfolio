@@ -1,4 +1,5 @@
 import { constants } from "@3d/constants";
+import { isNone } from "@components/utils";
 import type { ToolContentKeys } from "@content/tools";
 import { tools } from "@content/tools";
 import type { ToolsContent } from "@content/tools/types";
@@ -16,13 +17,16 @@ const camera = pack(
     zoom: state !== "start",
     rotate: state !== "start",
     controlsEnabled: !controlled.position && mode.type !== "build",
-    distance: constants.camera.maxDistance[state],
+    distance: constants.camera.maxDistance[state ?? "start"],
   }),
   shallowEqual
 );
 
 const content = pack((s): ToolsContent | undefined => {
-  if (s.ui.mode.type !== "focus" && s.ui.mode.type !== "slide")
+  if (
+    isNone(s.state) ||
+    (s.ui.mode.type !== "focus" && s.ui.mode.type !== "slide")
+  )
     return undefined;
   // @ts-expect-error unsafe access with "key"
   return tools[s.state][s.ui.mode.key];
@@ -80,9 +84,10 @@ const actions = pack((s) => {
     return s.world.interaction.history[key] !== true;
   };
 
+  if (isNone(s.state)) return [];
   return (Object.keys(tools[s.state]) as ToolContentKeys[]).map((key) => {
     // @ts-expect-error (unsafe access with "key")
-    const content = tools[s.state][key] as ToolsContent;
+    const content = tools[s.state ?? "start"][key] as ToolsContent;
     return [key, content.icon, disabled(key)] as const;
   });
 }, deepEqual);

@@ -28,8 +28,8 @@ const useTransitionStore = create<{
 );
 
 export const defaultTransitionConfig = {
-  smoothTime: 0.25, //0.5,
-  maxSpeed: 300, // 25,
+  smoothTime: 0.2, //0.5,
+  maxSpeed: 50,
   eps: 1e-5,
 };
 

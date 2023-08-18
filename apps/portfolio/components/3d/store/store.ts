@@ -20,7 +20,7 @@ export type Store = {
       target: boolean;
     };
   };
-  state: "start" | "explore" | "build";
+  state?: "start" | "explore" | "build";
   ui: {
     mode:
       | { type: "focus" | "slide"; key: ToolContentKeys }
@@ -53,14 +53,14 @@ export const defaultStore: Store = {
   getThree: undefined,
   target: new Vector3(),
   camera: {
-    target: constants.transitions.target.start,
-    position: constants.transitions.position.start,
+    target: constants.transitions.target.start.clone(),
+    position: constants.transitions.position.explore.clone(),
     controlled: {
       position: true,
       target: true,
     },
   },
-  state: "start",
+  state: undefined,
   ui: {
     mode: { type: "closed" }, //  { type: "focus", key: "info" },
     transition: false,
@@ -82,5 +82,5 @@ export const defaultStore: Store = {
   },
 };
 
-export type State = Store["state"];
+export type State = NonNullable<Store["state"]>;
 export type CharacterState = Store["character"];

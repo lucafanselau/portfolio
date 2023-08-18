@@ -44,6 +44,7 @@ export const useStore = create<Store & Actions>()(
       // *******************************************************************
       // Actions
       updateState: async (target) => {
+        if (target === undefined) return;
         // notify ui of transition
         set((s) => {
           s.ui.transition = true;
@@ -59,17 +60,12 @@ export const useStore = create<Store & Actions>()(
           .flatMap((row, x) => row.map((terrain, z) => ({ x, z, terrain })))
           // filter out only the tiles that should appear
           .filter(({ terrain }) => terrain.appear === target);
-        const entities = target === "explore" ? world.entities : [];
+        const entities = world.entities.filter(
+          ({ appear }) => appear === target
+        );
 
-        await Promise.all([
-          transitionVector3(
-            camera.position,
-            constants.transitions.position[target]
-          ),
-          transitionVector3(
-            camera.target,
-            constants.transitions.target[target]
-          ),
+        // we also kick of the revealing of terrain, this promise does not need to be awaited to enter into the next ui state
+        const promise = Promise.all([
           // and let the world appear
           ...tiles.map(async ({ terrain }, index) => {
             const slot = slots.get(terrain.id);
@@ -89,6 +85,27 @@ export const useStore = create<Store & Actions>()(
           }),
         ]);
 
+        // and the ui transition
+        console.log(
+          "transitioning",
+          camera.position,
+          constants.transitions.position[target]
+        );
+        await Promise.all([
+          transitionVector3(
+            camera.position,
+            constants.transitions.position[target]
+          ),
+          transitionVector3(
+            camera.target,
+            constants.transitions.target[target]
+          ),
+          // for start we do want for the world to appear for the sake of the ui
+          ...(target === "start" ? [promise] : []),
+        ]);
+
+        console.log("awaited transitions");
+
         // after that update everything in the store
         set((s) => {
           s.state = target;
@@ -97,6 +114,7 @@ export const useStore = create<Store & Actions>()(
           s.ui.transition = false;
           s.ui.mode = { type: "focus", key: "info" };
         });
+        if (target !== "start") await promise;
       },
       updateTools: (config) => {
         match(config)

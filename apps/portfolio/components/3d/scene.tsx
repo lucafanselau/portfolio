@@ -23,15 +23,6 @@ const UtilityLoader: FC<{ children: ReactNode }> = ({ children }) => {
   return <GeneratedLoader>{children}</GeneratedLoader>;
 };
 
-export const ConditionalLoader: FC<PropsWithChildren<{ states: State[] }>> = ({
-  states,
-  children,
-}) => {
-  const isMatching = useStore((s) => states.includes(s.state));
-  if (isMatching) return <>{children}</>;
-  else return null;
-};
-
 const Scene = () => {
   return (
     <Suspense fallback={<LoadingAnimation />}>

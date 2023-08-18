@@ -19,7 +19,7 @@ export const Header = () => {
   return (
     <div
       className={
-        "z-10 flex items-center justify-between rounded-lg bg-background px-4 py-4 shadow-md"
+        "z-10 flex items-center justify-between rounded-lg card card-padding shadow-md"
       }
     >
       <Link href={"/"}>

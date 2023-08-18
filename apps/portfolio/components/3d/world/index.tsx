@@ -1,6 +1,6 @@
 import { constants } from "@3d/constants";
 import { useStore } from "@3d/store";
-import { range } from "@components/utils";
+import { isSome, range } from "@components/utils";
 import { FC, useCallback, useEffect } from "react";
 import { ModelLoader, TerrainLoader } from "./model";
 
@@ -21,7 +21,11 @@ const Entities = () => {
   return (
     <group>
       {entities.map((e, i) => (
-        <ModelLoader key={e.id} entity={e} hideable />
+        <ModelLoader
+          key={e.id}
+          entity={e}
+          hideable={isSome(e.hidden) && e.hidden}
+        />
       ))}
     </group>
   );

@@ -13,6 +13,9 @@
   .card {
     @apply rounded-lg border-2 bg-background p-4 shadow-md outline-none;
   }
+  .card-padding {
+    @apply p-2 md:px-4;
+  }
   .highlight {
     @apply font-medium text-accent-foreground;
   }

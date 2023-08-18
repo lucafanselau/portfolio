@@ -24,7 +24,7 @@ export const ExploreTarget = () => {
     <group position={[0, 3 * constants.eps, 0]} visible={visible}>
       <mesh ref={ref} renderOrder={999} rotation={[Math.PI / -2, 0, 0]}>
         <planeBufferGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial map={texture} transparent />
+        <meshStandardMaterial map={texture} transparent depthTest={false} />
       </mesh>
     </group>
   );

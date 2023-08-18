@@ -43,11 +43,11 @@ export const base = {
     longIdle: 1.2,
   },
   camera: {
-    distance: 5,
+    distance: 8,
     maxDistance: {
-      explore: 70,
-      start: 70,
-      build: 150,
+      explore: 100,
+      start: 100,
+      build: 200,
     },
   },
 };
@@ -58,7 +58,7 @@ export const constants = {
     position: {
       start: new Vector3(
         -base.camera.distance,
-        base.guy.approximateHeight * 1.3,
+        base.guy.approximateHeight * 2,
         0
       ),
       explore: new Vector3(
@@ -67,13 +67,13 @@ export const constants = {
         0
       ),
       build: new Vector3(
-        base.guy.approximateHeight * -20,
-        base.guy.approximateHeight * 40,
+        base.guy.approximateHeight * -30,
+        base.guy.approximateHeight * 60,
         0
       ),
     },
     target: {
-      start: new Vector3(0, base.guy.approximateHeight * 1.3, 0),
+      start: new Vector3(0, base.guy.approximateHeight * 1.5, 0),
       explore: new Vector3(0, base.guy.approximateHeight * 1.3, 0),
       build: new Vector3(0, 0, 0),
     },
