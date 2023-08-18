@@ -60,7 +60,7 @@ export const Camera = () => {
         enablePan={pan}
         enableZoom={zoom}
         enableRotate={rotate}
-        // enableDamping={true}
+        enableDamping={true}
         regress
       />
     </group>
