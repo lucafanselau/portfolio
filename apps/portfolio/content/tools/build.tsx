@@ -1,5 +1,29 @@
-import { IconBulldozer, IconCrane, IconInfoSmall } from "@tabler/icons-react";
+import {
+  IconArrowsMaximize,
+  IconBulldozer,
+  IconCrane,
+  IconInfoSmall,
+  IconMouse,
+} from "@tabler/icons-react";
+import { Instruction } from "./explore";
 import { ToolsContent } from "./types";
+
+const Instructions = () => {
+  return (
+    <div className={"mb-4 flex space-x-2 justify-center"}>
+      <Instruction
+        Icon={IconArrowsMaximize}
+        mobile={"Scroll / Pan with two fingers to zoom in or out"}
+      />
+      <Instruction
+        Icon={IconMouse}
+        mobile={
+          "Use two fingers and move the focus point of the camera / On Desktop use the Shift+Click"
+        }
+      />
+    </div>
+  );
+};
 
 export const info = {
   header: [
@@ -9,7 +33,13 @@ export const info = {
     </>,
     "I love city builder games, so here is one I made.",
   ],
-  body: <>NOTHING HERE YET</>,
+  body: (
+    <>
+      I have unlocked the camera, so that you can freely move around. You can
+      now:
+      <Instructions />
+    </>
+  ),
   icon: <IconInfoSmall />,
 } satisfies ToolsContent;
 

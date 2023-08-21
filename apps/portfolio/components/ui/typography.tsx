@@ -26,7 +26,7 @@ export const H2 = forwardRef<HTMLParagraphElement, JSX.IntrinsicElements["h2"]>(
         ref={ref}
         {...props}
         className={cn(
-          "scroll-m-20 pb-2 text-xl font-semibold tracking-tight transition-colors first:mt-0",
+          "scroll-m-20 pb-1 text-xl font-semibold tracking-tight transition-colors first:mt-0",
           className
         )}
       />

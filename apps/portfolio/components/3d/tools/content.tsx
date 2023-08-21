@@ -20,7 +20,7 @@ export const ToolsPanelContent: FC<{ panel: ToolsContent }> = ({ panel }) => {
           </Slot>
         </div>
         <div className="flex flex-col items-start justify-center">
-          <H1 className="max-w-[300px]">{retained.header[0]}</H1>
+          <H1 className="">{retained.header[0]}</H1>
           <P color="lighter" size="xs">
             {retained.header[1]}
           </P>

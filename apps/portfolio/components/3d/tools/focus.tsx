@@ -32,12 +32,12 @@ export const ToolsFocusPanel: FC<{ children?: ReactNode }> = ({ children }) => {
       style={springs}
       className={cn(
         // NOTE: mb-2 is for the popover to be nicely spaced to the toolbar
-        "card mb-2 flex min-h-0 basis-auto flex-col space-y-2 card-padding",
+        "card mb-2 flex min-h-0 basis-auto flex-col space-y-2 p-2 md:p-4",
         open && "pointer-events-auto"
       )}
     >
       <ScrollArea className="h-full">
-        <div id="popover-children" className="w-full pr-4">
+        <div id="popover-children" className="w-full">
           {children}
         </div>
       </ScrollArea>

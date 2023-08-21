@@ -34,7 +34,7 @@ const Entities = () => {
 export const World = () => {
   useEffect(() => {
     // KICK OF STORY LINE
-    useStore.getState().updateState("start").catch(console.error); //   updateTools({ type: "focus", key: "info" });
+    useStore.getState().updateState("explore").catch(console.error); //   updateTools({ type: "focus", key: "info" });
   }, []);
 
   return (
