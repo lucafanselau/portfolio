@@ -12,6 +12,55 @@ const Instructions = () => {
   return (
     <div className={"mb-4 flex space-x-2 justify-center"}>
       <Instruction
+        title={"Rotate Camera"}
+        Icon={IconArrowsMove}
+        mobile={
+          <>
+            <Kbd className={"mr-2 w-10"}>
+              <IconHandClick className={"mx-auto"} size={12} />
+            </Kbd>
+            +
+            <Kbd className={"mx-2 w-10"}>
+              <IconArrowsMove className={"mx-auto"} size={12} />
+            </Kbd>
+            Click and move the finger
+          </>
+        }
+        desktop={
+          <>
+            <Kbd className={"mr-2 w-10"}>
+              <IconClick className={"mx-auto"} size={12} />
+            </Kbd>
+            +
+            <Kbd className={"mx-2 w-10"}>
+              <IconArrowsMove className={"mx-auto"} size={12} />
+            </Kbd>
+            Click and move the cursor
+          </>
+        }
+      />
+      <Instruction
+        title={"Zoom"}
+        Icon={IconArrowsMaximize}
+        mobile={
+          <>
+            <Kbd className={"mr-2 w-10"}>
+              <IconHandTwoFingers className={"mx-auto"} size={12} />
+            </Kbd>
+            Scroll in and out using two fingers
+          </>
+        }
+        desktop={
+          <>
+            <Kbd className={"mr-2 w-10"}>
+              <IconMouse size={14} className={"mx-auto"} />
+            </Kbd>
+            Scroll in and out to zoom
+          </>
+        }
+      />
+
+      <Instruction
         Icon={IconArrowsMaximize}
         mobile={"Scroll / Pan with two fingers to zoom in or out"}
       />

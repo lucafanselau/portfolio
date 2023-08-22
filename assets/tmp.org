@@ -1,0 +1,179 @@
+
+
+
+Im folgenden die angeben Beschreibungen aus dem Modulhandbuch der rwth aachen, und anschiessend vergl. kurse aus dem modulhandbuch wirtschaftsinformatik
+
+* Praktische Informatik:
+** Softwaretechnik
+
+*** RWTH:
+
+Die Vorlesung erarbeitet die Grundlagen zur Entwicklung komplexer Softwaresysteme. Behandelt
+werden Vorgehensmodelle, die Erhebung von Anforderungen, Softwarearchitektur und -entwurf,
+der Weg zur Implementierung und zur Qualitätssicherung mit Tests. Dabei wird vorwiegend die
+Modellierungssprache UML zur Darstellung genutzt.
+• Einführung, Grundbegriffe
+• Aktivitäten und Dokumente im Lebenszyklus
+• Der Entwicklungs- und Wartungsprozess
+• Problemanalyse und Anforderungserhebung
+• Entwurf und Architekturmodellierung, Architekturmuster
+• Entwurfsmuster
+• Qualitätssicherung
+• Projektmanagement
+• Dokumentation
+• Demonstration von Werkzeugen: MontiWeb
+
+*** Uni Koeln
+
+EM Wirtschaftsinformatik I: 1277BEWIF1 System Analysis and Design
+• Anforderungsanalyse und -erhebung
+• Systemmodellierung
+• Projektplanung
+• Prototyping
+• Unified Modeling Language (UML)
+• Mensch-Computer-Interaktion
+
+Und darueber hinaus
+SM Informatik: 5751PrPrak
+• Softwareentwicklung in Teamarbeit
+• Konzeptioneller Softwareentwurf, Zerlegung der Aufgabenstellung in Teilaufgaben,
+Schnittstellendefinition zwischen Programmkomponenten
+• Implementierung der Komponenten und Integration zu einem lauffähigen Programm
+• Test der Software und Fehlerbehebung
+• Erstellung einer vollständigen Dokumentation und eines Projektberichts
+
+
+* Theoretischen Informatik:
+** Formale Systeme, Automation, Prozesse
+
+*** RWTH
+1. Formale Systeme: Terme, Wörter, Sprachen anhand von Kernbeispielen: u.a. Zahlterme,
+arithmetische und boolesche Terme, while-Programme. Definition von Termmengen und
+Programmiersprachen durch Regelsysteme (Termersetzungssysteme, Grammatiken),
+Ableitungsbegriff, Methode der strukturellen Induktion. Klassifikation von Grammatiken
+(Chomsky-Hierarchie) und elementare Sachverhalte zu kontextfreien Grammatiken:
+Normalformen, Wortproblem (Ableitbarkeitstest), Nichtleerheitstest.
+2. Automaten: Endliche Automaten (deterministisch, nichtdeterministisch),
+Abschlusseigenschaften (u.a. Produktautomaten), reguläre Ausdrücke, Nichtleerheits- und
+Äquivalenztest, Nachweis nichtregulärer Sprachen. Kellerautomaten (deterministisch und
+nichtdeterministisch), Übersetzung von kontextfreien Grammatiken in Kellerautomaten als
+Beispiel der Implementierung von Rekursion durch Kellerspeicher.
+3. Prozesse: Elementare Modellierungsformen verteilter und nebenläufiger Systeme:
+Synchronisierte Produkte, Petrinetze und kommunizierende sequentielle Prozesse (CSP).
+Vorstellung und Einübung anhand von Beispielen, Vergleich mit dem Grundmodell des
+endlichen Automaten.
+
+*** Uni Koeln
+
+AM Informatik II: 5722AMTI02 Theoretische Informatik (VL, UE) 9 CP
+Das Modul beschäftigt sich mit einer Einführung in die Theoretische Informatik. Es beinhaltet eine
+kurze Einführung in die Automatentheorie sowie das Gebiet der formalen Sprachen. Der Fokus liegt
+dann auf Ergebnissen der Berechenbarkeitstheorie sowie der Komplexitätstheorie. Wichtige Bestandteile sind z.B. die Definition von Turingmaschinen, Ergebnisse zur Diagonalsprache und zum
+Halteproblem, die Komplexitätsklassen P und NP, polynomielle Reduktionen und NP-Vollständigkeit.
+
+** Mathematische Logik I
+
+*** RWTH
+Aussagenlogik (Grundlagen, algorithmische Fragen, Kompaktheit, Resolution, Sequenzenkalkül).
+Strukturen, Syntax und Semantik der Prädikatenlogik. Einführung in weitere Logiken (modale und
+temporale Logiken, Logiken höherer Stufe). Auswertungsspiele, Modellvergleichsspiele. Beweiskalküle,
+Termstrukturen, Vollständigkeitssatz. Kompaktheitssatz und Anwendungen. Entscheidbarkeit,
+Unentscheidbarkeit und Komplexität von logischen Spezifikationen
+
+*** Uni Koeln
+
+Nicht wirklich
+
+** Theoretische Informatik
+
+*** RWTH
+Moegliche faecher:
+• Effiziente Algorithmen, 6CP
+• Model Checking, 6 CP
+• Compilerbau, 6 CP
+• Foundations of Functional Programming, 6 CP
+• Foundations of Logic Programming, 6 CP
+• Erfüllbarkeitsüberprüfung, 6 CP
+• Modellierung und Analyse hybrider Systeme, 6CP
+• Komplexitätstheorie, 6 CP
+• Mathematische Logik II, 6 CP
+• Advanced Automata Theory, 6 CP
+
+*** Uni Koeln
+
+* Technische Informatik:
+** Betriebssysteme und Systemsoftware
+*** RWTH
+• Aufgaben und Struktur von Betriebssystemen
+• Das Betriebssystem Unix
+• Systemaufrufe und Shellprogrammierung
+• Einführung in die Programmiersprache C
+• Prozessverwaltung: Prozesse, Threads und Interprozesskommunikation
+• Prozess-Synchronisation, Nebenläufigkeit und Deadlocks
+• CPU-Scheduling
+• Speicherverwaltung: Segmentierung, Paging, Fragmentierung, virtueller Speicher
+• Stack- und Heap-Verwaltung, Garbage Collection
+• Dateisystem und Rechteverwaltung
+• I/O-System
+• Verteilte Systeme
+• Socket-Programmierung
+*** Uni Koeln
+Leider nichts
+
+** Datenkommunikation und Sicherheit
+*** RWTH
+• Client/Server- und Peer-to-Peer-Systeme
+• OSI-Referenzmodell und TCP/IP-Referenzmodell
+• Übertragungsmedien und Signaldarstellung
+• Fehlerbehandlung, Flusssteuerung und Medienzugriff
+• Lokale Netze, speziell Ethernet
+• Netzkomponenten und Firewalls
+• Internet-Protokolle: IP, Routing, TCP/UDP
+• Sicherheitsmanagement und Datenschutz, Sicherheitsprobleme und Angriffe im Internet
+• Grundlagen der Kryptographie und sichere Internet-Protokolle
+*** Uni Koeln
+NOPE
+** Systemprogrammierung
+*** RWTH
+Das Praktikum Systemprogrammierung vermittelt zentrale Themen der hardwarenahen
+Systemprogrammierung. Im Verlauf dieses Praktikums implementieren die Studierenden ein
+Betriebssystem in der Programmiersprache C für einen Mikrocontroller. Außerdem werden
+elektronische Grundlagen vermittelt, in die elementare Signalverarbeitung eingeführt, sowie auf
+typische Fragestellungen der hardwarenahen Programmerstellung wie Interrupts, limitierte Hardware
+oder integrierte Funktionalität des Mikrocontrollers eingegangen. Folgende Themen werden explizit
+behandelt: Auffrischung physikalischen Grundwissens, Umgang mit Messinstrumenten; Mikrocontroller
+(Architektur, Programmierung, Anwendungen); Scheduler, Interrupts &; Polling, Speicher und
+Speicherverwaltung; Ansprechen externer Hardware am Beispiel von Speicherbausteinen, A/DWandler; Analoge Schaltungen - Anbindung des Mikrocontrollers an seine Umgebung.
+*** Uni Koeln
+Mischung aus Capstone Projekt aber ein bisschen ein long shot
+
+** IT-Sicherheit
+
+*** RWTH
+• Grundlegende Terminologie der IT-Sicherheit
+• Ausgewählte Angriffe auf heutige vernetzte Systeme und deren Ursachen
+• Praxisrelevante Grundlagen der Kryptographie, insbesondere symmetrische und asymmetrische
+Verschlüsselung, Symmetrischer Integritätsschutz mit Message Authentication Codes und
+asymmetrischer Integritätsschutz mit digitalen Signaturen
+• Protokolle zur Authentifizierung und zum Schlüsselaustausch
+• Grundlagen der Netzwerksicherheit, insbesondere Firewall Konzepte und praxisrelevante
+Protokolle zur Netzwerksicherheit, sowie Verfügbarkeitsangriffe und deren Gegenmaßnahmen
+• Grundlagen der Systemsicherheit, insbesondere Eigenschaften von Schadsoftware,
+Schwachstellen und Infektionswege, die von Schadsoftware genutzt werden, mögliche
+Gegenmaßnahmen
+• Grundlegende Maßnahmen zum Schutz der Privatsphäre
+*** Uni Koeln
+
+* Mathematik:
+** Diskrete Strukturen
+*** RWTH
+• Mengen, Funktionen, Relationen anhand informatischer Beispiele
+• Boolesche Algebra
+• Endliche Kombinatorik
+• Elementare Zahlentheorie
+• Körper und Polynomring
+• Matrizenrechnung, Lösungsverfahren für lineare Gleichungssysteme
+• Elementare Graphentheorie
+
+*** Uni Koeln
+

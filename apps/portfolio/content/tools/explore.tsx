@@ -21,42 +21,12 @@ import {
 import { Kbd } from "@ui/kbd";
 import { H3, H4, P } from "@ui/typography";
 import { FC, ReactNode } from "react";
+import {
+  Instruction,
+  InstructionCameraRotate,
+  InstructionCameraZoom,
+} from "./instructions";
 import { ToolsContent } from "./types";
-
-export const Instruction: FC<{
-  Icon: Icon;
-  title: ReactNode;
-  mobile: ReactNode;
-  desktop?: ReactNode;
-}> = ({ Icon, title, mobile, desktop }) => (
-  <div className="flex flex-1 flex-col items-start space-y-2 border-2 rounded-lg p-2">
-    <div className={"flex items-center space-x-2"}>
-      <div className={"p-2 border-2 rounded-lg"}>
-        <Icon size={16} />
-      </div>
-      <H4>{title}</H4>
-    </div>
-    <div className={"flex items-start space-x-2"}>
-      <IconDeviceMobile size={20} className={"flex-none"} />
-      {isNone(desktop) && (
-        <>
-          <P>/</P>
-          <IconDeviceDesktop size={20} className={"flex-none"} />
-        </>
-      )}
-      <P>:</P>
-      <P size={"sm"}>{mobile}</P>
-    </div>
-
-    {isSome(desktop) && (
-      <div className={"flex items-start space-x-2"}>
-        <IconDeviceDesktop size={20} className={"flex-none"} />
-        <P>:</P>
-        <P size={"sm"}>{desktop}</P>
-      </div>
-    )}
-  </div>
-);
 
 const Instructions: FC<{}> = () => {
   return (
@@ -77,54 +47,9 @@ const Instructions: FC<{}> = () => {
             </>
           }
         />
-        <Instruction
-          title={"Rotate Camera"}
-          Icon={IconArrowsMove}
-          mobile={
-            <>
-              <Kbd className={"mr-2 w-10"}>
-                <IconHandClick className={"mx-auto"} size={12} />
-              </Kbd>
-              +
-              <Kbd className={"mx-2 w-10"}>
-                <IconArrowsMove className={"mx-auto"} size={12} />
-              </Kbd>
-              Click and move the finger
-            </>
-          }
-          desktop={
-            <>
-              <Kbd className={"mr-2 w-10"}>
-                <IconClick className={"mx-auto"} size={12} />
-              </Kbd>
-              +
-              <Kbd className={"mx-2 w-10"}>
-                <IconArrowsMove className={"mx-auto"} size={12} />
-              </Kbd>
-              Click and move the cursor
-            </>
-          }
-        />
-        <Instruction
-          title={"Zoom"}
-          Icon={IconArrowsMaximize}
-          mobile={
-            <>
-              <Kbd className={"mr-2 w-10"}>
-                <IconHandTwoFingers className={"mx-auto"} size={12} />
-              </Kbd>
-              Scroll in and out using two fingers
-            </>
-          }
-          desktop={
-            <>
-              <Kbd className={"mr-2 w-10"}>
-                <IconMouse size={14} className={"mx-auto"} />
-              </Kbd>
-              Scroll in and out to zoom
-            </>
-          }
-        />
+
+        <InstructionCameraRotate />
+        <InstructionCameraZoom />
       </div>
     </>
   );

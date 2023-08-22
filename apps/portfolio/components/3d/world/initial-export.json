@@ -627,18 +627,6 @@
       },
       {
         "category": "buildings",
-        "id": "entity-8",
-        "transform": {
-          "anchor": { "type": "tile", "value": [7, 10] },
-          "extend": { "type": "tile", "value": [2, 2] },
-          "rotation": 0
-        },
-        "type": "house5",
-        "hidden": true,
-        "appear": "explore"
-      },
-      {
-        "category": "buildings",
         "id": "entity-9",
         "transform": {
           "anchor": { "type": "tile", "value": [7, 7] },
