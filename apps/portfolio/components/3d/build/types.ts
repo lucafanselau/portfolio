@@ -15,4 +15,6 @@ export type BuildStateBuild = {
   payload: Payload<AssetCategory>;
 };
 type BuildStateDestroy = { type: "destroy" };
-export type BuildState = BuildStateBuild | BuildStateDestroy;
+export type BuildState = (BuildStateBuild | BuildStateDestroy) & {
+  info: "focus" | "slide" | false;
+};

@@ -2,6 +2,7 @@ import { mutation } from "@3d/build/mutation";
 import { constants } from "@3d/constants";
 import { AssetCategory, AssetKey, findAssetEntry } from "@3d/generated-loader";
 import { models } from "@3d/generated/loader";
+import { useNonDragClick } from "@components/hooks/use-non-drag-click";
 import { isNone, isSome } from "@components/utils";
 import { useTexture } from "@react-three/drei";
 import { GroupProps } from "@react-three/fiber";
@@ -54,6 +55,9 @@ export const ModelLoader = forwardRef<
   const Model = useMemo(() => findModel(entity), [entity]);
   if (isNone(Model)) return null;
 
+  const pointer = useNonDragClick((e) => {
+    mutation.events.model(entity.id).onPointerDown(e);
+  });
   return (
     <TransformLoader
       scale={hideable ? [0, 0, 0] : undefined}
@@ -62,7 +66,7 @@ export const ModelLoader = forwardRef<
       transform={entity.transform}
       plane={plane}
     >
-      <Model {...mutation.events.model(entity.id)} />
+      <Model {...pointer} />
     </TransformLoader>
   );
 });

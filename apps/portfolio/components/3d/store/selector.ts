@@ -16,7 +16,7 @@ const camera = pack(
     pan: state === "build",
     zoom: state !== "start",
     rotate: state !== "start",
-    controlsEnabled: !controlled.position && mode.type !== "build",
+    controlsEnabled: !controlled.position,
     distance: constants.camera.maxDistance[state ?? "start"],
   }),
   shallowEqual
@@ -37,15 +37,12 @@ const hovered = pack((s) => s.world.hovered, shallowEqual);
 const opaque = pack(
   (s) =>
     s.state !== "start" &&
-    (s.ui.mode.type === "focus" || s.ui.mode.type === "slide") &&
+    (s.ui.mode.type === "focus" ||
+      s.ui.mode.type === "slide" ||
+      (s.ui.mode.type === "build" && s.ui.mode.payload.info !== false)) &&
     !s.ui.transition
 );
-const dismissable = pack(
-  (s) =>
-    s.state !== "start" &&
-    s.ui.mode.type !== "closed" &&
-    s.ui.mode.type !== "build"
-);
+const dismissable = opaque;
 
 const pointer = pack((s) => s.pointer, deepEqual);
 
@@ -55,8 +52,18 @@ const state = {
   start: pack((s) => s.state === "start"),
 };
 
-const focus = pack((s) => s.ui.mode.type === "focus" && !s.ui.transition);
-const slide = pack((s) => s.ui.mode.type === "slide" && !s.ui.transition);
+const focus = pack(
+  (s) =>
+    (s.ui.mode.type === "focus" ||
+      (s.ui.mode.type === "build" && s.ui.mode.payload.info === "focus")) &&
+    !s.ui.transition
+);
+const slide = pack(
+  (s) =>
+    (s.ui.mode.type === "slide" ||
+      (s.ui.mode.type === "build" && s.ui.mode.payload.info === "slide")) &&
+    !s.ui.transition
+);
 const targetOpen = pack((s) => s.state === "explore");
 const buildOpen = pack((s) => s.ui.mode.type === "build");
 const outline = pack(

@@ -1,5 +1,5 @@
 import type { State } from "@3d/store/store";
-import { build } from "./build";
+import { build, tutorial } from "./build";
 import { explore } from "./explore";
 import { start } from "./start";
 import { ToolsContent } from "./types";

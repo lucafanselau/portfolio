@@ -120,7 +120,7 @@ export const InstructionCameraZoom = () => {
 export const InstructionCameraPan = () => {
   return (
     <Instruction
-      title={"Zoom"}
+      title={"Move Camera"}
       Icon={IconArrowsMaximize}
       mobile={
         <>
@@ -129,21 +129,22 @@ export const InstructionCameraPan = () => {
           </Kbd>
           +
           <Kbd className={"mx-2 w-10"}>
-            <IconArrowsDiagonal className={"mx-auto"} size={12} />
+            <IconArrowsMove className={"mx-auto"} size={12} />
           </Kbd>
-          Pinch using two fingers
+          Touch the screen with two fingers and move them in parallel
         </>
       }
       desktop={
         <>
-          <Kbd className={"mr-2 w-10"}>
-            <IconMouse size={14} className={"mx-auto"} />
+          <Kbd className={"mr-2 w-10"}>Shift</Kbd>+
+          <Kbd className={"mx-2 w-10"}>
+            <IconClick className={"mx-auto"} size={12} />
           </Kbd>
           +
           <Kbd className={"mx-2 w-10"}>
-            <IconArrowsMoveVertical className={"mx-auto"} size={12} />
+            <IconArrowsMove className={"mx-auto"} size={12} />
           </Kbd>
-          Scroll in and out to zoom
+          Click while holding shift and move the cursor
         </>
       }
     />

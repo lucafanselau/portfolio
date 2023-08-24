@@ -9,63 +9,24 @@ import { buildPattern, matchBuild } from "./build";
 
 const destroyPattern = buildPattern("destroy");
 
-const onPointer = (e: ThreeEvent<PointerEvent>) => {
-  const { getState: get, setState: set } = useStore;
-  if (!e.point) return;
-  get().setPointer(coord.world.create(e.point.x, e.point.z));
-};
-const onPointerDown = (e: ThreeEvent<PointerEvent>) => {
-  const { getState: get, setState: set } = useStore;
-  onPointer(e);
-  set((s) => void (s.pointerDown = true));
+// simple function to check if this is the first call to this function
+// with this id using the localStorage web api
+const isFirst = (id: string) => {
+  if (typeof window === "undefined") return true;
 
-  // If we cannot hover lets not build, this is handled by a button then
-  // if (!getCanHover()) return;
-  // // otherwise lets build
-  // buildOrDestroy();
-};
-const onPointerUp = (e: ThreeEvent<PointerEvent>) => {
-  const { getState: get, setState: set } = useStore;
-  set((s) => void (s.pointerDown = false));
-  onPointer(e);
-};
-const onPointerMove = (e: ThreeEvent<PointerEvent>) => {
-  const { getState: get, setState: set } = useStore;
-  if (!get().pointerDown) return;
-  onPointer(e);
+  const key = `first-${id}`;
+  const first = localStorage.getItem(key) === null;
+
+  if (first) {
+    localStorage.setItem(key, "true");
+    return true;
+  } else {
+    return false;
+  }
 };
 
 export const events = {
-  interaction: {
-    onPointerDown,
-    onPointerUp,
-    onPointerMove: onPointerMove,
-  },
   model: (entity: string) => ({
-    onPointerOver: (e) => {
-      return;
-      const { getState: get, setState: set } = useStore;
-      // If we cannot hover lets not build, this is handled by a button then
-      if (!getCanHover()) return;
-      if (!isMatching(destroyPattern, get())) return;
-
-      // otherwise lets append that
-      set((s) => {
-        if (s.world.hovered.find(([_, id]) => id === entity)) return;
-        s.world.hovered.push([e.object, entity]);
-      });
-    },
-    onPointerOut: (e) => {
-      return;
-      const { getState: get, setState: set } = useStore;
-      // If we cannot hover lets not build, this is handled by a button then
-      if (!getCanHover()) return;
-      if (!isMatching(destroyPattern, get())) return;
-      // otherwise lets append that
-      set((s) => {
-        s.world.hovered = s.world.hovered.filter(([_, id]) => id !== entity);
-      });
-    },
     onPointerDown: (e) => {
       const { getState: get, setState: set } = useStore;
       // NOTE: THIS IS A MOBILE ONLY INTERACTION
@@ -102,8 +63,11 @@ export const events = {
         ? entry.file[Math.floor(Math.random() * entry.file.length)].id
         : undefined;
 
+      const info = isFirst("tutorial-build") ? "focus" : false;
+
       get().initBuild({
         type: "build",
+        info,
         payload: {
           id: entry.id as AssetKey<AssetCategory>,
           type,
@@ -117,7 +81,8 @@ export const events = {
     },
     destroy: () => {
       const { getState: get, setState: set } = useStore;
-      get().initBuild({ type: "destroy" });
+      const info = isFirst("tutorial-destroy") ? "focus" : false;
+      get().initBuild({ type: "destroy", info });
     },
   },
   other: {

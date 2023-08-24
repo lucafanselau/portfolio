@@ -16,7 +16,7 @@ const MeasuredBar = ({
   return (
     <ToolsToolbar className="flex max-h-full flex-col flex-nowrap p-0">
       <ToolsSlidePanel>{children}</ToolsSlidePanel>
-      <div className="flex w-full flex-none flex-wrap items-center justify-between space-x-2 card-padding">
+      <div className="flex w-full flex-none flex-nowrap items-center justify-between space-x-2 card-padding">
         {bar}
       </div>
       {/* NOTE: This is not really *inside* of the toolbar, but needs its as a parent, for positioning*/}

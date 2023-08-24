@@ -10,6 +10,7 @@ import {
   IconChevronLeft,
   IconDeviceFloppy,
   IconHammer,
+  IconInfoSmall,
   IconRotateClockwise,
 } from "@tabler/icons-react";
 import { Button } from "@ui/button";
@@ -45,13 +46,17 @@ const dismiss = () => {
   useStore.getState().updateTools({ type: "dismiss" });
 };
 
+const info = () => {
+  useStore.getState().updateTools({ type: "info" });
+};
+
 export const BuildActiveBar: FC = ({}) => {
   // const entry = useStore(...buildEntry);
   // if (isNone(entry)) return null;
-  const info = useStore(...barInfo);
-  if (isNone(info)) return null;
+  const bar = useStore(...barInfo);
+  if (isNone(bar)) return null;
 
-  const { icon, rotate, text } = info;
+  const { icon, rotate, text } = bar;
 
   return (
     <>
@@ -84,6 +89,9 @@ export const BuildActiveBar: FC = ({}) => {
             <div className="h-8 w-[2px] bg-input" />
           </>
         )}
+        <Button onClick={info} variant="outline" size="icon">
+          <IconInfoSmall />
+        </Button>
         <Button onClick={mutation.build} variant="outline" size="icon">
           {icon}
         </Button>

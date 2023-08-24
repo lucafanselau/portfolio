@@ -23,6 +23,7 @@ export type Actions = {
     config:
       | { type: "dismiss" }
       | { type: "slide" | "focus"; key: ToolContentKeys }
+      | { type: "info" }
   ) => void;
   initBuild: (state: BuildState) => void;
   setPointer: (pointer: Store["pointer"]) => void;
@@ -112,7 +113,16 @@ export const useStore = create<Store & Actions>()(
       updateTools: (config) => {
         match(config)
           .with({ type: "dismiss" }, () => {
-            set((s) => void (s.ui.mode = { type: "closed" }));
+            set((s) => {
+              if (
+                s.ui.mode.type === "build" &&
+                s.ui.mode.payload.info !== false
+              ) {
+                s.ui.mode.payload.info = false;
+              } else {
+                s.ui.mode = { type: "closed" };
+              }
+            });
           })
           .with({ type: "slide" }, ({ key }) =>
             set((s) => {
@@ -125,6 +135,14 @@ export const useStore = create<Store & Actions>()(
           )
           .with({ type: "focus" }, (config) => {
             set((s) => void (s.ui.mode = config));
+          })
+          .with({ type: "info" }, (config) => {
+            set((s) => {
+              if (s.ui.mode.type !== "build") return;
+              if (s.ui.mode.payload.info === false)
+                s.ui.mode.payload.info = "slide";
+              else s.ui.mode.payload.info = false;
+            });
           })
           .exhaustive();
       },

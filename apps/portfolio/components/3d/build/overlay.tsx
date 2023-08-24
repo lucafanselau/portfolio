@@ -1,7 +1,11 @@
 import { constants } from "@3d/constants";
+import { useStore } from "@3d/store";
 import { selectors } from "@3d/store/selector";
 import { useSubscribe } from "@3d/store/utils";
+import { coord } from "@3d/world/coord";
+import { useNonDragClick } from "@components/hooks/use-non-drag-click";
 import { Plane } from "@react-three/drei";
+import { invalidate, ThreeEvent } from "@react-three/fiber";
 import { shallowEqual } from "fast-equals";
 import {
   ComponentPropsWithoutRef,
@@ -23,10 +27,14 @@ export const InteractionPlane = () => {
     () => new MeshStandardMaterial({ transparent: true, opacity: 0 })
   );
 
+  const pointer = useNonDragClick<ThreeEvent<PointerEvent>>((e) => {
+    useStore.getState().setPointer(coord.world.create(e.point.x, e.point.z));
+  });
+
   return (
     <Plane
       ref={interaction}
-      {...mutation.events.interaction}
+      {...pointer}
       args={[planeSize, planeSize, 2, 2]}
       rotation={[-Math.PI / 2, 0, 0]}
       material={material}
@@ -84,6 +92,7 @@ export const BuildPreviewPlane = forwardRef<
   // load dynamic state, based on build
   useSubscribe(selectors.ui.open.build, (open) => {
     material.visible = open;
+    invalidate();
   });
 
   return (
