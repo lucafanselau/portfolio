@@ -1,10 +1,9 @@
 "use client";
 
 import { AdaptiveDpr, Environment, Preload, Stats } from "@react-three/drei";
-import { Canvas, invalidate, useThree } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 import { LoadingAnimation } from "@ui/loader";
-import { FC, PropsWithChildren, ReactNode, useEffect } from "react";
-import { Suspense } from "react";
+import { FC, ReactNode, Suspense, useEffect } from "react";
 import { BuildModule } from "./build";
 import { Camera } from "./camera";
 import { AnimatedCharacter } from "./character";
@@ -13,7 +12,6 @@ import { ExploreModule } from "./explore";
 import { GeneratedLoader } from "./generated-loader";
 import { Lights } from "./lights";
 import { useStore } from "./store";
-import type { State } from "./store/store";
 import { ToolsLoader } from "./tools/loader";
 import { useTransitions } from "./transition";
 import { World } from "./world";

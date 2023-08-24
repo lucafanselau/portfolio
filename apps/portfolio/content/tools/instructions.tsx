@@ -22,9 +22,9 @@ export const Instruction: FC<{
   mobile: ReactNode;
   desktop?: ReactNode;
 }> = ({ Icon, title, mobile, desktop }) => (
-  <div className="flex flex-1 flex-col items-start space-y-2 border-2 rounded-lg p-2">
+  <div className="flex flex-1 flex-col items-start space-y-2 rounded-lg border-2 p-2">
     <div className={"flex items-center space-x-2"}>
-      <div className={"p-2 border-2 rounded-lg"}>
+      <div className={"rounded-lg border-2 p-2"}>
         <Icon size={16} />
       </div>
       <H4>{title}</H4>

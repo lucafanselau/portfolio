@@ -1,9 +1,6 @@
 import { toArray } from "@components/utils";
 import { content } from "@content/index";
-import {
-  IconBrandGithub,
-  IconInnerShadowLeftFilled,
-} from "@tabler/icons-react";
+import { IconBrandGithub } from "@tabler/icons-react";
 import { Button } from "@ui/button";
 import { Card } from "@ui/card";
 import { H2, P } from "@ui/typography";
@@ -14,11 +11,11 @@ export const Projects: FC = () => {
   return (
     <>
       <H2>Hobby Projects</H2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {content.projects.map((project) => (
           <Card
             key={project.title}
-            className={"justify-between flex flex-col h-full space-y-2"}
+            className={"flex h-full flex-col justify-between space-y-2"}
           >
             <div>
               <H2>{project.title}</H2>
@@ -27,9 +24,10 @@ export const Projects: FC = () => {
               </P>
             </div>
             <P>{project.description}</P>
-            <div className="flex flex-wrap space-x-2 justify-end">
+            <div className="flex flex-wrap justify-end space-x-2">
               {toArray(project.links).map(({ type, link }) => (
                 <Button
+                  key={"link-" + type}
                   asChild
                   size={type === "github" ? "icon" : "sm"}
                   variant={type === "github" ? "outline" : "inverted"}

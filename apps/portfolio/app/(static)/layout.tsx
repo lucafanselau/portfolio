@@ -1,8 +1,8 @@
-import { Header } from "@components/header";
-import { cn } from "@ui/utils";
-import "@app/globals.css";
 import { inter, roboto } from "@app/fonts";
+import "@app/globals.css";
+import { Header } from "@components/header";
 import { FullPageGradient } from "@components/random";
+import { cn } from "@ui/utils";
 
 export { metadata } from "@app/metadata";
 

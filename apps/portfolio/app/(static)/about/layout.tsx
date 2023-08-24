@@ -1,5 +1,3 @@
-import { FullPageGradient } from "@components/random";
-
 export default function AboutLayout({
   children,
 }: {
@@ -8,9 +6,5 @@ export default function AboutLayout({
   {
     /* Main Column */
   }
-  return (
-    <>
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }

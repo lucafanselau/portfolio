@@ -1,26 +1,17 @@
 import { Projects } from "@components/about/projects";
 import { School } from "@components/about/school";
 import { Work } from "@components/about/work";
-import { isNone, isSome } from "@components/utils";
 import {
-  Icon,
-  IconArrowsMaximize,
-  IconArrowsMove,
   IconBuildingSkyscraper,
-  IconClick,
-  IconDeviceDesktop,
-  IconDeviceMobile,
   IconHandClick,
-  IconHandTwoFingers,
   IconHome,
   IconInfoSmall,
-  IconMouse,
   IconPointer,
   IconSchool,
 } from "@tabler/icons-react";
 import { Kbd } from "@ui/kbd";
-import { H3, H4, P } from "@ui/typography";
-import { FC, ReactNode } from "react";
+import { H3, P } from "@ui/typography";
+import { FC } from "react";
 import {
   Instruction,
   InstructionCameraRotate,
@@ -33,7 +24,7 @@ const Instructions: FC<{}> = () => {
     <>
       <H3>Instructions:</H3>
       <div
-        className={"mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2"}
+        className={"mb-4 grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3"}
       >
         <Instruction
           Icon={IconPointer}

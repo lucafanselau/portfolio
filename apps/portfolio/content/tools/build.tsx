@@ -1,12 +1,10 @@
 import {
-  IconArrowsMaximize,
   IconBulldozer,
   IconChevronLeft,
   IconClick,
   IconCrane,
   IconHammer,
   IconInfoSmall,
-  IconMouse,
   IconRotateClockwise,
 } from "@tabler/icons-react";
 import { Kbd } from "@ui/kbd";
@@ -21,7 +19,7 @@ import { ToolsContent } from "./types";
 const Instructions = () => {
   return (
     <div
-      className={"mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2"}
+      className={"mb-4 grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3"}
     >
       <InstructionCameraPan />
       <InstructionCameraRotate />

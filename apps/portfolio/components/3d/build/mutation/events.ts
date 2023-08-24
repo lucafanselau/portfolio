@@ -1,8 +1,6 @@
 import { AssetCategory, AssetEntry, AssetKey } from "@3d/generated-loader";
 import { useStore } from "@3d/store";
-import { coord } from "@3d/world/coord";
-import { getCanHover } from "@components/hooks/use-can-hover";
-import { GroupProps, ThreeEvent } from "@react-three/fiber";
+import { ThreeEvent } from "@react-three/fiber";
 import { Object3D } from "three";
 import { isMatching } from "ts-pattern";
 import { buildPattern, matchBuild } from "./build";
@@ -27,7 +25,7 @@ const isFirst = (id: string) => {
 
 export const events = {
   model: (entity: string) => ({
-    onPointerDown: (e) => {
+    onPointerDown: (e: ThreeEvent<PointerEvent>) => {
       const { getState: get, setState: set } = useStore;
       // NOTE: THIS IS A MOBILE ONLY INTERACTION
       // if (getCanHover()) return;
@@ -100,7 +98,4 @@ export const events = {
       });
     },
   },
-} satisfies Record<
-  "interaction" | "model",
-  GroupProps | ((entity: string) => GroupProps)
-> & { init: object; other: object };
+};

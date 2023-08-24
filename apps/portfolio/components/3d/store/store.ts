@@ -2,12 +2,12 @@ import type { BuildState } from "@3d/build/types";
 import type { Interaction } from "@3d/constants";
 import { constants } from "@3d/constants";
 import { coord, vec2, WorldCoord } from "@3d/world/coord";
-import initial from "../world/initial-export.json";
 import type { Entity, Terrain } from "@3d/world/types";
 import type { ToolContentKeys } from "@content/tools";
 import type { RootState as ThreeState } from "@react-three/fiber";
 import type { Object3D } from "three";
 import { Vector3 } from "three";
+import initial from "../world/initial-export.json";
 
 export type Store = {
   getThree?: () => ThreeState;

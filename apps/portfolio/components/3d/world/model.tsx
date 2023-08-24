@@ -5,7 +5,7 @@ import { models } from "@3d/generated/loader";
 import { useNonDragClick } from "@components/hooks/use-non-drag-click";
 import { isNone, isSome } from "@components/utils";
 import { useTexture } from "@react-three/drei";
-import { GroupProps } from "@react-three/fiber";
+import { GroupProps, ThreeEvent } from "@react-three/fiber";
 import { ComponentType, FC, forwardRef, useMemo } from "react";
 import { mergeRefs } from "react-merge-refs";
 import {
@@ -53,11 +53,11 @@ export const ModelLoader = forwardRef<
 >(({ entity, plane = true, hideable = false }, ref) => {
   const slotRef = useSlotRef(entity.id);
   const Model = useMemo(() => findModel(entity), [entity]);
-  if (isNone(Model)) return null;
 
-  const pointer = useNonDragClick((e) => {
+  const pointer = useNonDragClick<ThreeEvent<PointerEvent>>((e) => {
     mutation.events.model(entity.id).onPointerDown(e);
   });
+  if (isNone(Model)) return null;
   return (
     <TransformLoader
       scale={hideable ? [0, 0, 0] : undefined}

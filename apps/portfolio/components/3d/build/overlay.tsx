@@ -16,7 +16,6 @@ import {
 } from "react";
 import type { Mesh } from "three";
 import { MeshStandardMaterial } from "three";
-import { mutation } from "./mutation";
 
 const { tileSize, tiles } = constants.world;
 const planeSize = tileSize * tiles;

@@ -1,5 +1,4 @@
 import { useStore } from "@3d/store";
-import { ToolsComposition } from "@3d/tools";
 import { ToolsAction, ToolsToolbar } from "@3d/tools/bar";
 import { ToolsPanelContent } from "@3d/tools/content";
 import { ToolsLayout } from "@3d/tools/layout";
@@ -7,8 +6,8 @@ import { ToolsProgress } from "@3d/tools/progress";
 import { springConfig } from "@3d/tools/slide";
 import { content } from "@content/index";
 import { tools } from "@content/tools";
-import { ScrollArea } from "@ui/scroll-area";
 import { animated, useSpring } from "@react-spring/web";
+import { ScrollArea } from "@ui/scroll-area";
 import type { FC } from "react";
 
 const StartContent: FC = () => {
@@ -26,7 +25,7 @@ const StartContent: FC = () => {
   return (
     <animated.div
       style={spring}
-      className="relative z-50 card card-padding min-h-0 pointer-events-auto"
+      className="card card-padding pointer-events-auto relative z-50 min-h-0"
     >
       <ScrollArea className="h-full">
         <ToolsPanelContent panel={tools.start.info} />
@@ -50,11 +49,11 @@ export const StartTools = () => {
   return (
     <ToolsLayout>
       <div className="flex h-full flex-col flex-nowrap justify-between">
-        <div className="flex-1 min-h-0" />
+        <div className="min-h-0 flex-1" />
         <StartContent />
         {/* Used to give a window to the small figure */}
-        <div className="w-full h-[300px]" />
-        <ToolsToolbar className="flex w-full flex-none flex-wrap items-center justify-between space-x-2 card-padding">
+        <div className="h-[300px] w-full" />
+        <ToolsToolbar className="card-padding flex w-full flex-none flex-wrap items-center justify-between space-x-2">
           <ToolsAction actions={actions} />
           <ToolsProgress
             item={{
