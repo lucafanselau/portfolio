@@ -104,9 +104,8 @@ const home = {
   body: (
     <>
       <P>
-        Projects are an essential way to learn new projects, some of these
-        projects are listed here. I will do my best to keep this list up to
-        date.
+        Projects are an essential part to learning new things. Here are some of
+        the projects I have worked on:
       </P>
       <Projects />
     </>

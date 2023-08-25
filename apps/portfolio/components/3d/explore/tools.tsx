@@ -28,7 +28,7 @@ const progress = selectors.pack((store): ProgressItem => {
   return {
     button: "Next",
     target: "build",
-    disabled: false, // TODO: !finished,
+    disabled: !finished,
     extraText,
   };
 }, shallowEqual);

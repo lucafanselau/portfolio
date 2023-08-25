@@ -7,16 +7,21 @@ import { ToolsContent } from "./types";
 const info = {
   header: [
     <>
-      Hi There Visitor, I am <span className={"text-animation"}>Luca</span>
+      Hi There, I am <span className={"text-animation"}>Luca</span>
     </>,
     "Software Engineer, 22 years, from 🇩🇪",
   ],
   body: (
     <>
       <P>
-        Welcome to my town, stranger! Its always nice to see new faces. TODO
-        Welcome to my website, I am glad you found your way here! This
-        landingpage is an interactive experience designed as my Portfolio.
+        Welcome to my town, stranger! Its always nice to see new faces. I am
+        glad you found your way here! This landingpage is an interactive
+        experience designed as my Portfolio. If you are looking at a static
+        overview of my portfolio, you can checkout the{" "}
+        <Link className={"link"} href={"/about"}>
+          About page
+        </Link>
+        .
       </P>
       <P>
         If you decided to stay here, let's start by exploring the space... It
