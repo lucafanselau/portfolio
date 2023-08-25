@@ -52,7 +52,7 @@ const Scene = () => {
               // dpr={[1, 2]}
               // flat
               shadows
-              gl={{ preserveDrawingBuffer: true }}
+              gl={{ preserveDrawingBuffer: true, precision: "highp" }}
               frameloop="demand"
             >
               <UtilityLoader>
