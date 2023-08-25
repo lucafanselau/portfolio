@@ -12,6 +12,7 @@ export const build = () => {
   // TODO: Check if build is valid
 
   const state = get();
+  const { setPointer } = state;
 
   if (state.ui.mode.type !== "build" || state.ui.mode.payload.type !== "build")
     return;
@@ -45,15 +46,19 @@ export const build = () => {
         if (free.length === 3) {
           const taken = variants.find((v) => free.every((f) => !vec2.eq(v, f)));
           const delta = coord.tile.new(vec2.mul(taken!, vec2.splat(-1)));
-          s.pointer = coord.map(s.pointer, (p) =>
-            vec2.add(p, coord.unwrap(coord.plane.from(delta)))
+          setPointer(
+            coord.map(s.pointer, (p) =>
+              vec2.add(p, coord.unwrap(coord.plane.from(delta)))
+            )
           );
         } else {
           const random = coord.tile.new(
             free[Math.floor(Math.random() * free.length)]
           );
-          s.pointer = coord.map(s.pointer, (p) =>
-            vec2.add(p, coord.unwrap(coord.plane.from(random)))
+          setPointer(
+            coord.map(s.pointer, (p) =>
+              vec2.add(p, coord.unwrap(coord.plane.from(random)))
+            )
           );
         }
       }
@@ -74,8 +79,10 @@ export const build = () => {
         extend,
         rotation: entity.transform.rotation,
       });
-      s.pointer = coord.map(s.pointer, (p) =>
-        vec2.add(p, coord.unwrap(coord.plane.from(direction)))
+      setPointer(
+        coord.map(s.pointer, (p) =>
+          vec2.add(p, coord.unwrap(coord.plane.from(direction)))
+        )
       );
     });
   }

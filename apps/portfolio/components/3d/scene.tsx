@@ -52,9 +52,9 @@ const Scene = () => {
               dpr={[1, 2]}
               // dpr={[1, 2]}
               // flat
-              shadows
+              // shadows
               gl={{ preserveDrawingBuffer: true, precision: "highp" }}
-              // frameloop="demand"
+              frameloop="demand"
             >
               <UtilityLoader>
                 {/* ✨ Optimizations */}

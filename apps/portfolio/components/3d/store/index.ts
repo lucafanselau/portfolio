@@ -2,6 +2,7 @@ import { BuildState } from "@3d/build/types";
 import type { Interaction } from "@3d/constants";
 import { constants } from "@3d/constants";
 import { sleep, transitionVector3 } from "@3d/transition";
+import { coord } from "@3d/world/coord";
 import { useSlots } from "@3d/world/slots";
 import { Terrain } from "@3d/world/types";
 import { DeepPartial, isSome } from "@components/utils";
@@ -154,7 +155,20 @@ export const useStore = create<Store & Actions>()(
             payload: state,
           };
         }),
-      setPointer: (p) => set((s) => void (s.pointer = p)),
+      setPointer: (p) =>
+        set((s) => {
+          // bounds checking
+          const [x, z] = coord.unwrap(coord.tile.from(p));
+          console.log("set pointer", p, x, z);
+          if (
+            x < 0 ||
+            x >= constants.world.tiles ||
+            z < 0 ||
+            z >= constants.world.tiles
+          )
+            return;
+          s.pointer = p;
+        }),
       interact: (i) =>
         set((s) => {
           if (isSome(i) && !s.world.interaction.history[i]) {
