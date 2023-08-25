@@ -14,7 +14,7 @@ const ScrollArea = React.forwardRef<
     className={cn("relative overflow-hidden scroll-enable", className)}
     // stopping propagation of pointer events to prevent scroll events being prevented
     // in the useFixedMobileScreen hook
-    onPointerMove={(e) => e.stopPropagation()}
+    onTouchMove={(e) => e.stopPropagation()}
     {...props}
   >
     <ScrollAreaPrimitive.Viewport className="h-full w-full scroll-enable rounded-[inherit]">
