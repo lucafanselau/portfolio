@@ -5,19 +5,23 @@ import * as React from "react";
 
 import { cn } from "@ui/utils";
 
+const stop = (e: React.TouchEvent) => {
+  e.stopPropagation();
+};
+
 const ScrollArea = React.forwardRef<
   React.ElementRef<typeof ScrollAreaPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Root>
 >(({ className, children, ...props }, ref) => (
   <ScrollAreaPrimitive.Root
     ref={ref}
-    className={cn("relative overflow-hidden scroll-enable", className)}
+    className={cn("relative overflow-hidden", className)}
     // stopping propagation of pointer events to prevent scroll events being prevented
     // in the useFixedMobileScreen hook
-    onTouchMove={(e) => e.stopPropagation()}
+    onTouchMoveCapture={stop}
     {...props}
   >
-    <ScrollAreaPrimitive.Viewport className="h-full w-full scroll-enable rounded-[inherit]">
+    <ScrollAreaPrimitive.Viewport className="h-full w-full rounded-[inherit]">
       {children}
     </ScrollAreaPrimitive.Viewport>
     <ScrollBar />

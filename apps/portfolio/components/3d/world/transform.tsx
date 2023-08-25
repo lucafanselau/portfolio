@@ -15,13 +15,13 @@ const transformProps = (transform: Transform) => {
   const [w, d] = unwrap(plane.from(transform.extend));
   return {
     wrapper: {
-      position: [x, constants.eps * 2, z],
+      position: [x, constants.eps * 5, z],
       rotation: [0, (transform.rotation * Math.PI) / 2, 0],
     },
     plane: {
       args: [w, d, 2, 2],
       rotation: [-Math.PI / 2, 0, 0],
-      position: [0, constants.eps * 2, 0],
+      position: [0, constants.eps * 5, 0],
     },
   } satisfies Record<string, ComponentProps<typeof Plane>>;
 };

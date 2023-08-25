@@ -69,6 +69,7 @@ export const BuildPreviewPlane = forwardRef<
     () =>
       new MeshStandardMaterial({
         depthTest: false,
+        depthWrite: false,
         color: colors.green,
         transparent: true,
         opacity: 0.5,

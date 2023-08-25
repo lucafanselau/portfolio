@@ -66,7 +66,7 @@ export const ModelLoader = forwardRef<
       transform={entity.transform}
       plane={plane}
     >
-      <Model {...pointer} />
+      <Model {...pointer} renderOrder={0} />
     </TransformLoader>
   );
 });
@@ -119,6 +119,7 @@ const TerrainTile: FC<{ top?: boolean }> = ({ top: topEnabled = false }) => {
 
   return (
     <mesh
+      renderOrder={2}
       geometry={tileGeometry}
       position={[0, -tileHeight / 2 - constants.eps, 0]}
       material={tileMaterials}
@@ -140,7 +141,7 @@ export const TerrainLoader = ({ terrain, x, z }: TerrainLoaderProps) => {
     .with({ type: "street" }, ({ variant, id }) => {
       const Model = findModel({ type: "street", category: "streets", variant });
       if (isNone(Model)) return null;
-      return <Model {...mutation.events.model(id)} />;
+      return <Model {...mutation.events.model(id)} renderOrder={1} />;
     })
     .exhaustive();
 
