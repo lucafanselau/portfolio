@@ -21,7 +21,7 @@ const ScrollArea = React.forwardRef<
     onTouchMoveCapture={stop}
     {...props}
   >
-    <ScrollAreaPrimitive.Viewport className="h-full w-full rounded-[inherit]">
+    <ScrollAreaPrimitive.Viewport className="h-full w-full rounded-[inherit] pr-2">
       {children}
     </ScrollAreaPrimitive.Viewport>
     <ScrollBar />
