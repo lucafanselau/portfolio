@@ -27,6 +27,7 @@ const UtilityLoader: FC<{ children: ReactNode }> = ({ children }) => {
   const invalidate = useThree((s) => s.invalidate);
   useEffect(() => {
     invalidate(100);
+    console.log("perf", perf);
   }, [perf]);
 
   return <GeneratedLoader>{children}</GeneratedLoader>;
@@ -57,7 +58,7 @@ const Scene = () => {
             >
               <UtilityLoader>
                 {/* ✨ Optimizations */}
-                <AdaptiveDpr />
+                {/*<AdaptiveDpr /> */}
                 <Preload all />
                 {/* 🌄 Environment */}
                 <Environment background files="./puresky.hdr" />

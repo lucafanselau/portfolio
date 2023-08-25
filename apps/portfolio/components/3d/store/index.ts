@@ -184,8 +184,12 @@ export const useStore = create<Store & Actions>()(
           // kick of at least one frame
           invalidate();
           s.character.state = "rotate";
-          s.target = new Vector3(target.x, 0, target.z);
+          s.target = new Vector3(target.x, 0, target.z).clamp(
+            constants.world.moveScope.min,
+            constants.world.moveScope.max
+          );
         }),
+
       updateCharacter: (s) => set((state) => void (state.character.state = s)),
       updatePosition: (vector) =>
         set((s) => {
