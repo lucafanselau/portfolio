@@ -50,9 +50,8 @@ const Scene = () => {
               onCreated={(state) => useStore.setState({ getThree: state.get })}
               performance={{ debounce: 250, min: 0.75 }}
               dpr={[1, 2]}
-              // dpr={[1, 2]}
               // flat
-              // shadows
+              shadows
               gl={{ preserveDrawingBuffer: true, precision: "highp" }}
               frameloop="demand"
             >
