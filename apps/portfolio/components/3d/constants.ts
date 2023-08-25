@@ -47,7 +47,7 @@ export const base = {
     maxDistance: {
       explore: 100,
       start: 100,
-      build: 200,
+      build: 150,
     },
   },
 };
