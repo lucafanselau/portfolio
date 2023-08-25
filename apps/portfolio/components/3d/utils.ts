@@ -13,6 +13,7 @@ export const useRetainedTransform = (
   key: string,
   retained: RefObject<Object3D> | null | undefined,
   original: Object3D | null | undefined,
+
   fields: ("position" | "rotation")[] = ["position"]
 ) => {
   const parameters = useControls(`${key} easing`, animSchema);
@@ -48,7 +49,7 @@ export const useFixedMobileScreen = () => {
     const move = (evt: TouchEvent) => {
       //In this case, the default behavior is scrolling the body, which
       //would result in an overflow.  Since we don't want that, we preventDefault.
-      evt.preventDefault();
+      if (evt.target === document.body) evt.preventDefault();
     };
 
     document.body.addEventListener("touchmove", move, { passive: false });

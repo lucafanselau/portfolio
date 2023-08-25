@@ -153,7 +153,7 @@ const GradientEffect = () => {
           className={cn(
             // translate-x-[15% / 80%]
             "absolute h-[50%] w-[100%] origin-top-left translate-x-[-50px] translate-y-[-50px] rounded-full ",
-            "bg-gradient-to-r from-green-300/30",
+            "bg-gradient-to-r from-green-300/30 blur-3xl filter",
             colors[i % colors.length]
             // "blur-xl"
             // "bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-green-300 via-cyan-600/50 to-blue-500/20"

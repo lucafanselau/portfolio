@@ -52,7 +52,7 @@ const Scene = () => {
               // dpr={[1, 2]}
               // flat
               shadows
-              gl={{ logarithmicDepthBuffer: true, preserveDrawingBuffer: true }}
+              gl={{ preserveDrawingBuffer: true }}
               frameloop="demand"
             >
               <UtilityLoader>
