@@ -51,7 +51,7 @@ const Scene = () => {
               performance={{ debounce: 250, min: 0.75 }}
               // dpr={[1, 2]}
               // flat
-              // shadows
+              shadows
               gl={{ preserveDrawingBuffer: true, precision: "highp" }}
               frameloop="demand"
             >

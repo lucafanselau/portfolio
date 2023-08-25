@@ -23,12 +23,12 @@ export const Lights = () => {
         position={position}
         intensity={intensity}
         shadow-mapSize={[2048, 2048]}
-        shadow-bias={-0.001}
+        shadow-bias={-0.003}
         rotation={[Math.PI / 2, 0, 0]}
       >
         <orthographicCamera
           attach="shadow-camera"
-          args={[-shadowSize, shadowSize, shadowSize, -shadowSize, 0.1, 80]}
+          args={[-shadowSize, shadowSize, shadowSize, -shadowSize, 0.1, 200]}
         />
       </directionalLight>
 

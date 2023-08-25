@@ -66,7 +66,11 @@ export const ModelLoader = forwardRef<
       transform={entity.transform}
       plane={plane}
     >
-      <Model {...pointer} renderOrder={0} />
+      <Model
+        position={[0, constants.eps * 3, 0]}
+        {...pointer}
+        renderOrder={4}
+      />
     </TransformLoader>
   );
 });
@@ -83,9 +87,9 @@ const textures = {
 };
 
 const tileGeometry = new BoxGeometry(
-  tileSize * (1 + 50 * eps),
+  tileSize * (1 + eps),
   tileHeight,
-  tileSize * (1 + 50 * eps)
+  tileSize * (1 + eps)
 );
 
 Object.values(textures).forEach((texture) => useTexture.preload(texture));

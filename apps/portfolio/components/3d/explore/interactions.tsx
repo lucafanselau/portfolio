@@ -55,7 +55,7 @@ export const ExploreInteractions = () => {
   if (state !== "explore") return null;
 
   return (
-    <group position={[0, 2 * constants.eps, 0]}>
+    <group position={[0, 4 * constants.eps, 0]}>
       {constants.world.interactions.map((interaction, i) => (
         <Interaction key={i} {...interaction} />
       ))}
