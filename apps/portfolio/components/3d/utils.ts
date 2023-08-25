@@ -56,11 +56,6 @@ export const useFixedMobileScreen = () => {
     const move = (evt: TouchEvent) => {
       //In this case, the default behavior is scrolling the body, which
       //would result in an overflow.  Since we don't want that, we preventDefault.
-      if (
-        evt.target instanceof HTMLElement &&
-        hasClass(evt.target, "scroll-enable")
-      )
-        return;
       evt.preventDefault();
     };
 
