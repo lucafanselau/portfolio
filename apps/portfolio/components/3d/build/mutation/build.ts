@@ -9,8 +9,6 @@ import { streets } from "./streets";
 
 export const build = () => {
   const { getState: get, setState: set } = useStore;
-  // TODO: Check if build is valid
-
   const state = get();
   const { setPointer } = state;
 
@@ -67,9 +65,11 @@ export const build = () => {
   } else {
     // just push back the entity
     // and we need to create a new id for the entity
-    state.world.entities.push({
-      ...entity,
-      id: `entity-${state.world.entities.length}`,
+    set((s) => {
+      s.world.entities.push({
+        ...entity,
+        id: `entity-${s.world.entities.length}`,
+      });
     });
     // also auto advance the pointer (by the extend of the entity (but only on one axis))
     const extend = coord.map(entity.transform.extend, ([a, _]) =>

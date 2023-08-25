@@ -159,7 +159,6 @@ export const useStore = create<Store & Actions>()(
         set((s) => {
           // bounds checking
           const [x, z] = coord.unwrap(coord.tile.from(p));
-          console.log("set pointer", p, x, z);
           if (
             x < 0 ||
             x > constants.world.tiles ||
@@ -167,7 +166,6 @@ export const useStore = create<Store & Actions>()(
             z > constants.world.tiles
           )
             return;
-          console.log("setting it");
           s.pointer = p;
         }),
       interact: (i) =>

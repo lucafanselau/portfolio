@@ -27,7 +27,6 @@ const UtilityLoader: FC<{ children: ReactNode }> = ({ children }) => {
   const invalidate = useThree((s) => s.invalidate);
   useEffect(() => {
     invalidate(100);
-    console.log("perf", perf);
   }, [perf]);
 
   return <GeneratedLoader>{children}</GeneratedLoader>;
