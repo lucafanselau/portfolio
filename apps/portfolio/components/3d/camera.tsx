@@ -47,7 +47,8 @@ export const Camera = () => {
         ref={camera}
         makeDefault
         fov={45}
-        far={500}
+        near={1}
+        far={350}
         up={[0, 1, 0]}
       />
       <OrbitControls
