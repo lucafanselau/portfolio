@@ -8,7 +8,7 @@ const AsyncButton = forwardRef<
   ButtonProps & { onAsyncClick: (event: any) => Promise<void> }
 >(({ asChild = false, onAsyncClick, ...props }, ref) => {
   const Comp = asChild ? Slot : Button;
-  const [disabled, setDisabled] = useState(props.disabled);
+  const [disabled, setDisabled] = useState(false);
 
   const onClick = (event: any) => {
     const executor = async () => {
