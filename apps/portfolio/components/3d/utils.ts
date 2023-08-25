@@ -41,6 +41,13 @@ export const useRetainedTransform = (
   });
 };
 
+const hasClass = (element: HTMLElement, search: string) => {
+  if (element.className != null) {
+    return element.className.match(new RegExp("(\\s|^)" + search + "(\\s|$)"));
+  }
+  return false;
+};
+
 // prevent scrolling on mobile
 export const useFixedMobileScreen = () => {
   useEffect(() => {
@@ -49,7 +56,12 @@ export const useFixedMobileScreen = () => {
     const move = (evt: TouchEvent) => {
       //In this case, the default behavior is scrolling the body, which
       //would result in an overflow.  Since we don't want that, we preventDefault.
-      if (evt.target === document.body) evt.preventDefault();
+      if (
+        evt.target instanceof HTMLElement &&
+        hasClass(evt.target, "scroll-enable")
+      )
+        return;
+      evt.preventDefault();
     };
 
     document.body.addEventListener("touchmove", move, { passive: false });

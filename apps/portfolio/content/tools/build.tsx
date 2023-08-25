@@ -130,7 +130,7 @@ export const tutorial = {
 
         <P>
           During build the color of the preview will change to indicate if
-          placement is valid. <strong>green</strong> means valid,{" "}
+          placement is valid. <strong>Green</strong> means valid,{" "}
           <strong>red</strong> means invalid. You can only confirm the building
           process if the preview base is green.
         </P>
