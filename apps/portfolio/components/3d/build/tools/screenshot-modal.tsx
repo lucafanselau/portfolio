@@ -145,11 +145,7 @@ const numOfArcs = 3;
 const colors = ["to-blue-500/80", "to-green-500/50"]; // ""to-purple-600", "to-amber-500"];
 const GradientEffect = () => {
   return (
-    <div
-      className={
-        "absolute inset-0 -z-10  translate-x-1/2 translate-y-1/2 blur-3xl"
-      }
-    >
+    <div className={"absolute inset-0 -z-10  translate-x-1/2 translate-y-1/2 "}>
       {range(0, numOfArcs).map((i) => (
         <span
           key={`gradient-arc-${i}`}

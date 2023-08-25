@@ -15,7 +15,7 @@ export default function StaticLandingpage({
     <html lang="en" className={cn(inter.variable, roboto.variable, "")}>
       <body
         className={
-          "flex h-full w-screen justify-center bg-background font-sans text-foreground"
+          "flex h-full w-full justify-center bg-background font-sans text-foreground relative"
         }
       >
         {/* Main Column */}

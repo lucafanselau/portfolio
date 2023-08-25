@@ -14,10 +14,12 @@ import { Lights } from "./lights";
 import { useStore } from "./store";
 import { ToolsLoader } from "./tools/loader";
 import { useTransitions } from "./transition";
+import { useFixedMobileScreen } from "./utils";
 import { World } from "./world";
 
 const UtilityLoader: FC<{ children: ReactNode }> = ({ children }) => {
   useTransitions();
+  useFixedMobileScreen();
 
   // NOTE: This fixes a bug where after regress finished, no higher resolution image would be rendered
   // since we are using frameloop="demand" we need to manually trigger a rerender

@@ -1,7 +1,7 @@
 import { useControls } from "@components/hooks/use-controls";
 import { useFrame } from "@react-three/fiber";
 import { easing } from "maath";
-import type { RefObject } from "react";
+import { RefObject, useEffect } from "react";
 import type { Object3D } from "three";
 
 const animSchema = {
@@ -38,4 +38,24 @@ export const useRetainedTransform = (
       );
     }
   });
+};
+
+// prevent scrolling on mobile
+export const useFixedMobileScreen = () => {
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const move = (evt: TouchEvent) => {
+      //In this case, the default behavior is scrolling the body, which
+      //would result in an overflow.  Since we don't want that, we preventDefault.
+      if (!evt._isScroller) {
+        evt.preventDefault();
+      }
+    };
+
+    document.body.addEventListener("touchmove", move, { passive: false });
+    return () => {
+      document.body.removeEventListener("touchmove", move);
+    };
+  }, []);
 };
