@@ -1,6 +1,6 @@
 import { Store, useStore } from "@3d/store";
 import { coord, Vec2, vec2 } from "@3d/world/coord";
-import { isNone } from "@components/utils";
+import { isNone, isSome } from "@components/utils";
 import { Draft } from "immer";
 import { match, Pattern } from "ts-pattern";
 import { previewEntity } from "../preview";
@@ -27,64 +27,63 @@ export const build = () => {
 
   if (entity.category === "streets") {
     streets.build(entity.transform.anchor);
-    set((s) => {
-      if (s.ui.mode.type === "build" && s.ui.mode.payload.type === "build") {
-        const current = coord.unwrap(coord.tile.floor(entity.transform.anchor));
-        // try to semi intelligently guess the next tile
-        const [bx, bz] = current;
-        // check all tile variants and find the next tile which is free and if two are free sits opposite to the street tile
-        const variants = [
-          [+1, 0],
-          [-1, 0],
-          [0, +1],
-          [0, -1],
-        ] as Vec2[];
-        const free = variants.filter(([x, z]) => {
-          const t = state.world.terrain[bx + x]?.[bz + z];
-          return t.type !== "street";
-        });
-        if (free.length === 3) {
-          const taken = variants.find((v) => free.every((f) => !vec2.eq(v, f)));
-          const delta = coord.tile.new(vec2.mul(taken!, vec2.splat(-1)));
-          setPointer(
-            coord.map(s.pointer, (p) =>
-              vec2.add(p, coord.unwrap(coord.plane.from(delta)))
-            )
-          );
-        } else {
-          const random = coord.tile.new(
-            free[Math.floor(Math.random() * free.length)]
-          );
-          setPointer(
-            coord.map(s.pointer, (p) =>
-              vec2.add(p, coord.unwrap(coord.plane.from(random)))
-            )
-          );
-        }
+    if (
+      state.ui.mode.type === "build" &&
+      state.ui.mode.payload.type === "build"
+    ) {
+      const current = coord.unwrap(coord.tile.floor(entity.transform.anchor));
+      // try to semi intelligently guess the next tile
+      const [bx, bz] = current;
+      // check all tile variants and find the next tile which is free and if two are free sits opposite to the street tile
+      const variants = [
+        [+1, 0],
+        [-1, 0],
+        [0, +1],
+        [0, -1],
+      ] as Vec2[];
+      const free = variants.filter(([x, z]) => {
+        const t = state.world.terrain[bx + x]?.[bz + z];
+        return isSome(t) && t.type !== "street";
+      });
+      if (free.length === 3) {
+        const taken = variants.find((v) => free.every((f) => !vec2.eq(v, f)));
+        const delta = coord.tile.new(vec2.mul(taken!, vec2.splat(-1)));
+        setPointer(
+          coord.map(state.pointer, (p) =>
+            vec2.add(p, coord.unwrap(coord.plane.from(delta)))
+          )
+        );
+      } else {
+        const random = coord.tile.new(
+          free[Math.floor(Math.random() * free.length)]
+        );
+        setPointer(
+          coord.map(state.pointer, (p) =>
+            vec2.add(p, coord.unwrap(coord.plane.from(random)))
+          )
+        );
       }
-    });
+    }
   } else {
     // just push back the entity
-    set((s) => {
-      // and we need to create a new id for the entity
-      s.world.entities.push({
-        ...entity,
-        id: `entity-${s.world.entities.length}`,
-      });
-      // also auto advance the pointer (by the extend of the entity (but only on one axis))
-      const extend = coord.map(entity.transform.extend, ([a, _]) =>
-        vec2.create(a, 0)
-      );
-      const direction = coord.transform.direction({
-        extend,
-        rotation: entity.transform.rotation,
-      });
-      setPointer(
-        coord.map(s.pointer, (p) =>
-          vec2.add(p, coord.unwrap(coord.plane.from(direction)))
-        )
-      );
+    // and we need to create a new id for the entity
+    state.world.entities.push({
+      ...entity,
+      id: `entity-${state.world.entities.length}`,
     });
+    // also auto advance the pointer (by the extend of the entity (but only on one axis))
+    const extend = coord.map(entity.transform.extend, ([a, _]) =>
+      vec2.create(a, 0)
+    );
+    const direction = coord.transform.direction({
+      extend,
+      rotation: entity.transform.rotation,
+    });
+    setPointer(
+      coord.map(state.pointer, (p) =>
+        vec2.add(p, coord.unwrap(coord.plane.from(direction)))
+      )
+    );
   }
 };
 

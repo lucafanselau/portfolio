@@ -162,11 +162,12 @@ export const useStore = create<Store & Actions>()(
           console.log("set pointer", p, x, z);
           if (
             x < 0 ||
-            x >= constants.world.tiles ||
+            x > constants.world.tiles ||
             z < 0 ||
-            z >= constants.world.tiles
+            z > constants.world.tiles
           )
             return;
+          console.log("setting it");
           s.pointer = p;
         }),
       interact: (i) =>
