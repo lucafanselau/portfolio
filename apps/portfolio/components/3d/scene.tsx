@@ -53,12 +53,16 @@ const Scene = () => {
               dpr={[1, 2]}
               // flat
               shadows
-              gl={{ preserveDrawingBuffer: true, precision: "highp" }}
+              gl={{
+                preserveDrawingBuffer: true,
+                precision: "highp",
+                logarithmicDepthBuffer: true,
+              }}
               frameloop="demand"
             >
               <UtilityLoader>
                 {/* ✨ Optimizations */}
-                {/*<AdaptiveDpr /> */}
+                <AdaptiveDpr />
                 <Preload all />
                 {/* 🌄 Environment */}
                 <Environment background files="./puresky.hdr" />
