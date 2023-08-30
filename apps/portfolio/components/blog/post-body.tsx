@@ -10,6 +10,7 @@ import { mdxComponents } from "./markdown-components";
 export function PostBody({ children }: { children: string }) {
   return (
     <article className={"prose prose-zinc dark:prose-invert leading-6"}>
+      {/* @ts-expect-error We don't like RSC's */}
       <MDXRemote
         source={children}
         options={{
