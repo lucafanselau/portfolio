@@ -1,6 +1,8 @@
 import {
   IconAppWindowFilled,
+  IconArticle,
   IconEggCracked,
+  IconTilde,
   IconUser,
 } from "@tabler/icons-react";
 import { Separator } from "@ui/seperator";
@@ -37,6 +39,9 @@ export const Header = () => {
             </Link> */}
         <Link href={"/about"}>
           <IconUser size={24} />
+        </Link>
+        <Link href={"/blog"}>
+          <IconArticle size={24} />
         </Link>
         <Link href={"/no-home"}>
           <IconEggCracked size={24} />
